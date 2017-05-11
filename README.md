@@ -1,5 +1,7 @@
 # go-appcast
 
+[![GoDoc](https://godoc.org/github.com/victorpopkov/go-appcast?status.svg)](https://godoc.org/github.com/victorpopkov/go-appcast)
+
 **NOTICE:** Currently in development.
 
 This library provides functionality for working with appcasts. It retrieves
