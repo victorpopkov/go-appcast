@@ -1,0 +1,31 @@
+language: go
+
+go:
+  - 1.7.x
+
+install:
+  # Glide (v0.12.3)
+  - go get -v github.com/Masterminds/glide
+  - cd "$(go env GOPATH | awk 'BEGIN{FS=":"} { print $1 }')/src/github.com/Masterminds/glide" && git checkout 84607742b10f492430762d038e954236bbaf23f7 && go install && cd -
+
+  # project dependencies
+  - glide install
+
+  # code coverage
+  - go get golang.org/x/tools/cmd/cover
+  - if [ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]; then go get github.com/mattn/goveralls; fi
+
+script:
+  # code coverage
+  - go test -v -covermode=count -coverprofile=coverage.out
+  - if [ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]; then $(go env GOPATH | awk 'BEGIN{FS=":"} { print $1 }')/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN; fi
+
+env:
+  # Coveralls
+  secure: "jn/xCrLHG6bkuuNZYJ2ZlBkf7ri7XydhgIVi5qWp5lO24qU+9cZyaimJMclB+Ru55pFIxcjNl5mXBpNnyrwffD++MleaZn8fS1GfJe6LJlR6SD0O40gXRkkGdZjusb7o0+iYGitpqtzvRAHRK5favof9ARtIAOf13l7wCZjaXlPxt3626hpozoNOVKJqhdrScuustDVlSYQ2kAJiucYYTy3Mq8EdyiV0RSX5dW3EleQax9+cmkxTOiYpR1JKk4/knXfTFpKE5AFxdNXOywTa2SlIN5CrGlTzY82Bp6aWo0A8tAJx2JrSBriE2T6Kbl9NfrVvpS8k6Z1d6xQrLkCL5z0lxYEclluNJwbDKVCFOcOEQc4wW2Eeq493d+Wr0gbSvLeFNRBR82qu4gAMmqanyKzBZjxPQT2fegIxDsmUTRNJF1JmH4Q/IqzkRglqtnt2AEcz/1AEBJY3tK7eyDOdjyVA0yTtIuL/u9SO+m3+cuOZsEKjdh4iHgeXII7xxoxC+bkxLF2Qtbps5QTFSkJXFAfm7DTr1SkXK0/KS78X6DXeeXFb4hTUPMATyQ2EjBoaGNikDVpd0bcVPTR/dKVuZhyXaPriq/zvZKS30ZQ/dzMUZ9Gxlt0rdNYxV7vo5EhYDw2stHiONzdAhkeOD5Jl+6o1843ra1RHj6kgyzuyk18="
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      - secure: "KlJiBYPK2jMzwFzKatHIMXgofdEhGZEzijloaW+bpFGXFiPBnZZc/drdnDNWYtfp2xPwBxdxEClmXqmIfO7JsvYJ5eQneMwjIjMEvVgssAYl+MtZt/hLxHp9D4mYdVwnEG3HkvaOHOgX2ph3sf9F49auh4gG4U8zlV9Rf7UaNMNIkEP85P55RxL8VNY4JaKwBAduRjgcqsi3fie1zg/+SNgB9wZqI5yptPDqHK1gfZj7Xn/7ataHV17gQ543HMawB2TbvT8JBh6g1nxk91HUd1+0N7exartq9rGgLkeh8hqq7mHZvjrTCOoYj4pnlHfxBZjpkgXzr/vsptNWxwIpbTdyxgMY17kd9YX7JhqdSiF+UquJqQJ2SelJXD3jyle17Oy3cGq/bVISOADaY+e27V2Hp/VsM5zK8c7tsRSZ3HpvSFbqTnHRT3/lXu0860VxnAsBqyfV/0NsW6bJs1h/aHPwAhIU5oNtmwo1JES17MzNZnfx0c0DOX5xl82/fXjoqTyVN3g3sZyicmA2bCPavw5oDcDyo38/0S0GpNnOF2QATm/ASjm4qjwD+1PTF7C900bteBhXTwkoTdZkroWMhb6qD9w1fjEwKmvRPXcTEuAqSsnuJkbp3RuIvXijBE51+rPNfBOI4RRkbXsvyd6jzQBJ++uZ2s+ADR0jYAK/cpQ="
