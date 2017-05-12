@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/victorpopkov/go-appcast.svg?branch=master)](https://travis-ci.org/victorpopkov/go-appcast)
 [![Coverage Status](https://coveralls.io/repos/github/victorpopkov/go-appcast/badge.svg?branch=master)](https://coveralls.io/github/victorpopkov/go-appcast?branch=master)
-[![Report Card](https://goreportcard.com/badge/github.com/victorpopkov/go-appcast)](https://goreportcard.com/badge/github.com/victorpopkov/go-appcast)
+[![Go Report Card](https://goreportcard.com/badge/github.com/victorpopkov/go-appcast)](https://goreportcard.com/report/github.com/victorpopkov/go-appcast)
 [![GoDoc](https://godoc.org/github.com/victorpopkov/go-appcast?status.svg)](https://godoc.org/github.com/victorpopkov/go-appcast)
 
 **NOTICE:** Currently in development.
