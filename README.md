@@ -1,5 +1,6 @@
 # go-appcast
 
+[![Build Status](https://travis-ci.org/victorpopkov/go-appcast.svg?branch=master)](https://travis-ci.org/victorpopkov/go-appcast)
 [![Report Card](https://goreportcard.com/badge/github.com/victorpopkov/go-appcast)](https://goreportcard.com/badge/github.com/victorpopkov/go-appcast)
 [![GoDoc](https://godoc.org/github.com/victorpopkov/go-appcast?status.svg)](https://godoc.org/github.com/victorpopkov/go-appcast)
 
