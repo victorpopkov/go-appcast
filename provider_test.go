@@ -38,7 +38,7 @@ func TestGuessProviderFromContent(t *testing.T) {
 	}
 }
 
-func TestGuessProviderFromUrl(t *testing.T) {
+func TestGuessProviderFromURL(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
 		"http://github.com/user/repo/releases.atom":  GitHubAtomFeed,
@@ -60,7 +60,7 @@ func TestGuessProviderFromUrl(t *testing.T) {
 	}
 
 	for url, provider := range testCases {
-		assert.Equal(t, provider, GuessProviderFromUrl(url), fmt.Sprintf("Provider doesn't match: %s", url))
+		assert.Equal(t, provider, GuessProviderFromURL(url), fmt.Sprintf("Provider doesn't match: %s", url))
 	}
 }
 

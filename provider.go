@@ -29,8 +29,8 @@ var providerNames = [...]string{
 	"GitHub Atom Feed",
 }
 
-// GuessFromContent attempts to guess the supported provider from the passed
-// content. By default returns Provider.Unknown.
+// GuessProviderFromContent attempts to guess the supported provider from the
+// passed content. By default returns Provider.Unknown.
 func GuessProviderFromContent(content string) Provider {
 	regexSparkleRSSFeed := regexp.MustCompile(`(?s)(<rss.*xmlns:sparkle)|(?s)(<rss.*<enclosure)`)
 	regexSourceForgeRSSFeed := regexp.MustCompile(`(?s)(<rss.*xmlns:sf)|(?s)(<channel.*xmlns:sf)`)
@@ -51,10 +51,10 @@ func GuessProviderFromContent(content string) Provider {
 	return Unknown
 }
 
-// GuessFromUrl attempts to guess the supported provider from the passed url.
-// Only appcasts that are web-service specific can be guessed. By default
+// GuessProviderFromURL attempts to guess the supported provider from the passed
+// URL. Only appcasts that are web-service specific can be guessed. By default
 // returns Provider.Unknown.
-func GuessProviderFromUrl(url string) Provider {
+func GuessProviderFromURL(url string) Provider {
 	regexSourceForgeRSSFeed := regexp.MustCompile(`.*sourceforge.net\/projects\/.*\/rss`)
 	regexGitHubAtomFeed := regexp.MustCompile(`.*github\.com\/(?P<user>.*?)\/(?P<repo>.*?)\/releases\.atom`)
 
