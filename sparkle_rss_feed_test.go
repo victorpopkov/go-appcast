@@ -58,13 +58,13 @@ func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
 func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"sparkle_default.xml": {
-			"2.0.0": []string{"200", "https://example.com/app_2.0.0.dmg", "10.10"},
-			"1.1.0": []string{"110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": []string{"101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": []string{"100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+			"1.1.0": {"2016-05-12 12:00:00 +0200 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
 		"sparkle_single.xml": {
-			"2.0.0": []string{"200", "https://example.com/app_2.0.0.dmg", "10.10"},
+			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 		},
 	}
 
@@ -82,8 +82,11 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 		assert.Len(t, a.Releases, len(releases))
 		for _, release := range a.Releases {
 			v := release.Version.String()
-			assert.Equal(t, releases[v][0], release.Build)
-			assert.Equal(t, releases[v][1], release.DownloadURLs[0])
+			assert.Equal(t, fmt.Sprintf("Release %s", v), release.Title)
+			assert.Equal(t, fmt.Sprintf("Release %s Description", v), release.Description)
+			assert.Equal(t, releases[v][0], release.PublishedDateTime.String())
+			assert.Equal(t, releases[v][1], release.Build)
+			assert.Equal(t, releases[v][2], release.DownloadURLs[0])
 		}
 	}
 
@@ -103,5 +106,14 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 	err = a.ExtractReleases()
 	assert.Error(t, err)
 	assert.Equal(t, "Malformed version: invalid", err.Error())
+	assert.Empty(t, a.Releases)
+
+	// test "Parsing time" error
+	a = new(SparkleRSSFeedAppcast)
+	a.Content = string(getTestdata("sparkle_invalid_pubdate.xml"))
+	assert.Empty(t, a.Releases)
+	err = a.ExtractReleases()
+	assert.Error(t, err)
+	assert.Regexp(t, "parsing time \"invalid\"", err.Error())
 	assert.Empty(t, a.Releases)
 }

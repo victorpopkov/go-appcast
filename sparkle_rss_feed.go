@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"regexp"
+	"time"
 )
 
 // A SparkleRSSFeedAppcast represents appcast for "Sparkle RSS Feed" that is
@@ -20,7 +21,9 @@ type SparkleRSSFeedXML struct {
 // A SparkleRSSFeedXMLItem represents an RSS item.
 type SparkleRSSFeedXMLItem struct {
 	Title                string                     `xml:"title"`
+	Description          string                     `xml:"description"`
 	MinimumSystemVersion string                     `xml:"minimumSystemVersion"`
+	PubDate              string                     `xml:"pubDate"`
 	Enclosure            SparkleRSSFeedXMLEnclosure `xml:"enclosure"`
 }
 
@@ -44,9 +47,9 @@ func (a *SparkleRSSFeedAppcast) Uncomment() {
 	}
 }
 
-// ExtractReleases parses the content of the Sparkle RSS Feed from
+// ExtractReleases parses the Sparkle RSS Feed content from
 // SparkleRSSFeedAppcast.Content and stores the extracted releases as an array
-// in SparkleRSSFeedAppcast.Releases. Returns an error, if extracting was is
+// in SparkleRSSFeedAppcast.Releases. Returns an error, if extracting was
 // unsuccessful.
 func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 	var x SparkleRSSFeedXML
@@ -63,7 +66,17 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 			return err
 		}
 
+		r.Title = item.Title
+		r.Description = item.Description
 		r.DownloadURLs = []string{item.Enclosure.URL}
+
+		// published date and time
+		parsedTime, err := time.Parse(time.RFC1123Z, item.PubDate)
+		if err != nil {
+			return err
+		}
+		r.PublishedDateTime = parsedTime
+
 		items[i] = *r
 	}
 
