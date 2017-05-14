@@ -52,6 +52,11 @@ func TestGenerate(t *testing.T) {
 			"f7ced8023765dc7f37c3597da7a1f8d33b3c22cc764e329babd3df16effdd245",
 			"b473e0071d84b60d516e518a111d849f",
 		},
+		"sparkle_invalid_pubdate.xml": {
+			"1470b328121325c4bbc03dfe9e93f58d115c72436a48172e3dc2d48887c6c545",
+			"88ceb464f652d7bf43f351f41637facd671f8f04e9a32b4b077886d24251e472",
+			"0d9de27ceaff680d6e72276ab1a625e7",
+		},
 		"sparkle_invalid_version.xml": {
 			"5678aee518c7aaeed32bf8b8ff836d946e3baa415bc36824cc6bf4c90a96d7f3",
 			"ac8bf225fb789f8174fccf26b52cde07b884e26e89546ab3ad9433cbe38ecb20",
