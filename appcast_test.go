@@ -1,7 +1,10 @@
 package appcast
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -25,11 +28,37 @@ func getWorkingDir() string {
 // filename. If file not found, prints an error to os.Stdout and exits with exit
 // status 1.
 func getTestdata(filename string) []byte {
-	content, err := ioutil.ReadFile(filepath.Join(getWorkingDir(), testdataPath, filename))
+	path := filepath.Join(getWorkingDir(), testdataPath, filename)
+	content, err := ioutil.ReadFile(path)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println(fmt.Errorf(err.Error()))
 		os.Exit(1)
 	}
 
 	return content
+}
+
+// ReadLine reads a provided line number from io.Reader and returns it alongside
+// with an error. Error should be "nil", if the line has been retrieved
+// successfully.
+func readLine(r io.Reader, lineNum int) (line string, err error) {
+	var lastLine int
+
+	sc := bufio.NewScanner(r)
+	for sc.Scan() {
+		lastLine++
+		if lastLine == lineNum {
+			return sc.Text(), nil
+		}
+	}
+
+	return "", fmt.Errorf("There is no line \"%d\" in specified io.Reader", lineNum)
+}
+
+// getLineFromString returns a specified line from the passed string content and
+// an error. Error should be "nil", if the line has been retrieved successfully.
+func getLineFromString(lineNum int, content string) (line string, err error) {
+	r := bytes.NewReader([]byte(content))
+
+	return readLine(r, lineNum)
 }
