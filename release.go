@@ -1,6 +1,10 @@
 package appcast
 
-import "github.com/hashicorp/go-version"
+import (
+	"time"
+
+	"github.com/hashicorp/go-version"
+)
 
 // A Release represents an application release.
 type Release struct {
@@ -11,8 +15,17 @@ type Release struct {
 	// Build specifies the release build. This could have any value.
 	Build string
 
+	// Title specifies the release title.
+	Title string
+
+	// Description specifies the release description.
+	Description string
+
 	// DownloadUrls specify an array of download URLs for release.
 	DownloadURLs []string
+
+	// PublishedDateTime specifies the release published data and time.
+	PublishedDateTime time.Time
 
 	// IsPrerelease specifies if the current release is not stable.
 	//
