@@ -66,7 +66,7 @@ func TestGuessProviderFromURL(t *testing.T) {
 
 func TestString(t *testing.T) {
 	assert.Equal(t, "-", Unknown.String())
-	assert.Regexp(t, "Sparkle RSS Feed", SparkleRSSFeed.String())
-	assert.Regexp(t, "SourceForge RSS Feed", SourceForgeRSSFeed.String())
-	assert.Regexp(t, "GitHub Atom Feed", GitHubAtomFeed.String())
+	assert.Equal(t, "Sparkle RSS Feed", SparkleRSSFeed.String())
+	assert.Equal(t, "SourceForge RSS Feed", SourceForgeRSSFeed.String())
+	assert.Equal(t, "GitHub Atom Feed", GitHubAtomFeed.String())
 }
