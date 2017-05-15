@@ -114,6 +114,6 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 	assert.Empty(t, a.Releases)
 	err = a.ExtractReleases()
 	assert.Error(t, err)
-	assert.Regexp(t, "parsing time \"invalid\"", err.Error())
+	assert.Equal(t, "parsing time \"invalid\" as \"Mon, 02 Jan 2006 15:04:05 -0700\": cannot parse \"invalid\" as \"Mon\"", err.Error())
 	assert.Empty(t, a.Releases)
 }
