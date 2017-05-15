@@ -104,3 +104,29 @@ func TestLoadFromURL(t *testing.T) {
 	assert.Equal(t, Unknown, a.Provider)
 	assert.Empty(t, a.Checksum.Result)
 }
+
+func TestGenerateChecksum(t *testing.T) {
+	// preparations
+	a := New()
+	a.Content = "test"
+
+	// before
+	assert.Equal(t, Sha256, a.Checksum.Algorithm)
+	assert.Empty(t, a.Checksum.Result)
+
+	// test
+	result := a.GenerateChecksum(Md5)
+	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result)
+	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", a.Checksum.Result)
+	assert.Equal(t, Md5, a.Checksum.Algorithm)
+}
+
+func TestGetChecksum(t *testing.T) {
+	// preparations
+	a := New()
+	a.Content = "test"
+	a.GenerateChecksum(Sha256)
+
+	// test
+	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum())
+}

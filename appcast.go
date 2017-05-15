@@ -58,6 +58,7 @@ func (a *BaseAppcast) LoadFromURL(url string) error {
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 	a.Content = string(body)
+	a.Checksum.Source = a.Content
 
 	// provider
 	a.Provider = GuessProviderFromURL(url)
@@ -66,4 +67,21 @@ func (a *BaseAppcast) LoadFromURL(url string) error {
 	}
 
 	return nil
+}
+
+// GenerateChecksum generates and returns the checksum based on provided
+// algorithm from BaseAppcast.Checksum.Source. The checksum is also stored as a
+// BaseAppcast.Checksum.Result value.
+func (a *BaseAppcast) GenerateChecksum(algorithm ChecksumAlgorithm) string {
+	a.Checksum.Algorithm = algorithm
+	a.Checksum.Source = a.Content
+	a.Checksum.Generate()
+
+	return a.Checksum.Result
+}
+
+// GetChecksum is a convenience function to retrieve the checksum value stored
+// as BaseAppcast.Checksum.Result.
+func (a *BaseAppcast) GetChecksum() string {
+	return a.Checksum.Result
 }
