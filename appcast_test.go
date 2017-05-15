@@ -8,6 +8,10 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"gopkg.in/jarcoal/httpmock.v1"
 )
 
 var testdataPath = "./testdata/"
@@ -61,4 +65,42 @@ func getLineFromString(lineNum int, content string) (line string, err error) {
 	r := bytes.NewReader([]byte(content))
 
 	return readLine(r, lineNum)
+}
+
+func TestNew(t *testing.T) {
+	a := New()
+	assert.IsType(t, BaseAppcast{}, *a)
+	assert.Equal(t, Unknown, a.Provider)
+}
+
+func TestLoadFromURL(t *testing.T) {
+	// mock the request
+	content := string(getTestdata("sparkle_default.xml"))
+	httpmock.Activate()
+	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+	defer httpmock.DeactivateAndReset()
+
+	// test (successful)
+	a := New()
+	err := a.LoadFromURL("https://example.com/appcast.xml")
+	assert.Nil(t, err)
+	assert.NotEmpty(t, a.Content)
+	assert.Equal(t, SparkleRSSFeed, a.Provider)
+	assert.Empty(t, a.Checksum.Result)
+
+	// test "Invalid URL" error
+	a = New()
+	err = a.LoadFromURL("http://192.168.0.%31/")
+	assert.Error(t, err)
+	assert.Equal(t, "parse http://192.168.0.%31/: invalid URL escape \"%31\"", err.Error())
+	assert.Equal(t, Unknown, a.Provider)
+	assert.Empty(t, a.Checksum.Result)
+
+	// test "Invalid request" error
+	a = New()
+	err = a.LoadFromURL("invalid")
+	assert.Error(t, err)
+	assert.Equal(t, "Get invalid: no responder found", err.Error())
+	assert.Equal(t, Unknown, a.Provider)
+	assert.Empty(t, a.Checksum.Result)
 }

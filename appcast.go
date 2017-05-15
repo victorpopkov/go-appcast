@@ -7,6 +7,8 @@
 // See README.md for more info.
 package appcast
 
+import "io/ioutil"
+
 // A BaseAppcast represents the appcast itself and should be inherited by
 // provider specific appcasts.
 type BaseAppcast struct {
@@ -30,4 +32,38 @@ type BaseAppcast struct {
 
 	// Releases specify an array of all application releases.
 	Releases []Release
+}
+
+// New returns a new BaseAppcast instance pointer.
+func New() *BaseAppcast {
+	a := &BaseAppcast{}
+
+	return a
+}
+
+// LoadFromURL loads the appcast content from remote URL and attempts to guess
+// the provider.
+func (a *BaseAppcast) LoadFromURL(url string) error {
+	req, err := NewRequest(url)
+	if err != nil {
+		return err
+	}
+
+	resp, err := DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+
+	// content
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	a.Content = string(body)
+
+	// provider
+	a.Provider = GuessProviderFromURL(url)
+	if a.Provider == Unknown {
+		a.Provider = GuessProviderFromContent(a.Content)
+	}
+
+	return nil
 }
