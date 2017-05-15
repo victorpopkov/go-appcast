@@ -96,7 +96,7 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 	assert.Empty(t, a.Releases)
 	err := a.ExtractReleases()
 	assert.Error(t, err)
-	assert.Equal(t, "Version is required, but it's not specified for \"1\" release", err.Error())
+	assert.Equal(t, "Version is required, but it's not specified in release #1", err.Error())
 	assert.Empty(t, a.Releases)
 
 	// test "Malformed version" error

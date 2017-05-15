@@ -58,7 +58,7 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 	items := make([]Release, len(x.Items))
 	for i, item := range x.Items {
 		if item.Enclosure.ShortVersionString == "" {
-			return fmt.Errorf("Version is required, but it's not specified for \"%d\" release", i+1)
+			return fmt.Errorf("Version is required, but it's not specified in release #%d", i+1)
 		}
 
 		r, err := NewRelease(item.Enclosure.ShortVersionString, item.Enclosure.Version)
