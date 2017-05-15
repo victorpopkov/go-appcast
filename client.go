@@ -44,7 +44,8 @@ func (c *Client) InsecureSkipVerify() {
 	}
 }
 
-// Do sends an HTTP request and returns an HTTP response using http.Client.Do.
+// Do sends an HTTP request and returns an HTTP response using http.Client.Do. A
+// successful call returns err == nil.
 func (c *Client) Do(req *Request) (*http.Response, error) {
 	// set UserAgent
 	if c.UserAgent != "" && req.HTTPRequest.Header.Get("User-Agent") == "" {

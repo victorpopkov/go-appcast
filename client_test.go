@@ -25,14 +25,12 @@ func TestInsecureSkipVerify(t *testing.T) {
 }
 
 func TestDo(t *testing.T) {
+	// mock the request
 	c := NewClient()
 	c.Timeout = time.Duration(time.Second)
-
-	// mock the request
 	httpmock.ActivateNonDefault(c.HTTPClient)
-	defer httpmock.DeactivateAndReset()
-
 	httpmock.RegisterResponder("GET", "https://example.com/", httpmock.NewStringResponder(200, `Test`))
+	defer httpmock.DeactivateAndReset()
 
 	// test (successful)
 	req, err := NewRequest("https://example.com/")
