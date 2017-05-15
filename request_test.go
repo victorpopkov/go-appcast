@@ -13,10 +13,11 @@ func TestNewRequest(t *testing.T) {
 	assert.Equal(t, "GET", r.HTTPRequest.Method)
 	assert.Equal(t, "http://example.com/", r.HTTPRequest.URL.String())
 
-	// invalid URL should return error
+	// test "Invalid URL" error
 	r, err = NewRequest("http://192.168.0.%31/")
 	assert.Nil(t, r)
 	assert.Error(t, err)
+	assert.Equal(t, "parse http://192.168.0.%31/: invalid URL escape \"%31\"", err.Error())
 }
 
 func TestAddHeader(t *testing.T) {
