@@ -25,7 +25,7 @@ func TestGuessProviderFromContent(t *testing.T) {
 		"sparkle_multiple_enclosure.xml":     SparkleRSSFeed,
 		"sparkle_no_releases.xml":            SparkleRSSFeed,
 		"sparkle_single.xml":                 SparkleRSSFeed,
-		"sparkle_without_comments.xml":       SparkleRSSFeed,
+		"sparkle_with_comments.xml":          SparkleRSSFeed,
 		"sparkle_without_namespaces.xml":     SparkleRSSFeed,
 
 		// Unknown

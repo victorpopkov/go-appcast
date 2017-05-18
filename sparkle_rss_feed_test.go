@@ -10,14 +10,14 @@ import (
 
 func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
 	testCases := map[string][]int{
-		"sparkle_attributes_as_elements.xml": {15, 24},
-		"sparkle_default_asc.xml":            {27, 34},
-		"sparkle_default.xml":                {13, 20},
-		"sparkle_incorrect_namespace.xml":    {13, 20},
-		"sparkle_multiple_enclosure.xml":     {13, 14, 15, 22, 23, 24},
-		"sparkle_single.xml":                 {13},
-		"sparkle_without_comments.xml":       nil,
-		"sparkle_without_namespaces.xml":     {13, 20},
+		"sparkle_attributes_as_elements.xml": nil,
+		"sparkle_default_asc.xml":            nil,
+		"sparkle_default.xml":                nil,
+		"sparkle_incorrect_namespace.xml":    nil,
+		"sparkle_multiple_enclosure.xml":     nil,
+		"sparkle_single.xml":                 nil,
+		"sparkle_with_comments.xml":          {13, 20},
+		"sparkle_without_namespaces.xml":     nil,
 	}
 
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
@@ -92,7 +92,7 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 
 	// test "Version is required" error
 	a := new(SparkleRSSFeedAppcast)
-	a.Content = string(getTestdata("sparkle_default.xml"))
+	a.Content = string(getTestdata("sparkle_with_comments.xml"))
 	assert.Empty(t, a.Releases)
 	err := a.ExtractReleases()
 	assert.Error(t, err)
