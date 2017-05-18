@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
   <channel>
     <title>App</title>
@@ -12,7 +12,7 @@
       <sparkle:shortVersionString>2.0.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.10</sparkle:minimumSystemVersion>
       <pubDate>Thu, 13 May 2016 12:00:00 +0200</pubDate>
-      <!--<enclosure url="https://example.com/app_2.0.0.dmg" length="100000" type="application/octet-stream"/>-->
+      <enclosure url="https://example.com/app_2.0.0.dmg" length="100000" type="application/octet-stream" />
     </item>
     <item>
       <title>Release 1.1.0</title>
@@ -21,7 +21,7 @@
       <sparkle:shortVersionString>1.1.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.9</sparkle:minimumSystemVersion>
       <pubDate>Wed, 12 May 2016 12:00:00 +0200</pubDate>
-      <!-- <enclosure url="https://example.com/app_1.1.0.dmg" length="100000" type="application/octet-stream"/> -->
+      <enclosure url="https://example.com/app_1.1.0.dmg" length="100000" type="application/octet-stream" />
     </item>
     <item>
       <title>Release 1.0.1</title>
@@ -30,7 +30,7 @@
       <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.9</sparkle:minimumSystemVersion>
       <pubDate>Tue, 11 May 2016 12:00:00 +0200</pubDate>
-      <enclosure url="https://example.com/app_1.0.1.dmg" length="100000" type="application/octet-stream"/>
+      <enclosure url="https://example.com/app_1.0.1.dmg" length="100000" type="application/octet-stream" />
     </item>
     <item>
       <title>Release 1.0.0</title>
@@ -39,7 +39,7 @@
       <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.9</sparkle:minimumSystemVersion>
       <pubDate>Mon, 10 May 2016 12:00:00 +0200</pubDate>
-      <enclosure url="https://example.com/app_1.0.0.dmg" length="100000" type="application/octet-stream"/>
+      <enclosure url="https://example.com/app_1.0.0.dmg" length="100000" type="application/octet-stream" />
     </item>
   </channel>
 </rss>
