@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -129,4 +130,28 @@ func TestGetChecksum(t *testing.T) {
 
 	// test
 	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum())
+}
+
+func TestUncomment(t *testing.T) {
+	// preparations
+	a := New()
+	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
+	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
+
+	// provider "Unknown"
+	err := a.Uncomment()
+	assert.Error(t, err)
+	assert.Equal(t, "Uncommenting is not available for unknown provider", err.Error())
+
+	// provider "Sparkle RSS Feed"
+	a.Content = string(getTestdata("sparkle_with_comments.xml"))
+	a.Provider = SparkleRSSFeed
+	err = a.Uncomment()
+	assert.Nil(t, err)
+
+	for _, commentLine := range []int{13, 20} {
+		line, _ := getLineFromString(commentLine, a.Content)
+		check := (regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line))
+		assert.False(t, check)
+	}
 }

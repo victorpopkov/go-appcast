@@ -7,7 +7,10 @@
 // See README.md for more info.
 package appcast
 
-import "io/ioutil"
+import (
+	"errors"
+	"io/ioutil"
+)
 
 // A BaseAppcast represents the appcast itself and should be inherited by
 // provider specific appcasts.
@@ -84,4 +87,21 @@ func (a *BaseAppcast) GenerateChecksum(algorithm ChecksumAlgorithm) string {
 // as BaseAppcast.Checksum.Result.
 func (a *BaseAppcast) GetChecksum() string {
 	return a.Checksum.Result
+}
+
+// Uncomment uncomments the commented out lines by calling the appropriate
+// provider specific Uncomment function from the supported providers. A
+// successful call returns a "nil" error.
+func (a *BaseAppcast) Uncomment() error {
+	switch a.Provider {
+	case Unknown:
+		return errors.New("Uncommenting is not available for unknown provider")
+	case SparkleRSSFeed:
+		s := SparkleRSSFeedAppcast{BaseAppcast: *a}
+		s.Uncomment()
+		a.Content = s.BaseAppcast.Content
+		break
+	}
+
+	return nil
 }
