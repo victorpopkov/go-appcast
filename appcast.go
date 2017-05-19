@@ -105,3 +105,23 @@ func (a *BaseAppcast) Uncomment() error {
 
 	return nil
 }
+
+// ExtractReleases parses the BaseAppcast.Content by calling the appropriate
+// provider specific ExtractReleases function. A successful call returns a "nil"
+// error.
+func (a *BaseAppcast) ExtractReleases() error {
+	switch a.Provider {
+	case Unknown:
+		return errors.New("Releases can't be extracted from unknown provider")
+	case SparkleRSSFeed:
+		s := SparkleRSSFeedAppcast{BaseAppcast: *a}
+		err := s.ExtractReleases()
+		if err != nil {
+			return err
+		}
+		a.Releases = s.BaseAppcast.Releases
+		break
+	}
+
+	return nil
+}

@@ -132,7 +132,16 @@ func TestGetChecksum(t *testing.T) {
 	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum())
 }
 
-func TestUncomment(t *testing.T) {
+func TestUncommentUnknown(t *testing.T) {
+	// preparations
+	a := New()
+
+	err := a.Uncomment()
+	assert.Error(t, err)
+	assert.Equal(t, "Uncommenting is not available for unknown provider", err.Error())
+}
+
+func TestUncommentSparkleRSSFeed(t *testing.T) {
 	// preparations
 	a := New()
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
@@ -153,5 +162,108 @@ func TestUncomment(t *testing.T) {
 		line, _ := getLineFromString(commentLine, a.Content)
 		check := (regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line))
 		assert.False(t, check)
+	}
+}
+
+func TestExtractReleasesUnknown(t *testing.T) {
+	// preparations
+	a := New()
+
+	// provider "Unknown"
+	err := a.ExtractReleases()
+	assert.Error(t, err)
+	assert.Equal(t, "Releases can't be extracted from unknown provider", err.Error())
+}
+
+func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
+	testCases := map[string]map[string]interface{}{
+		// "sparkle_attributes_as_elements.xml": {
+		// 	"checksum": "898628bcbf1005995c4a1e8200f6336da11fae771fc724f8fc7a9cfde8f4e85e",
+		// },
+		"sparkle_default_asc.xml": {
+			"checksum": "9f94a728eab952284b47cc52acfbbb64de71f3d38e5b643d1f3523ef84495d9f",
+			"releases": 4,
+		},
+		"sparkle_default.xml": {
+			"checksum": "83c1fd76a250dd50334db793a0db5da7575fc83d292c7c58fd9d31d5bcef6566",
+			"releases": 4,
+		},
+		"sparkle_incorrect_namespace.xml": {
+			"checksum": "2e66ef346c49a8472bf8bf26e6e778c5b4d494723223c84c35d9f272a7792430",
+			"releases": 4,
+		},
+		// "sparkle_multiple_enclosure.xml": {
+		// 	"checksum": "48fc8531b253c5d3ed83abfe040edeeafb327d103acbbacf12c2288769dc80b9",
+		// },
+		"sparkle_no_releases.xml": {
+			"checksum": "befd99d96be280ca7226c58ef1400309905ad20d2723e69e829cf050e802afcf",
+			"releases": 0,
+		},
+		"sparkle_single.xml": {
+			"checksum": "ac649bebe55f84d85767072e3a1122778a04e03f56b78226bd57ab50ce9f9306",
+			"releases": 1,
+		},
+		"sparkle_without_namespaces.xml": {
+			"checksum": "ee2d28f74e7d557bd7259c0f24a261658a9f27a710308a5c539ab761dae487c1",
+			"releases": 4,
+		},
+	}
+
+	errorTestCases := map[string]string{
+		"sparkle_invalid_pubdate.xml": "Malformed version: invalid",
+		"sparkle_invalid_version.xml": "Malformed version: invalid",
+		"sparkle_with_comments.xml":   "Malformed version: invalid",
+	}
+
+	// preparations for mocking the request
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	for filename, data := range testCases {
+		// mock the request
+		content := string(getTestdata(filename))
+		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+
+		// preparations
+		a := New()
+		assert.Equal(t, Unknown, a.Provider)
+		assert.Empty(t, a.Content)
+		assert.Empty(t, a.Checksum.Source)
+		assert.Empty(t, a.Checksum.Result)
+		assert.Len(t, a.Releases, 0)
+
+		// load from URL
+		a.LoadFromURL("https://example.com/appcast.xml")
+		assert.Equal(t, SparkleRSSFeed, a.Provider)
+		assert.NotEmpty(t, a.Content)
+		assert.NotEmpty(t, a.Checksum.Source)
+		assert.Empty(t, a.Checksum.Result)
+		assert.Len(t, a.Releases, 0)
+
+		// generate checksum
+		a.GenerateChecksum(Sha256)
+		assert.Equal(t, SparkleRSSFeed, a.Provider)
+		assert.Equal(t, data["checksum"].(string), a.GetChecksum())
+
+		// releases
+		err := a.ExtractReleases()
+		assert.Nil(t, err)
+		assert.Len(t, a.Releases, data["releases"].(int))
+	}
+
+	// test error
+	for filename, errorMsg := range errorTestCases {
+		// mock the request
+		content := string(getTestdata(filename))
+		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+
+		// preparations
+		a := New()
+		a.LoadFromURL("https://example.com/appcast.xml")
+
+		// test
+		err := a.ExtractReleases()
+		assert.Error(t, err)
+		assert.Equal(t, "Malformed version: invalid", errorMsg)
 	}
 }
