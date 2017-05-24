@@ -34,6 +34,8 @@ type SparkleRSSFeedXMLEnclosure struct {
 	Version            string `xml:"version,attr"`
 	ShortVersionString string `xml:"shortVersionString,attr"`
 	URL                string `xml:"url,attr"`
+	Length             int    `xml:"length,attr"`
+	Type               string `xml:"type,attr"`
 }
 
 // Uncomment uncomments XML tags in SparkleRSSFeedAppcast.Content.
@@ -84,7 +86,9 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 
 		r.Title = item.Title
 		r.Description = item.Description
-		r.DownloadURLs = []string{item.Enclosure.URL}
+
+		d := NewDownload(item.Enclosure.URL, item.Enclosure.Type, item.Enclosure.Length)
+		r.AddDownload(*d)
 
 		// published date and time
 		parsedTime, err := time.Parse(time.RFC1123Z, item.PubDate)

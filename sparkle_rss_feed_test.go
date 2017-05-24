@@ -118,7 +118,9 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 			assert.Equal(t, fmt.Sprintf("Release %s Description", v), release.Description)
 			assert.Equal(t, releases[v][0], release.PublishedDateTime.String())
 			assert.Equal(t, releases[v][1], release.Build)
-			assert.Equal(t, releases[v][2], release.DownloadURLs[0])
+			assert.Equal(t, releases[v][2], release.Downloads[0].URL)
+			assert.Equal(t, "application/octet-stream", release.Downloads[0].Type)
+			assert.Equal(t, 100000, release.Downloads[0].Length)
 		}
 	}
 
