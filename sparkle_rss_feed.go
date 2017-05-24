@@ -25,6 +25,8 @@ type SparkleRSSFeedXMLItem struct {
 	MinimumSystemVersion string                     `xml:"minimumSystemVersion"`
 	PubDate              string                     `xml:"pubDate"`
 	Enclosure            SparkleRSSFeedXMLEnclosure `xml:"enclosure"`
+	Version              string                     `xml:"version"`
+	ShortVersionString   string                     `xml:"shortVersionString"`
 }
 
 // A SparkleRSSFeedXMLEnclosure represents an RSS enclosure in item.
@@ -53,15 +55,29 @@ func (a *SparkleRSSFeedAppcast) Uncomment() {
 // unsuccessful.
 func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 	var x SparkleRSSFeedXML
+	var version, build string
+
 	xml.Unmarshal([]byte(a.Content), &x)
 
 	items := make([]Release, len(x.Items))
 	for i, item := range x.Items {
-		if item.Enclosure.ShortVersionString == "" {
+		if item.Enclosure.ShortVersionString == "" && item.ShortVersionString != "" {
+			version = item.ShortVersionString
+		} else {
+			version = item.Enclosure.ShortVersionString
+		}
+
+		if item.Enclosure.Version == "" && item.Version != "" {
+			build = item.Version
+		} else {
+			build = item.Enclosure.Version
+		}
+
+		if version == "" {
 			return fmt.Errorf("Version is required, but it's not specified in release #%d", i+1)
 		}
 
-		r, err := NewRelease(item.Enclosure.ShortVersionString, item.Enclosure.Version)
+		r, err := NewRelease(version, build)
 		if err != nil {
 			return err
 		}
