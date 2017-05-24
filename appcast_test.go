@@ -269,3 +269,38 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 		assert.Equal(t, errorMsg, err.Error())
 	}
 }
+
+func TestSortReleasesByVersions(t *testing.T) {
+	testCases := []string{
+		"sparkle_attributes_as_elements.xml",
+		"sparkle_default_asc.xml",
+		"sparkle_default.xml",
+		"sparkle_incorrect_namespace.xml",
+		// "sparkle_multiple_enclosure.xml",
+		"sparkle_without_namespaces.xml",
+	}
+
+	// preparations for mocking the request
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	for _, filename := range testCases {
+		// mock the request
+		content := string(getTestdata(filename))
+		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+
+		// preparations
+		a := New()
+		a.LoadFromURL("https://example.com/appcast.xml")
+		err := a.ExtractReleases()
+		assert.Nil(t, err)
+
+		// test (ASC)
+		a.SortReleasesByVersions(ASC)
+		assert.Equal(t, "1.0.0", a.Releases[0].Version.String())
+
+		// test (DESC)
+		a.SortReleasesByVersions(DESC)
+		assert.Equal(t, "2.0.0", a.Releases[0].Version.String())
+	}
+}
