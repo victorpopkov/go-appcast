@@ -10,6 +10,7 @@ package appcast
 import (
 	"errors"
 	"io/ioutil"
+	"sort"
 )
 
 // A BaseAppcast represents the appcast itself and should be inherited by
@@ -36,6 +37,17 @@ type BaseAppcast struct {
 	// Releases specify an array of all application releases.
 	Releases []Release
 }
+
+// Sort holds different supported sorting behaviors.
+type Sort int
+
+const (
+	// ASC represents the ascending order.
+	ASC Sort = iota
+
+	// DESC represents the descending order.
+	DESC
+)
 
 // New returns a new BaseAppcast instance pointer.
 func New() *BaseAppcast {
@@ -124,4 +136,14 @@ func (a *BaseAppcast) ExtractReleases() error {
 	}
 
 	return nil
+}
+
+// SortReleasesByVersions sorts BaseAppcast.Releases array by versions. Can be
+// useful if the versions order in the content is inconsistent.
+func (a *BaseAppcast) SortReleasesByVersions(s Sort) {
+	if s == ASC {
+		sort.Sort(ByVersion(a.Releases))
+	} else if s == DESC {
+		sort.Sort(sort.Reverse(ByVersion(a.Releases)))
+	}
 }
