@@ -21,8 +21,8 @@ type Release struct {
 	// Description specifies the release description.
 	Description string
 
-	// DownloadUrls specify an array of download URLs for release.
-	DownloadURLs []string
+	// Downloads specifies an array of downloads.
+	Downloads []Download
 
 	// PublishedDateTime specifies the release published data and time.
 	PublishedDateTime time.Time
@@ -69,4 +69,9 @@ func (r *Release) SetVersion(value string) error {
 	r.Version = v
 
 	return nil
+}
+
+// AddDownload adds a new Download to the Release.Downloads array.
+func (r *Release) AddDownload(d Download) {
+	r.Downloads = append(r.Downloads, d)
 }
