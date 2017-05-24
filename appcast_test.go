@@ -177,9 +177,10 @@ func TestExtractReleasesUnknown(t *testing.T) {
 
 func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		// "sparkle_attributes_as_elements.xml": {
-		// 	"checksum": "898628bcbf1005995c4a1e8200f6336da11fae771fc724f8fc7a9cfde8f4e85e",
-		// },
+		"sparkle_attributes_as_elements.xml": {
+			"checksum": "8c42d7835109ff61fe85bba66a44689773e73e0d773feba699bceecefaf09359",
+			"releases": 4,
+		},
 		"sparkle_default_asc.xml": {
 			"checksum": "9f94a728eab952284b47cc52acfbbb64de71f3d38e5b643d1f3523ef84495d9f",
 			"releases": 4,
@@ -194,6 +195,7 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 		},
 		// "sparkle_multiple_enclosure.xml": {
 		// 	"checksum": "48fc8531b253c5d3ed83abfe040edeeafb327d103acbbacf12c2288769dc80b9",
+		// 	"releases": 4,
 		// },
 		"sparkle_no_releases.xml": {
 			"checksum": "befd99d96be280ca7226c58ef1400309905ad20d2723e69e829cf050e802afcf",
@@ -210,9 +212,9 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"sparkle_invalid_pubdate.xml": "Malformed version: invalid",
+		"sparkle_invalid_pubdate.xml": "parsing time \"invalid\" as \"Mon, 02 Jan 2006 15:04:05 -0700\": cannot parse \"invalid\" as \"Mon\"",
 		"sparkle_invalid_version.xml": "Malformed version: invalid",
-		"sparkle_with_comments.xml":   "Malformed version: invalid",
+		"sparkle_with_comments.xml":   "Version is required, but it's not specified in release #1",
 	}
 
 	// preparations for mocking the request
@@ -248,7 +250,7 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 		// releases
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
-		assert.Len(t, a.Releases, data["releases"].(int))
+		assert.Len(t, a.Releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
 
 	// test error
@@ -264,6 +266,6 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 		// test
 		err := a.ExtractReleases()
 		assert.Error(t, err)
-		assert.Equal(t, "Malformed version: invalid", errorMsg)
+		assert.Equal(t, errorMsg, err.Error())
 	}
 }
