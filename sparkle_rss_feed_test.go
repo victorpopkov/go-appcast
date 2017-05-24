@@ -57,15 +57,47 @@ func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
 
 func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
+		"sparkle_attributes_as_elements.xml": {
+			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+			"1.1.0": {"2016-05-12 12:00:00 +0200 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		},
+		"sparkle_default_asc.xml": {
+			"1.1.0": {"2016-05-12 12:00:00 +0200 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+		},
 		"sparkle_default.xml": {
 			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 			"1.1.0": {"2016-05-12 12:00:00 +0200 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
+		"sparkle_incorrect_namespace.xml": {
+			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+			"1.1.0": {"2016-05-12 12:00:00 +0200 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		},
+		// "sparkle_multiple_enclosure.xml": {},
+		"sparkle_no_releases.xml": {},
 		"sparkle_single.xml": {
 			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 		},
+		"sparkle_without_namespaces.xml": {
+			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+			"1.1.0": {"2016-05-12 12:00:00 +0200 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		},
+	}
+
+	errorTestCases := map[string]string{
+		"sparkle_invalid_pubdate.xml": "parsing time \"invalid\" as \"Mon, 02 Jan 2006 15:04:05 -0700\": cannot parse \"invalid\" as \"Mon\"",
+		"sparkle_invalid_version.xml": "Malformed version: invalid",
+		"sparkle_with_comments.xml":   "Version is required, but it's not specified in release #1",
 	}
 
 	// test (successful)
@@ -90,30 +122,15 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 		}
 	}
 
-	// test "Version is required" error
-	a := new(SparkleRSSFeedAppcast)
-	a.Content = string(getTestdata("sparkle_with_comments.xml"))
-	assert.Empty(t, a.Releases)
-	err := a.ExtractReleases()
-	assert.Error(t, err)
-	assert.Equal(t, "Version is required, but it's not specified in release #1", err.Error())
-	assert.Empty(t, a.Releases)
+	// test error
+	for filename, errorMsg := range errorTestCases {
+		// preparations
+		a := new(SparkleRSSFeedAppcast)
+		a.Content = string(getTestdata(filename))
 
-	// test "Malformed version" error
-	a = new(SparkleRSSFeedAppcast)
-	a.Content = string(getTestdata("sparkle_invalid_version.xml"))
-	assert.Empty(t, a.Releases)
-	err = a.ExtractReleases()
-	assert.Error(t, err)
-	assert.Equal(t, "Malformed version: invalid", err.Error())
-	assert.Empty(t, a.Releases)
-
-	// test "Parsing time" error
-	a = new(SparkleRSSFeedAppcast)
-	a.Content = string(getTestdata("sparkle_invalid_pubdate.xml"))
-	assert.Empty(t, a.Releases)
-	err = a.ExtractReleases()
-	assert.Error(t, err)
-	assert.Equal(t, "parsing time \"invalid\" as \"Mon, 02 Jan 2006 15:04:05 -0700\": cannot parse \"invalid\" as \"Mon\"", err.Error())
-	assert.Empty(t, a.Releases)
+		// test
+		err := a.ExtractReleases()
+		assert.Error(t, err)
+		assert.Equal(t, errorMsg, err.Error())
+	}
 }
