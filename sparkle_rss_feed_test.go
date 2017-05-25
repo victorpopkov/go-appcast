@@ -81,6 +81,12 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
+		"sparkle_invalid_pubdate.xml": {
+			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+			"1.1.0": {"0001-01-01 00:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		},
 		// "sparkle_multiple_enclosure.xml": {},
 		"sparkle_no_releases.xml": {},
 		"sparkle_single.xml": {
@@ -95,7 +101,6 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"sparkle_invalid_pubdate.xml": "parsing time \"invalid\" as \"Mon, 02 Jan 2006 15:04:05 -0700\": cannot parse \"invalid\" as \"Mon\"",
 		"sparkle_invalid_version.xml": "Malformed version: invalid",
 		"sparkle_with_comments.xml":   "Version is required, but it's not specified in release #1",
 	}

@@ -193,6 +193,10 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 			"checksum": "2e66ef346c49a8472bf8bf26e6e778c5b4d494723223c84c35d9f272a7792430",
 			"releases": 4,
 		},
+		"sparkle_invalid_pubdate.xml": {
+			"checksum": "e0273ccbce5a6fb6a5fe31b5edffb8173d88afa308566cf9b4373f3fed909705",
+			"releases": 4,
+		},
 		// "sparkle_multiple_enclosure.xml": {
 		// 	"checksum": "48fc8531b253c5d3ed83abfe040edeeafb327d103acbbacf12c2288769dc80b9",
 		// 	"releases": 4,
@@ -212,7 +216,6 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"sparkle_invalid_pubdate.xml": "parsing time \"invalid\" as \"Mon, 02 Jan 2006 15:04:05 -0700\": cannot parse \"invalid\" as \"Mon\"",
 		"sparkle_invalid_version.xml": "Malformed version: invalid",
 		"sparkle_with_comments.xml":   "Version is required, but it's not specified in release #1",
 	}
