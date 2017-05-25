@@ -89,6 +89,12 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 		},
 		// "sparkle_multiple_enclosure.xml": {},
 		"sparkle_no_releases.xml": {},
+		"sparkle_only_version.xml": {
+			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "2.0.0", "https://example.com/app_2.0.0.dmg", "10.10"},
+			"1.1.0": {"2016-05-12 12:00:00 +0200 +0200", "1.1.0", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.0.1": {"2016-05-11 12:00:00 +0200 +0200", "1.0.1", "https://example.com/app_1.0.1.dmg", "10.9"},
+			"1.0.0": {"2016-05-10 12:00:00 +0200 +0200", "1.0.0", "https://example.com/app_1.0.0.dmg", "10.9"},
+		},
 		"sparkle_single.xml": {
 			"2.0.0": {"2016-05-13 12:00:00 +0200 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 		},

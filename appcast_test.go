@@ -205,6 +205,10 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 			"checksum": "befd99d96be280ca7226c58ef1400309905ad20d2723e69e829cf050e802afcf",
 			"releases": 0,
 		},
+		"sparkle_only_version.xml": {
+			"checksum": "5c3e7cf62383d4c0e10e5ec0f7afd1a5e328137101e8b6bade050812e4e7451f",
+			"releases": 4,
+		},
 		"sparkle_single.xml": {
 			"checksum": "ac649bebe55f84d85767072e3a1122778a04e03f56b78226bd57ab50ce9f9306",
 			"releases": 1,
