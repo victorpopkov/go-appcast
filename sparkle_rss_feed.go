@@ -75,8 +75,10 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 			build = item.Enclosure.Version
 		}
 
-		if version == "" {
+		if version == "" && build == "" {
 			return fmt.Errorf("Version is required, but it's not specified in release #%d", i+1)
+		} else if version == "" && build != "" {
+			version = build
 		}
 
 		r, err := NewRelease(version, build)
@@ -92,10 +94,9 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 
 		// published date and time
 		parsedTime, err := time.Parse(time.RFC1123Z, item.PubDate)
-		if err != nil {
-			return err
+		if err == nil {
+			r.PublishedDateTime = parsedTime
 		}
-		r.PublishedDateTime = parsedTime
 
 		items[i] = *r
 	}
