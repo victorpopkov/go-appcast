@@ -30,7 +30,7 @@ func Example_sparkleRSSFeed() {
 	}
 
 	// Output:
-	// Checksum: bfee8d59301ff64b44d72572e973a8354d0397657552c91db61bedac353b04b8
+	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Release #1: {1.5.10.4 1.5.10.4 Adium 1.5.10.4  [{https://adiumx.cachefly.net/Adium_1.5.10.4.dmg application/octet-stream 21140435}] 2017-05-14 05:04:01 -0700 -0700 false}
 	// Release #2: {1.5.10 1.5.10 Adium 1.5.10  [{https://adiumx.cachefly.net/Adium_1.5.10.dmg application/octet-stream 24595712}] 0001-01-01 00:00:00 +0000 UTC false}
