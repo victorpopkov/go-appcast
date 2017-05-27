@@ -136,9 +136,10 @@ func TestUncommentUnknown(t *testing.T) {
 	// preparations
 	a := New()
 
+	// test
 	err := a.Uncomment()
 	assert.Error(t, err)
-	assert.Equal(t, "Uncommenting is not available for unknown provider", err.Error())
+	assert.Equal(t, "Uncommenting is not available for \"Unknown\" provider", err.Error())
 }
 
 func TestUncommentSparkleRSSFeed(t *testing.T) {
@@ -147,15 +148,10 @@ func TestUncommentSparkleRSSFeed(t *testing.T) {
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
 	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
 
-	// provider "Unknown"
-	err := a.Uncomment()
-	assert.Error(t, err)
-	assert.Equal(t, "Uncommenting is not available for unknown provider", err.Error())
-
-	// provider "Sparkle RSS Feed"
+	// test
 	a.Content = string(getTestdata("sparkle_with_comments.xml"))
 	a.Provider = SparkleRSSFeed
-	err = a.Uncomment()
+	err := a.Uncomment()
 	assert.Nil(t, err)
 
 	for _, commentLine := range []int{13, 20} {
@@ -165,6 +161,30 @@ func TestUncommentSparkleRSSFeed(t *testing.T) {
 	}
 }
 
+func TestUncommentSourceForgeRSSFeed(t *testing.T) {
+	// preparations
+	a := New()
+
+	// test
+	a.Content = string(getTestdata("sourceforge_default.xml"))
+	a.Provider = SourceForgeRSSFeed
+	err := a.Uncomment()
+	assert.Error(t, err)
+	assert.Equal(t, "Uncommenting is not available for \"SourceForge RSS Feed\" provider", err.Error())
+}
+
+func TestUncommentGitHubAtomFeed(t *testing.T) {
+	// preparations
+	a := New()
+
+	// test
+	a.Content = string(getTestdata("github_default.xml"))
+	a.Provider = GitHubAtomFeed
+	err := a.Uncomment()
+	assert.Error(t, err)
+	assert.Equal(t, "Uncommenting is not available for \"GitHub Atom Feed\" provider", err.Error())
+}
+
 func TestExtractReleasesUnknown(t *testing.T) {
 	// preparations
 	a := New()
@@ -172,7 +192,7 @@ func TestExtractReleasesUnknown(t *testing.T) {
 	// provider "Unknown"
 	err := a.ExtractReleases()
 	assert.Error(t, err)
-	assert.Equal(t, "Releases can't be extracted from unknown provider", err.Error())
+	assert.Equal(t, "Releases can't be extracted from \"Unknown\" provider", err.Error())
 }
 
 func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
