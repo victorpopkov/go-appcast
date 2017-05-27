@@ -36,8 +36,14 @@ type BaseAppcast struct {
 	// checksum itself.
 	Checksum Checksum
 
-	// Releases specify an array of all application releases.
+	// Releases specify an array of all application releases. All filtered
+	// releases are stored here.
 	Releases []Release
+
+	// originalReleases specify an original array of all application releases. It
+	// is used to restore the BaseAppcast.Releases using the
+	// BaseAppcast.ResetFilters function.
+	originalReleases []Release
 }
 
 // Sort holds different supported sorting behaviors.
@@ -136,6 +142,7 @@ func (a *BaseAppcast) ExtractReleases() error {
 			return err
 		}
 		a.Releases = s.BaseAppcast.Releases
+		a.originalReleases = a.Releases
 		break
 	case SourceForgeRSSFeed:
 		s := SourceForgeRSSFeedAppcast{BaseAppcast: *a}
@@ -144,6 +151,7 @@ func (a *BaseAppcast) ExtractReleases() error {
 			return err
 		}
 		a.Releases = s.BaseAppcast.Releases
+		a.originalReleases = a.Releases
 		break
 	default:
 		p := a.Provider.String()
@@ -164,6 +172,95 @@ func (a *BaseAppcast) SortReleasesByVersions(s Sort) {
 	} else if s == DESC {
 		sort.Sort(sort.Reverse(ByVersion(a.Releases)))
 	}
+}
+
+// FilterReleasesByTitle filters all BaseAppcast.Releases by matching the
+// release title with the provided RegExp string. If inversed bool is set to
+// "true", the unmatched releases will be used instead.
+func (a *BaseAppcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{}) {
+	var result []Release
+
+	inverse := false
+	if len(inversed) > 0 {
+		inverse = inversed[0].(bool)
+	}
+
+	for _, release := range a.Releases {
+		regex := regexp.MustCompile(regexpStr)
+		if inverse == false && regex.MatchString(release.Title) {
+			result = append(result, release)
+		}
+
+		if inverse == true && !regex.MatchString(release.Title) {
+			result = append(result, release)
+		}
+	}
+
+	a.Releases = result
+}
+
+// FilterReleasesByMediaType filters all releases by matching the downloads
+// media type with the provided RegExp string. If inversed bool is set to
+// "true", the unmatched releases will be used instead.
+func (a *BaseAppcast) FilterReleasesByMediaType(regexpStr string, inversed ...interface{}) {
+	var result []Release
+
+	inverse := false
+	if len(inversed) > 0 {
+		inverse = inversed[0].(bool)
+	}
+
+	for _, release := range a.Releases {
+		regex := regexp.MustCompile(regexpStr)
+		for _, download := range release.Downloads {
+			if inverse == false && regex.MatchString(download.Type) {
+				result = append(result, release)
+				continue
+			}
+
+			if inverse == true && !regex.MatchString(download.Type) {
+				result = append(result, release)
+				continue
+			}
+		}
+	}
+
+	a.Releases = result
+}
+
+// FilterReleasesByURL filters all BaseAppcast.Releases by matching the release
+// download URL with the provided RegExp string. If inversed bool is set to
+// "true", the unmatched releases will be used instead.
+func (a *BaseAppcast) FilterReleasesByURL(regexpStr string, inversed ...interface{}) {
+	var result []Release
+
+	inverse := false
+	if len(inversed) > 0 {
+		inverse = inversed[0].(bool)
+	}
+
+	for _, release := range a.Releases {
+		regex := regexp.MustCompile(regexpStr)
+		for _, download := range release.Downloads {
+			if inverse == false && regex.MatchString(download.URL) {
+				result = append(result, release)
+				continue
+			}
+
+			if inverse == true && !regex.MatchString(download.URL) {
+				result = append(result, release)
+				continue
+			}
+		}
+	}
+
+	a.Releases = result
+}
+
+// ResetFilters resets the BaseAppcast.Releases to their original state before
+// applying any filters.
+func (a *BaseAppcast) ResetFilters() {
+	a.Releases = a.originalReleases
 }
 
 // ExtractSemanticVersions extracts semantic versions from the provided data
