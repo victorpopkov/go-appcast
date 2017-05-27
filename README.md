@@ -12,7 +12,7 @@ versions alongside with the download URLs if available and other useful
 information.
 
 - [What the heck is appcast?](#what-the-heck-is-appcast)
-- [Why is this library needed?](#why-is-this-library-needed)
+- [Why is this library needed and what it does?](#why-is-this-library-needed-and-what-it-does)
 - [Supported providers](#supported-providers)
 
 ## What the heck is appcast?
