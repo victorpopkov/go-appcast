@@ -8,7 +8,7 @@
 package appcast
 
 import (
-	"errors"
+	"fmt"
 	"io/ioutil"
 	"sort"
 )
@@ -106,13 +106,17 @@ func (a *BaseAppcast) GetChecksum() string {
 // successful call returns a "nil" error.
 func (a *BaseAppcast) Uncomment() error {
 	switch a.Provider {
-	case Unknown:
-		return errors.New("Uncommenting is not available for unknown provider")
 	case SparkleRSSFeed:
 		s := SparkleRSSFeedAppcast{BaseAppcast: *a}
 		s.Uncomment()
 		a.Content = s.BaseAppcast.Content
 		break
+	default:
+		p := a.Provider.String()
+		if p == "-" {
+			p = "Unknown"
+		}
+		return fmt.Errorf("Uncommenting is not available for \"%s\" provider", p)
 	}
 
 	return nil
@@ -123,8 +127,6 @@ func (a *BaseAppcast) Uncomment() error {
 // error.
 func (a *BaseAppcast) ExtractReleases() error {
 	switch a.Provider {
-	case Unknown:
-		return errors.New("Releases can't be extracted from unknown provider")
 	case SparkleRSSFeed:
 		s := SparkleRSSFeedAppcast{BaseAppcast: *a}
 		err := s.ExtractReleases()
@@ -133,6 +135,12 @@ func (a *BaseAppcast) ExtractReleases() error {
 		}
 		a.Releases = s.BaseAppcast.Releases
 		break
+	default:
+		p := a.Provider.String()
+		if p == "-" {
+			p = "Unknown"
+		}
+		return fmt.Errorf("Releases can't be extracted from \"%s\" provider", p)
 	}
 
 	return nil
