@@ -18,9 +18,9 @@ func TestNewChecksum(t *testing.T) {
 func TestGenerate(t *testing.T) {
 	testCases := map[string][]string{
 		"sourceforge_default.xml": {
-			"47e507823eb16c4cf577020226f1e5567a5d83173ee15d3a1a4fbae737550211",
-			"e54afe17c3256480b88d57f4d5af88cd868c19e983fcefef3e05bedb69ace5ff",
-			"f7273db54a49878a933af479d7efc837",
+			"da2304f87ed128cbf522de8cbbe61f59012eb1e769d5279d347317cd8cd5ef41",
+			"25c8dc8bee83a41228a1dabc5253324901d4ed90af537635f521c2711c4ca2b4",
+			"6b549ccdde0094c6ecb439b3baabe818",
 		},
 		"sourceforge_empty.xml": {
 			"f3fd86c2fd623cd4439bcf41c00eab3de8815e7aa59ea7c635775e0fe6293159",
@@ -28,9 +28,9 @@ func TestGenerate(t *testing.T) {
 			"47a8f9860e6ce31f4525cf29c62b5262",
 		},
 		"sourceforge_single.xml": {
-			"a5c0d4b0ba7867267acd4c8e3e0beefd536095bf34188246a06795e4bf456b22",
-			"1c4450daa13e5aa52b5a65e14bf71cefe7928f03141cab7c8aade1f939dbdda3",
-			"46c0ce057d804cb76cdfb204336135ea",
+			"45f9bb85629328d870a28c7c1ec5983adac28b3a28d1d2abf565673e233b8981",
+			"d291cabe17e6a5377b71f67b0e27051ea29af829b9d2f235f2c970e0729f19a0",
+			"e35e4b2e7b7f76bccdf1edf5e696654a",
 		},
 		"sparkle_attributes_as_elements.xml": {
 			"8c42d7835109ff61fe85bba66a44689773e73e0d773feba699bceecefaf09359",
