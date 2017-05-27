@@ -407,6 +407,43 @@ func TestSortReleasesByVersions(t *testing.T) {
 	}
 }
 
+func TestFilters(t *testing.T) {
+	// mock the request
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+	content := string(getTestdata("sparkle_default.xml"))
+	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+
+	// preparations
+	a := New()
+	a.LoadFromURL("https://example.com/appcast.xml")
+	a.ExtractReleases()
+
+	// BaseAppcast.FilterReleasesByTitle
+	assert.Len(t, a.Releases, 4)
+	a.FilterReleasesByTitle("Release 1.0")
+	assert.Len(t, a.Releases, 2)
+	a.FilterReleasesByTitle("Release 1.0.0", true)
+	assert.Len(t, a.Releases, 1)
+	assert.Equal(t, "Release 1.0.1", a.Releases[0].Title)
+	a.ResetFilters()
+
+	// BaseAppcast.FilterReleasesByMediaType
+	assert.Len(t, a.Releases, 4)
+	a.FilterReleasesByMediaType("application/octet-stream")
+	assert.Len(t, a.Releases, 4)
+	a.FilterReleasesByMediaType("test", true)
+	assert.Len(t, a.Releases, 4)
+	a.ResetFilters()
+
+	// BaseAppcast.FilterReleasesByURL
+	assert.Len(t, a.Releases, 4)
+	a.FilterReleasesByURL(`app_1.*dmg$`)
+	assert.Len(t, a.Releases, 3)
+	a.FilterReleasesByURL(`app_1.0.*dmg$`, true)
+	assert.Len(t, a.Releases, 1)
+}
+
 func TestExtractSemanticVersions(t *testing.T) {
 	testCases := map[string][]string{
 		// single
