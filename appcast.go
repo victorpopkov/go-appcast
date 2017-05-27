@@ -8,8 +8,10 @@
 package appcast
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
+	"regexp"
 	"sort"
 )
 
@@ -154,4 +156,22 @@ func (a *BaseAppcast) SortReleasesByVersions(s Sort) {
 	} else if s == DESC {
 		sort.Sort(sort.Reverse(ByVersion(a.Releases)))
 	}
+}
+
+// ExtractSemanticVersions extracts semantic versions from the provided data
+// string.
+func ExtractSemanticVersions(data string) ([]string, error) {
+	var versions []string
+
+	regexVersion := regexp.MustCompile(`([0-9]+)\.([0-9]+)\.([0-9]+)(?:(\-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-\-\.]+)?`)
+	if regexVersion.MatchString(data) {
+		versionMatches := regexVersion.FindAllStringSubmatch(data, -1)
+		for _, match := range versionMatches {
+			versions = append(versions, match[0])
+		}
+
+		return versions, nil
+	}
+
+	return nil, errors.New("No semantic versions found")
 }

@@ -331,3 +331,31 @@ func TestSortReleasesByVersions(t *testing.T) {
 		assert.Equal(t, "2.0.0", a.Releases[0].Version.String())
 	}
 }
+
+func TestExtractSemanticVersions(t *testing.T) {
+	testCases := map[string][]string{
+		// single
+		"Version 1":           nil,
+		"Version 1.0":         nil,
+		"Version 1.0.2":       {"1.0.2"},
+		"Version 1.0.2-alpha": {"1.0.2-alpha"},
+		"Version 1.0.2-beta":  {"1.0.2-beta"},
+		"Version 1.0.2-dev":   {"1.0.2-dev"},
+		"Version 1.0.2-rc1":   {"1.0.2-rc1"},
+
+		// multiples
+		"First is v1.0.1, second is v1.0.2, third is v1.0.3": {"1.0.1", "1.0.2", "1.0.3"},
+	}
+
+	// test
+	for data, versions := range testCases {
+		actual, err := ExtractSemanticVersions(data)
+		if versions == nil {
+			assert.Error(t, err)
+			assert.Equal(t, "No semantic versions found", err.Error())
+		} else {
+			assert.Nil(t, err)
+			assert.Equal(t, versions, actual)
+		}
+	}
+}
