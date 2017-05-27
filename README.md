@@ -32,20 +32,22 @@ Since today you can find plenty of different ways how vendors distribute their
 software updates, this library attempts to provide a universal way of analyzing
 and retrieving the useful information from appcasts of the supported providers.
 
-Basically, at the moment it knows how to:
+### Features
 
 - [x] Load the appcast from remote URL
 - [ ] Load the appcast from local file _(not yet implemented)_
 - [x] Detect which one of the supported providers is used
-- [x] Extract and sort releases
-- [ ] Try to guess which release is stable and which is not _(not yet implemented)_
+- [x] Extract releases
+- [x] Sort releases by version
+- [ ] Try to guess the release stability _(not yet implemented)_
+- [x] Filter releases by title, media type or URL using RegExp string
 
 ## Supported providers
 
 At the moment, only 3 providers are supported:
 
 - [Sparkle RSS Feed](#sparkle-rss-feed)
-- [SourceForge RSS Feed](#sourceforge-rss-feed) _(not yet implemented)_
+- [SourceForge RSS Feed](#sourceforge-rss-feed)
 - [GitHub Atom Feed](#github-atom-feed) _(not yet implemented)_
 
 ### Sparkle RSS Feed
@@ -66,7 +68,7 @@ package main
 import (
 	"fmt"
 
-	appcast "github.com/victorpopkov/go-appcast"
+	"github.com/victorpopkov/go-appcast"
 )
 
 func main() {
@@ -96,12 +98,48 @@ func main() {
 
 ### SourceForge RSS Feed
 
-_(not yet implemented)_
-
 Each project hosted on [SourceForge](https://sourceforge.net/) has its own
 releases RSS feed available that can be considered as an appcast.
 
 Example URL: [https://sourceforge.net/projects/filezilla/rss](https://sourceforge.net/projects/filezilla/rss)
+
+#### Example
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/victorpopkov/go-appcast"
+)
+
+func main() {
+  a := appcast.New()
+  a.LoadFromURL("https://sourceforge.net/projects/filezilla/rss")
+  a.GenerateChecksum(appcast.Sha256)
+	a.ExtractReleases()
+	a.FilterReleasesByMediaType("application/x-bzip2")
+	a.FilterReleasesByTitle("FileZilla_Client_Unstable", true)
+	a.FilterReleasesByURL("macosx")
+
+	fmt.Println("Checksum:", a.GetChecksum())
+	fmt.Println("Provider:", a.Provider)
+
+	for i, release := range a.Releases {
+		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
+	}
+
+	// Output:
+	// Checksum: 69886b91a041ce9d742218a77317cd99f87a14199c3f8ba094042dd9d430f7fd
+	// Provider: SourceForge RSS Feed
+	// Release #1: {3.25.2  /FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2 /FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2 [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8453714}] 2017-04-30 12:07:25 +0000 UTC false}
+	// Release #2: {3.25.1  /FileZilla_Client/3.25.1/FileZilla_3.25.1_macosx-x86.app.tar.bz2 /FileZilla_Client/3.25.1/FileZilla_3.25.1_macosx-x86.app.tar.bz2 [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.25.1/FileZilla_3.25.1_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8460741}] 2017-03-20 17:11:09 +0000 UTC false}
+	// Release #3: {3.25.0  /FileZilla_Client/3.25.0/FileZilla_3.25.0_macosx-x86.app.tar.bz2 /FileZilla_Client/3.25.0/FileZilla_3.25.0_macosx-x86.app.tar.bz2 [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.25.0/FileZilla_3.25.0_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8461936}] 2017-03-13 14:36:41 +0000 UTC false}
+	// Release #4: {3.24.1  /FileZilla_Client/3.24.1/FileZilla_3.24.1_macosx-x86.app.tar.bz2 /FileZilla_Client/3.24.1/FileZilla_3.24.1_macosx-x86.app.tar.bz2 [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.24.1/FileZilla_3.24.1_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8764178}] 2017-02-21 22:00:38 +0000 UTC false}
+	// Release #5: {3.24.0  /FileZilla_Client/3.24.0/FileZilla_3.24.0_macosx-x86.app.tar.bz2 /FileZilla_Client/3.24.0/FileZilla_3.24.0_macosx-x86.app.tar.bz2 [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.24.0/FileZilla_3.24.0_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8765941}] 2017-01-13 20:20:31 +0000 UTC false}
+}
+```
 
 ### GitHub Atom Feed
 
