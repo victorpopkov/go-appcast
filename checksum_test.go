@@ -18,19 +18,19 @@ func TestNewChecksum(t *testing.T) {
 func TestGenerate(t *testing.T) {
 	testCases := map[string][]string{
 		"sourceforge_default.xml": {
-			"da2304f87ed128cbf522de8cbbe61f59012eb1e769d5279d347317cd8cd5ef41",
+			"c15a5e4755b424b20e3e7138c36045893aec70f9569acd5946796199c6f79596",
 			"25c8dc8bee83a41228a1dabc5253324901d4ed90af537635f521c2711c4ca2b4",
-			"6b549ccdde0094c6ecb439b3baabe818",
+			"d651167290b95d554dfb92ceb5a1d63a",
 		},
 		"sourceforge_empty.xml": {
-			"f3fd86c2fd623cd4439bcf41c00eab3de8815e7aa59ea7c635775e0fe6293159",
+			"12bbf7be638d5cf251c320aacd68c90acef450e3a9a22cc6cbfa29ffa4ee7f6a",
 			"f1d5fda5146d51438658a21b39d79f83de1689e8fe7ad9494946d3704146b452",
-			"47a8f9860e6ce31f4525cf29c62b5262",
+			"68bbda55107a4ffd255e7ae6754b0100",
 		},
 		"sourceforge_single.xml": {
-			"45f9bb85629328d870a28c7c1ec5983adac28b3a28d1d2abf565673e233b8981",
+			"5f3df25c0979faae5b5abef266f5929f4ac6aeb4df74e054461f93e0dbc51183",
 			"d291cabe17e6a5377b71f67b0e27051ea29af829b9d2f235f2c970e0729f19a0",
-			"e35e4b2e7b7f76bccdf1edf5e696654a",
+			"5e4efbd7d7540e8fb5adbc1a793383c5",
 		},
 		"sparkle_attributes_as_elements.xml": {
 			"8c42d7835109ff61fe85bba66a44689773e73e0d773feba699bceecefaf09359",
