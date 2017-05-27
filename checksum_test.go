@@ -27,6 +27,16 @@ func TestGenerate(t *testing.T) {
 			"f1d5fda5146d51438658a21b39d79f83de1689e8fe7ad9494946d3704146b452",
 			"68bbda55107a4ffd255e7ae6754b0100",
 		},
+		"sourceforge_invalid_pubdate.xml": {
+			"de0f431e001f7aded7fe01c3aec7412e39898d3f97acf809765fc7e2752ffc2c",
+			"25c8dc8bee83a41228a1dabc5253324901d4ed90af537635f521c2711c4ca2b4",
+			"86b0736b7d2020693892f05f4943849e",
+		},
+		"sourceforge_invalid_version.xml": {
+			"a93925887b0d484ce2a16e65945f254c2eca54057eac426d97db83fd19b035ed",
+			"07557c76fb9e1ee8c2e5f55ff67f8a7605dcfc1ce62392648ede43ea9006fcd8",
+			"f756e94d2cc6d31de4aa24dec48ae010",
+		},
 		"sourceforge_single.xml": {
 			"5f3df25c0979faae5b5abef266f5929f4ac6aeb4df74e054461f93e0dbc51183",
 			"d291cabe17e6a5377b71f67b0e27051ea29af829b9d2f235f2c970e0729f19a0",
