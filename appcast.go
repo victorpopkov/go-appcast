@@ -137,6 +137,14 @@ func (a *BaseAppcast) ExtractReleases() error {
 		}
 		a.Releases = s.BaseAppcast.Releases
 		break
+	case SourceForgeRSSFeed:
+		s := SourceForgeRSSFeedAppcast{BaseAppcast: *a}
+		err := s.ExtractReleases()
+		if err != nil {
+			return err
+		}
+		a.Releases = s.BaseAppcast.Releases
+		break
 	default:
 		p := a.Provider.String()
 		if p == "-" {
