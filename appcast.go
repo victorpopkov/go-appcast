@@ -153,6 +153,15 @@ func (a *BaseAppcast) ExtractReleases() error {
 		a.Releases = s.BaseAppcast.Releases
 		a.originalReleases = a.Releases
 		break
+	case GitHubAtomFeed:
+		s := GitHubAtomFeedAppcast{BaseAppcast: *a}
+		err := s.ExtractReleases()
+		if err != nil {
+			return err
+		}
+		a.Releases = s.BaseAppcast.Releases
+		a.originalReleases = a.Releases
+		break
 	default:
 		p := a.Provider.String()
 		if p == "-" {
@@ -227,8 +236,8 @@ func (a *BaseAppcast) FilterReleasesByTitle(regexpStr string, inversed ...interf
 	}
 
 	a.filterReleasesBy(func(r Release) bool {
-		regex := regexp.MustCompile(regexpStr)
-		if regex.MatchString(r.Title) {
+		re := regexp.MustCompile(regexpStr)
+		if re.MatchString(r.Title) {
 			return true
 		}
 		return false
@@ -245,8 +254,8 @@ func (a *BaseAppcast) FilterReleasesByMediaType(regexpStr string, inversed ...in
 	}
 
 	a.filterReleasesDownloadsBy(func(d Download) bool {
-		regex := regexp.MustCompile(regexpStr)
-		if regex.MatchString(d.Type) {
+		re := regexp.MustCompile(regexpStr)
+		if re.MatchString(d.Type) {
 			return true
 		}
 		return false
@@ -263,8 +272,8 @@ func (a *BaseAppcast) FilterReleasesByURL(regexpStr string, inversed ...interfac
 	}
 
 	a.filterReleasesDownloadsBy(func(d Download) bool {
-		regex := regexp.MustCompile(regexpStr)
-		if regex.MatchString(d.URL) {
+		re := regexp.MustCompile(regexpStr)
+		if re.MatchString(d.URL) {
 			return true
 		}
 		return false
@@ -282,9 +291,9 @@ func (a *BaseAppcast) ResetFilters() {
 func ExtractSemanticVersions(data string) ([]string, error) {
 	var versions []string
 
-	regexVersion := regexp.MustCompile(`([0-9]+)\.([0-9]+)\.([0-9]+)(?:(\-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-\-\.]+)?`)
-	if regexVersion.MatchString(data) {
-		versionMatches := regexVersion.FindAllStringSubmatch(data, -1)
+	re := regexp.MustCompile(`([0-9]+)\.([0-9]+)\.([0-9]+)(?:(\-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-\-\.]+)?`)
+	if re.MatchString(data) {
+		versionMatches := re.FindAllStringSubmatch(data, -1)
 		for _, match := range versionMatches {
 			versions = append(versions, match[0])
 		}
