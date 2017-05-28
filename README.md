@@ -48,7 +48,7 @@ At the moment, only 3 providers are supported:
 
 - [Sparkle RSS Feed](#sparkle-rss-feed)
 - [SourceForge RSS Feed](#sourceforge-rss-feed)
-- [GitHub Atom Feed](#github-atom-feed) _(not yet implemented)_
+- [GitHub Atom Feed](#github-atom-feed)
 
 ### Sparkle RSS Feed
 
@@ -119,9 +119,12 @@ func main() {
 	a.LoadFromURL("https://sourceforge.net/projects/filezilla/rss")
 	a.GenerateChecksum(appcast.Sha256)
 	a.ExtractReleases()
+
+	// apply some filters
 	a.FilterReleasesByMediaType("application/x-bzip2")
 	a.FilterReleasesByTitle("FileZilla_Client_Unstable", true)
 	a.FilterReleasesByURL("macosx")
+	defer a.ResetFilters() // reset
 
 	fmt.Println("Checksum:", a.GetChecksum())
 	fmt.Println("Provider:", a.Provider)
@@ -143,13 +146,57 @@ func main() {
 
 ### GitHub Atom Feed
 
-_(not yet implemented)_
-
 Each project that uses [GitHub](https://github.com/) releases to distribute
 applications has its own Atom Feed available that can be considered as an
 appcast.
 
 Example URL: [https://github.com/atom/atom/releases.atom](https://github.com/atom/atom/releases.atom)
+
+#### Example
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/victorpopkov/go-appcast"
+)
+
+func main() {
+	a := appcast.New()
+	a.LoadFromURL("https://github.com/atom/atom/releases.atom")
+	a.GenerateChecksum(appcast.Sha256)
+	a.ExtractReleases()
+
+	// apply some filters
+	a.FilterReleasesByMediaType("application/x-bzip2")
+	a.FilterReleasesByTitle("FileZilla_Client_Unstable", true)
+	a.FilterReleasesByURL("macosx")
+	defer a.ResetFilters() // reset
+
+	fmt.Println("Checksum:", a.GetChecksum())
+	fmt.Println("Provider:", a.Provider)
+
+	for i, release := range a.Releases {
+		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
+	}
+
+	// Output:
+	// Checksum: 14dd5fa8a4f880ae7c441e2fc940516e9d50b23fa110277d7696a35380cdb102
+	// Provider: GitHub Atom Feed
+	// Release #1: {1.18.0-beta2  1.18.0-beta2  [] 2017-05-25 23:39:10 +0300 EEST false}
+	// Release #2: {1.17.2  1.17.2  [] 2017-05-25 23:38:59 +0300 EEST false}
+	// Release #3: {1.18.0-beta1  1.18.0-beta1  [] 2017-05-25 01:32:31 +0300 EEST false}
+	// Release #4: {1.17.1  1.17.1  [] 2017-05-25 01:40:15 +0300 EEST false}
+	// Release #5: {1.18.0-beta0  1.18.0-beta0  [] 2017-05-16 19:41:06 +0300 EEST false}
+	// Release #6: {1.17.0  1.17.0  [] 2017-05-16 19:41:24 +0300 EEST false}
+	// Release #7: {1.17.0-beta5  1.17.0-beta5  [] 2017-05-05 18:53:16 +0300 EEST false}
+	// Release #8: {1.17.0-beta4  1.17.0-beta4  [] 2017-04-26 23:51:47 +0300 EEST false}
+	// Release #9: {1.17.0-beta3  1.17.0-beta3  [] 2017-04-18 23:20:32 +0300 EEST false}
+	// Release #10: {1.17.0-beta2  1.17.0-beta2  [] 2017-04-14 19:28:23 +0300 EEST false}
+}
+```
 
 ## License
 
