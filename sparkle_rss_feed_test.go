@@ -135,7 +135,7 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 		}
 	}
 
-	// test error
+	// test (error)
 	for filename, errorMsg := range errorTestCases {
 		// preparations
 		a := new(SparkleRSSFeedAppcast)

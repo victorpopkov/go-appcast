@@ -43,7 +43,7 @@ type SourceForgeRSSFeedXMLContent struct {
 	Filesize int    `xml:"filesize,attr"`
 }
 
-// ExtractReleases parses the Sparkle RSS Feed content from
+// ExtractReleases parses the SourceForge RSS Feed content from
 // SourceForgeRSSFeedAppcast.Content and stores the extracted releases as an
 // array in SourceForgeRSSFeedAppcast.Releases. Returns an error, if extracting
 // was unsuccessful.
