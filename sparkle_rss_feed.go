@@ -81,6 +81,7 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 			version = build
 		}
 
+		// new release
 		r, err := NewRelease(version, build)
 		if err != nil {
 			return err
@@ -89,6 +90,12 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 		r.Title = item.Title
 		r.Description = item.Description
 
+		// prerelease
+		if r.Version.Prerelease() != "" {
+			r.IsPrerelease = true
+		}
+
+		// downloads
 		d := NewDownload(item.Enclosure.URL, item.Enclosure.Type, item.Enclosure.Length)
 		r.AddDownload(*d)
 

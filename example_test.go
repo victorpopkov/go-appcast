@@ -102,14 +102,14 @@ func Example_gitHubAtomFeed() {
 	// Output:
 	// Checksum: 14dd5fa8a4f880ae7c441e2fc940516e9d50b23fa110277d7696a35380cdb102
 	// Provider: GitHub Atom Feed
-	// Release #1: 1.18.0-beta2 false
+	// Release #1: 1.18.0-beta2 true
 	// Release #2: 1.17.2 false
-	// Release #3: 1.18.0-beta1 false
+	// Release #3: 1.18.0-beta1 true
 	// Release #4: 1.17.1 false
-	// Release #5: 1.18.0-beta0 false
+	// Release #5: 1.18.0-beta0 true
 	// Release #6: 1.17.0 false
-	// Release #7: 1.17.0-beta5 false
-	// Release #8: 1.17.0-beta4 false
-	// Release #9: 1.17.0-beta3 false
-	// Release #10: 1.17.0-beta2 false
+	// Release #7: 1.17.0-beta5 true
+	// Release #8: 1.17.0-beta4 true
+	// Release #9: 1.17.0-beta3 true
+	// Release #10: 1.17.0-beta2 true
 }

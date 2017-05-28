@@ -66,6 +66,11 @@ func (a *SourceForgeRSSFeedAppcast) ExtractReleases() error {
 		r.Title = item.Title.Chardata
 		r.Description = item.Description.Chardata
 
+		// prerelease
+		if r.Version.Prerelease() != "" {
+			r.IsPrerelease = true
+		}
+
 		// downloads
 		d := NewDownload(item.Content.URL, item.Content.Type, item.Content.Filesize)
 		r.AddDownload(*d)
