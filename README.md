@@ -173,7 +173,7 @@ func main() {
 	fmt.Println("Provider:", a.Provider)
 
 	for i, release := range a.Releases {
-		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
+		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.IsPrerelease)
 	}
 
 	// Output:
