@@ -17,6 +17,21 @@ func TestNewChecksum(t *testing.T) {
 
 func TestGenerate(t *testing.T) {
 	testCases := map[string][]string{
+		"github_default.xml": {
+			"c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
+			"c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
+			"572802c8d0cae5435461d73844764463",
+		},
+		"github_invalid_pubdate.xml": {
+			"52f87bba760a4e5f8ee418cdbc3806853d79ad10d3f961e5c54d1f5abf09b24b",
+			"52f87bba760a4e5f8ee418cdbc3806853d79ad10d3f961e5c54d1f5abf09b24b",
+			"1aeca62fcdb36aa5ed3c18efdbcc9c02",
+		},
+		"github_invalid_version.xml": {
+			"7375a6cbee6f9369bd8e4ecbda347889a0272b8dd8a5eb473c1dec9dfa753392",
+			"7375a6cbee6f9369bd8e4ecbda347889a0272b8dd8a5eb473c1dec9dfa753392",
+			"ca0ee1fef654c37bb1e8789ad004bf09",
+		},
 		"sourceforge_default.xml": {
 			"c15a5e4755b424b20e3e7138c36045893aec70f9569acd5946796199c6f79596",
 			"25c8dc8bee83a41228a1dabc5253324901d4ed90af537635f521c2711c4ca2b4",
