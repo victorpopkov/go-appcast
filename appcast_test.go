@@ -308,6 +308,10 @@ func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 			"checksum": "12bbf7be638d5cf251c320aacd68c90acef450e3a9a22cc6cbfa29ffa4ee7f6a",
 			"releases": 0,
 		},
+		"sourceforge_invalid_pubdate.xml": {
+			"checksum": "de0f431e001f7aded7fe01c3aec7412e39898d3f97acf809765fc7e2752ffc2c",
+			"releases": 4,
+		},
 		"sourceforge_single.xml": {
 			"checksum": "5f3df25c0979faae5b5abef266f5929f4ac6aeb4df74e054461f93e0dbc51183",
 			"releases": 1,
@@ -347,6 +351,76 @@ func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 		// generate checksum
 		a.GenerateChecksum(Sha256)
 		assert.Equal(t, SourceForgeRSSFeed, a.Provider)
+		assert.Equal(t, data["checksum"].(string), a.GetChecksum())
+
+		// releases
+		err := a.ExtractReleases()
+		assert.Nil(t, err)
+		assert.Len(t, a.Releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
+	}
+
+	// test (error)
+	for filename, errorMsg := range errorTestCases {
+		// mock the request
+		content := string(getTestdata(filename))
+		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+
+		// preparations
+		a := New()
+		a.LoadFromURL("https://example.com/appcast.xml")
+
+		// test
+		err := a.ExtractReleases()
+		assert.Error(t, err)
+		assert.Equal(t, errorMsg, err.Error())
+	}
+}
+
+func TestExtractReleasesGitHubAtomFeed(t *testing.T) {
+	testCases := map[string]map[string]interface{}{
+		"github_default.xml": {
+			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
+			"releases": 4,
+		},
+		"github_invalid_pubdate.xml": {
+			"checksum": "52f87bba760a4e5f8ee418cdbc3806853d79ad10d3f961e5c54d1f5abf09b24b",
+			"releases": 4,
+		},
+	}
+
+	errorTestCases := map[string]string{
+		"github_invalid_version.xml": "Malformed version: invalid",
+	}
+
+	// preparations for mocking the request
+	httpmock.Activate()
+	defer httpmock.DeactivateAndReset()
+
+	// test (successful)
+	for filename, data := range testCases {
+		// mock the request
+		content := string(getTestdata(filename))
+		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+
+		// preparations
+		a := New()
+		assert.Equal(t, Unknown, a.Provider)
+		assert.Empty(t, a.Content)
+		assert.Empty(t, a.Checksum.Source)
+		assert.Empty(t, a.Checksum.Result)
+		assert.Len(t, a.Releases, 0)
+
+		// load from URL
+		a.LoadFromURL("https://example.com/appcast.xml")
+		assert.Equal(t, GitHubAtomFeed, a.Provider)
+		assert.NotEmpty(t, a.Content)
+		assert.NotEmpty(t, a.Checksum.Source)
+		assert.Empty(t, a.Checksum.Result)
+		assert.Len(t, a.Releases, 0)
+
+		// generate checksum
+		a.GenerateChecksum(Sha256)
+		assert.Equal(t, GitHubAtomFeed, a.Provider)
 		assert.Equal(t, data["checksum"].(string), a.GetChecksum())
 
 		// releases
