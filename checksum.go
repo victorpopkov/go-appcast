@@ -41,15 +41,15 @@ func (c *Checksum) Generate() string {
 	var hasher hash.Hash
 
 	switch c.Algorithm {
-	case Sha256:
+	case SHA256:
 		hasher = sha256.New()
 		hasher.Write([]byte(c.Source))
-	case Sha256HomebrewCask:
+	case SHA256HomebrewCask:
 		re := regexp.MustCompile(`<pubDate>[^<]*<\/pubDate>`)
 		sourceMod := re.ReplaceAllString(c.Source, "")
 		hasher = sha256.New()
 		hasher.Write([]byte(sourceMod))
-	case Md5:
+	case MD5:
 		hasher = md5.New()
 		hasher.Write([]byte(c.Source))
 	}

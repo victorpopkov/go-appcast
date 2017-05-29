@@ -8,9 +8,9 @@ import (
 )
 
 func TestNewChecksum(t *testing.T) {
-	c := NewChecksum(Sha256, "test")
+	c := NewChecksum(SHA256, "test")
 	assert.IsType(t, Checksum{}, *c)
-	assert.Equal(t, Sha256, c.Algorithm)
+	assert.Equal(t, SHA256, c.Algorithm)
 	assert.Equal(t, "test", c.Source)
 	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", c.Result)
 }
@@ -133,15 +133,15 @@ func TestGenerate(t *testing.T) {
 		content := string(getTestdata(filename))
 
 		// SHA256
-		c := &Checksum{Sha256, content, ""}
+		c := &Checksum{SHA256, content, ""}
 		assert.Equal(t, checkpoints[0], c.Generate(), fmt.Sprintf("Checksum doesn't match (Sha256): %s", filename))
 
 		// SHA256 (Homebrew-Cask)
-		c = &Checksum{Sha256HomebrewCask, content, ""}
+		c = &Checksum{SHA256HomebrewCask, content, ""}
 		assert.Equal(t, checkpoints[1], c.Generate(), fmt.Sprintf("Checksum doesn't match (Sha256HomebrewCask): %s", filename))
 
 		// MD5
-		c = &Checksum{Md5, content, ""}
+		c = &Checksum{MD5, content, ""}
 		assert.Equal(t, checkpoints[2], c.Generate(), fmt.Sprintf("Checksum doesn't match (Md5): %s", filename))
 	}
 }

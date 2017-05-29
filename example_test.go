@@ -18,7 +18,7 @@ func Example_sparkleRSSFeed() {
 	// example
 	a := New()
 	a.LoadFromURL("https://www.adium.im/sparkle/appcast-release.xml")
-	a.GenerateChecksum(Sha256)
+	a.GenerateChecksum(SHA256)
 	a.ExtractReleases()
 	a.SortReleasesByVersions(DESC)
 
@@ -51,7 +51,7 @@ func Example_sourceForgeRSSFeed() {
 	// example
 	a := New()
 	a.LoadFromURL("https://sourceforge.net/projects/filezilla/rss")
-	a.GenerateChecksum(Sha256)
+	a.GenerateChecksum(SHA256)
 	a.ExtractReleases()
 
 	// apply some filters
@@ -89,7 +89,7 @@ func Example_gitHubAtomFeed() {
 	// example
 	a := New()
 	a.LoadFromURL("https://github.com/atom/atom/releases.atom")
-	a.GenerateChecksum(Sha256)
+	a.GenerateChecksum(SHA256)
 	a.ExtractReleases()
 
 	fmt.Println("Checksum:", a.GetChecksum())

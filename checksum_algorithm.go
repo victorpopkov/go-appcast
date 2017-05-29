@@ -4,14 +4,14 @@ package appcast
 type ChecksumAlgorithm int
 
 const (
-	// Sha256 represents a SHA256 checksum
-	Sha256 ChecksumAlgorithm = iota
+	// SHA256 represents a SHA256 checksum
+	SHA256 ChecksumAlgorithm = iota
 
-	// Sha256HomebrewCask represents a SHA256 checksum used in Homebrew-Cask
-	Sha256HomebrewCask
+	// SHA256HomebrewCask represents a SHA256 checksum used in Homebrew-Cask
+	SHA256HomebrewCask
 
-	// Md5 represents an MD5 checksum
-	Md5
+	// MD5 represents an MD5 checksum
+	MD5
 )
 
 var checksumAlgorithmNames = [...]string{
