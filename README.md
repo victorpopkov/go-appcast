@@ -88,11 +88,11 @@ func main() {
 	// Output:
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
-	// Release #1: {1.5.10.4 1.5.10.4 Adium 1.5.10.4  [{https://adiumx.cachefly.net/Adium_1.5.10.4.dmg application/octet-stream 21140435}] 2017-05-14 05:04:01 -0700 -0700 false}
-	// Release #2: {1.5.10 1.5.10 Adium 1.5.10  [{https://adiumx.cachefly.net/Adium_1.5.10.dmg application/octet-stream 24595712}] 0001-01-01 00:00:00 +0000 UTC false}
-	// Release #3: {1.4.5 1.4.5 Adium 1.4.5  [{https://adiumx.cachefly.net/Adium_1.4.5.dmg application/octet-stream 23065688}] 0001-01-01 00:00:00 +0000 UTC false}
-	// Release #4: {1.3.10 1.3.10 Adium 1.3.10  [{https://adiumx.cachefly.net/Adium_1.3.10.dmg application/octet-stream 22369877}] 0001-01-01 00:00:00 +0000 UTC false}
-	// Release #5: {1.0.6 1.0.6 Adium 1.0.6  [{https://adiumx.cachefly.net/Adium_1.0.6.dmg application/octet-stream 13795246}] 0001-01-01 00:00:00 +0000 UTC false}
+	// Release #1: {1.5.10.4 1.5.10.4 Adium 1.5.10.4  [{https://adiumx.cachefly.net/Adium_1.5.10.4.dmg application/octet-stream 21140435}] 2017-05-14 12:04:01 +0000 UTC false}
+	// Release #2: {1.5.10 1.5.10 Adium 1.5.10  [{https://adiumx.cachefly.net/Adium_1.5.10.dmg application/octet-stream 24595712}] 2014-05-19 21:25:14 +0000 UTC false}
+	// Release #3: {1.4.5 1.4.5 Adium 1.4.5  [{https://adiumx.cachefly.net/Adium_1.4.5.dmg application/octet-stream 23065688}] 2012-03-20 20:30:00 +0000 UTC false}
+	// Release #4: {1.3.10 1.3.10 Adium 1.3.10  [{https://adiumx.cachefly.net/Adium_1.3.10.dmg application/octet-stream 22369877}] 2010-01-12 23:30:00 +0000 UTC false}
+	// Release #5: {1.0.6 1.0.6 Adium 1.0.6  [{https://adiumx.cachefly.net/Adium_1.0.6.dmg application/octet-stream 13795246}] 2007-08-13 22:12:45 +0000 UTC false}
 }
 ```
 
@@ -173,22 +173,25 @@ func main() {
 	fmt.Println("Provider:", a.Provider)
 
 	for i, release := range a.Releases {
-		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.IsPrerelease)
+		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.Title, release.PublishedDateTime, release.IsPrerelease)
 	}
+
+	fmt.Println("Release #1 description:", a.Releases[0].Description)
 
 	// Output:
 	// Checksum: 14dd5fa8a4f880ae7c441e2fc940516e9d50b23fa110277d7696a35380cdb102
 	// Provider: GitHub Atom Feed
-	// Release #1: 1.18.0-beta2 true
-	// Release #2: 1.17.2 false
-	// Release #3: 1.18.0-beta1 true
-	// Release #4: 1.17.1 false
-	// Release #5: 1.18.0-beta0 true
-	// Release #6: 1.17.0 false
-	// Release #7: 1.17.0-beta5 true
-	// Release #8: 1.17.0-beta4 true
-	// Release #9: 1.17.0-beta3 true
-	// Release #10: 1.17.0-beta2 true
+	// Release #1: 1.18.0-beta2 1.18.0-beta2 2017-05-25 20:39:10 +0000 UTC true
+	// Release #2: 1.17.2 1.17.2 2017-05-25 20:38:59 +0000 UTC false
+	// Release #3: 1.18.0-beta1 1.18.0-beta1 2017-05-24 22:32:31 +0000 UTC true
+	// Release #4: 1.17.1 1.17.1 2017-05-24 22:40:15 +0000 UTC false
+	// Release #5: 1.18.0-beta0 1.18.0-beta0 2017-05-16 16:41:06 +0000 UTC true
+	// Release #6: 1.17.0 1.17.0 2017-05-16 16:41:24 +0000 UTC false
+	// Release #7: 1.17.0-beta5 1.17.0-beta5 2017-05-05 15:53:16 +0000 UTC true
+	// Release #8: 1.17.0-beta4 1.17.0-beta4 2017-04-26 20:51:47 +0000 UTC true
+	// Release #9: 1.17.0-beta3 1.17.0-beta3 2017-04-18 20:20:32 +0000 UTC true
+	// Release #10: 1.17.0-beta2 1.17.0-beta2 2017-04-14 16:28:23 +0000 UTC true
+	// Release #1 description: <p>Fixes <a href="https://github.com/atom/find-and-replace/issues/901">Find in current buffer' returns no results - atom/find-and-replace#901</a></p>
 }
 ```
 
