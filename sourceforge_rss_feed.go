@@ -3,8 +3,6 @@ package appcast
 import (
 	"encoding/xml"
 	"fmt"
-	"regexp"
-	"time"
 )
 
 // A SourceForgeRSSFeedAppcast represents appcast for "SourceForge RSS Feed"
@@ -65,6 +63,7 @@ func (a *SourceForgeRSSFeedAppcast) ExtractReleases() error {
 
 		r.Title = item.Title.Chardata
 		r.Description = item.Description.Chardata
+		r.ParsePublishedDateTime(item.PubDate)
 
 		// prerelease
 		if r.Version.Prerelease() != "" {
@@ -74,18 +73,6 @@ func (a *SourceForgeRSSFeedAppcast) ExtractReleases() error {
 		// downloads
 		d := NewDownload(item.Content.URL, item.Content.Type, item.Content.Filesize)
 		r.AddDownload(*d)
-
-		// published date and time
-		pubData := item.PubDate
-		regexVersion := regexp.MustCompile(`UT$`)
-		if regexVersion.MatchString(pubData) {
-			pubData = regexVersion.ReplaceAllString(pubData, "UTC")
-		}
-
-		parsedTime, err := time.Parse(time.RFC1123, pubData)
-		if err == nil {
-			r.PublishedDateTime = parsedTime
-		}
 
 		// add release
 		items[i] = *r
