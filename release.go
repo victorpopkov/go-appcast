@@ -81,17 +81,26 @@ func (r *Release) AddDownload(d Download) {
 // ParsePublishedDateTime parses the provided dateTime string using predefined
 // time formats and sets the Release.PublishedDateTime in UTC.
 func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
+	var re *regexp.Regexp
+
 	formats := []string{
 		time.RFC1123Z,
+		time.RFC1123,
 		"Monday, January 02, 2006 15:04:05 MST",
 	}
 
 	// remove suffixes "st|nd|rd|th" from day digit
-	re := regexp.MustCompile(`(\d+)(st|nd|rd|th)`)
+	re = regexp.MustCompile(`(\d+)(st|nd|rd|th)`)
 	if re.MatchString(dateTime) {
 		// extract last part that represents version
 		versionMatches := re.FindAllStringSubmatch(dateTime, 1)
 		dateTime = re.ReplaceAllString(dateTime, versionMatches[0][1])
+	}
+
+	// change "UT" to "UTC"
+	re = regexp.MustCompile(`UT$`)
+	if re.MatchString(dateTime) {
+		dateTime = re.ReplaceAllString(dateTime, "UTC")
 	}
 
 	// parse by predefined formats
