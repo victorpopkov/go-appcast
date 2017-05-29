@@ -75,7 +75,7 @@ import (
 func main() {
 	a := appcast.New()
 	a.LoadFromURL("https://www.adium.im/sparkle/appcast-release.xml")
-	a.GenerateChecksum(appcast.Sha256)
+	a.GenerateChecksum(appcast.SHA256)
 	a.ExtractReleases()
 	a.SortReleasesByVersions(appcast.DESC)
 
@@ -118,7 +118,7 @@ import (
 func main() {
 	a := appcast.New()
 	a.LoadFromURL("https://sourceforge.net/projects/filezilla/rss")
-	a.GenerateChecksum(appcast.Sha256)
+	a.GenerateChecksum(appcast.SHA256)
 	a.ExtractReleases()
 
 	// apply some filters
@@ -167,7 +167,7 @@ import (
 func main() {
 	a := appcast.New()
 	a.LoadFromURL("https://github.com/atom/atom/releases.atom")
-	a.GenerateChecksum(appcast.Sha256)
+	a.GenerateChecksum(appcast.SHA256)
 	a.ExtractReleases()
 
 	fmt.Println("Checksum:", a.GetChecksum())
