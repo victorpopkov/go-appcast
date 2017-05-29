@@ -86,6 +86,7 @@ func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
 	formats := []string{
 		time.RFC1123Z,
 		time.RFC1123,
+		time.RFC3339,
 		"Monday, January 02, 2006 15:04:05 MST",
 	}
 

@@ -42,6 +42,7 @@ func TestParsePublishedDateTime(t *testing.T) {
 	testCases := map[string]string{
 		"Sun, 14 May 2017 05:04:01 -0700": "2017-05-14 12:04:01 +0000 UTC", // RFC1123Z
 		"Thu, 25 May 2017 19:26:48 UTC":   "2017-05-25 19:26:48 +0000 UTC", // RFC1123
+		"2016-05-13T12:00:00+02:00":       "2016-05-13 10:00:00 +0000 UTC", // RFC3339
 
 		// custom
 		"Thu, 25 May 2017 19:26:48 UT":              "2017-05-25 19:26:48 +0000 UTC",
