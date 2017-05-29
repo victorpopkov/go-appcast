@@ -3,7 +3,6 @@ package appcast
 import (
 	"encoding/xml"
 	"regexp"
-	"time"
 )
 
 // A GitHubAtomFeedAppcast represents appcast for "GitHub Atom Feed" that is
@@ -57,16 +56,11 @@ func (a *GitHubAtomFeedAppcast) ExtractReleases() error {
 
 		r.Title = entry.Title
 		r.Description = entry.Content
+		r.ParsePublishedDateTime(entry.Updated)
 
 		// prerelease
 		if r.Version.Prerelease() != "" {
 			r.IsPrerelease = true
-		}
-
-		// published date and time
-		parsedTime, err := time.Parse(time.RFC3339, entry.Updated)
-		if err == nil {
-			r.PublishedDateTime = parsedTime
 		}
 
 		// add release
