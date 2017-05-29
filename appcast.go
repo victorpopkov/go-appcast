@@ -92,6 +92,21 @@ func (a *BaseAppcast) LoadFromURL(url string) error {
 	return nil
 }
 
+// LoadFromFile loads the appcast content from local file and attempts to guess
+// the provider.
+func (a *BaseAppcast) LoadFromFile(path string) error {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+
+	a.Content = string(data)
+	a.Checksum.Source = a.Content
+	a.Provider = GuessProviderFromContent(a.Content)
+
+	return nil
+}
+
 // GenerateChecksum generates and returns the checksum based on provided
 // algorithm from BaseAppcast.Checksum.Source. The checksum is also stored as a
 // BaseAppcast.Checksum.Result value.

@@ -106,6 +106,24 @@ func TestLoadFromURL(t *testing.T) {
 	assert.Empty(t, a.Checksum.Result)
 }
 
+func TestLoadFromFile(t *testing.T) {
+	// test (successful)
+	a := New()
+	err := a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle_default.xml"))
+	assert.Nil(t, err)
+	assert.NotEmpty(t, a.Content)
+	assert.Equal(t, SparkleRSSFeed, a.Provider)
+	assert.Empty(t, a.Checksum.Result)
+
+	// test (error)
+	a = New()
+	err = a.LoadFromFile("unexisting_file.xml")
+	assert.Error(t, err)
+	assert.Equal(t, "open unexisting_file.xml: no such file or directory", err.Error())
+	assert.Equal(t, Unknown, a.Provider)
+	assert.Empty(t, a.Checksum.Result)
+}
+
 func TestGenerateChecksum(t *testing.T) {
 	// preparations
 	a := New()
