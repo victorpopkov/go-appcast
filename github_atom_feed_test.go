@@ -33,6 +33,7 @@ func TestGitHubAtomFeedAppcastExtractReleases(t *testing.T) {
 		for _, release := range a.Releases {
 			v := release.Version.String()
 			assert.Equal(t, fmt.Sprintf("%s", v), release.Title)
+			assert.NotEmpty(t, release.Description)
 			assert.Equal(t, releases[v][0], release.PublishedDateTime.String())
 		}
 	}

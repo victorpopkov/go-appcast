@@ -21,7 +21,7 @@ type GitHubAtomFeedAppcastXMLEntry struct {
 	ID      string `xml:"id"`
 	Updated string `xml:"updated"`
 	Title   string `xml:"title"`
-	Content string `xml:"description"`
+	Content string `xml:"content"`
 }
 
 // ExtractReleases parses the GitHub Atom Feed content from
