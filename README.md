@@ -35,7 +35,7 @@ and retrieving the useful information from appcasts of the supported providers.
 ### Features
 
 - [x] Load the appcast from remote URL
-- [ ] Load the appcast from local file _(not yet implemented)_
+- [x] Load the appcast from local file
 - [x] Detect which one of the supported providers is used
 - [x] Extract releases
 - [x] Sort releases by version
