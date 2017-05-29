@@ -1,6 +1,8 @@
 package appcast
 
 import (
+	"errors"
+	"regexp"
 	"time"
 
 	"github.com/hashicorp/go-version"
@@ -24,7 +26,7 @@ type Release struct {
 	// Downloads specifies an array of downloads.
 	Downloads []Download
 
-	// PublishedDateTime specifies the release published data and time.
+	// PublishedDateTime specifies the release published data and time in UTC.
 	PublishedDateTime time.Time
 
 	// IsPrerelease specifies if the current release is not stable.
@@ -74,4 +76,32 @@ func (r *Release) SetVersion(value string) error {
 // AddDownload adds a new Download to the Release.Downloads array.
 func (r *Release) AddDownload(d Download) {
 	r.Downloads = append(r.Downloads, d)
+}
+
+// ParsePublishedDateTime parses the provided dateTime string using predefined
+// time formats and sets the Release.PublishedDateTime in UTC.
+func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
+	formats := []string{
+		time.RFC1123Z,
+		"Monday, January 02, 2006 15:04:05 MST",
+	}
+
+	// remove suffixes "st|nd|rd|th" from day digit
+	re := regexp.MustCompile(`(\d+)(st|nd|rd|th)`)
+	if re.MatchString(dateTime) {
+		// extract last part that represents version
+		versionMatches := re.FindAllStringSubmatch(dateTime, 1)
+		dateTime = re.ReplaceAllString(dateTime, versionMatches[0][1])
+	}
+
+	// parse by predefined formats
+	for _, format := range formats {
+		parsedTime, err := time.Parse(format, dateTime)
+		if err == nil {
+			r.PublishedDateTime = parsedTime.UTC()
+			return nil
+		}
+	}
+
+	return errors.New("Parsing of the published datetime failed")
 }

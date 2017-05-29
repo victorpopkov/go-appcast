@@ -37,3 +37,16 @@ func TestSetVersion(t *testing.T) {
 	assert.Error(t, err)
 	assert.Nil(t, r.Version)
 }
+
+func TestParsePublishedDateTime(t *testing.T) {
+	testCases := map[string]string{
+		"Sun, 14 May 2017 05:04:01 -0700":           "2017-05-14 12:04:01 +0000 UTC", // RFC1123Z
+		"Monday, January 12th, 2010 23:30:00 GMT-5": "2010-01-12 23:30:00 +0000 UTC", // custom
+	}
+
+	for dateTime, expected := range testCases {
+		r := new(Release)
+		r.ParsePublishedDateTime(dateTime)
+		assert.Equal(t, expected, r.PublishedDateTime.String())
+	}
+}
