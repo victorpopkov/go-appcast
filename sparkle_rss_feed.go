@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"regexp"
-	"time"
 )
 
 // A SparkleRSSFeedAppcast represents appcast for "Sparkle RSS Feed" that is
@@ -89,6 +88,7 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 
 		r.Title = item.Title
 		r.Description = item.Description
+		r.ParsePublishedDateTime(item.PubDate)
 
 		// prerelease
 		if r.Version.Prerelease() != "" {
@@ -98,12 +98,6 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 		// downloads
 		d := NewDownload(item.Enclosure.URL, item.Enclosure.Type, item.Enclosure.Length)
 		r.AddDownload(*d)
-
-		// published date and time
-		parsedTime, err := time.Parse(time.RFC1123Z, item.PubDate)
-		if err == nil {
-			r.PublishedDateTime = parsedTime
-		}
 
 		items[i] = *r
 	}
