@@ -280,6 +280,23 @@ func (a *BaseAppcast) FilterReleasesByURL(regexpStr string, inversed ...interfac
 	}, inverse)
 }
 
+// FilterReleasesByPrerelease filters all BaseAppcast.Releases by matching only
+// prereleases. If inversed bool is set to "true", the stable releases will be
+// matched instead.
+func (a *BaseAppcast) FilterReleasesByPrerelease(inversed ...interface{}) {
+	inverse := false
+	if len(inversed) > 0 {
+		inverse = inversed[0].(bool)
+	}
+
+	a.filterReleasesBy(func(r Release) bool {
+		if r.IsPrerelease == true {
+			return true
+		}
+		return false
+	}, inverse)
+}
+
 // ResetFilters resets the BaseAppcast.Releases to their original state before
 // applying any filters.
 func (a *BaseAppcast) ResetFilters() {

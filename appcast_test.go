@@ -489,7 +489,7 @@ func TestFilters(t *testing.T) {
 	// mock the request
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	content := string(getTestdata("sparkle_default.xml"))
+	content := string(getTestdata("sparkle_prerelease.xml"))
 	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
 
 	// preparations
@@ -520,6 +520,18 @@ func TestFilters(t *testing.T) {
 	assert.Len(t, a.Releases, 3)
 	a.FilterReleasesByURL(`app_1.0.*dmg$`, true)
 	assert.Len(t, a.Releases, 1)
+	a.ResetFilters()
+
+	// BaseAppcast.FilterReleasesByPrerelease
+	assert.Len(t, a.Releases, 4)
+	a.FilterReleasesByPrerelease()
+	assert.Len(t, a.Releases, 1)
+	a.ResetFilters()
+
+	assert.Len(t, a.Releases, 4)
+	a.FilterReleasesByPrerelease(true)
+	assert.Len(t, a.Releases, 3)
+	a.ResetFilters()
 }
 
 func TestExtractSemanticVersions(t *testing.T) {
