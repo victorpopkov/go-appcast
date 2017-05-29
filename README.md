@@ -40,7 +40,8 @@ and retrieving the useful information from appcasts of the supported providers.
 - [x] Extract releases
 - [x] Sort releases by version
 - [x] Try to guess the release stability
-- [x] Filter releases by title, media type or URL using RegExp string
+- [x] Filter releases using RegExp by title, media type or download URL
+- [x] Filter releases by stability
 
 ## Supported providers
 
