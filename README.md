@@ -80,7 +80,7 @@ func main() {
 	a.SortReleasesByVersions(appcast.DESC)
 
 	fmt.Println("Checksum:", a.GetChecksum())
-	fmt.Println("Provider:", a.Provider)
+	fmt.Println("Provider:", a.GetProvider())
 
 	for i, release := range a.Releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
@@ -128,7 +128,7 @@ func main() {
 	defer a.ResetFilters() // reset
 
 	fmt.Println("Checksum:", a.GetChecksum())
-	fmt.Println("Provider:", a.Provider)
+	fmt.Println("Provider:", a.GetProvider())
 
 	for i, release := range a.Releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
@@ -171,7 +171,7 @@ func main() {
 	a.ExtractReleases()
 
 	fmt.Println("Checksum:", a.GetChecksum())
-	fmt.Println("Provider:", a.Provider)
+	fmt.Println("Provider:", a.GetProvider())
 
 	for i, release := range a.Releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.Title, release.PublishedDateTime, release.IsPrerelease)
