@@ -40,6 +40,9 @@ type BaseAppcast struct {
 	// releases are stored here.
 	Releases []Release
 
+	// url specifies current URL for the Request.HTTPRequest.
+	url string
+
 	// originalReleases specify an original array of all application releases. It
 	// is used to restore the BaseAppcast.Releases using the
 	// BaseAppcast.ResetFilters function.
@@ -67,6 +70,8 @@ func New() *BaseAppcast {
 // LoadFromURL loads the appcast content from remote URL and attempts to guess
 // the provider.
 func (a *BaseAppcast) LoadFromURL(url string) error {
+	a.url = url
+
 	req, err := NewRequest(url)
 	if err != nil {
 		return err
@@ -122,6 +127,18 @@ func (a *BaseAppcast) GenerateChecksum(algorithm ChecksumAlgorithm) string {
 // as BaseAppcast.Checksum.Result.
 func (a *BaseAppcast) GetChecksum() string {
 	return a.Checksum.Result
+}
+
+// GetProvider is a convenience function to retrieve the provider value stored
+// as BaseAppcast.Provider.
+func (a *BaseAppcast) GetProvider() Provider {
+	return a.Provider
+}
+
+// GetURL is a convenience function to retrieve the current Request URL string
+// value stored as BaseAppcast.url.
+func (a *BaseAppcast) GetURL() string {
+	return a.url
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate
@@ -316,6 +333,18 @@ func (a *BaseAppcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 // applying any filters.
 func (a *BaseAppcast) ResetFilters() {
 	a.Releases = a.originalReleases
+}
+
+// GetReleasesLength is a convenience function to retrieve the total number of
+// releases in BaseAppcast.Releases array.
+func (a *BaseAppcast) GetReleasesLength() int {
+	return len(a.Releases)
+}
+
+// GetFirstRelease is a convenience function to retrieve the first release
+// pointer from BaseAppcast.Releases array.
+func (a *BaseAppcast) GetFirstRelease() *Release {
+	return &a.Releases[0]
 }
 
 // ExtractSemanticVersions extracts semantic versions from the provided data
