@@ -150,6 +150,30 @@ func TestGetChecksum(t *testing.T) {
 	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum())
 }
 
+func TestGetProvider(t *testing.T) {
+	// preparations
+	a := New()
+	a.Provider = SparkleRSSFeed
+
+	// test
+	assert.Equal(t, SparkleRSSFeed, a.GetProvider())
+}
+
+func TestGetURL(t *testing.T) {
+	// mock the request
+	content := string(getTestdata("sparkle_default.xml"))
+	httpmock.Activate()
+	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+	defer httpmock.DeactivateAndReset()
+
+	// test
+	a := New()
+	a.LoadFromURL("https://example.com/appcast.xml")
+
+	// test
+	assert.Equal(t, "https://example.com/appcast.xml", a.GetURL())
+}
+
 func TestUncommentUnknown(t *testing.T) {
 	// preparations
 	a := New()
@@ -550,6 +574,26 @@ func TestFilters(t *testing.T) {
 	a.FilterReleasesByPrerelease(true)
 	assert.Len(t, a.Releases, 3)
 	a.ResetFilters()
+}
+
+func TestGetReleasesLength(t *testing.T) {
+	// preparations
+	a := New()
+	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle_default.xml"))
+	a.ExtractReleases()
+
+	// test
+	assert.Len(t, a.Releases, a.GetReleasesLength())
+}
+
+func TestGetFirstRelease(t *testing.T) {
+	// preparations
+	a := New()
+	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle_default.xml"))
+	a.ExtractReleases()
+
+	// test
+	assert.Equal(t, a.Releases[0].GetVersionString(), a.GetFirstRelease().GetVersionString())
 }
 
 func TestExtractSemanticVersions(t *testing.T) {
