@@ -115,3 +115,31 @@ func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
 
 	return errors.New("Parsing of the published datetime failed")
 }
+
+// GetVersionString is a convenience function to retrieve the release version
+// string stored as Release.Version.
+func (r *Release) GetVersionString() string {
+	return r.Version.String()
+}
+
+// GetBuildString is a convenience function to retrieve the release build string
+// stored as Release.Build.
+func (r *Release) GetBuildString() string {
+	return r.Build
+}
+
+// GetVersionOrBuildString is a convenience function to retrieve release version
+// string or build if the first in not available.
+func (r *Release) GetVersionOrBuildString() string {
+	if r.Version == nil || r.Version.String() == "" {
+		return r.Build
+	}
+
+	return r.Version.String()
+}
+
+// GetDownloads is a convenience function to retrieve the release downloads
+// stored as Release.Downloads.
+func (r *Release) GetDownloads() []Download {
+	return r.Downloads
+}
