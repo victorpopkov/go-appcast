@@ -55,3 +55,48 @@ func TestParsePublishedDateTime(t *testing.T) {
 		assert.Equal(t, expected, r.PublishedDateTime.String())
 	}
 }
+
+func TestGetVersionString(t *testing.T) {
+	// preparations
+	r := new(Release)
+	r.SetVersion("1.0.0")
+
+	// test
+	assert.Equal(t, "1.0.0", r.GetVersionString())
+}
+
+func TestGetBuildString(t *testing.T) {
+	// preparations
+	r := new(Release)
+	r.Build = "1000"
+
+	// test
+	assert.Equal(t, "1000", r.GetBuildString())
+}
+
+func TestGetVersionOrBuildString(t *testing.T) {
+	// preparations
+	r := new(Release)
+	r.Build = "1000"
+
+	// test (only build is set)
+	assert.Equal(t, "1000", r.GetVersionOrBuildString())
+
+	// test (version is set also)
+	r.SetVersion("1.0.0")
+	assert.Equal(t, "1.0.0", r.GetVersionOrBuildString())
+}
+
+func TestGetDownloads(t *testing.T) {
+	// preparations
+	r := new(Release)
+
+	d := NewDownload("https://example.com/one.dmg", "application/octet-stream", 100000)
+	r.AddDownload(*d)
+
+	d = NewDownload("https://example.com/two.dmg", "application/octet-stream", 100000)
+	r.AddDownload(*d)
+
+	// test
+	assert.Equal(t, 2, len(r.GetDownloads()))
+}
