@@ -81,9 +81,18 @@ func TestLoadFromURL(t *testing.T) {
 	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
 	defer httpmock.DeactivateAndReset()
 
-	// test (successful)
+	// test (successful) [URL]
 	a := New()
 	err := a.LoadFromURL("https://example.com/appcast.xml")
+	assert.Nil(t, err)
+	assert.NotEmpty(t, a.Content)
+	assert.Equal(t, SparkleRSSFeed, a.Provider)
+	assert.Empty(t, a.Checksum.Result)
+
+	// test (successful) [Request]
+	a = New()
+	r, _ := NewRequest("https://example.com/appcast.xml")
+	err = a.LoadFromURL(r)
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Content)
 	assert.Equal(t, SparkleRSSFeed, a.Provider)
