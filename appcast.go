@@ -67,15 +67,24 @@ func New() *BaseAppcast {
 	return a
 }
 
-// LoadFromURL loads the appcast content from remote URL and attempts to guess
-// the provider.
-func (a *BaseAppcast) LoadFromURL(url string) error {
-	a.url = url
+// LoadFromURL loads the appcast content. Supports the remote URL string or
+// Request struct pointer as an argument.
+func (a *BaseAppcast) LoadFromURL(i interface{}) error {
+	var req *Request
 
-	req, err := NewRequest(url)
-	if err != nil {
-		return err
+	switch v := i.(type) {
+	case *Request:
+		req = v
+	case string:
+		url := v
+		newReq, err := NewRequest(url)
+		if err != nil {
+			return err
+		}
+		req = newReq
 	}
+
+	a.url = req.HTTPRequest.URL.String()
 
 	resp, err := DefaultClient.Do(req)
 	if err != nil {
@@ -89,7 +98,7 @@ func (a *BaseAppcast) LoadFromURL(url string) error {
 	a.Checksum.Source = a.Content
 
 	// provider
-	a.Provider = GuessProviderFromURL(url)
+	a.Provider = GuessProviderFromURL(a.url)
 	if a.Provider == Unknown {
 		a.Provider = GuessProviderFromContent(a.Content)
 	}
