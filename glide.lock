@@ -1,10 +1,10 @@
 hash: c0b823d1e5700054df0467788788ef2be9cf63870472ee4e645f56907c0ff57e
-updated: 2017-11-10T21:13:44.436381+02:00
+updated: 2017-12-06T04:54:18.089197+02:00
 imports:
 - name: github.com/fatih/color
   version: 9131ab34cf20d2f6d83fdc67168a5430d1c7dc23
 - name: github.com/hashicorp/go-version
-  version: fc61389e27c71d120f87031ca8c88a3428f372dd
+  version: 4fe82ae3040f80a03d04d2cccb5606a626b8e1ee
 testImports:
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
