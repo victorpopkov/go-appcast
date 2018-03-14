@@ -1,5 +1,5 @@
 hash: c0b823d1e5700054df0467788788ef2be9cf63870472ee4e645f56907c0ff57e
-updated: 2017-12-06T04:54:18.089197+02:00
+updated: 2018-03-15T08:30:58.887343+02:00
 imports:
 - name: github.com/fatih/color
   version: 9131ab34cf20d2f6d83fdc67168a5430d1c7dc23
@@ -19,4 +19,4 @@ testImports:
   subpackages:
   - assert
 - name: gopkg.in/jarcoal/httpmock.v1
-  version: cf52904a3cf0f78f199ecade6a6df8e245d5b25a
+  version: 61bcb58a07522fbdf76a4cb03c57f5a52683d636
