@@ -1,10 +1,16 @@
 hash: c0b823d1e5700054df0467788788ef2be9cf63870472ee4e645f56907c0ff57e
-updated: 2018-03-15T08:30:58.887343+02:00
+updated: 2018-06-13T22:14:44.0201+03:00
 imports:
 - name: github.com/fatih/color
   version: 9131ab34cf20d2f6d83fdc67168a5430d1c7dc23
 - name: github.com/hashicorp/go-version
-  version: 4fe82ae3040f80a03d04d2cccb5606a626b8e1ee
+  version: 23480c0665776210b5fbbac6eaaee40e3e6a96b7
+- name: golang.org/x/tools
+  version: c995a088887b4ae00a4c85a984117cbc8d86ca3d
+  subpackages:
+  - go/ast/astutil
+  - imports
+  - internal/fastwalk
 testImports:
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
@@ -19,4 +25,4 @@ testImports:
   subpackages:
   - assert
 - name: gopkg.in/jarcoal/httpmock.v1
-  version: 61bcb58a07522fbdf76a4cb03c57f5a52683d636
+  version: d805e540cd37b8aa6e2ad7d94f06f6537493e710
