@@ -9,26 +9,26 @@ import (
 
 func TestSourceForgeRSSFeedAppcastExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
-		"sourceforge_default.xml": {
+		"sourceforge/default.xml": {
 			"2.0.0": {"2016-05-13 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
 			"1.1.0": {"2016-05-12 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
 			"1.0.1": {"2016-05-11 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
 			"1.0.0": {"2016-05-10 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
 		},
-		"sourceforge_empty.xml": {},
-		"sourceforge_invalid_pubdate.xml": {
+		"sourceforge/empty.xml": {},
+		"sourceforge/invalid_pubdate.xml": {
 			"2.0.0": {"2016-05-13 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
 			"1.1.0": {"0001-01-01 00:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
 			"1.0.1": {"2016-05-11 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
 			"1.0.0": {"2016-05-10 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
 		},
-		"sourceforge_single.xml": {
+		"sourceforge/single.xml": {
 			"2.0.0": {"2016-05-13 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
 		},
 	}
 
 	errorTestCases := map[string]string{
-		"sourceforge_invalid_version.xml": "Version is required, but it's not specified in release #2",
+		"sourceforge/invalid_version.xml": "Version is required, but it's not specified in release #2",
 	}
 
 	// test (successful)

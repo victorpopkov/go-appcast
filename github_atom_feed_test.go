@@ -9,7 +9,7 @@ import (
 
 func TestGitHubAtomFeedAppcastExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
-		"github_default.xml": {
+		"github/default.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
 			"1.1.0": {"2016-05-12 10:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
 			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},

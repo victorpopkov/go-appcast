@@ -29,11 +29,11 @@ func getWorkingDir() string {
 	return pwd
 }
 
-// getTestdata returns a file content as a byte array from provided testdata
-// filename. If file not found, prints an error to os.Stdout and exits with exit
-// status 1.
-func getTestdata(filename string) []byte {
-	path := filepath.Join(getWorkingDir(), testdataPath, filename)
+// getTestdata returns a file content as a byte array from the provided testdata
+// paths. If the file is not found, prints an error to os.Stdout and exits with
+// exit status 1.
+func getTestdata(paths ...string) []byte {
+	path := filepath.Join(getWorkingDir(), testdataPath, filepath.Join(paths...))
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		fmt.Println(fmt.Errorf(err.Error()))
@@ -76,7 +76,7 @@ func TestNew(t *testing.T) {
 
 func TestLoadFromURL(t *testing.T) {
 	// mock the request
-	content := string(getTestdata("sparkle_default.xml"))
+	content := string(getTestdata("sparkle/default.xml"))
 	httpmock.Activate()
 	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -118,7 +118,7 @@ func TestLoadFromURL(t *testing.T) {
 func TestLoadFromFile(t *testing.T) {
 	// test (successful)
 	a := New()
-	err := a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle_default.xml"))
+	err := a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Content)
 	assert.Equal(t, SparkleRSSFeed, a.Provider)
@@ -170,7 +170,7 @@ func TestGetProvider(t *testing.T) {
 
 func TestGetURL(t *testing.T) {
 	// mock the request
-	content := string(getTestdata("sparkle_default.xml"))
+	content := string(getTestdata("sparkle/default.xml"))
 	httpmock.Activate()
 	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -200,7 +200,7 @@ func TestUncommentSparkleRSSFeed(t *testing.T) {
 	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
 
 	// test
-	a.Content = string(getTestdata("sparkle_with_comments.xml"))
+	a.Content = string(getTestdata("sparkle/with_comments.xml"))
 	a.Provider = SparkleRSSFeed
 	err := a.Uncomment()
 	assert.Nil(t, err)
@@ -217,7 +217,7 @@ func TestUncommentSourceForgeRSSFeed(t *testing.T) {
 	a := New()
 
 	// test
-	a.Content = string(getTestdata("sourceforge_default.xml"))
+	a.Content = string(getTestdata("sourceforge/default.xml"))
 	a.Provider = SourceForgeRSSFeed
 	err := a.Uncomment()
 	assert.Error(t, err)
@@ -229,7 +229,7 @@ func TestUncommentGitHubAtomFeed(t *testing.T) {
 	a := New()
 
 	// test
-	a.Content = string(getTestdata("github_default.xml"))
+	a.Content = string(getTestdata("github/default.xml"))
 	a.Provider = GitHubAtomFeed
 	err := a.Uncomment()
 	assert.Error(t, err)
@@ -248,55 +248,55 @@ func TestExtractReleasesUnknown(t *testing.T) {
 
 func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		"sparkle_attributes_as_elements.xml": {
+		"sparkle/attributes_as_elements.xml": {
 			"checksum": "8c42d7835109ff61fe85bba66a44689773e73e0d773feba699bceecefaf09359",
 			"releases": 4,
 		},
-		"sparkle_default_asc.xml": {
+		"sparkle/default_asc.xml": {
 			"checksum": "9f94a728eab952284b47cc52acfbbb64de71f3d38e5b643d1f3523ef84495d9f",
 			"releases": 4,
 		},
-		"sparkle_default.xml": {
+		"sparkle/default.xml": {
 			"checksum": "83c1fd76a250dd50334db793a0db5da7575fc83d292c7c58fd9d31d5bcef6566",
 			"releases": 4,
 		},
-		"sparkle_incorrect_namespace.xml": {
+		"sparkle/incorrect_namespace.xml": {
 			"checksum": "2e66ef346c49a8472bf8bf26e6e778c5b4d494723223c84c35d9f272a7792430",
 			"releases": 4,
 		},
-		"sparkle_invalid_pubdate.xml": {
+		"sparkle/invalid_pubdate.xml": {
 			"checksum": "e0273ccbce5a6fb6a5fe31b5edffb8173d88afa308566cf9b4373f3fed909705",
 			"releases": 4,
 		},
-		// "sparkle_multiple_enclosure.xml": {
+		// "sparkle/multiple_enclosure.xml": {
 		// 	"checksum": "48fc8531b253c5d3ed83abfe040edeeafb327d103acbbacf12c2288769dc80b9",
 		// 	"releases": 4,
 		// },
-		"sparkle_no_releases.xml": {
+		"sparkle/no_releases.xml": {
 			"checksum": "befd99d96be280ca7226c58ef1400309905ad20d2723e69e829cf050e802afcf",
 			"releases": 0,
 		},
-		"sparkle_only_version.xml": {
+		"sparkle/only_version.xml": {
 			"checksum": "5c3e7cf62383d4c0e10e5ec0f7afd1a5e328137101e8b6bade050812e4e7451f",
 			"releases": 4,
 		},
-		"sparkle_prerelease.xml": {
+		"sparkle/prerelease.xml": {
 			"checksum": "56f95889fe5ddabd847adfe995304fd78dbeeefe47354c2e1c8bde0f003ecf5c",
 			"releases": 4,
 		},
-		"sparkle_single.xml": {
+		"sparkle/single.xml": {
 			"checksum": "ac649bebe55f84d85767072e3a1122778a04e03f56b78226bd57ab50ce9f9306",
 			"releases": 1,
 		},
-		"sparkle_without_namespaces.xml": {
+		"sparkle/without_namespaces.xml": {
 			"checksum": "ee2d28f74e7d557bd7259c0f24a261658a9f27a710308a5c539ab761dae487c1",
 			"releases": 4,
 		},
 	}
 
 	errorTestCases := map[string]string{
-		"sparkle_invalid_version.xml": "Malformed version: invalid",
-		"sparkle_with_comments.xml":   "Version is required, but it's not specified in release #1",
+		"sparkle/invalid_version.xml": "Malformed version: invalid",
+		"sparkle/with_comments.xml":   "Version is required, but it's not specified in release #1",
 	}
 
 	// preparations for mocking the request
@@ -355,26 +355,26 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 
 func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		"sourceforge_default.xml": {
+		"sourceforge/default.xml": {
 			"checksum": "c15a5e4755b424b20e3e7138c36045893aec70f9569acd5946796199c6f79596",
 			"releases": 4,
 		},
-		"sourceforge_empty.xml": {
+		"sourceforge/empty.xml": {
 			"checksum": "12bbf7be638d5cf251c320aacd68c90acef450e3a9a22cc6cbfa29ffa4ee7f6a",
 			"releases": 0,
 		},
-		"sourceforge_invalid_pubdate.xml": {
+		"sourceforge/invalid_pubdate.xml": {
 			"checksum": "de0f431e001f7aded7fe01c3aec7412e39898d3f97acf809765fc7e2752ffc2c",
 			"releases": 4,
 		},
-		"sourceforge_single.xml": {
+		"sourceforge/single.xml": {
 			"checksum": "5f3df25c0979faae5b5abef266f5929f4ac6aeb4df74e054461f93e0dbc51183",
 			"releases": 1,
 		},
 	}
 
 	errorTestCases := map[string]string{
-		"sourceforge_invalid_version.xml": "Version is required, but it's not specified in release #2",
+		"sourceforge/invalid_version.xml": "Version is required, but it's not specified in release #2",
 	}
 
 	// preparations for mocking the request
@@ -433,18 +433,18 @@ func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 
 func TestExtractReleasesGitHubAtomFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		"github_default.xml": {
+		"github/default.xml": {
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
 			"releases": 4,
 		},
-		"github_invalid_pubdate.xml": {
+		"github/invalid_pubdate.xml": {
 			"checksum": "52f87bba760a4e5f8ee418cdbc3806853d79ad10d3f961e5c54d1f5abf09b24b",
 			"releases": 4,
 		},
 	}
 
 	errorTestCases := map[string]string{
-		"github_invalid_version.xml": "Malformed version: invalid",
+		"github/invalid_version.xml": "Malformed version: invalid",
 	}
 
 	// preparations for mocking the request
@@ -503,12 +503,12 @@ func TestExtractReleasesGitHubAtomFeed(t *testing.T) {
 
 func TestSortReleasesByVersions(t *testing.T) {
 	testCases := []string{
-		"sparkle_attributes_as_elements.xml",
-		"sparkle_default_asc.xml",
-		"sparkle_default.xml",
-		"sparkle_incorrect_namespace.xml",
-		// "sparkle_multiple_enclosure.xml",
-		"sparkle_without_namespaces.xml",
+		"sparkle/attributes_as_elements.xml",
+		"sparkle/default_asc.xml",
+		"sparkle/default.xml",
+		"sparkle/incorrect_namespace.xml",
+		// "sparkle/multiple_enclosure.xml",
+		"sparkle/without_namespaces.xml",
 	}
 
 	// preparations for mocking the request
@@ -540,7 +540,7 @@ func TestFilters(t *testing.T) {
 	// mock the request
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
-	content := string(getTestdata("sparkle_prerelease.xml"))
+	content := string(getTestdata("sparkle/prerelease.xml"))
 	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
 
 	// preparations
@@ -588,7 +588,7 @@ func TestFilters(t *testing.T) {
 func TestGetReleasesLength(t *testing.T) {
 	// preparations
 	a := New()
-	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle_default.xml"))
+	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
 	a.ExtractReleases()
 
 	// test
@@ -598,7 +598,7 @@ func TestGetReleasesLength(t *testing.T) {
 func TestGetFirstRelease(t *testing.T) {
 	// preparations
 	a := New()
-	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle_default.xml"))
+	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
 	a.ExtractReleases()
 
 	// test

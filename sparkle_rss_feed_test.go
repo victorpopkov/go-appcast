@@ -10,14 +10,14 @@ import (
 
 func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
 	testCases := map[string][]int{
-		"sparkle_attributes_as_elements.xml": nil,
-		"sparkle_default_asc.xml":            nil,
-		"sparkle_default.xml":                nil,
-		"sparkle_incorrect_namespace.xml":    nil,
-		"sparkle_multiple_enclosure.xml":     nil,
-		"sparkle_single.xml":                 nil,
-		"sparkle_with_comments.xml":          {13, 20},
-		"sparkle_without_namespaces.xml":     nil,
+		"sparkle/attributes_as_elements.xml": nil,
+		"sparkle/default_asc.xml":            nil,
+		"sparkle/default.xml":                nil,
+		"sparkle/incorrect_namespace.xml":    nil,
+		"sparkle/multiple_enclosure.xml":     nil,
+		"sparkle/single.xml":                 nil,
+		"sparkle/with_comments.xml":          {13, 20},
+		"sparkle/without_namespaces.xml":     nil,
 	}
 
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
@@ -57,54 +57,54 @@ func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
 
 func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
-		"sparkle_attributes_as_elements.xml": {
+		"sparkle/attributes_as_elements.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 			"1.1.0": {"2016-05-12 10:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"2016-05-10 10:00:00 +0000 UTC", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
-		"sparkle_default_asc.xml": {
+		"sparkle/default_asc.xml": {
 			"1.1.0": {"2016-05-12 10:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"2016-05-10 10:00:00 +0000 UTC", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 		},
-		"sparkle_default.xml": {
+		"sparkle/default.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 			"1.1.0": {"2016-05-12 10:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"2016-05-10 10:00:00 +0000 UTC", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
-		"sparkle_incorrect_namespace.xml": {
+		"sparkle/incorrect_namespace.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 			"1.1.0": {"2016-05-12 10:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"2016-05-10 10:00:00 +0000 UTC", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
-		"sparkle_invalid_pubdate.xml": {
+		"sparkle/invalid_pubdate.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 			"1.1.0": {"0001-01-01 00:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"2016-05-10 10:00:00 +0000 UTC", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
-		// "sparkle_multiple_enclosure.xml": {},
-		"sparkle_no_releases.xml": {},
-		"sparkle_only_version.xml": {
+		// "sparkle/multiple_enclosure.xml": {},
+		"sparkle/no_releases.xml": {},
+		"sparkle/only_version.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "2.0.0", "https://example.com/app_2.0.0.dmg", "10.10"},
 			"1.1.0": {"2016-05-12 10:00:00 +0000 UTC", "1.1.0", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "1.0.1", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"2016-05-10 10:00:00 +0000 UTC", "1.0.0", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
-		"sparkle_prerelease.xml": {
+		"sparkle/prerelease.xml": {
 			"2.0.0-beta": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0_beta.dmg", "10.10"},
 			"1.1.0":      {"2016-05-12 10:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1":      {"2016-05-11 10:00:00 +0000 UTC", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0":      {"2016-05-10 10:00:00 +0000 UTC", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
-		"sparkle_single.xml": {
+		"sparkle/single.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 		},
-		"sparkle_without_namespaces.xml": {
+		"sparkle/without_namespaces.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 			"1.1.0": {"2016-05-12 10:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
@@ -113,8 +113,8 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"sparkle_invalid_version.xml": "Malformed version: invalid",
-		"sparkle_with_comments.xml":   "Version is required, but it's not specified in release #1",
+		"sparkle/invalid_version.xml": "Malformed version: invalid",
+		"sparkle/with_comments.xml":   "Version is required, but it's not specified in release #1",
 	}
 
 	// test (successful)

@@ -10,23 +10,23 @@ import (
 func TestGuessProviderFromContent(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
-		"github_default.xml": GitHubAtomFeed,
+		"github/default.xml": GitHubAtomFeed,
 
 		// SourceForge RSS Feed
-		"sourceforge_default.xml": SourceForgeRSSFeed,
-		"sourceforge_empty.xml":   SourceForgeRSSFeed,
-		"sourceforge_single.xml":  SourceForgeRSSFeed,
+		"sourceforge/default.xml": SourceForgeRSSFeed,
+		"sourceforge/empty.xml":   SourceForgeRSSFeed,
+		"sourceforge/single.xml":  SourceForgeRSSFeed,
 
 		// Sparkle RSS Feed
-		"sparkle_attributes_as_elements.xml": SparkleRSSFeed,
-		"sparkle_default_asc.xml":            SparkleRSSFeed,
-		"sparkle_default.xml":                SparkleRSSFeed,
-		"sparkle_incorrect_namespace.xml":    SparkleRSSFeed,
-		"sparkle_multiple_enclosure.xml":     SparkleRSSFeed,
-		"sparkle_no_releases.xml":            SparkleRSSFeed,
-		"sparkle_single.xml":                 SparkleRSSFeed,
-		"sparkle_with_comments.xml":          SparkleRSSFeed,
-		"sparkle_without_namespaces.xml":     SparkleRSSFeed,
+		"sparkle/attributes_as_elements.xml": SparkleRSSFeed,
+		"sparkle/default_asc.xml":            SparkleRSSFeed,
+		"sparkle/default.xml":                SparkleRSSFeed,
+		"sparkle/incorrect_namespace.xml":    SparkleRSSFeed,
+		"sparkle/multiple_enclosure.xml":     SparkleRSSFeed,
+		"sparkle/no_releases.xml":            SparkleRSSFeed,
+		"sparkle/single.xml":                 SparkleRSSFeed,
+		"sparkle/with_comments.xml":          SparkleRSSFeed,
+		"sparkle/without_namespaces.xml":     SparkleRSSFeed,
 
 		// Unknown
 		"unknown.xml": Unknown,
