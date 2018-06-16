@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"hash"
-	"regexp"
 )
 
 // A Checksum holds everything needed to create a hash checksum.
@@ -44,11 +43,6 @@ func (c *Checksum) Generate() string {
 	case SHA256:
 		hasher = sha256.New()
 		hasher.Write([]byte(c.Source))
-	case SHA256HomebrewCask:
-		re := regexp.MustCompile(`<pubDate>[^<]*<\/pubDate>`)
-		sourceMod := re.ReplaceAllString(c.Source, "")
-		hasher = sha256.New()
-		hasher.Write([]byte(sourceMod))
 	case MD5:
 		hasher = md5.New()
 		hasher.Write([]byte(c.Source))

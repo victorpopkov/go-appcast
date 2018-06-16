@@ -8,6 +8,5 @@ import (
 
 func TestChecksumAlgorithmString(t *testing.T) {
 	assert.Equal(t, "SHA256", SHA256.String())
-	assert.Equal(t, "SHA256 (Homebrew-Cask checkpoint)", SHA256HomebrewCask.String())
 	assert.Equal(t, "MD5", MD5.String())
 }
