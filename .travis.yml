@@ -4,15 +4,14 @@ go:
   - "1.10.x"
 
 install:
-  # Glide (v0.12.3)
-  - go get -v github.com/Masterminds/glide
-  - cd "$(go env GOPATH | awk 'BEGIN{FS=":"} { print $1 }')/src/github.com/Masterminds/glide" && git checkout 84607742b10f492430762d038e954236bbaf23f7 && go install && cd -
+  # install Glide
+  - curl https://glide.sh/get | sh
 
   # project dependencies
   - glide install
 
   # code coverage
-  - go get golang.org/x/tools/cmd/cover
+  - go get -v golang.org/x/tools/cmd/cover
   - if [ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]; then go get github.com/mattn/goveralls; fi
 
 script:
