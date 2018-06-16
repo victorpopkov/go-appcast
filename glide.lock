@@ -1,8 +1,6 @@
-hash: c0b823d1e5700054df0467788788ef2be9cf63870472ee4e645f56907c0ff57e
-updated: 2018-06-16T20:58:11.660442992+03:00
+hash: c4dd87137cb7f437f5f6afb3d22dc0897a5b233a6668725f13947e4c8f521b0e
+updated: 2018-06-17T00:06:17.570402919+03:00
 imports:
-- name: github.com/fatih/color
-  version: 9131ab34cf20d2f6d83fdc67168a5430d1c7dc23
 - name: github.com/hashicorp/go-version
   version: 23480c0665776210b5fbbac6eaaee40e3e6a96b7
 testImports:
@@ -15,7 +13,7 @@ testImports:
   subpackages:
   - difflib
 - name: github.com/stretchr/testify
-  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
+  version: f35b8ab0b5a2cef36673838d662e249dd9c94686
   subpackages:
   - assert
 - name: gopkg.in/jarcoal/httpmock.v1
