@@ -45,3 +45,6 @@ Temporary Items
 ### Go Patch ###
 /vendor/
 /Godeps/
+
+### GoLand ###
+.idea/
