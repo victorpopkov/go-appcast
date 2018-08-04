@@ -38,8 +38,8 @@ and retrieving the useful information from appcasts of the supported providers.
 - [x] Sort releases by version
 - [x] Try to guess the release stability
 - [x] Filter releases:
- - [x] by title, media type or download URL (using RegExp)
- - [x] by stability
+  - [x] by title, media type or download URL (using RegExp)
+  - [x] by stability
 
 ## Supported providers
 
@@ -59,7 +59,7 @@ technique to distribute updates and release notes.
 
 Example URL: [https://www.adium.im/sparkle/appcast-release.xml](https://www.adium.im/sparkle/appcast-release.xml)
 
-#### Example
+#### "Sparkle RSS Feed" example
 
 ```go
 package main
@@ -102,7 +102,7 @@ releases RSS feed available that can be considered as an appcast.
 
 Example URL: [https://sourceforge.net/projects/filezilla/rss](https://sourceforge.net/projects/filezilla/rss)
 
-#### Example
+#### "SourceForge RSS Feed" example
 
 ```go
 package main
@@ -151,7 +151,7 @@ appcast.
 
 Example URL: [https://github.com/atom/atom/releases.atom](https://github.com/atom/atom/releases.atom)
 
-#### Example
+#### "GitHub Atom Feed" example
 
 ```go
 package main
@@ -175,9 +175,7 @@ func main() {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.Title, release.PublishedDateTime, release.IsPrerelease)
 	}
 
-	fmt.Println("Release #1 description:", a.Releases[0].Description)
-
-  // Output:
+	// Output:
 	// Checksum: 03b6d9b8199ea377036caafa5358512295afa3c740edf9031dc6739b89e3ba05
 	// Provider: GitHub Atom Feed
 	// Release #1: 1.28.0-beta3 1.28.0-beta3 2018-06-06 17:09:54 +0000 UTC true
