@@ -99,20 +99,17 @@ func Example_gitHubAtomFeed() {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.Title, release.PublishedDateTime, release.IsPrerelease)
 	}
 
-	fmt.Println("Release #1 description:", a.Releases[0].Description)
-
 	// Output:
-	// Checksum: 14dd5fa8a4f880ae7c441e2fc940516e9d50b23fa110277d7696a35380cdb102
+	// Checksum: 03b6d9b8199ea377036caafa5358512295afa3c740edf9031dc6739b89e3ba05
 	// Provider: GitHub Atom Feed
-	// Release #1: 1.18.0-beta2 1.18.0-beta2 2017-05-25 20:39:10 +0000 UTC true
-	// Release #2: 1.17.2 1.17.2 2017-05-25 20:38:59 +0000 UTC false
-	// Release #3: 1.18.0-beta1 1.18.0-beta1 2017-05-24 22:32:31 +0000 UTC true
-	// Release #4: 1.17.1 1.17.1 2017-05-24 22:40:15 +0000 UTC false
-	// Release #5: 1.18.0-beta0 1.18.0-beta0 2017-05-16 16:41:06 +0000 UTC true
-	// Release #6: 1.17.0 1.17.0 2017-05-16 16:41:24 +0000 UTC false
-	// Release #7: 1.17.0-beta5 1.17.0-beta5 2017-05-05 15:53:16 +0000 UTC true
-	// Release #8: 1.17.0-beta4 1.17.0-beta4 2017-04-26 20:51:47 +0000 UTC true
-	// Release #9: 1.17.0-beta3 1.17.0-beta3 2017-04-18 20:20:32 +0000 UTC true
-	// Release #10: 1.17.0-beta2 1.17.0-beta2 2017-04-14 16:28:23 +0000 UTC true
-	// Release #1 description: <p>Fixes <a href="https://github.com/atom/find-and-replace/issues/901">Find in current buffer' returns no results - atom/find-and-replace#901</a></p>
+	// Release #1: 1.28.0-beta3 1.28.0-beta3 2018-06-06 17:09:54 +0000 UTC true
+	// Release #2: 1.28.0-beta2 1.28.0-beta2 2018-05-31 13:55:54 +0000 UTC true
+	// Release #3: 1.27.2 1.27.2 2018-05-31 13:55:49 +0000 UTC false
+	// Release #4: 1.28.0-beta1 1.28.0-beta1 2018-05-21 14:46:23 +0000 UTC true
+	// Release #5: 1.27.1 1.27.1 2018-05-21 14:46:10 +0000 UTC false
+	// Release #6: 1.28.0-beta0 1.28.0-beta0 2018-05-15 17:46:08 +0000 UTC true
+	// Release #7: 1.27.0 1.27.0 2018-05-15 17:46:03 +0000 UTC false
+	// Release #8: 1.27.0-beta1 1.27.0-beta1 2018-04-26 19:40:51 +0000 UTC true
+	// Release #9: 1.26.1 1.26.1 2018-04-26 19:40:40 +0000 UTC false
+	// Release #10: 1.26.0 1.26.0 2018-04-18 23:00:10 +0000 UTC false
 }

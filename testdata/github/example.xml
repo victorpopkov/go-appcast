@@ -4,115 +4,667 @@
   <link type="text/html" rel="alternate" href="https://github.com/atom/atom/releases"/>
   <link type="application/atom+xml" rel="self" href="https://github.com/atom/atom/releases.atom"/>
   <title>Release notes from atom</title>
-  <updated>2017-05-25T21:35:24+03:00</updated>
+  <updated>2018-06-06T03:10:11+03:00</updated>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.18.0-beta2</id>
-    <updated>2017-05-25T23:39:10+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.18.0-beta2"/>
-    <title>1.18.0-beta2</title>
-    <content type="html">&lt;p&gt;Fixes &lt;a href=&quot;https://github.com/atom/find-and-replace/issues/901&quot;&gt;Find in current buffer&#39; returns no results - atom/find-and-replace#901&lt;/a&gt;&lt;/p&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.28.0-beta3</id>
+    <updated>2018-06-06T20:09:54+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.28.0-beta3"/>
+    <title>1.28.0-beta3</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17462&quot;&gt;Updated the GitHub package to v0.15.5&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Added a setting for &lt;a href=&quot;https://github.com/atom/atom/pull/17380&quot;&gt;changing Atom&#39;s color profile back to sRGB&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Fixed an issue where &lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1027&quot;&gt;dashes were being prefixed with backslashes in non-regex searches&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;All Changes&lt;/summary&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.28.0-beta2...v1.28.0-beta3&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17462&quot;&gt;atom/atom#17462 - Upgrade atom/github on Beta&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17380&quot;&gt;atom/atom#17380 - Restore color rendering following Electron 2.0 update&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17464&quot;&gt;atom/atom#17464 - Extend the color profile PR (#17380)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace&quot;&gt;find-and-replace&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.215.10...v0.215.11&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1027&quot;&gt;atom/find-and-replace#1027 - Avoid prefixing dashes with backslashes in non-regex searches&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/github&quot;&gt;github&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.15.4...v0.15.5&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1500&quot;&gt;atom/github#1500 - Revisit commit message processing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1492&quot;&gt;atom/github#1492 - Band-aids for focus management code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1501&quot;&gt;atom/github#1501 - Identity &quot;large&quot; file patches by diff byte size, not line count&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1508&quot;&gt;atom/github#1508 - Re-render after closing commit message editor&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/details&gt;</content>
     <author>
-      <name>iolsen</name>
+      <name>daviwil</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars2.githubusercontent.com/u/553742?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/79405?s=60&amp;v=4"/>
   </entry>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.17.2</id>
-    <updated>2017-05-25T23:38:59+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.17.2"/>
-    <title>1.17.2</title>
-    <content type="html">&lt;p&gt;Fixes &lt;a href=&quot;https://github.com/atom/find-and-replace/issues/901&quot;&gt;Find in current buffer&#39; returns no results - atom/find-and-replace#901&lt;/a&gt;&lt;/p&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.28.0-beta2</id>
+    <updated>2018-05-31T16:55:54+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.28.0-beta2"/>
+    <title>1.28.0-beta2</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Updated the GitHub package to version 0.15.4&lt;/li&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/atom/pull/17373&quot;&gt;deprecated hidden-inset title bar style&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;All Changes&lt;/summary&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.28.0-beta1...v1.28.0-beta2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17373&quot;&gt;atom/atom#17373 - Fix deprecated hidden-inset title bar style&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17422&quot;&gt;atom/atom#17422 - GitHub package upgrade on beta&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17433&quot;&gt;atom/atom#17433 - Upgrade atom/github on beta&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/github&quot;&gt;github&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.15.0...v0.15.4&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1441&quot;&gt;atom/github#1441 - Update electron-devtools-installer to the latest version 🚀&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1458&quot;&gt;atom/github#1458 - Split GitTabController into an Item, Container, and Controller&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1461&quot;&gt;atom/github#1461 - GitTabItem is the root of the git tab subtree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1464&quot;&gt;atom/github#1464 - stop calling &lt;code&gt;repository.didUpdate&lt;/code&gt; when commit message changes.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1471&quot;&gt;atom/github#1471 - Log WorkdirCache errors to the console&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1472&quot;&gt;atom/github#1472 - Improve ListSelection change detection in StagingView&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1473&quot;&gt;atom/github#1473 - Update event-kit to the latest version 🚀&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1477&quot;&gt;atom/github#1477 - Update dugite to the latest version 🚀&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1480&quot;&gt;atom/github#1480 - Update react-dom to the latest version 🚀&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1481&quot;&gt;atom/github#1481 - Update react to the latest version 🚀&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1482&quot;&gt;atom/github#1482 - chore(package): update sinon to version 5.0.10&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1483&quot;&gt;atom/github#1483 - ID-based email avatars&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1488&quot;&gt;atom/github#1488 - Never open panes while the StagingView does not have focus&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1489&quot;&gt;atom/github#1489 - Bump git&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/details&gt;</content>
     <author>
-      <name>iolsen</name>
+      <name>daviwil</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars2.githubusercontent.com/u/553742?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/79405?s=60&amp;v=4"/>
   </entry>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.18.0-beta1</id>
-    <updated>2017-05-25T01:32:31+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.18.0-beta1"/>
-    <title>1.18.0-beta1</title>
-    <content type="html">&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.18.0-beta0...v1.18.0-beta1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14424&quot;&gt;atom/atom#14424 - ⬆ github@0.0.10&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14485&quot;&gt;atom/atom#14485 - Fix exception when starting to drag text&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14553&quot;&gt;atom/atom#14553 - Don&#39;t snapshot the &lt;code&gt;iconv-lite&lt;/code&gt; module&lt;/a&gt;, fixing &lt;a href=&quot;https://github.com/atom/encoding-selector/issues/48&quot;&gt;Unable to switch the encoding&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14460&quot;&gt;atom/atom#14460 - Fix ability to activate next/previous pane in a dock&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14621&quot;&gt;atom/atom#14621 - :arrow_up: github@0.2.0&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14427&quot;&gt;atom/atom#14427 - Fix the atom:// URL handler for real (with tests this time)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14420&quot;&gt;atom/atom#14420 - Don&#39;t show restore dialog for non-editor dock items&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder&quot;&gt;fuzzy-finder&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.5.6...v1.5.8&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/297&quot;&gt;atom/fuzzy-finder#297 - Show matches correctly when &lt;code&gt;useAlternateScoring&lt;/code&gt; is true&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/github&quot;&gt;github&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.0.9...v0.2.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/805&quot;&gt;atom/github#805 - Trim deps and move some to devDeps&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/817&quot;&gt;atom/github#817 - Don&#39;t upload crashdump on AppVeyor failures&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/829&quot;&gt;atom/github#829 - Handle renamed buffers and unnamed buffers in WorkspaceChangeObserver&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/838&quot;&gt;atom/github#838 - Implement quick fixes for submodules&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/831&quot;&gt;atom/github#831 - wrap file names in list&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/807&quot;&gt;atom/github#807 - Building on Node 6+&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/840&quot;&gt;atom/github#840 - Make babel dependencies dev dependencies&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/847&quot;&gt;atom/github#847 - Choose the active context by the active item in the workspace center&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/850&quot;&gt;atom/github#850 - Make transpilation deps regular dependencies&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/853&quot;&gt;atom/github#853 - File patch selection and context menu interaction&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/851&quot;&gt;atom/github#851 - Implement status bundle to reduce shell outs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/859&quot;&gt;atom/github#859 - Fix regexp for GSOS#getRemotes&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/862&quot;&gt;atom/github#862 - Don&#39;t search parent directories for &lt;code&gt;.babelrc&lt;/code&gt; when transpiling&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/860&quot;&gt;atom/github#860 - Support gitdir files&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/863&quot;&gt;atom/github#863 - Invalidated head description upon file system change&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/notifications&quot;&gt;notifications&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.67.1...v0.67.2&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/notifications/pull/157&quot;&gt;atom/notifications#157 - Adding fix for bug with having new lines as part of title.&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/tree-view&quot;&gt;tree-view&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.217.0-7...v0.217.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1056&quot;&gt;atom/tree-view#1056 - Make the tree view a dock item&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1111&quot;&gt;atom/tree-view#1111 - Expand to full width/height&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/update-package-dependencies&quot;&gt;update-package-dependencies&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.11.0...v0.12.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/update-package-dependencies/pull/16&quot;&gt;atom/update-package-dependencies#16 - Resolve merge conflicts with #9 (use notification for success or error)&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.27.2</id>
+    <updated>2018-05-31T16:55:49+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.27.2"/>
+    <title>1.27.2</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Updated the GitHub package to version 0.14.5&lt;/li&gt;
+&lt;/ul&gt;</content>
     <author>
-      <name>BinaryMuse</name>
+      <name>daviwil</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars3.githubusercontent.com/u/189606?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/79405?s=60&amp;v=4"/>
   </entry>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.17.1</id>
-    <updated>2017-05-25T01:40:15+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.17.1"/>
-    <title>1.17.1</title>
-    <content type="html">&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.17.0...v1.17.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14485&quot;&gt;atom/atom#14485 - Fix exception when starting to drag text&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14553&quot;&gt;atom/atom#14553 - Don&#39;t snapshot the &lt;code&gt;iconv-lite&lt;/code&gt; module&lt;/a&gt;, fixing &lt;a href=&quot;https://github.com/atom/encoding-selector/issues/48&quot;&gt;Unable to switch the encoding&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14460&quot;&gt;atom/atom#14460 - Fix ability to activate next/previous pane in a dock&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14427&quot;&gt;atom/atom#14427 - Fix the atom:// URL handler for real (with tests this time)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14420&quot;&gt;atom/atom#14420 - Don&#39;t show restore dialog for non-editor dock items&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder&quot;&gt;fuzzy-finder&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.5.6...v1.5.8&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/297&quot;&gt;atom/fuzzy-finder#297 - Show matches correctly when &lt;code&gt;useAlternateScoring&lt;/code&gt; is true&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/markdown-preview&quot;&gt;markdown-preview&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.159.11...v0.159.12&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/markdown-preview/pull/482&quot;&gt;atom/markdown-preview#482 - Destroy cursor line decoration layers in newer versions of the editor&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/notifications&quot;&gt;notifications&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.67.1...v0.67.2&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/notifications/pull/157&quot;&gt;atom/notifications#157 - Adding fix for bug with having new lines as part of title.&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/tree-view&quot;&gt;tree-view&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.217.0-7...v0.217.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1056&quot;&gt;atom/tree-view#1056 - Make the tree view a dock item&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1111&quot;&gt;atom/tree-view#1111 - Expand to full width/height&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/update-package-dependencies&quot;&gt;update-package-dependencies&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.11.0...v0.12.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/update-package-dependencies/pull/16&quot;&gt;atom/update-package-dependencies#16 - Resolve merge conflicts with #9 (use notification for success or error)&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/welcome&quot;&gt;welcome&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.36.2...v0.36.3&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/welcome/pull/61&quot;&gt;atom/welcome#61 - Fix build&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.28.0-beta1</id>
+    <updated>2018-05-21T17:46:23+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.28.0-beta1"/>
+    <title>1.28.0-beta1</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;p&gt;Upgraded Electron from 2.0.0 to &lt;a href=&quot;https://electronjs.org/releases#2.0.1&quot; rel=&quot;nofollow&quot;&gt;2.0.1&lt;/a&gt; to take advantage of recent security fixes and stability improvements (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load issue title&quot; data-id=&quot;324536322&quot; data-permission-text=&quot;Issue title is private&quot; data-url=&quot;https://github.com/atom/atom/issues/17362&quot; href=&quot;https://github.com/atom/atom/pull/17362&quot;&gt;#17362&lt;/a&gt;)&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;All Changes&lt;/summary&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.28.0-beta0...v1.28.0-beta1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17351&quot;&gt;atom/atom#17351 - Provide more context when test fails due to timeout in &lt;code&gt;waitsFor&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17362&quot;&gt;atom/atom#17362 - ⬆️ electron@2.0.1&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder&quot;&gt;fuzzy-finder&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.8.1...v1.8.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/347&quot;&gt;atom/fuzzy-finder#347 - Fix flaky test re: &quot;toggling when the project has multiple paths&quot; 🤞&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/line-ending-selector&quot;&gt;line-ending-selector&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.7.6...v0.7.7&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/line-ending-selector/pull/57&quot;&gt;atom/line-ending-selector#57 - Fix flaky test re: &quot;changes the line endings in the buffer&quot; 🤞&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/details&gt;</content>
     <author>
-      <name>BinaryMuse</name>
+      <name>jasonrudolph</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars3.githubusercontent.com/u/189606?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/2988?s=60&amp;v=4"/>
   </entry>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.18.0-beta0</id>
-    <updated>2017-05-16T19:41:06+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.18.0-beta0"/>
-    <title>1.18.0-beta0</title>
-    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;All new &lt;a href=&quot;https://github.atom.io&quot;&gt;Git and GitHub Integration&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/first-mate/issues/93&quot;&gt;Improved tokenizing performance via oniguruma caching&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14287&quot;&gt;Correctly launch Atom from Windows Subsystem for Linux&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13947&quot;&gt;Added an option to always restore previous session&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/847&quot;&gt;Added settings for showing context in find-and-replace&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pulls?utf8=%E2%9C%93&amp;amp;q=is%3Apr%20is%3Aclosed%20author%3A50wliu%20updated%3A%3C2017-05-04&quot;&gt;Improved suggestions in autocomplete-html&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;details&gt;&lt;summary&gt;All Changes&lt;/summary&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.17.0-beta5... 1.18.0-beta0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14174&quot;&gt;atom/atom#14174 - Avoid errors deserializing 1.17 workspace state in prior Atom versions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14166&quot;&gt;atom/atom#14166 - Ensure that atom-panel tags can be created via HTML&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14175&quot;&gt;atom/atom#14175 - Always focus active pane item when pane is activated&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14137&quot;&gt;atom/atom#14137 - Document pane item interface on Workspace&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14183&quot;&gt;atom/atom#14183 - Properly restore focus to center when hiding dock via toggle&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14188&quot;&gt;atom/atom#14188 - Always search a pane container w/ the given URI in workspace.open&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14164&quot;&gt;atom/atom#14164 - Add &lt;code&gt;atom.whenShellEnvironmentLoaded()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14177&quot;&gt;atom/atom#14177 - Remove event listeners from correct element&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14194&quot;&gt;atom/atom#14194 - Require &lt;code&gt;TextEditorElement&lt;/code&gt; eagerly&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14178&quot;&gt;atom/atom#14178 - Prevent the resize handle from covering the center&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14146&quot;&gt;atom/atom#14146 - Improve snapshotting&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14203&quot;&gt;atom/atom#14203 - Ensure that dock toggle affordances can always be revealed&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14205&quot;&gt;atom/atom#14205 - Fix URI resolution in &lt;code&gt;openSync()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14210&quot;&gt;atom/atom#14210 - Reduce dock initial size lookups&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14239&quot;&gt;atom/atom#14239 - Add Workspace.paneContainerForItem method&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13646&quot;&gt;atom/atom#13646 - Only sign and create-windows-installer on *-releases branches&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14221&quot;&gt;atom/atom#14221 - Don&#39;t close permanent dock items&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14249&quot;&gt;atom/atom#14249 - Update languages&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14261&quot;&gt;atom/atom#14261 - Upgrade first-mate to take advantage of oniguruma caching&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14217&quot;&gt;atom/atom#14217 - Don&#39;t attempt to transpile directories&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14271&quot;&gt;atom/atom#14271 - Do not treat packages in unusual locations as bundled despite name&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14276&quot;&gt;atom/atom#14276 - Fix bundled package path check to use path, not name&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14293&quot;&gt;atom/atom#14293 - Update Electron to 1.3.15&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14287&quot;&gt;atom/atom#14287 - Run Atom from Windows Subsystem for Linux&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14320&quot;&gt;atom/atom#14320 - Unbreak URL handlers in Atom 1.17-beta&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14269&quot;&gt;atom/atom#14269 - Update apm to use async keytar with libsecret&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14309&quot;&gt;atom/atom#14309 - Recalculate Tooltip positions when their contents change&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14250&quot;&gt;atom/atom#14250 - Only trigger branch builds on master and release branches&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14331&quot;&gt;atom/atom#14331 - Bump apm to 1.18.1&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14352&quot;&gt;atom/atom#14352 - Disable zoom only after the window has finished loading&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14367&quot;&gt;atom/atom#14367 - Ensure that win_delay_load_hook.cc is included in the bundled app&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13947&quot;&gt;atom/atom#13947 - Make an option to always restore the last session&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14382&quot;&gt;atom/atom#14382 - Add configuration for probot-stale&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14386&quot;&gt;atom/atom#14386 - Downgrade text-buffer to see if it helps our integration tests on CI&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14372&quot;&gt;atom/atom#14372 - 🎉&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14391&quot;&gt;atom/atom#14391 - Speed up parsing the snapshot source map&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14387&quot;&gt;atom/atom#14387 - Act on active center items only when saving and closing&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14339&quot;&gt;atom/atom#14339 - Don&#39;t change focus when hiding an unfocused dock&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14398&quot;&gt;atom/atom#14398 - Fix running packages preloading tests in interactive mode&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/12946&quot;&gt;atom/atom#12946 - Fixes #11848 Moving line up without line ending&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14413&quot;&gt;atom/atom#14413 - Update autocomplete-html, autocomplete-css&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14403&quot;&gt;atom/atom#14403 - Pane shouldn&#39;t steal focus from its children&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14415&quot;&gt;atom/atom#14415 - ⬆ github@0.0.7&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14416&quot;&gt;atom/atom#14416 - Show stdout in addition to stderr in script/test&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui&quot;&gt;one-dark-ui&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.10.3...v1.10.4&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/206&quot;&gt;atom/one-dark-ui#206 - Adjust tab icon size&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui&quot;&gt;one-light-ui&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.10.3...v1.10.4&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/100&quot;&gt;atom/one-light-ui#100 - Adjust tab icon size&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-css&quot;&gt;autocomplete-css&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.16.1...v0.16.2&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-css/pull/92&quot;&gt;atom/autocomplete-css#92 - Update completions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-css/pull/93&quot;&gt;atom/autocomplete-css#93 - Use JavaScript Promises&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-css/pull/94&quot;&gt;atom/autocomplete-css#94 - Update completions&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html&quot;&gt;autocomplete-html&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.7.3...v0.8.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/56&quot;&gt;atom/autocomplete-html#56 - Use latest Appveyor file from atom/ci&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/55&quot;&gt;atom/autocomplete-html#55 - Update completions and add whitespace&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/57&quot;&gt;atom/autocomplete-html#57 - Improve tag and global attribute descriptions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/58&quot;&gt;atom/autocomplete-html#58 - Respect the &#39;flag&#39; type when autocompleting attribute names&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/59&quot;&gt;atom/autocomplete-html#59 - Autocomplete &#39;true&#39; and &#39;false&#39; for boolean attributes&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/60&quot;&gt;atom/autocomplete-html#60 - Autocomplete attribute names surrounded by whitespace&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/61&quot;&gt;atom/autocomplete-html#61 - Don&#39;t throw when a local attribute is missing&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/62&quot;&gt;atom/autocomplete-html#62 - Don&#39;t attempt to autocomplete before/after strings&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/63&quot;&gt;atom/autocomplete-html#63 - More fixes to attribute value autocompletion&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/64&quot;&gt;atom/autocomplete-html#64 - Consolidate methods with prefix variants&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/65&quot;&gt;atom/autocomplete-html#65 - Update README&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/exception-reporting&quot;&gt;exception-reporting&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.41.3...v0.41.4&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/exception-reporting/pull/29&quot;&gt;atom/exception-reporting#29 - Remove coffeescript&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/exception-reporting/pull/33&quot;&gt;atom/exception-reporting#33 - Fix tests on Electron &amp;gt;= 1.6&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace&quot;&gt;find-and-replace&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.207.6...v0.208.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/847&quot;&gt;atom/find-and-replace#847 - add settings for context lines, show context in match view&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/886&quot;&gt;atom/find-and-replace#886 - Make tests compatible with new editor rendering&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/git-diff&quot;&gt;git-diff&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.3.5...v1.3.6&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/git-diff/pull/131&quot;&gt;atom/git-diff#131 - Stop using deprecated &lt;code&gt;rootElement&lt;/code&gt; property&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/go-to-line&quot;&gt;go-to-line&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.32.0...v0.32.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/go-to-line/pull/44&quot;&gt;atom/go-to-line#44 - Tweak tests to accommodate the new editor rendering layer&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/markdown-preview&quot;&gt;markdown-preview&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.159.11...v0.159.12&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/markdown-preview/pull/482&quot;&gt;atom/markdown-preview#482 - Destroy cursor line decoration layers in newer versions of the editor&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/status-bar&quot;&gt;status-bar&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.8.7...v1.8.8&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/status-bar/pull/192&quot;&gt;atom/status-bar#192 - Optimize performing updates on cursor position and selection position views&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/tabs&quot;&gt;tabs&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.105.4...v0.106.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/437&quot;&gt;atom/tabs#437 - Fix mistakenly shown docks drop indicator on Electron &amp;gt;= 1.4&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/439&quot;&gt;atom/tabs#439 - Delay activation of item on mousedown event&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/welcome&quot;&gt;welcome&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.36.2...v0.36.3&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/welcome/pull/61&quot;&gt;atom/welcome#61 - Fix build&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/wrap-guide&quot;&gt;wrap-guide&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.40.1...v0.40.2&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/wrap-guide/pull/67&quot;&gt;atom/wrap-guide#67 - Tweak package to accommodate the new editor rendering layer&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-c&quot;&gt;language-c&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.57.0...v0.58.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-c/pull/212&quot;&gt;atom/language-c#212 - Tokenize punctuation&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-c/pull/216&quot;&gt;atom/language-c#216 - Make &#39;nullptr&#39; a constant instead of a variable&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-c/pull/221&quot;&gt;atom/language-c#221 - Fix issue #217&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-c/pull/224&quot;&gt;atom/language-c#224 - Disallow digit separators at the beginnning and end of digits&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-coffee-script&quot;&gt;language-coffee-script&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.48.6...v0.48.7&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-coffee-script/pull/120&quot;&gt;atom/language-coffee-script#120 - Added new keywords to bring package up to date with CoffeeScript 1.12 and 2.0&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-gfm&quot;&gt;language-gfm&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.88.1...v0.89.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-gfm/pull/190&quot;&gt;atom/language-gfm#190 - feat(gfm.cson) highlight embedded graphql&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-gfm/pull/194&quot;&gt;atom/language-gfm#194 - Add clj as an alternative indication for Clojure syntax highlight&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-gfm/pull/193&quot;&gt;atom/language-gfm#193 - Fix triple underscore&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-git&quot;&gt;language-git&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.19.0...v0.19.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-git/pull/36&quot;&gt;atom/language-git#36 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-git/pull/37&quot;&gt;atom/language-git#37 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-git/pull/39&quot;&gt;atom/language-git#39 - Increase maximum subject length to 72&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-go&quot;&gt;language-go&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.43.1...v0.44.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-go/pull/113&quot;&gt;atom/language-go#113 - Don&#39;t require a word before an opening bracket when indenting&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-go/pull/111&quot;&gt;atom/language-go#111 - Consolidate and improve variable matching&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-go/pull/112&quot;&gt;atom/language-go#112 - Tokenize variables starting with a non-ASCII letter&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-go/pull/117&quot;&gt;atom/language-go#117 - Remove usage of lookbehinds&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-java&quot;&gt;language-java&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.27.0...v0.27.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-java/pull/82&quot;&gt;atom/language-java#82 - Indent single-line if statements&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-java/pull/84&quot;&gt;atom/language-java#84 - Revert &quot;Indent single-line if statements&quot;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-java/pull/86&quot;&gt;atom/language-java#86 - Tokenize new statements in ternaries&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-json&quot;&gt;language-json&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.19.0...v0.19.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-json/pull/57&quot;&gt;atom/language-json#57 - Add .htmlhintrc file support&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-mustache&quot;&gt;language-mustache&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.13.1...v0.14.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-mustache/pull/17&quot;&gt;atom/language-mustache#17 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-mustache/pull/18&quot;&gt;atom/language-mustache#18 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-mustache/pull/20&quot;&gt;atom/language-mustache#20 - Use injections&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-mustache/pull/21&quot;&gt;atom/language-mustache#21 - Adjust captures&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-mustache/pull/22&quot;&gt;atom/language-mustache#22 - New file extension&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-sql&quot;&gt;language-sql&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.25.4...v0.25.5&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-sql/pull/60&quot;&gt;atom/language-sql#60 - Correct time/timestamp grammar matches&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/details&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.27.1</id>
+    <updated>2018-05-21T17:46:10+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.27.1"/>
+    <title>1.27.1</title>
+    <content type="html">&lt;p&gt;Upgraded Electron from 1.7.11 to &lt;a href=&quot;https://electronjs.org/releases#1.7.15&quot; rel=&quot;nofollow&quot;&gt;1.7.15&lt;/a&gt; to take advantage of recent security fixes and stability improvements (&lt;a class=&quot;issue-link js-issue-link&quot; data-error-text=&quot;Failed to load issue title&quot; data-id=&quot;324535755&quot; data-permission-text=&quot;Issue title is private&quot; data-url=&quot;https://github.com/atom/atom/issues/17361&quot; href=&quot;https://github.com/atom/atom/pull/17361&quot;&gt;#17361&lt;/a&gt;)&lt;/p&gt;</content>
     <author>
-      <name>damieng</name>
+      <name>jasonrudolph</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/118951?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/2988?s=60&amp;v=4"/>
   </entry>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.17.0</id>
-    <updated>2017-05-16T19:41:24+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.17.0"/>
-    <title>1.17.0</title>
-    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13977&quot;&gt;Docks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://blog.atom.io/2017/04/18/improving-startup-time.html&quot;&gt;Improved startup time&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14063&quot;&gt;Fix for middle-mouse-button paste on Linux&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13963&quot;&gt;Restore the Atom environment when adding project folders to a fresh window&lt;/a&gt;&lt;/li&gt;&lt;li&gt;Removal of jQuery from all bundled packages&lt;/li&gt;&lt;/ul&gt;&lt;details&gt;&lt;summary&gt;All Changes&lt;/summary&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.16.0...1.17.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14024&quot;&gt;atom/atom#14024 - Snapshot &lt;code&gt;AtomEnvironment&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14038&quot;&gt;atom/atom#14038 - Optimize style sheets loading&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14065&quot;&gt;atom/atom#14065 - Fix typo in comments of text-editor-registry.js&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13963&quot;&gt;atom/atom#13963 - Restore atom environment when adding project folders to a fresh window&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13764&quot;&gt;atom/atom#13764 - Disable soft wrap on mini editors&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14096&quot;&gt;atom/atom#14096 - Don&#39;t snapshot minimatch and fix package transpilation registry on win32&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13977&quot;&gt;atom/atom#13977 - Docks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14103&quot;&gt;atom/atom#14103 - Add &lt;code&gt;atom.workspace.hide()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14027&quot;&gt;atom/atom#14027 - Add &lt;code&gt;saveFocusedPaneItem()&lt;/code&gt; and call it in &quot;core:save&quot; command&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14104&quot;&gt;atom/atom#14104 - Fixes #14102 to use ATOM_HOME if present.&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14080&quot;&gt;atom/atom#14080 - Packages preloading&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14116&quot;&gt;atom/atom#14116 - Assign &lt;code&gt;Package.prototype.mainModulePath&lt;/code&gt; eagerly for preloaded packages&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14107&quot;&gt;atom/atom#14107 - Always add opened items to the workspace&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14119&quot;&gt;atom/atom#14119 - Fix issue #14109 and #13978&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14108&quot;&gt;atom/atom#14108 - :bug: Fix observation of moved items&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14063&quot;&gt;atom/atom#14063 - fixing middle mouse button clipboard paste on linux (atom:atom#8648)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14135&quot;&gt;atom/atom#14135 - 📝 Minor edits to CONTRIBUTING.md&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14134&quot;&gt;atom/atom#14134 - Don&#39;t store default locations&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14125&quot;&gt;atom/atom#14125 - Allow workspace item objects to be passed to Workspace.open&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14136&quot;&gt;atom/atom#14136 - Open docks when activating their panes, but not when adding items&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13965&quot;&gt;atom/atom#13965 - Allow specifying installation directory&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14131&quot;&gt;atom/atom#14131 - Update build to pre-compile packages with per-package transpilation configs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/13813&quot;&gt;atom/atom#13813 - Attempt fixing exception when trying to use portable electronUserData&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14143&quot;&gt;atom/atom#14143 - Refine Dock UX and API&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14161&quot;&gt;atom/atom#14161 - Fix a regression in hovered dock tracking&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14168&quot;&gt;atom/atom#14168 - Fix adding bundled packages to &lt;code&gt;ModuleCache&lt;/code&gt; and increase test coverage&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14174&quot;&gt;atom/atom#14174 - Avoid errors deserializing 1.17 workspace state in prior Atom versions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14166&quot;&gt;atom/atom#14166 - Ensure that atom-panel tags can be created via HTML&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14175&quot;&gt;atom/atom#14175 - Always focus active pane item when pane is activated&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14137&quot;&gt;atom/atom#14137 - Document pane item interface on Workspace&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14183&quot;&gt;atom/atom#14183 - Properly restore focus to center when hiding dock via toggle&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14188&quot;&gt;atom/atom#14188 - Always search a pane container w/ the given URI in workspace.open&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14194&quot;&gt;atom/atom#14194 - Require &lt;code&gt;TextEditorElement&lt;/code&gt; eagerly&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14178&quot;&gt;atom/atom#14178 - Prevent the resize handle from covering the center&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14203&quot;&gt;atom/atom#14203 - Ensure that dock toggle affordances can always be revealed&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14205&quot;&gt;atom/atom#14205 - Fix URI resolution in &lt;code&gt;openSync()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14210&quot;&gt;atom/atom#14210 - Reduce dock initial size lookups&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14239&quot;&gt;atom/atom#14239 - Add Workspace.paneContainerForItem method&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14221&quot;&gt;atom/atom#14221 - Don&#39;t close permanent dock items&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14293&quot;&gt;atom/atom#14293 - Update Electron to 1.3.15&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14320&quot;&gt;atom/atom#14320 - Unbreak URL handlers in Atom 1.17-beta&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14352&quot;&gt;atom/atom#14352 - Disable zoom only after the window has finished loading&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/14403&quot;&gt;atom/atom#14403 - Pane shouldn&#39;t steal focus from its children&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui&quot;&gt;one-dark-ui&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.9.2...v1.10.3&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/196&quot;&gt;atom/one-dark-ui#196 - Improve focus&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/195&quot;&gt;atom/one-dark-ui#195 - Make sure [data-path] element receives mouse events&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/194&quot;&gt;atom/one-dark-ui#194 - Style tabs in docks differently&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/197&quot;&gt;atom/one-dark-ui#197 - Docks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/199&quot;&gt;atom/one-dark-ui#199 - Add maximum tab option&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/201&quot;&gt;atom/one-dark-ui#201 - Remove dock min size&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui&quot;&gt;one-light-ui&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.9.2...v1.10.3&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/95&quot;&gt;atom/one-light-ui#95 - Improve focus&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/94&quot;&gt;atom/one-light-ui#94 - Make sure [data-path] element receives mouse events&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/92&quot;&gt;atom/one-light-ui#92 - Style tabs in docks differently&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/96&quot;&gt;atom/one-light-ui#96 - Docks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/97&quot;&gt;atom/one-light-ui#97 - Add maximum tab option&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/98&quot;&gt;atom/one-light-ui#98 - Remove dock min size&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/archive-view&quot;&gt;archive-view&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.63.0...v0.63.2&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/archive-view/pull/48&quot;&gt;atom/archive-view#48 - Set the file service before opening the file&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-atom-api&quot;&gt;autocomplete-atom-api&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.10.0...v0.10.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-atom-api/pull/21&quot;&gt;atom/autocomplete-atom-api#21 - Make isEditingAnAtomPackageFile work on Windows&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-atom-api/pull/25&quot;&gt;atom/autocomplete-atom-api#25 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-atom-api/pull/26&quot;&gt;atom/autocomplete-atom-api#26 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-atom-api/pull/28&quot;&gt;atom/autocomplete-atom-api#28 - Support reading completions.json when loading the package from snapshot&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-css&quot;&gt;autocomplete-css&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.15.1...v0.16.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-css/pull/88&quot;&gt;atom/autocomplete-css#88 - Support reading completions.json when loading the package from snapshot&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-css/pull/86&quot;&gt;atom/autocomplete-css#86 - Update in accordance to latest language-sass changes&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-css/pull/87&quot;&gt;atom/autocomplete-css#87 - Update completions&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html&quot;&gt;autocomplete-html&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.7.2...v0.7.3&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/8&quot;&gt;atom/autocomplete-html#8 - Add coffeelint support&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/41&quot;&gt;atom/autocomplete-html#41 - README.md Spelling fix&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/43&quot;&gt;atom/autocomplete-html#43 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/44&quot;&gt;atom/autocomplete-html#44 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-html/pull/53&quot;&gt;atom/autocomplete-html#53 - Support reading completions.json when loading the package from snapshot&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus&quot;&gt;autocomplete-plus&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v2.34.2...v2.35.3&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/808&quot;&gt;atom/autocomplete-plus#808 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/809&quot;&gt;atom/autocomplete-plus#809 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/825&quot;&gt;atom/autocomplete-plus#825 - Reduce default autoActivationDelay from 100ms to 0ms&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/826&quot;&gt;atom/autocomplete-plus#826 - Stop registering SuggestionListElement as a custom element&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/827&quot;&gt;atom/autocomplete-plus#827 - Allow suggestion list to use 75% of viewport width&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/835&quot;&gt;atom/autocomplete-plus#835 - Raise z-index&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autosave&quot;&gt;autosave&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.24.0...v0.24.2&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autosave/pull/74&quot;&gt;atom/autosave#74 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autosave/pull/75&quot;&gt;atom/autosave#75 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/background-tips&quot;&gt;background-tips&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.26.1...v0.27.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/25&quot;&gt;atom/background-tips#25 - Remove unused variable&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/26&quot;&gt;atom/background-tips#26 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/27&quot;&gt;atom/background-tips#27 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/28&quot;&gt;atom/background-tips#28 - Only examine center when adding background tips&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/dalek&quot;&gt;dalek&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.2.0...v0.2.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/dalek/pull/2&quot;&gt;atom/dalek#2 - Replace &lt;code&gt;fs.realPathSync&lt;/code&gt; with &lt;code&gt;fs.realPath&lt;/code&gt; to prevent blocking the UI thread&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/deprecation-cop&quot;&gt;deprecation-cop&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.56.2...v0.56.7&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/deprecation-cop/pull/80&quot;&gt;atom/deprecation-cop#80 - Wait for view to be added before making assertions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/deprecation-cop/pull/81&quot;&gt;atom/deprecation-cop#81 - Wait for open to finish before making assertion&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/dev-live-reload&quot;&gt;dev-live-reload&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.47.0...v0.47.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/dev-live-reload/pull/22&quot;&gt;atom/dev-live-reload#22 - Remove unused variables&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/dev-live-reload/pull/23&quot;&gt;atom/dev-live-reload#23 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/dev-live-reload/pull/24&quot;&gt;atom/dev-live-reload#24 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace&quot;&gt;find-and-replace&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.207.3...v0.207.6&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/889&quot;&gt;atom/find-and-replace#889 - Fix tree view selector for Search in Directory context menu item&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder&quot;&gt;fuzzy-finder&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v1.5.0...v1.5.6&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/283&quot;&gt;atom/fuzzy-finder#283 - Only check panes in center&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/293&quot;&gt;atom/fuzzy-finder#293 - Don&#39;t wait for items to be updated before showing fuzzy finder&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/keybinding-resolver&quot;&gt;keybinding-resolver&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.36.3...v0.38.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/keybinding-resolver/pull/51&quot;&gt;atom/keybinding-resolver#51 - Allow opening keymaps starting with &lt;code&gt;core/&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/keybinding-resolver/pull/52&quot;&gt;atom/keybinding-resolver#52 - Support reading snapshotted keymaps&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/link&quot;&gt;link&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.31.2...v0.31.3&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/link/pull/17&quot;&gt;atom/link#17 - Switch to node 6, compile+test x86/x64&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/link/pull/19&quot;&gt;atom/link#19 - Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/link/pull/20&quot;&gt;atom/link#20 - :memo: Update issue and PR templates&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/markdown-preview&quot;&gt;markdown-preview&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.159.7...v0.159.11&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/markdown-preview/pull/472&quot;&gt;atom/markdown-preview#472 - Fix tests broken by docks (atom/atom#13977)&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/notifications&quot;&gt;notifications&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.66.2...v0.67.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/notifications/pull/149&quot;&gt;atom/notifications#149 - Remove custom element registration during startup&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/settings-view&quot;&gt;settings-view&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.248.0...v0.249.4&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/settings-view/pull/920&quot;&gt;atom/settings-view#920 - Use &lt;code&gt;atom.resolveProxy&lt;/code&gt; when possible&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/settings-view/pull/923&quot;&gt;atom/settings-view#923 - Wait for &lt;code&gt;open()&lt;/code&gt; to complete before considering command done&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/tabs&quot;&gt;tabs&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.104.2...v0.106.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/420&quot;&gt;atom/tabs#420 - Fix tests that docks feature broke&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/423&quot;&gt;atom/tabs#423 - Pass all (newly) required params to PaneContainer constructor&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/425&quot;&gt;atom/tabs#425 - Set z-index on overlay so that it covers the docks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/426&quot;&gt;atom/tabs#426 - Fix missing drop indicator on Electron &amp;gt;= 1.4&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/424&quot;&gt;atom/tabs#424 - Allowed Locations &amp;amp; Permanent Dock Items&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/429&quot;&gt;atom/tabs#429 - Ensure that tabs are added to docks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/431&quot;&gt;atom/tabs#431 - Don&#39;t show placeholder when dragging an item over a disallowed location&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/437&quot;&gt;atom/tabs#437 - Fix mistakenly shown docks drop indicator on Electron &amp;gt;= 1.4&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/439&quot;&gt;atom/tabs#439 - Delay activation of item on mousedown event&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/tree-view&quot;&gt;tree-view&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.215.1...v0.217.0-7&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1047&quot;&gt;atom/tree-view#1047 - Only check panes in center&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1049&quot;&gt;atom/tree-view#1049 - Update editors when containing directory is renamed or removed (redux)&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1054&quot;&gt;atom/tree-view#1054 - Display the correct drag image on Electron &amp;gt;= 1.14&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1055&quot;&gt;atom/tree-view#1055 - Fix missing drop indicator on Electron &amp;gt;= 1.14&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1089&quot;&gt;atom/tree-view#1089 - Make list inherit its container&#39;s width&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/wrap-guide&quot;&gt;wrap-guide&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.40.0...v0.40.1&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/wrap-guide/pull/66&quot;&gt;atom/wrap-guide#66 - Count the number of editors (not panes) when testing wrap guide count&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-coffee-script&quot;&gt;language-coffee-script&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.48.5...v0.48.6&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-coffee-script/pull/116&quot;&gt;atom/language-coffee-script#116 - Tokenise backslash in escape sequences&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-coffee-script/pull/119&quot;&gt;atom/language-coffee-script#119 - Stop regex at the first non-escaped forwards slash&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-css&quot;&gt;language-css&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.42.1...v0.42.2&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-css/pull/108&quot;&gt;atom/language-css#108 - Fix #107: @at-rules not matched if preceded by closing brace&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-css/pull/111&quot;&gt;atom/language-css#111 - Fix #110: Recognize keyframes at-rule with vendor prefixes&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-less&quot;&gt;language-less&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.31.0...v0.32.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-less/pull/73&quot;&gt;atom/language-less#73 - Link keyword-lists to CSS grammar&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-php&quot;&gt;language-php&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.37.5...v0.38.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-php/pull/184&quot;&gt;atom/language-php#184 - temporary fix for heredocs&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-ruby&quot;&gt;language-ruby&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.70.5...v0.71.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-ruby/pull/196&quot;&gt;atom/language-ruby#196 - Add separate grammar file for Gemfiles&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-sass&quot;&gt;language-sass&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;v0.58.0...v0.59.0&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-sass/pull/202&quot;&gt;atom/language-sass#202 - Source keyword lists from CSS grammar&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-sass/pull/203&quot;&gt;atom/language-sass#203 - Rework property-value&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/details&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.28.0-beta0</id>
+    <updated>2018-05-15T20:46:08+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.28.0-beta0"/>
+    <title>1.28.0-beta0</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Electron has been upgraded to &lt;a href=&quot;https://github.com/atom/atom/pull/17273&quot;&gt;version 2.0&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17218&quot;&gt;Active editors are now updated&lt;/a&gt; when experimental Tree-sitter grammars are toggled in settings.&lt;/li&gt;
+&lt;li&gt;Shell environment variables are now carried into Atom &lt;a href=&quot;https://github.com/atom/atom/pull/15165&quot;&gt;when launched from PowerShell or Windows Command Prompt&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;The Find in Project results view now &lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1002&quot;&gt;groups adjacent matches and highlights multiple matches on the same line&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;language-html&lt;/code&gt; package now supports &lt;a href=&quot;https://github.com/atom/language-html/pull/191&quot;&gt;GraphQL script tags&lt;/a&gt; and &lt;a href=&quot;https://github.com/atom/language-html/pull/200&quot;&gt;multi-line style attributes&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-gfm/pull/229&quot;&gt;CriticMarkup syntax is now colored correctly&lt;/a&gt; in Markdown files.&lt;/li&gt;
+&lt;li&gt;Fixed an issue where files in a Git repo might be &lt;a href=&quot;https://github.com/atom/atom/pull/17255&quot;&gt;locked or corrupted&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;The placeholder glyph that appears when reordering tabs is now &lt;a href=&quot;https://github.com/atom/tabs/pull/390&quot;&gt;much more responsive&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;All Changes&lt;/summary&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.27.0...v1.28.0-beta0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17153&quot;&gt;atom/atom#17153 - Correct Project.onDidChangeFiles documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17159&quot;&gt;atom/atom#17159 - Bump version for &lt;code&gt;about&lt;/code&gt; package.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17169&quot;&gt;atom/atom#17169 - Remove FreeBSD build instructions since they don&#39;t work&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17166&quot;&gt;atom/atom#17166 - Avoid writing to config file while quitting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17208&quot;&gt;atom/atom#17208 - Fix white I-beam cursor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/15165&quot;&gt;atom/atom#15165 - Recognize Windows cmd or powershell environment in updateProcessEnv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17215&quot;&gt;atom/atom#17215 - :arrow_up: git-utils v5.4.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17212&quot;&gt;atom/atom#17212 - Remove &#39;project&#39; command line flag&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17216&quot;&gt;atom/atom#17216 - Wait to initialize auto update manager until config is loaded&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17218&quot;&gt;atom/atom#17218 - Update existing editors&#39; language modes when toggling tree-sitter feature flag&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17254&quot;&gt;atom/atom#17254 - ⬆️ electron@1.7.14&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17255&quot;&gt;atom/atom#17255 - Create file recovery directory if it doesn&#39;t already exist&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17263&quot;&gt;atom/atom#17263 - Fix out of date doc block method name&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17273&quot;&gt;atom/atom#17273 - Upgrade to Electron 2.0.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17303&quot;&gt;atom/atom#17303 - Update languages&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui&quot;&gt;one-dark-ui&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.12.1...v1.12.3&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/256&quot;&gt;atom/one-dark-ui#256 - Fix selected item not visible when using arrow up key&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/259&quot;&gt;atom/one-dark-ui#259 - More sticky header fixes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/260&quot;&gt;atom/one-dark-ui#260 - Disable sticky headers by default&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui&quot;&gt;one-light-ui&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.12.1...v1.12.3&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/132&quot;&gt;atom/one-light-ui#132 - Fix selected item not visible when using arrow up key&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/133&quot;&gt;atom/one-light-ui#133 - More sticky header fixes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/134&quot;&gt;atom/one-light-ui#134 - Disable sticky headers by default&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/about&quot;&gt;about&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.8.1...v1.9.1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/about/pull/73&quot;&gt;atom/about#73 - update terms of service link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/about/pull/75&quot;&gt;atom/about#75 - Clear status bar icon if current version is newer than cached update&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/about/pull/76&quot;&gt;atom/about#76 - Update Standard and 🔥 babel-eslint&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/about/pull/77&quot;&gt;atom/about#77 - Remove usage of Babel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/about/pull/79&quot;&gt;atom/about#79 - Add back missing path in atom-logo&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/archive-view&quot;&gt;archive-view&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.64.3...v0.64.5&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/archive-view/pull/57&quot;&gt;atom/archive-view#57 - Decaffeinate package specs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/archive-view/pull/62&quot;&gt;atom/archive-view#62 - ⬆️ ls-archive@1.2.5&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/archive-view/pull/63&quot;&gt;atom/archive-view#63 - Fix async timing issue in tests&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autoflow&quot;&gt;autoflow&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.29.3...v0.29.4&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autoflow/pull/67&quot;&gt;atom/autoflow#67 - Don&#39;t let special characters surpass wrapColumn&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/encoding-selector&quot;&gt;encoding-selector&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.23.8...v0.23.9&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/encoding-selector/pull/61&quot;&gt;atom/encoding-selector#61 - On windows, exclude encodings that don&#39;t work&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace&quot;&gt;find-and-replace&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.215.9...v0.215.10&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1015&quot;&gt;atom/find-and-replace#1015 - Add keymaps for home and end to project search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1002&quot;&gt;atom/find-and-replace#1002 - Refactor results-view, upgrade context lines and multi-results lines&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/github&quot;&gt;github&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.14.3...v0.15.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1386&quot;&gt;atom/github#1386 - Upgrade to Enzyme 3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1390&quot;&gt;atom/github#1390 - React 16.3.1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1393&quot;&gt;atom/github#1393 - 🛠Replace uses of ObserveModelDecorator with ObserveModel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1400&quot;&gt;atom/github#1400 - Call FilePatchController methods on the &quot;real item&quot;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1401&quot;&gt;atom/github#1401 - DOMPurify is done within the notifications package&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1402&quot;&gt;atom/github#1402 - No-op on untitled buffers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1411&quot;&gt;atom/github#1411 - Only register &quot;github:co-author:...&quot; commands on co-author editor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1412&quot;&gt;atom/github#1412 - Restore missing RefHolder&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1421&quot;&gt;atom/github#1421 - Make ListSelections immutable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1414&quot;&gt;atom/github#1414 - Rework PaneItem management&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1424&quot;&gt;atom/github#1424 - Port the StagingView to React&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1426&quot;&gt;atom/github#1426 - Move Atom API bridge components to lib/atom&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1427&quot;&gt;atom/github#1427 - Mass dependency upgrade&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/798&quot;&gt;atom/github#798 - Diagnostic cache viewer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1430&quot;&gt;atom/github#1430 - Remove babel-eslint&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1428&quot;&gt;atom/github#1428 - Upgrade Relay to 1.6.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1431&quot;&gt;atom/github#1431 - Update dependencies to enable Greenkeeper 🌴&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1432&quot;&gt;atom/github#1432 - Restore missing .get() call&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1433&quot;&gt;atom/github#1433 - Pane splitting and copying&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1435&quot;&gt;atom/github#1435 - Reset mouseSelectionInProgress synchronously on mouseUp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1438&quot;&gt;atom/github#1438 - Clear the branch name after a successful checkout&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1439&quot;&gt;atom/github#1439 - Improve git log readability&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1446&quot;&gt;atom/github#1446 - chore(package): update sinon to version 5.0.6&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1447&quot;&gt;atom/github#1447 - URIPatterns never match undefined or null&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1448&quot;&gt;atom/github#1448 - URIPattern.match() returns a URIMatch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1449&quot;&gt;atom/github#1449 - Prompt server updates to run under Electron 2.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1452&quot;&gt;atom/github#1452 - Fix so dialogs are canceled when pressing escape/closing them&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1457&quot;&gt;atom/github#1457 - Restore ability to commit when using Atom with Electron 2.0&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/tabs&quot;&gt;tabs&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.109.1...v0.109.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tabs/pull/390&quot;&gt;atom/tabs#390 - Improve performance of placing placeholder&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-csharp&quot;&gt;language-csharp&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.0.1...v1.0.4&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-csharp/pull/116&quot;&gt;atom/language-csharp#116 - Use PCRE-compatible CSON grammar&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-csharp/pull/118&quot;&gt;atom/language-csharp#118 - Black method parameters highlighting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-csharp/pull/119&quot;&gt;atom/language-csharp#119 - Use black color for properties&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-gfm&quot;&gt;language-gfm&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.90.3...v0.90.4&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-gfm/pull/229&quot;&gt;atom/language-gfm#229 - Fix CriticMarkup scope names&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-html&quot;&gt;language-html&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.49.0...v0.49.1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-html/pull/191&quot;&gt;atom/language-html#191 - Adds &amp;lt;script type=&quot;application/graphql&quot;&amp;gt; support&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-html/pull/200&quot;&gt;atom/language-html#200 - Support multiline style attributes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-javascript&quot;&gt;language-javascript&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.128.5...v0.128.7&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-javascript/pull/542&quot;&gt;atom/language-javascript#542 - Allow more punctuation to precede regexes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-javascript/pull/574&quot;&gt;atom/language-javascript#574 - add delete keyword to tree-sitter grammar&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-json&quot;&gt;language-json&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.19.1...v0.19.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-json/pull/61&quot;&gt;atom/language-json#61 - add Pipfile.lock files&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-sass&quot;&gt;language-sass&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.61.4...v0.62.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-sass/pull/251&quot;&gt;atom/language-sass#251 - 🎁 Add SassDoc grammar patterns&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/details&gt;</content>
     <author>
-      <name>damieng</name>
+      <name>daviwil</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/118951?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/79405?s=60&amp;v=4"/>
   </entry>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.17.0-beta5</id>
-    <updated>2017-05-05T18:53:16+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.17.0-beta5"/>
-    <title>1.17.0-beta5</title>
-    <content type="html">&lt;ul&gt;&lt;li&gt;Pinch and zoom is correctly disabled. &lt;a href=&quot;https://github.com/atom/atom/issues/14252&quot;&gt;#14252&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;code&gt;urlOpen&lt;/code&gt; has been fixed. &lt;a href=&quot;https://github.com/atom/atom/pull/14320&quot;&gt;#14320&lt;/a&gt;&lt;/li&gt;&lt;li&gt;The &#39;Search in Directory&#39; context menu has been restored in find and replace. &lt;a href=&quot;https://github.com/atom/find-and-replace/issues/887&quot;&gt;#887&lt;/a&gt;&lt;/li&gt;&lt;li&gt;Fuzzy finder correctly handles quick text entry again. &lt;a href=&quot;https://github.com/atom/fuzzy-finder/issues/288&quot;&gt;#288&lt;/a&gt;&lt;/li&gt;&lt;li&gt;An uncaught exception from the incompatible package finder has been fixed. &lt;a href=&quot;https://github.com/atom/incompatible-packages/issues/21&quot;&gt;#21&lt;/a&gt;&lt;/li&gt;&lt;li&gt;Empty space next to tree view items is clickable again. &lt;a href=&quot;https://github.com/atom/tree-view/issues/1075&quot;&gt;#1075&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.27.0</id>
+    <updated>2018-05-15T20:46:03+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.27.0"/>
+    <title>1.27.0</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;You can now &lt;a href=&quot;https://github.com/atom/github/pull/1355&quot;&gt;add co-authors&lt;/a&gt; to Git commits in the Git pane.&lt;/li&gt;
+&lt;li&gt;It&#39;s now easier to &lt;a href=&quot;https://github.com/atom/github/pull/1364&quot;&gt;undo and amend your last commit&lt;/a&gt; in the Git pane.&lt;/li&gt;
+&lt;li&gt;You can now &lt;a href=&quot;https://github.com/atom/github/pull/1308&quot;&gt;push and pull branches more easily from the status bar&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;You can now &lt;a href=&quot;https://github.com/atom/github/pull/1376&quot;&gt;create pull requests&lt;/a&gt; from the GitHub pane.&lt;/li&gt;
+&lt;li&gt;A closed tree view dock is no longer expanded when the &lt;a href=&quot;https://github.com/atom/tree-view/pull/1200&quot;&gt;&#39;Auto Reveal&#39; option is enabled&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/16943&quot;&gt;Clip cursor width&lt;/a&gt;  when soft-wrap is on and cursor is at the end of a line.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/16564&quot;&gt;Restore cursor position correctly&lt;/a&gt; after undo/redo when multiple editors are open for the same buffer.&lt;/li&gt;
+&lt;li&gt;Prevent default editor commands from &lt;a href=&quot;https://github.com/atom/atom/pull/16999&quot;&gt;modifying read-only TextEditors&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Separate the concept of &lt;a href=&quot;https://github.com/atom/atom/pull/17124&quot;&gt;&quot;keyboard enabled&quot; editor state&lt;/a&gt; from read-only editor state.&lt;/li&gt;
+&lt;li&gt;Ensure that files are not opened incorrectly when &lt;a href=&quot;https://github.com/atom/atom/pull/17021&quot;&gt;multiple open requests occur simultaneously&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Improve handling of &lt;a href=&quot;https://github.com/atom/atom/pull/17049&quot;&gt;line endings&lt;/a&gt; in Unicode files.&lt;/li&gt;
+&lt;li&gt;Fixed an issue that causes the &lt;a href=&quot;https://github.com/atom/atom/pull/16936&quot;&gt;dock handle to break&lt;/a&gt; when an item is dragged over it.&lt;/li&gt;
+&lt;li&gt;Clarify deprecation of &lt;a href=&quot;https://github.com/atom/atom/pull/17089&quot;&gt;&lt;code&gt;undo: skip&lt;/code&gt; option&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;All Changes&lt;/summary&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom&quot;&gt;Atom Core&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.26.1...v1.27.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/16999&quot;&gt;atom/atom#16999 - Prevent default commands from modifying readonly TextEditors&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17041&quot;&gt;atom/atom#17041 - Add Probot lock configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/16864&quot;&gt;atom/atom#16864 - Convert Dock class to Etch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/16936&quot;&gt;atom/atom#16936 - Fix bug caused by dragging file from desktop through dock handle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17056&quot;&gt;atom/atom#17056 - Weekly Focus: 2018-04-02&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17070&quot;&gt;atom/atom#17070 - Defer component initialization until element is requested&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17089&quot;&gt;atom/atom#17089 - Clarify deprecation of &lt;code&gt;undo: skip&lt;/code&gt; option&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17102&quot;&gt;atom/atom#17102 - Weekly Focus: 2018-04-09&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17111&quot;&gt;atom/atom#17111 - Bump github package version to 0.13.2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17126&quot;&gt;atom/atom#17126 - atom/github v0.14.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17124&quot;&gt;atom/atom#17124 - Separate keyboard enablement from read-only editor state&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17166&quot;&gt;atom/atom#17166 - Avoid writing to config file while quitting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17177&quot;&gt;atom/atom#17177 - atom/github 0.14.1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17208&quot;&gt;atom/atom#17208 - Fix white I-beam cursor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17212&quot;&gt;atom/atom#17212 - Remove &#39;project&#39; command line flag&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17216&quot;&gt;atom/atom#17216 - Wait to initialize auto update manager until config is loaded&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/17218&quot;&gt;atom/atom#17218 - Update existing editors&#39; language modes when toggling tree-sitter feature flag&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui&quot;&gt;one-dark-ui&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.11.0...v1.12.1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/248&quot;&gt;atom/one-dark-ui#248 - Fix tabs.less&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/250&quot;&gt;atom/one-dark-ui#250 - Sticky header config&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/252&quot;&gt;atom/one-dark-ui#252 - Fix sticky header from covering auto-revealed items&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/247&quot;&gt;atom/one-dark-ui#247 - Increase contrast of scrollbar thumb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/253&quot;&gt;atom/one-dark-ui#253 - Add option for left tab close buttons&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/255&quot;&gt;atom/one-dark-ui#255 - Custom GitHub package inputs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui&quot;&gt;one-light-ui&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.11.0...v1.12.1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/127&quot;&gt;atom/one-light-ui#127 - Fix active pane marker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/128&quot;&gt;atom/one-light-ui#128 - Sticky header config&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/129&quot;&gt;atom/one-light-ui#129 - Fix sticky header from covering auto-revealed items&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/130&quot;&gt;atom/one-light-ui#130 - Add option for left tab close buttons&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/131&quot;&gt;atom/one-light-ui#131 - Custom GitHub package inputs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/about&quot;&gt;about&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.8.0...v1.8.1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/about/pull/71&quot;&gt;atom/about#71 - Fixing display for squirrel icon&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus&quot;&gt;autocomplete-plus&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v2.40.5...v2.40.6&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/961&quot;&gt;atom/autocomplete-plus#961 - fix using autocomplete instead of autocomplete-plus to retrieve config&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/bracket-matcher&quot;&gt;bracket-matcher&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.89.1...v0.89.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/bracket-matcher/pull/347&quot;&gt;atom/bracket-matcher#347 - Insert bracket pair and position cursor within a transaction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/bracket-matcher/pull/346&quot;&gt;atom/bracket-matcher#346 - Eliminate uneccesary calls to isRangeCommentedOrString&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace&quot;&gt;find-and-replace&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.215.5...v0.215.9&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1006&quot;&gt;atom/find-and-replace#1006 - Explicitly wait for a non-pending item&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1007&quot;&gt;atom/find-and-replace#1007 - Don&#39;t modify selection when toggling &quot;only in selection&quot;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1009&quot;&gt;atom/find-and-replace#1009 - Create unicode regexps when necessary&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1000&quot;&gt;atom/find-and-replace#1000 - Keep collapsed items in sync with search results&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/find-and-replace/pull/1014&quot;&gt;atom/find-and-replace#1014 - Check if an active editor exists when toggling &quot;Only in Selection&quot;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/github&quot;&gt;github&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.12.0...v0.14.3&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1349&quot;&gt;atom/github#1349 - More prominent commit button &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1350&quot;&gt;atom/github#1350 - :arrow_up: fs-extra&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1359&quot;&gt;atom/github#1359 - Use unambiguous branch name when pushing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1362&quot;&gt;atom/github#1362 - Fix flakey GitTabController test &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1355&quot;&gt;atom/github#1355 - Commit together with co-authors&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1318&quot;&gt;atom/github#1318 - Recent commit changes RFC&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1308&quot;&gt;atom/github#1308 - Push and pull straight from status bar&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1364&quot;&gt;atom/github#1364 - Undo last commit and amend context menu option&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1378&quot;&gt;atom/github#1378 - Shhhh, relay-compiler. Shhhh.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1374&quot;&gt;atom/github#1374 - Add dialog for new co-author&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1383&quot;&gt;atom/github#1383 - Remove One theme hacks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1384&quot;&gt;atom/github#1384 - lazy load &lt;code&gt;CustomEvent&lt;/code&gt; to fix snapshotting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1379&quot;&gt;atom/github#1379 - Add naming convention&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1376&quot;&gt;atom/github#1376 - Create pull request&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1388&quot;&gt;atom/github#1388 - Hide commit button tooltip after committing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1400&quot;&gt;atom/github#1400 - Call FilePatchController methods on the &quot;real item&quot;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1401&quot;&gt;atom/github#1401 - DOMPurify is done within the notifications package&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1402&quot;&gt;atom/github#1402 - No-op on untitled buffers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1411&quot;&gt;atom/github#1411 - Only register &quot;github:co-author:...&quot; commands on co-author editor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1434&quot;&gt;atom/github#1434 - Only call scrollIntoViewIfNeeded() on elements that are still present&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/grammar-selector&quot;&gt;grammar-selector&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.50.0...v0.50.1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/grammar-selector/pull/54&quot;&gt;atom/grammar-selector#54 - fix tooltip destroy error&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/line-ending-selector&quot;&gt;line-ending-selector&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.7.5...v0.7.6&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/line-ending-selector/pull/56&quot;&gt;atom/line-ending-selector#56 - Prevent LFRegExp from matching on &quot;\r\n&quot;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/styleguide&quot;&gt;styleguide&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.49.10...v0.49.11&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/styleguide/pull/68&quot;&gt;atom/styleguide#68 - Fix list-group selection&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/tree-view&quot;&gt;tree-view&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.221.3...v0.222.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/tree-view/pull/1200&quot;&gt;atom/tree-view#1200 - Don&#39;t open tree-view to auto-reveal files&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/details&gt;</content>
     <author>
-      <name>iolsen</name>
+      <name>daviwil</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars2.githubusercontent.com/u/553742?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/79405?s=60&amp;v=4"/>
   </entry>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.17.0-beta4</id>
-    <updated>2017-04-26T23:51:47+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.17.0-beta4"/>
-    <title>1.17.0-beta4</title>
-    <content type="html">&lt;ul&gt;&lt;li&gt;Fixed bug where bundled packages were loaded instead of dev packages&lt;/li&gt;&lt;li&gt;Updated to Electron 1.3.15 to address remote module issues &lt;a href=&quot;https://github.com/electron/electron/pull/9240&quot; class=&quot;issue-link js-issue-link&quot; data-url=&quot;https://github.com/electron/electron/issues/9240&quot; data-id=&quot;223183220&quot; data-error-text=&quot;Failed to load issue title&quot; data-permission-text=&quot;Issue title is private&quot;&gt;electron/electron#9240&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</content>
-    <author>
-      <name>damieng</name>
-    </author>
-    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/118951?v=3&amp;s=60"/>
-  </entry>
-  <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.17.0-beta3</id>
-    <updated>2017-04-18T23:20:32+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.17.0-beta3"/>
-    <title>1.17.0-beta3</title>
-    <content type="html">&lt;ul&gt;&lt;li&gt;Fixed a bug that caused the tree-view to unexpectedly gain focus.&lt;/li&gt;&lt;li&gt;Fixed a bug that prevented the tree-view from showing when adding a project folder.&lt;/li&gt;&lt;li&gt;Fixed a bug that caused the tree-view to initially have the incorrect width.&lt;/li&gt;&lt;li&gt;Fixed a bug where &lt;code&gt;cmd-w&lt;/code&gt; would close the tree-view when it was focused.&lt;/li&gt;&lt;/ul&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.27.0-beta1</id>
+    <updated>2018-04-26T22:40:51+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.27.0-beta1"/>
+    <title>1.27.0-beta1</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/atom/issues/17178&quot;&gt;an error&lt;/a&gt; that would occur when opening files from Finder on macOS.&lt;/li&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/atom/issues/17172&quot;&gt;a bug&lt;/a&gt; where Atom would auto-update even if auto-updates were disabled.&lt;/li&gt;
+&lt;li&gt;Fixed the cursor &lt;a href=&quot;https://github.com/atom/atom/issues/17174&quot;&gt;not turning white&lt;/a&gt; when using dark syntax themes.&lt;/li&gt;
+&lt;li&gt;Fixed an issue where packages &lt;a href=&quot;https://github.com/atom/atom/issues/17060&quot;&gt;could cause config file corruption&lt;/a&gt; by changing config settings during shutdown.&lt;/li&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/spell-check/issues/238&quot;&gt;a bug&lt;/a&gt; in the new system for excluding scopes from spell-check.&lt;/li&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/atom/issues/17055&quot;&gt;an error&lt;/a&gt; that would occur when trying to expand snippets in the git commit message editor.&lt;/li&gt;
+&lt;/ul&gt;</content>
     <author>
       <name>maxbrunsfeld</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars3.githubusercontent.com/u/326587?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/326587?s=60&amp;v=4"/>
   </entry>
   <entry>
-    <id>tag:github.com,2008:Repository/3228505/v1.17.0-beta2</id>
-    <updated>2017-04-14T19:28:23+03:00</updated>
-    <link rel="alternate" type="text/html" href="/atom/atom/releases/tag/v1.17.0-beta2"/>
-    <title>1.17.0-beta2</title>
-    <content type="html">&lt;ul&gt;&lt;li&gt;Fixed a regression that made it impossible to toggle closed docks. (&lt;a href=&quot;https://github.com/atom/atom/pull/14203&quot; class=&quot;issue-link js-issue-link&quot; data-url=&quot;https://github.com/atom/atom/issues/14203&quot; data-id=&quot;221703578&quot; data-error-text=&quot;Failed to load issue title&quot; data-permission-text=&quot;Issue title is private&quot;&gt;#14203&lt;/a&gt;)&lt;/li&gt;&lt;li&gt;Fixed a bug in &lt;code&gt;atom.worskpace.openSync&lt;/code&gt; test helper. (&lt;a href=&quot;https://github.com/atom/atom/pull/14205&quot; class=&quot;issue-link js-issue-link&quot; data-url=&quot;https://github.com/atom/atom/issues/14205&quot; data-id=&quot;221752601&quot; data-error-text=&quot;Failed to load issue title&quot; data-permission-text=&quot;Issue title is private&quot;&gt;#14205&lt;/a&gt;)&lt;/li&gt;&lt;/ul&gt;</content>
+    <id>tag:github.com,2008:Repository/3228505/v1.26.1</id>
+    <updated>2018-04-26T22:40:40+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.26.1"/>
+    <title>1.26.1</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/atom/issues/17178&quot;&gt;an error&lt;/a&gt; that would occur when opening files from Finder on macOS.&lt;/li&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/atom/issues/17172&quot;&gt;a bug&lt;/a&gt; where Atom would auto-update even if auto-updates were disabled.&lt;/li&gt;
+&lt;li&gt;Fixed the cursor &lt;a href=&quot;https://github.com/atom/atom/issues/17174&quot;&gt;not turning white&lt;/a&gt; when using dark syntax themes.&lt;/li&gt;
+&lt;li&gt;Fixed an issue where packages &lt;a href=&quot;https://github.com/atom/atom/issues/17060&quot;&gt;could cause config file corruption&lt;/a&gt; by changing config settings during shutdown.&lt;/li&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/spell-check/issues/238&quot;&gt;a bug&lt;/a&gt; in the new system for excluding scopes from spell-check.&lt;/li&gt;
+&lt;li&gt;Fixed &lt;a href=&quot;https://github.com/atom/atom/issues/17055&quot;&gt;an error&lt;/a&gt; that would occur when trying to expand snippets in the git commit message editor.&lt;/li&gt;
+&lt;/ul&gt;</content>
     <author>
-      <name>nathansobo</name>
+      <name>maxbrunsfeld</name>
     </author>
-    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1789?v=3&amp;s=60"/>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/326587?s=60&amp;v=4"/>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Repository/3228505/v1.26.0</id>
+    <updated>2018-04-19T02:00:10+03:00</updated>
+    <link rel="alternate" type="text/html" href="https://github.com/atom/atom/releases/tag/v1.26.0"/>
+    <title>1.26.0</title>
+    <content type="html">&lt;h2&gt;Notable Changes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Added &lt;a href=&quot;https://github.com/atom/atom/pull/16124&quot;&gt;experimental file system watcher&lt;/a&gt; support.&lt;/li&gt;
+&lt;li&gt;Improved support for &lt;a href=&quot;https://github.com/atom/git-utils/pull/77&quot;&gt;git worktrees&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/16775&quot;&gt;Updated fuzzaldrin-plus across a few packages&lt;/a&gt; to get better fuzzy path searching.&lt;/li&gt;
+&lt;li&gt;Improved &lt;a href=&quot;https://github.com/atom/atom/pull/16851&quot;&gt;file rename detection&lt;/a&gt; in the watchPath API.&lt;/li&gt;
+&lt;li&gt;Initial support for a new &lt;a href=&quot;https://github.com/atom/atom/pull/16845&quot;&gt;Atom project file format&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Package authors can now &lt;a href=&quot;https://github.com/atom/atom/pull/16661&quot;&gt;control the order of context menu items&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Chromium 56&#39;s &quot;system-ui&quot; generic font family is now used to &lt;a href=&quot;https://github.com/atom/atom/pull/15080&quot;&gt;load platform-specific system fonts&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Atom&#39;s &lt;code&gt;.deb&lt;/code&gt; package dependencies have been expanded to &lt;a href=&quot;https://github.com/atom/atom/pull/16812&quot;&gt;enable installation inside headless environments&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/16823&quot;&gt;Fixed crashes&lt;/a&gt; caused by missing &lt;code&gt;USERNAME&lt;/code&gt;/&lt;code&gt;USER&lt;/code&gt; environment variables.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;atom --wait&lt;/code&gt; now works correctly with &lt;a href=&quot;https://github.com/atom/atom/pull/16745&quot;&gt;Windows file paths&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;User interface polish around &lt;a href=&quot;https://github.com/atom/atom/pull/16886&quot;&gt;typing&lt;/a&gt;, &lt;a href=&quot;https://github.com/atom/atom/pull/16753&quot;&gt;scroll wheel scaling&lt;/a&gt;, and &lt;a href=&quot;https://github.com/atom/atom/pull/15831&quot;&gt;editor text rendering&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Fixed an issue where &lt;a href=&quot;https://github.com/atom/atom/pull/16428&quot;&gt;panes sometimes do not fill available space&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom/pull/16921&quot;&gt;Syntax grammar updates&lt;/a&gt; for &lt;a href=&quot;https://github.com/atom/language-java&quot;&gt;language-java&lt;/a&gt;, &lt;a href=&quot;https://github.com/atom/language-javascript&quot;&gt;language-javascript&lt;/a&gt;, &lt;a href=&quot;https://github.com/atom/language-php&quot;&gt;language-php&lt;/a&gt;, and &lt;a href=&quot;https://github.com/atom/language-yaml&quot;&gt;language-yaml&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;All Changes&lt;/summary&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom-dark-ui&quot;&gt;atom-dark-ui&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.53.1...v0.53.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom-dark-ui/pull/74&quot;&gt;atom/atom-dark-ui#74 - Switch to sytem-ui font&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/atom-light-ui&quot;&gt;atom-light-ui&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.46.1...v0.46.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/atom-light-ui/pull/42&quot;&gt;atom/atom-light-ui#42 - Switch to sytem-ui font&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui&quot;&gt;one-dark-ui&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.10.10...v1.11.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/233&quot;&gt;atom/one-dark-ui#233 - Fix dock toggle button position&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/238&quot;&gt;atom/one-dark-ui#238 - Switch to sytem-ui font&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/242&quot;&gt;atom/one-dark-ui#242 - Remove margin of icon only status-bar items&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/243&quot;&gt;atom/one-dark-ui#243 - Increase transparency of the modal backdrop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/244&quot;&gt;atom/one-dark-ui#244 - Fix command palette input border&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/245&quot;&gt;atom/one-dark-ui#245 - Use dropdown as font size picker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-dark-ui/pull/246&quot;&gt;atom/one-dark-ui#246 - Sticky projects&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui&quot;&gt;one-light-ui&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.10.10...v1.11.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/118&quot;&gt;atom/one-light-ui#118 - Fix dock toggle button position&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/120&quot;&gt;atom/one-light-ui#120 - Switch to sytem-ui font&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/123&quot;&gt;atom/one-light-ui#123 - Remove margin of icon only status-bar items&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/124&quot;&gt;atom/one-light-ui#124 - Increase transparency of the modal backdrop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/125&quot;&gt;atom/one-light-ui#125 - Fix command palette input border&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/126&quot;&gt;atom/one-light-ui#126 - Use dropdown as font size picker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/one-light-ui/pull/121&quot;&gt;atom/one-light-ui#121 - Sticky projects&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/archive-view&quot;&gt;archive-view&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.64.2...v0.64.3&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/archive-view/pull/60&quot;&gt;atom/archive-view#60 - Refactor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/archive-view/pull/58&quot;&gt;atom/archive-view#58 - Focus file before modifying DOM to avoid forced reflows&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus&quot;&gt;autocomplete-plus&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v2.40.2...v2.40.5&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/957&quot;&gt;atom/autocomplete-plus#957 - Update fuzzaldrin-plus to 0.6.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/953&quot;&gt;atom/autocomplete-plus#953 - Fix validation issue for navigate-to-description-more-link&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/autocomplete-plus/pull/955&quot;&gt;atom/autocomplete-plus#955 - Apply &quot;moveToCancel&quot; preference to all movement commands.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/background-tips&quot;&gt;background-tips&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.27.1...v0.28.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/33&quot;&gt;atom/background-tips#33 - Remove old TODO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/34&quot;&gt;atom/background-tips#34 - Use Trusty on Travis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/35&quot;&gt;atom/background-tips#35 - Decaffeinate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/36&quot;&gt;atom/background-tips#36 - Remove event-kit dependency&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/37&quot;&gt;atom/background-tips#37 - Use pane:split-right-and-copy-active-item&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/38&quot;&gt;atom/background-tips#38 - Use unprefixed user-select&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/39&quot;&gt;atom/background-tips#39 - 🔥 unused &lt;code&gt;destroyed&lt;/code&gt; variable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/background-tips/pull/40&quot;&gt;atom/background-tips#40 - Do not show background tips unless focused&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/dalek&quot;&gt;dalek&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.2.1...v0.2.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/dalek/pull/9&quot;&gt;atom/dalek#9 - Fix for asar&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder&quot;&gt;fuzzy-finder&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.7.5...v1.8.1&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/328&quot;&gt;atom/fuzzy-finder#328 - Update fuzzaldrin-plus to 0.6.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/337&quot;&gt;atom/fuzzy-finder#337 - Remove Babel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/338&quot;&gt;atom/fuzzy-finder#338 - Validate line numbers before jumping&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/339&quot;&gt;atom/fuzzy-finder#339 - Use async/await in specs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/341&quot;&gt;atom/fuzzy-finder#341 - Dispose of commands and callbacks when deactivating&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/335&quot;&gt;atom/fuzzy-finder#335 - Use fuzzy-finder to open remote editors in Teletype portals&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/fuzzy-finder/pull/343&quot;&gt;atom/fuzzy-finder#343 - Fix &quot;Project is empty&quot; issue when using Teletype&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/github&quot;&gt;github&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.10.3...v0.12.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1305&quot;&gt;atom/github#1305 - Configuration option to disable merge conflict resolution&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1307&quot;&gt;atom/github#1307 - Align changed file count in status bar&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1289&quot;&gt;atom/github#1289 - Fix freezing on travis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1315&quot;&gt;atom/github#1315 - Process draft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1317&quot;&gt;atom/github#1317 - The Great Unflaking, Part II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1319&quot;&gt;atom/github#1319 - Port GitTabView and GitTabController to React&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1321&quot;&gt;atom/github#1321 - Unbreak master&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1320&quot;&gt;atom/github#1320 - Yet Another Test Flake&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1325&quot;&gt;atom/github#1325 - Port the CommitViewController and CommitView to React&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1326&quot;&gt;atom/github#1326 - Shorter time ago in recent commits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1311&quot;&gt;atom/github#1311 - Fix logic for automatically opening diff views based on selection change&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1322&quot;&gt;atom/github#1322 - Add read only recent commits view&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1331&quot;&gt;atom/github#1331 - Escape stderr in notifications&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1327&quot;&gt;atom/github#1327 - Remember Me?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1334&quot;&gt;atom/github#1334 - Migrate to CircleCI 2.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1342&quot;&gt;atom/github#1342 - getWrappedComponent() calls on things that are no longer EtchWrappers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1344&quot;&gt;atom/github#1344 - Lock Relay dependencies to 1.4.1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/github/pull/1347&quot;&gt;atom/github#1347 - Avoid rerendering the FilePatchView on every tiny update&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/grammar-selector&quot;&gt;grammar-selector&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.49.9...v0.50.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/grammar-selector/pull/42&quot;&gt;atom/grammar-selector#42 - add a tooltip to the status bar display&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/settings-view&quot;&gt;settings-view&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.254.1...v0.254.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/settings-view/pull/1043&quot;&gt;atom/settings-view#1043 - always open existing setting item in &#39;settings-view:open&#39; command&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/snippets&quot;&gt;snippets&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v1.3.1...v1.3.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/snippets/pull/267&quot;&gt;atom/snippets#267 - Fix incorrect parsing of placeholders that point to other tab stops.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/spell-check&quot;&gt;spell-check&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.72.7...v0.73.3&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/spell-check/pull/213&quot;&gt;atom/spell-check#213 - Add note about SPELLCHECKER_PREFER_HUNSPELL to README.md&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/spell-check/pull/220&quot;&gt;atom/spell-check#220 - Unicode known words&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/spell-check/pull/240&quot;&gt;atom/spell-check#240 - Fix tests&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/spell-check/pull/244&quot;&gt;atom/spell-check#244 - Add postinstall hook to remove the webworker-threads module&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/spell-check/pull/246&quot;&gt;atom/spell-check#246 - Upgrade to spelling-manager 1.1.0 to remove dependency on webworker-threads&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-java&quot;&gt;language-java&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.28.0...v0.29.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-java/pull/126&quot;&gt;atom/language-java#126 - Adjust invalid scope for uppercase package names&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-java/pull/133&quot;&gt;atom/language-java#133 - Fix highlighting for generics with dots in class name&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-java/pull/130&quot;&gt;atom/language-java#130 - Add varargs scope&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-java/pull/128&quot;&gt;atom/language-java#128 - Fix capitalized variables being highlighted as storage type&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-java/pull/134&quot;&gt;atom/language-java#134 - Fix master branch: add varargs into object-types pattern&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-javascript&quot;&gt;language-javascript&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.128.3...v0.128.5&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-javascript/pull/561&quot;&gt;atom/language-javascript#561 - Add regular expression named capture group highlighting.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-javascript/pull/562&quot;&gt;atom/language-javascript#562 - Add missing operators&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-javascript/pull/549&quot;&gt;atom/language-javascript#549 - Fix multiline re-export of the default export&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-php&quot;&gt;language-php&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.43.1...v0.43.2&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-php/pull/315&quot;&gt;atom/language-php#315 - Tokenize nullable-type operator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-php/pull/316&quot;&gt;atom/language-php#316 - Tokenize classes that start at a curly brace&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-php/pull/317&quot;&gt;atom/language-php#317 - Tokenize &lt;code&gt;yield from&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-php/pull/314&quot;&gt;atom/language-php#314 - Use // instead of # for PHP comments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-python&quot;&gt;language-python&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.49.2...v0.49.4&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-python/pull/243&quot;&gt;atom/language-python#243 - Inject Python string patterns into embedded SQL strings&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-python/pull/244&quot;&gt;atom/language-python#244 - Add missing sql scope to single-quoted single-line SQL strings&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-python/pull/247&quot;&gt;atom/language-python#247 - Not all docstrings are SQL&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-text&quot;&gt;language-text&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.7.3...v0.7.4&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-text/pull/17&quot;&gt;atom/language-text#17 - Update year to 2018&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;&lt;a href=&quot;https://github.com/atom/language-yaml&quot;&gt;language-yaml&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;v0.31.2...v0.32.0&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/atom/language-yaml/pull/103&quot;&gt;atom/language-yaml#103 - Rework number tokenization according to the spec&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/details&gt;</content>
+    <author>
+      <name>daviwil</name>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/79405?s=60&amp;v=4"/>
   </entry>
 </feed>
