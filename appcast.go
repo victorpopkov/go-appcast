@@ -34,7 +34,7 @@ type BaseAppcast struct {
 	// Checksum specifies the hash checksum for the original content from
 	// Request.HTTPRequest. It also includes the used algorithm, source and the
 	// checksum itself.
-	Checksum Checksum
+	Checksum *Checksum
 
 	// Releases specify an array of all application releases. All filtered
 	// releases are stored here.
@@ -95,13 +95,14 @@ func (a *BaseAppcast) LoadFromURL(i interface{}) error {
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 	a.Content = string(body)
-	a.Checksum.Source = a.Content
 
 	// provider
 	a.Provider = GuessProviderFromURL(a.url)
 	if a.Provider == Unknown {
 		a.Provider = GuessProviderFromContent(a.Content)
 	}
+
+	a.Checksum = NewChecksum(SHA256, []byte(a.Content))
 
 	return nil
 }
@@ -115,37 +116,32 @@ func (a *BaseAppcast) LoadFromFile(path string) error {
 	}
 
 	a.Content = string(data)
-	a.Checksum.Source = a.Content
 	a.Provider = GuessProviderFromContent(a.Content)
+	a.Checksum = NewChecksum(SHA256, []byte(a.Content))
 
 	return nil
 }
 
-// GenerateChecksum generates and returns the checksum based on provided
-// algorithm from BaseAppcast.Checksum.Source. The checksum is also stored as a
-// BaseAppcast.Checksum.Result value.
-func (a *BaseAppcast) GenerateChecksum(algorithm ChecksumAlgorithm) string {
-	a.Checksum.Algorithm = algorithm
-	a.Checksum.Source = a.Content
-	a.Checksum.Generate()
+// GenerateChecksum creates a new Checksum instance based on the provided
+// algorithm and returns its pointer. The new Checksum instance pointer replaces
+// the old BaseAppcast.Checksum.
+func (a *BaseAppcast) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
+	a.Checksum = NewChecksum(algorithm, []byte(a.Content))
 
-	return a.Checksum.Result
+	return a.Checksum
 }
 
-// GetChecksum is a convenience function to retrieve the checksum value stored
-// as BaseAppcast.Checksum.Result.
-func (a *BaseAppcast) GetChecksum() string {
-	return a.Checksum.Result
+// GetChecksum is a convenience function to retrieve the BaseAppcast.Checksum.
+func (a *BaseAppcast) GetChecksum() *Checksum {
+	return a.Checksum
 }
 
-// GetProvider is a convenience function to retrieve the provider value stored
-// as BaseAppcast.Provider.
+// GetProvider is a convenience function to retrieve the BaseAppcast.Provider.
 func (a *BaseAppcast) GetProvider() Provider {
 	return a.Provider
 }
 
-// GetURL is a convenience function to retrieve the current Request URL string
-// value stored as BaseAppcast.url.
+// GetURL is a BaseAppcast.url getter.
 func (a *BaseAppcast) GetURL() string {
 	return a.url
 }

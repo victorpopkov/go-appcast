@@ -5,14 +5,15 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"encoding/hex"
 )
 
 func TestNewChecksum(t *testing.T) {
-	c := NewChecksum(SHA256, "test")
+	c := NewChecksum(SHA256, []byte("test"))
 	assert.IsType(t, Checksum{}, *c)
-	assert.Equal(t, SHA256, c.Algorithm)
-	assert.Equal(t, "test", c.Source)
-	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", c.Result)
+	assert.Equal(t, SHA256, c.algorithm)
+	assert.Equal(t, []byte("test"), c.source)
+	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", c.String())
 }
 
 func TestGenerate(t *testing.T) {
@@ -108,14 +109,43 @@ func TestGenerate(t *testing.T) {
 	}
 
 	for filename, checkpoints := range testCases {
-		content := string(getTestdata(filename))
+		content := getTestdata(filename)
 
 		// SHA256
-		c := &Checksum{SHA256, content, ""}
-		assert.Equal(t, checkpoints[0], c.Generate(), fmt.Sprintf("Checksum doesn't match (SHA256): %s", filename))
+		c := &Checksum{SHA256, content, nil}
+		c.generate()
+		assert.Equal(t, checkpoints[0], c.String(), fmt.Sprintf("Checksum doesn't match (SHA256): %s", filename))
 
 		// MD5
-		c = &Checksum{MD5, content, ""}
-		assert.Equal(t, checkpoints[1], c.Generate(), fmt.Sprintf("Checksum doesn't match (MD5): %s", filename))
+		c = &Checksum{MD5, content, nil}
+		c.generate()
+		assert.Equal(t, checkpoints[1], c.String(), fmt.Sprintf("Checksum doesn't match (MD5): %s", filename))
 	}
+}
+
+func TestGetAlgorithm(t *testing.T) {
+	c := NewChecksum(SHA256, []byte("test"))
+	assert.Equal(t, SHA256, c.GetAlgorithm())
+}
+
+func TestGetSource(t *testing.T) {
+	source := []byte("test")
+	c := NewChecksum(SHA256, source)
+	assert.Equal(t, source, c.GetSource())
+}
+
+func TestGetResult(t *testing.T) {
+	result, _ := hex.DecodeString("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
+	c := NewChecksum(SHA256, []byte("test"))
+	assert.Equal(t, result, c.GetResult())
+}
+
+func TestChecksumAlgorithmString(t *testing.T) {
+	assert.Equal(t, "SHA256", SHA256.String())
+	assert.Equal(t, "MD5", MD5.String())
+}
+
+func TestChecksumString(t *testing.T) {
+	c := NewChecksum(SHA256, []byte("test"))
+	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", c.String())
 }

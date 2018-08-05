@@ -87,7 +87,7 @@ func TestLoadFromURL(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Content)
 	assert.Equal(t, SparkleRSSFeed, a.Provider)
-	assert.Empty(t, a.Checksum.Result)
+	assert.NotNil(t, a.Checksum)
 
 	// test (successful) [Request]
 	a = New()
@@ -96,7 +96,7 @@ func TestLoadFromURL(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Content)
 	assert.Equal(t, SparkleRSSFeed, a.Provider)
-	assert.Empty(t, a.Checksum.Result)
+	assert.NotNil(t, a.Checksum)
 
 	// test "Invalid URL" error
 	a = New()
@@ -104,7 +104,7 @@ func TestLoadFromURL(t *testing.T) {
 	assert.Error(t, err)
 	assert.Equal(t, "parse http://192.168.0.%31/: invalid URL escape \"%31\"", err.Error())
 	assert.Equal(t, Unknown, a.Provider)
-	assert.Empty(t, a.Checksum.Result)
+	assert.Nil(t, a.Checksum)
 
 	// test "Invalid request" error
 	a = New()
@@ -112,7 +112,7 @@ func TestLoadFromURL(t *testing.T) {
 	assert.Error(t, err)
 	assert.Equal(t, "Get invalid: no responder found", err.Error())
 	assert.Equal(t, Unknown, a.Provider)
-	assert.Empty(t, a.Checksum.Result)
+	assert.Nil(t, a.Checksum)
 }
 
 func TestLoadFromFile(t *testing.T) {
@@ -122,7 +122,7 @@ func TestLoadFromFile(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Content)
 	assert.Equal(t, SparkleRSSFeed, a.Provider)
-	assert.Empty(t, a.Checksum.Result)
+	assert.NotNil(t, a.Checksum)
 
 	// test (error)
 	a = New()
@@ -130,7 +130,7 @@ func TestLoadFromFile(t *testing.T) {
 	assert.Error(t, err)
 	assert.Equal(t, "open unexisting_file.xml: no such file or directory", err.Error())
 	assert.Equal(t, Unknown, a.Provider)
-	assert.Empty(t, a.Checksum.Result)
+	assert.Nil(t, a.Checksum)
 }
 
 func TestGenerateChecksum(t *testing.T) {
@@ -139,14 +139,13 @@ func TestGenerateChecksum(t *testing.T) {
 	a.Content = "test"
 
 	// before
-	assert.Equal(t, SHA256, a.Checksum.Algorithm)
-	assert.Empty(t, a.Checksum.Result)
+	assert.Nil(t, a.Checksum)
 
 	// test
 	result := a.GenerateChecksum(MD5)
-	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result)
-	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", a.Checksum.Result)
-	assert.Equal(t, MD5, a.Checksum.Algorithm)
+	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result.String())
+	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", a.Checksum.String())
+	assert.Equal(t, MD5, a.Checksum.GetAlgorithm())
 }
 
 func TestGetChecksum(t *testing.T) {
@@ -156,7 +155,7 @@ func TestGetChecksum(t *testing.T) {
 	a.GenerateChecksum(SHA256)
 
 	// test
-	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum())
+	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum().String())
 }
 
 func TestGetProvider(t *testing.T) {
@@ -313,22 +312,20 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 		a := New()
 		assert.Equal(t, Unknown, a.Provider)
 		assert.Empty(t, a.Content)
-		assert.Empty(t, a.Checksum.Source)
-		assert.Empty(t, a.Checksum.Result)
+		assert.Nil(t, a.Checksum)
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
 		a.LoadFromURL("https://example.com/appcast.xml")
 		assert.Equal(t, SparkleRSSFeed, a.Provider)
 		assert.NotEmpty(t, a.Content)
-		assert.NotEmpty(t, a.Checksum.Source)
-		assert.Empty(t, a.Checksum.Result)
+		assert.NotNil(t, a.Checksum)
 		assert.Len(t, a.Releases, 0)
 
 		// generate checksum
 		a.GenerateChecksum(SHA256)
 		assert.Equal(t, SparkleRSSFeed, a.Provider)
-		assert.Equal(t, data["checksum"].(string), a.GetChecksum())
+		assert.Equal(t, data["checksum"].(string), a.GetChecksum().String())
 
 		// releases
 		err := a.ExtractReleases()
@@ -391,22 +388,20 @@ func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 		a := New()
 		assert.Equal(t, Unknown, a.Provider)
 		assert.Empty(t, a.Content)
-		assert.Empty(t, a.Checksum.Source)
-		assert.Empty(t, a.Checksum.Result)
+		assert.Nil(t, a.Checksum)
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
 		a.LoadFromURL("https://example.com/appcast.xml")
 		assert.Equal(t, SourceForgeRSSFeed, a.Provider)
 		assert.NotEmpty(t, a.Content)
-		assert.NotEmpty(t, a.Checksum.Source)
-		assert.Empty(t, a.Checksum.Result)
+		assert.NotNil(t, a.Checksum)
 		assert.Len(t, a.Releases, 0)
 
 		// generate checksum
 		a.GenerateChecksum(SHA256)
 		assert.Equal(t, SourceForgeRSSFeed, a.Provider)
-		assert.Equal(t, data["checksum"].(string), a.GetChecksum())
+		assert.Equal(t, data["checksum"].(string), a.GetChecksum().String())
 
 		// releases
 		err := a.ExtractReleases()
@@ -461,22 +456,20 @@ func TestExtractReleasesGitHubAtomFeed(t *testing.T) {
 		a := New()
 		assert.Equal(t, Unknown, a.Provider)
 		assert.Empty(t, a.Content)
-		assert.Empty(t, a.Checksum.Source)
-		assert.Empty(t, a.Checksum.Result)
+		assert.Nil(t, a.Checksum)
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
 		a.LoadFromURL("https://example.com/appcast.xml")
 		assert.Equal(t, GitHubAtomFeed, a.Provider)
 		assert.NotEmpty(t, a.Content)
-		assert.NotEmpty(t, a.Checksum.Source)
-		assert.Empty(t, a.Checksum.Result)
+		assert.NotNil(t, a.Checksum)
 		assert.Len(t, a.Releases, 0)
 
 		// generate checksum
 		a.GenerateChecksum(SHA256)
 		assert.Equal(t, GitHubAtomFeed, a.Provider)
-		assert.Equal(t, data["checksum"].(string), a.GetChecksum())
+		assert.Equal(t, data["checksum"].(string), a.GetChecksum().String())
 
 		// releases
 		err := a.ExtractReleases()
