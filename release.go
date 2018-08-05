@@ -113,7 +113,7 @@ func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
 		}
 	}
 
-	return errors.New("Parsing of the published datetime failed")
+	return errors.New("parsing of the published datetime failed")
 }
 
 // GetVersionString is a convenience function to retrieve the release version

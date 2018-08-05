@@ -55,7 +55,7 @@ func (a *SourceForgeRSSFeedAppcast) ExtractReleases() error {
 		// extract version
 		versions, err := ExtractSemanticVersions(item.Title.Chardata)
 		if err != nil {
-			return fmt.Errorf("Version is required, but it's not specified in release #%d", i+1)
+			return fmt.Errorf("version is required, but it's not specified in release #%d", i+1)
 		}
 
 		// new release

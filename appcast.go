@@ -165,7 +165,7 @@ func (a *BaseAppcast) Uncomment() error {
 		if p == "-" {
 			p = "Unknown"
 		}
-		return fmt.Errorf("Uncommenting is not available for \"%s\" provider", p)
+		return fmt.Errorf("uncommenting is not available for \"%s\" provider", p)
 	}
 
 	return nil
@@ -208,7 +208,7 @@ func (a *BaseAppcast) ExtractReleases() error {
 		if p == "-" {
 			p = "Unknown"
 		}
-		return fmt.Errorf("Releases can't be extracted from \"%s\" provider", p)
+		return fmt.Errorf("releases can't be extracted from \"%s\" provider", p)
 	}
 
 	return nil
@@ -371,5 +371,5 @@ func ExtractSemanticVersions(data string) ([]string, error) {
 		return versions, nil
 	}
 
-	return nil, errors.New("No semantic versions found")
+	return nil, errors.New("no semantic versions found")
 }

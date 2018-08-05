@@ -75,7 +75,7 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 		}
 
 		if version == "" && build == "" {
-			return fmt.Errorf("Version is required, but it's not specified in release #%d", i+1)
+			return fmt.Errorf("version is required, but it's not specified in release #%d", i+1)
 		} else if version == "" && build != "" {
 			version = build
 		}

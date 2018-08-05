@@ -28,7 +28,7 @@ func TestSourceForgeRSSFeedAppcastExtractReleases(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"sourceforge/invalid_version.xml": "Version is required, but it's not specified in release #2",
+		"sourceforge/invalid_version.xml": "version is required, but it's not specified in release #2",
 	}
 
 	// test (successful)

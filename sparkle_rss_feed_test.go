@@ -39,7 +39,7 @@ func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
 		// before SparkleRSSFeedAppcast.Uncomment
 		for _, commentLine := range commentLines {
 			line, _ := getLineFromString(commentLine, a.Content)
-			check := (regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line))
+			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 			assert.True(t, check, fmt.Sprintf("\"%s\" doesn't have a commented out line", filename))
 		}
 
@@ -49,7 +49,7 @@ func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
 		// after SparkleRSSFeedAppcast.Uncomment
 		for _, commentLine := range commentLines {
 			line, _ := getLineFromString(commentLine, a.Content)
-			check := (regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line))
+			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 			assert.False(t, check, fmt.Sprintf("\"%s\" didn't uncomment a \"%d\" line", filename, commentLine))
 		}
 	}
@@ -114,7 +114,7 @@ func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
 
 	errorTestCases := map[string]string{
 		"sparkle/invalid_version.xml": "Malformed version: invalid",
-		"sparkle/with_comments.xml":   "Version is required, but it's not specified in release #1",
+		"sparkle/with_comments.xml":   "version is required, but it's not specified in release #1",
 	}
 
 	// test (successful)

@@ -12,7 +12,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	httpmock "gopkg.in/jarcoal/httpmock.v1"
+	"gopkg.in/jarcoal/httpmock.v1"
 )
 
 var testdataPath = "./testdata/"
@@ -57,7 +57,7 @@ func readLine(r io.Reader, lineNum int) (line string, err error) {
 		}
 	}
 
-	return "", fmt.Errorf("There is no line \"%d\" in specified io.Reader", lineNum)
+	return "", fmt.Errorf("there is no line \"%d\" in specified io.Reader", lineNum)
 }
 
 // getLineFromString returns a specified line from the passed string content and
@@ -190,7 +190,7 @@ func TestUncommentUnknown(t *testing.T) {
 	// test
 	err := a.Uncomment()
 	assert.Error(t, err)
-	assert.Equal(t, "Uncommenting is not available for \"Unknown\" provider", err.Error())
+	assert.Equal(t, "uncommenting is not available for \"Unknown\" provider", err.Error())
 }
 
 func TestUncommentSparkleRSSFeed(t *testing.T) {
@@ -207,7 +207,7 @@ func TestUncommentSparkleRSSFeed(t *testing.T) {
 
 	for _, commentLine := range []int{13, 20} {
 		line, _ := getLineFromString(commentLine, a.Content)
-		check := (regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line))
+		check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 		assert.False(t, check)
 	}
 }
@@ -221,7 +221,7 @@ func TestUncommentSourceForgeRSSFeed(t *testing.T) {
 	a.Provider = SourceForgeRSSFeed
 	err := a.Uncomment()
 	assert.Error(t, err)
-	assert.Equal(t, "Uncommenting is not available for \"SourceForge RSS Feed\" provider", err.Error())
+	assert.Equal(t, "uncommenting is not available for \"SourceForge RSS Feed\" provider", err.Error())
 }
 
 func TestUncommentGitHubAtomFeed(t *testing.T) {
@@ -233,7 +233,7 @@ func TestUncommentGitHubAtomFeed(t *testing.T) {
 	a.Provider = GitHubAtomFeed
 	err := a.Uncomment()
 	assert.Error(t, err)
-	assert.Equal(t, "Uncommenting is not available for \"GitHub Atom Feed\" provider", err.Error())
+	assert.Equal(t, "uncommenting is not available for \"GitHub Atom Feed\" provider", err.Error())
 }
 
 func TestExtractReleasesUnknown(t *testing.T) {
@@ -243,7 +243,7 @@ func TestExtractReleasesUnknown(t *testing.T) {
 	// provider "Unknown"
 	err := a.ExtractReleases()
 	assert.Error(t, err)
-	assert.Equal(t, "Releases can't be extracted from \"Unknown\" provider", err.Error())
+	assert.Equal(t, "releases can't be extracted from \"Unknown\" provider", err.Error())
 }
 
 func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
@@ -296,7 +296,7 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 
 	errorTestCases := map[string]string{
 		"sparkle/invalid_version.xml": "Malformed version: invalid",
-		"sparkle/with_comments.xml":   "Version is required, but it's not specified in release #1",
+		"sparkle/with_comments.xml":   "version is required, but it's not specified in release #1",
 	}
 
 	// preparations for mocking the request
@@ -374,7 +374,7 @@ func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"sourceforge/invalid_version.xml": "Version is required, but it's not specified in release #2",
+		"sourceforge/invalid_version.xml": "version is required, but it's not specified in release #2",
 	}
 
 	// preparations for mocking the request
@@ -625,7 +625,7 @@ func TestExtractSemanticVersions(t *testing.T) {
 		actual, err := ExtractSemanticVersions(data)
 		if versions == nil {
 			assert.Error(t, err)
-			assert.Equal(t, "No semantic versions found", err.Error())
+			assert.Equal(t, "no semantic versions found", err.Error())
 		} else {
 			assert.Nil(t, err)
 			assert.Equal(t, versions, actual)
