@@ -67,9 +67,9 @@ func New() *BaseAppcast {
 	return a
 }
 
-// LoadFromURL loads the appcast content. Supports the remote URL string or
+// LoadFromUrl loads the appcast content. Supports the remote URL string or
 // Request struct pointer as an argument.
-func (a *BaseAppcast) LoadFromURL(i interface{}) error {
+func (a *BaseAppcast) LoadFromUrl(i interface{}) error {
 	var req *Request
 
 	switch v := i.(type) {

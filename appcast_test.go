@@ -74,7 +74,7 @@ func TestNew(t *testing.T) {
 	assert.Equal(t, Unknown, a.Provider)
 }
 
-func TestLoadFromURL(t *testing.T) {
+func TestLoadFromUrl(t *testing.T) {
 	// mock the request
 	content := string(getTestdata("sparkle/default.xml"))
 	httpmock.Activate()
@@ -83,7 +83,7 @@ func TestLoadFromURL(t *testing.T) {
 
 	// test (successful) [URL]
 	a := New()
-	err := a.LoadFromURL("https://example.com/appcast.xml")
+	err := a.LoadFromUrl("https://example.com/appcast.xml")
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Content)
 	assert.Equal(t, SparkleRSSFeed, a.Provider)
@@ -92,7 +92,7 @@ func TestLoadFromURL(t *testing.T) {
 	// test (successful) [Request]
 	a = New()
 	r, _ := NewRequest("https://example.com/appcast.xml")
-	err = a.LoadFromURL(r)
+	err = a.LoadFromUrl(r)
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Content)
 	assert.Equal(t, SparkleRSSFeed, a.Provider)
@@ -100,7 +100,7 @@ func TestLoadFromURL(t *testing.T) {
 
 	// test "Invalid URL" error
 	a = New()
-	err = a.LoadFromURL("http://192.168.0.%31/")
+	err = a.LoadFromUrl("http://192.168.0.%31/")
 	assert.Error(t, err)
 	assert.Equal(t, "parse http://192.168.0.%31/: invalid URL escape \"%31\"", err.Error())
 	assert.Equal(t, Unknown, a.Provider)
@@ -108,7 +108,7 @@ func TestLoadFromURL(t *testing.T) {
 
 	// test "Invalid request" error
 	a = New()
-	err = a.LoadFromURL("invalid")
+	err = a.LoadFromUrl("invalid")
 	assert.Error(t, err)
 	assert.Equal(t, "Get invalid: no responder found", err.Error())
 	assert.Equal(t, Unknown, a.Provider)
@@ -176,7 +176,7 @@ func TestGetURL(t *testing.T) {
 
 	// test
 	a := New()
-	a.LoadFromURL("https://example.com/appcast.xml")
+	a.LoadFromUrl("https://example.com/appcast.xml")
 
 	// test
 	assert.Equal(t, "https://example.com/appcast.xml", a.GetURL())
@@ -316,7 +316,7 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
-		a.LoadFromURL("https://example.com/appcast.xml")
+		a.LoadFromUrl("https://example.com/appcast.xml")
 		assert.Equal(t, SparkleRSSFeed, a.Provider)
 		assert.NotEmpty(t, a.Content)
 		assert.NotNil(t, a.Checksum)
@@ -341,7 +341,7 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 
 		// preparations
 		a := New()
-		a.LoadFromURL("https://example.com/appcast.xml")
+		a.LoadFromUrl("https://example.com/appcast.xml")
 
 		// test
 		err := a.ExtractReleases()
@@ -392,7 +392,7 @@ func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
-		a.LoadFromURL("https://example.com/appcast.xml")
+		a.LoadFromUrl("https://example.com/appcast.xml")
 		assert.Equal(t, SourceForgeRSSFeed, a.Provider)
 		assert.NotEmpty(t, a.Content)
 		assert.NotNil(t, a.Checksum)
@@ -417,7 +417,7 @@ func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 
 		// preparations
 		a := New()
-		a.LoadFromURL("https://example.com/appcast.xml")
+		a.LoadFromUrl("https://example.com/appcast.xml")
 
 		// test
 		err := a.ExtractReleases()
@@ -460,7 +460,7 @@ func TestExtractReleasesGitHubAtomFeed(t *testing.T) {
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
-		a.LoadFromURL("https://example.com/appcast.xml")
+		a.LoadFromUrl("https://example.com/appcast.xml")
 		assert.Equal(t, GitHubAtomFeed, a.Provider)
 		assert.NotEmpty(t, a.Content)
 		assert.NotNil(t, a.Checksum)
@@ -485,7 +485,7 @@ func TestExtractReleasesGitHubAtomFeed(t *testing.T) {
 
 		// preparations
 		a := New()
-		a.LoadFromURL("https://example.com/appcast.xml")
+		a.LoadFromUrl("https://example.com/appcast.xml")
 
 		// test
 		err := a.ExtractReleases()
@@ -515,7 +515,7 @@ func TestSortReleasesByVersions(t *testing.T) {
 
 		// preparations
 		a := New()
-		a.LoadFromURL("https://example.com/appcast.xml")
+		a.LoadFromUrl("https://example.com/appcast.xml")
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
 
@@ -538,7 +538,7 @@ func TestFilters(t *testing.T) {
 
 	// preparations
 	a := New()
-	a.LoadFromURL("https://example.com/appcast.xml")
+	a.LoadFromUrl("https://example.com/appcast.xml")
 	a.ExtractReleases()
 
 	// BaseAppcast.FilterReleasesByTitle
