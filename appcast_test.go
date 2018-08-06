@@ -70,7 +70,7 @@ func getLineFromString(lineNum int, content string) (line string, err error) {
 
 func TestNew(t *testing.T) {
 	a := New()
-	assert.IsType(t, BaseAppcast{}, *a)
+	assert.IsType(t, Appcast{}, *a)
 	assert.Equal(t, Unknown, a.Provider)
 }
 
@@ -541,7 +541,7 @@ func TestBaseAppcast_Filters(t *testing.T) {
 	a.LoadFromUrl("https://example.com/appcast.xml")
 	a.ExtractReleases()
 
-	// BaseAppcast.FilterReleasesByTitle
+	// Appcast.FilterReleasesByTitle
 	assert.Len(t, a.Releases, 4)
 	a.FilterReleasesByTitle("Release 1.0")
 	assert.Len(t, a.Releases, 2)
@@ -550,7 +550,7 @@ func TestBaseAppcast_Filters(t *testing.T) {
 	assert.Equal(t, "Release 1.0.1", a.Releases[0].Title)
 	a.ResetFilters()
 
-	// BaseAppcast.FilterReleasesByMediaType
+	// Appcast.FilterReleasesByMediaType
 	assert.Len(t, a.Releases, 4)
 	a.FilterReleasesByMediaType("application/octet-stream")
 	assert.Len(t, a.Releases, 4)
@@ -558,7 +558,7 @@ func TestBaseAppcast_Filters(t *testing.T) {
 	assert.Len(t, a.Releases, 4)
 	a.ResetFilters()
 
-	// BaseAppcast.FilterReleasesByURL
+	// Appcast.FilterReleasesByURL
 	assert.Len(t, a.Releases, 4)
 	a.FilterReleasesByURL(`app_1.*dmg$`)
 	assert.Len(t, a.Releases, 3)
@@ -566,7 +566,7 @@ func TestBaseAppcast_Filters(t *testing.T) {
 	assert.Len(t, a.Releases, 1)
 	a.ResetFilters()
 
-	// BaseAppcast.FilterReleasesByPrerelease
+	// Appcast.FilterReleasesByPrerelease
 	assert.Len(t, a.Releases, 4)
 	a.FilterReleasesByPrerelease()
 	assert.Len(t, a.Releases, 1)

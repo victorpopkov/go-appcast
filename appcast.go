@@ -15,9 +15,9 @@ import (
 	"sort"
 )
 
-// A BaseAppcast represents the appcast itself and should be inherited by
-// provider specific appcasts.
-type BaseAppcast struct {
+// An Appcast represents the appcast itself and should be inherited by provider
+// specific appcasts.
+type Appcast struct {
 	// Request specifies a Request to be sent by a Client to the server. The
 	// response should never be modified in the Request itself.
 	Request Request
@@ -44,8 +44,8 @@ type BaseAppcast struct {
 	url string
 
 	// originalReleases specify an original array of all application releases. It
-	// is used to restore the BaseAppcast.Releases using the
-	// BaseAppcast.ResetFilters function.
+	// is used to restore the Appcast.Releases using the
+	// Appcast.ResetFilters function.
 	originalReleases []Release
 }
 
@@ -60,16 +60,16 @@ const (
 	DESC
 )
 
-// New returns a new BaseAppcast instance pointer.
-func New() *BaseAppcast {
-	a := &BaseAppcast{}
+// New returns a new Appcast instance pointer.
+func New() *Appcast {
+	a := &Appcast{}
 
 	return a
 }
 
 // LoadFromUrl loads the appcast content. Supports the remote URL string or
 // Request struct pointer as an argument.
-func (a *BaseAppcast) LoadFromUrl(i interface{}) error {
+func (a *Appcast) LoadFromUrl(i interface{}) error {
 	var req *Request
 
 	switch v := i.(type) {
@@ -109,7 +109,7 @@ func (a *BaseAppcast) LoadFromUrl(i interface{}) error {
 
 // LoadFromFile loads the appcast content from local file and attempts to guess
 // the provider.
-func (a *BaseAppcast) LoadFromFile(path string) error {
+func (a *Appcast) LoadFromFile(path string) error {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return err
@@ -124,37 +124,37 @@ func (a *BaseAppcast) LoadFromFile(path string) error {
 
 // GenerateChecksum creates a new Checksum instance based on the provided
 // algorithm and returns its pointer. The new Checksum instance pointer replaces
-// the old BaseAppcast.Checksum.
-func (a *BaseAppcast) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
+// the old Appcast.Checksum.
+func (a *Appcast) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
 	a.Checksum = NewChecksum(algorithm, []byte(a.Content))
 
 	return a.Checksum
 }
 
-// GetChecksum is a convenience function to retrieve the BaseAppcast.Checksum.
-func (a *BaseAppcast) GetChecksum() *Checksum {
+// GetChecksum is a convenience function to retrieve the Appcast.Checksum.
+func (a *Appcast) GetChecksum() *Checksum {
 	return a.Checksum
 }
 
-// GetProvider is a convenience function to retrieve the BaseAppcast.Provider.
-func (a *BaseAppcast) GetProvider() Provider {
+// GetProvider is a convenience function to retrieve the Appcast.Provider.
+func (a *Appcast) GetProvider() Provider {
 	return a.Provider
 }
 
-// GetURL is a BaseAppcast.url getter.
-func (a *BaseAppcast) GetURL() string {
+// GetURL is a Appcast.url getter.
+func (a *Appcast) GetURL() string {
 	return a.url
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate
 // provider specific Uncomment function from the supported providers. A
 // successful call returns a "nil" error.
-func (a *BaseAppcast) Uncomment() error {
+func (a *Appcast) Uncomment() error {
 	switch a.Provider {
 	case SparkleRSSFeed:
-		s := SparkleRSSFeedAppcast{BaseAppcast: *a}
+		s := SparkleRSSFeedAppcast{Appcast: *a}
 		s.Uncomment()
-		a.Content = s.BaseAppcast.Content
+		a.Content = s.Appcast.Content
 		break
 	default:
 		p := a.Provider.String()
@@ -167,36 +167,36 @@ func (a *BaseAppcast) Uncomment() error {
 	return nil
 }
 
-// ExtractReleases parses the BaseAppcast.Content by calling the appropriate
+// ExtractReleases parses the Appcast.Content by calling the appropriate
 // provider specific ExtractReleases function. A successful call returns a "nil"
 // error.
-func (a *BaseAppcast) ExtractReleases() error {
+func (a *Appcast) ExtractReleases() error {
 	switch a.Provider {
 	case SparkleRSSFeed:
-		s := SparkleRSSFeedAppcast{BaseAppcast: *a}
+		s := SparkleRSSFeedAppcast{Appcast: *a}
 		err := s.ExtractReleases()
 		if err != nil {
 			return err
 		}
-		a.Releases = s.BaseAppcast.Releases
+		a.Releases = s.Appcast.Releases
 		a.originalReleases = a.Releases
 		break
 	case SourceForgeRSSFeed:
-		s := SourceForgeRSSFeedAppcast{BaseAppcast: *a}
+		s := SourceForgeRSSFeedAppcast{Appcast: *a}
 		err := s.ExtractReleases()
 		if err != nil {
 			return err
 		}
-		a.Releases = s.BaseAppcast.Releases
+		a.Releases = s.Appcast.Releases
 		a.originalReleases = a.Releases
 		break
 	case GitHubAtomFeed:
-		s := GitHubAtomFeedAppcast{BaseAppcast: *a}
+		s := GitHubAtomFeedAppcast{Appcast: *a}
 		err := s.ExtractReleases()
 		if err != nil {
 			return err
 		}
-		a.Releases = s.BaseAppcast.Releases
+		a.Releases = s.Appcast.Releases
 		a.originalReleases = a.Releases
 		break
 	default:
@@ -210,9 +210,9 @@ func (a *BaseAppcast) ExtractReleases() error {
 	return nil
 }
 
-// SortReleasesByVersions sorts BaseAppcast.Releases array by versions. Can be
+// SortReleasesByVersions sorts Appcast.Releases array by versions. Can be
 // useful if the versions order in the content is inconsistent.
-func (a *BaseAppcast) SortReleasesByVersions(s Sort) {
+func (a *Appcast) SortReleasesByVersions(s Sort) {
 	if s == ASC {
 		sort.Sort(ByVersion(a.Releases))
 	} else if s == DESC {
@@ -220,9 +220,9 @@ func (a *BaseAppcast) SortReleasesByVersions(s Sort) {
 	}
 }
 
-// filterReleasesBy filters all BaseAppcast.Releases using the passed function.
+// filterReleasesBy filters all Appcast.Releases using the passed function.
 // If inverse is set to "true", the unmatched releases will be used instead.
-func (a *BaseAppcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
+func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 	var result []Release
 
 	for _, release := range a.Releases {
@@ -240,10 +240,10 @@ func (a *BaseAppcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 	a.Releases = result
 }
 
-// filterReleasesDownloadsBy filters all Downloads for BaseAppcast.Releases
+// filterReleasesDownloadsBy filters all Downloads for Appcast.Releases
 // using the passed function. If inverse is set to "true", the unmatched
 // releases will be used instead.
-func (a *BaseAppcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse bool) {
+func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse bool) {
 	var result []Release
 
 	for _, release := range a.Releases {
@@ -263,10 +263,10 @@ func (a *BaseAppcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse
 	a.Releases = result
 }
 
-// FilterReleasesByTitle filters all BaseAppcast.Releases by matching the
+// FilterReleasesByTitle filters all Appcast.Releases by matching the
 // release title with the provided RegExp string. If inversed bool is set to
 // "true", the unmatched releases will be used instead.
-func (a *BaseAppcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{}) {
+func (a *Appcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{}) {
 	inverse := false
 	if len(inversed) > 0 {
 		inverse = inversed[0].(bool)
@@ -284,7 +284,7 @@ func (a *BaseAppcast) FilterReleasesByTitle(regexpStr string, inversed ...interf
 // FilterReleasesByMediaType filters all releases by matching the downloads
 // media type with the provided RegExp string. If inversed bool is set to
 // "true", the unmatched releases will be used instead.
-func (a *BaseAppcast) FilterReleasesByMediaType(regexpStr string, inversed ...interface{}) {
+func (a *Appcast) FilterReleasesByMediaType(regexpStr string, inversed ...interface{}) {
 	inverse := false
 	if len(inversed) > 0 {
 		inverse = inversed[0].(bool)
@@ -299,10 +299,10 @@ func (a *BaseAppcast) FilterReleasesByMediaType(regexpStr string, inversed ...in
 	}, inverse)
 }
 
-// FilterReleasesByURL filters all BaseAppcast.Releases by matching the release
+// FilterReleasesByURL filters all Appcast.Releases by matching the release
 // download URL with the provided RegExp string. If inversed bool is set to
 // "true", the unmatched releases will be used instead.
-func (a *BaseAppcast) FilterReleasesByURL(regexpStr string, inversed ...interface{}) {
+func (a *Appcast) FilterReleasesByURL(regexpStr string, inversed ...interface{}) {
 	inverse := false
 	if len(inversed) > 0 {
 		inverse = inversed[0].(bool)
@@ -317,10 +317,10 @@ func (a *BaseAppcast) FilterReleasesByURL(regexpStr string, inversed ...interfac
 	}, inverse)
 }
 
-// FilterReleasesByPrerelease filters all BaseAppcast.Releases by matching only
+// FilterReleasesByPrerelease filters all Appcast.Releases by matching only
 // prereleases. If inversed bool is set to "true", the stable releases will be
 // matched instead.
-func (a *BaseAppcast) FilterReleasesByPrerelease(inversed ...interface{}) {
+func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 	inverse := false
 	if len(inversed) > 0 {
 		inverse = inversed[0].(bool)
@@ -334,21 +334,21 @@ func (a *BaseAppcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 	}, inverse)
 }
 
-// ResetFilters resets the BaseAppcast.Releases to their original state before
+// ResetFilters resets the Appcast.Releases to their original state before
 // applying any filters.
-func (a *BaseAppcast) ResetFilters() {
+func (a *Appcast) ResetFilters() {
 	a.Releases = a.originalReleases
 }
 
 // GetReleasesLength is a convenience function to retrieve the total number of
-// releases in BaseAppcast.Releases array.
-func (a *BaseAppcast) GetReleasesLength() int {
+// releases in Appcast.Releases array.
+func (a *Appcast) GetReleasesLength() int {
 	return len(a.Releases)
 }
 
 // GetFirstRelease is a convenience function to retrieve the first release
-// pointer from BaseAppcast.Releases array.
-func (a *BaseAppcast) GetFirstRelease() *Release {
+// pointer from Appcast.Releases array.
+func (a *Appcast) GetFirstRelease() *Release {
 	return &a.Releases[0]
 }
 
