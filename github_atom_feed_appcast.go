@@ -8,7 +8,7 @@ import (
 // A GitHubAtomFeedAppcast represents appcast for "GitHub Atom Feed" that is
 // created by GitHub.
 type GitHubAtomFeedAppcast struct {
-	BaseAppcast
+	Appcast
 }
 
 // A GitHubAtomFeedAppcastXML represents an Atom itself.

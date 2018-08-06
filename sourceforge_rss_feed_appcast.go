@@ -8,7 +8,7 @@ import (
 // A SourceForgeRSSFeedAppcast represents appcast for "SourceForge RSS Feed"
 // that is created by SourceForge applications and software distributor.
 type SourceForgeRSSFeedAppcast struct {
-	BaseAppcast
+	Appcast
 }
 
 // A SourceForgeRSSFeedXML represents an RSS itself.
