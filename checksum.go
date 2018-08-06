@@ -70,18 +70,18 @@ func (c *Checksum) generate() {
 	c.result = hasher.Sum(nil)
 }
 
-// GetAlgorithm is a Checksum.algorithm getter.
-func (c *Checksum) GetAlgorithm() ChecksumAlgorithm {
+// Algorithm is a Checksum.algorithm getter.
+func (c *Checksum) Algorithm() ChecksumAlgorithm {
 	return c.algorithm
 }
 
-// GetSource is a Checksum.source getter.
-func (c *Checksum) GetSource() []byte {
+// Source is a Checksum.source getter.
+func (c *Checksum) Source() []byte {
 	return c.source
 }
 
-// GetResult is a Checksum.result getter.
-func (c *Checksum) GetResult() []byte {
+// Result is a Checksum.result getter.
+func (c *Checksum) Result() []byte {
 	return c.result
 }
 

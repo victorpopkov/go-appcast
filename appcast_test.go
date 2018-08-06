@@ -145,7 +145,7 @@ func TestBaseAppcast_GenerateChecksum(t *testing.T) {
 	result := a.GenerateChecksum(MD5)
 	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result.String())
 	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", a.Checksum.String())
-	assert.Equal(t, MD5, a.Checksum.GetAlgorithm())
+	assert.Equal(t, MD5, a.Checksum.Algorithm())
 }
 
 func TestBaseAppcast_GetChecksum(t *testing.T) {

@@ -123,21 +123,21 @@ func TestChecksum_generate(t *testing.T) {
 	}
 }
 
-func TestChecksum_GetAlgorithm(t *testing.T) {
+func TestChecksum_Algorithm(t *testing.T) {
 	c := NewChecksum(SHA256, []byte("test"))
-	assert.Equal(t, SHA256, c.GetAlgorithm())
+	assert.Equal(t, SHA256, c.Algorithm())
 }
 
-func TestChecksum_GetSource(t *testing.T) {
+func TestChecksum_Source(t *testing.T) {
 	source := []byte("test")
 	c := NewChecksum(SHA256, source)
-	assert.Equal(t, source, c.GetSource())
+	assert.Equal(t, source, c.Source())
 }
 
-func TestChecksum_GetResult(t *testing.T) {
+func TestChecksum_Result(t *testing.T) {
 	result, _ := hex.DecodeString("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
 	c := NewChecksum(SHA256, []byte("test"))
-	assert.Equal(t, result, c.GetResult())
+	assert.Equal(t, result, c.Result())
 }
 
 func TestChecksumAlgorithm_String(t *testing.T) {
