@@ -33,7 +33,7 @@ func getWorkingDir() string {
 // paths. If the file is not found, prints an error to os.Stdout and exits with
 // exit status 1.
 func getTestdata(paths ...string) []byte {
-	path := filepath.Join(getWorkingDir(), testdataPath, filepath.Join(paths...))
+	path := getTestdataPath(paths...)
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		fmt.Println(fmt.Errorf(err.Error()))
@@ -41,6 +41,11 @@ func getTestdata(paths ...string) []byte {
 	}
 
 	return content
+}
+
+// getTestdataPath returns a full path for the provided testdata paths.
+func getTestdataPath(paths ...string) string {
+	return filepath.Join(getWorkingDir(), testdataPath, filepath.Join(paths...))
 }
 
 // ReadLine reads a provided line number from io.Reader and returns it alongside
@@ -165,21 +170,6 @@ func TestBaseAppcast_GetProvider(t *testing.T) {
 
 	// test
 	assert.Equal(t, SparkleRSSFeed, a.GetProvider())
-}
-
-func TestBaseAppcast_GetURL(t *testing.T) {
-	// mock the request
-	content := string(getTestdata("sparkle/default.xml"))
-	httpmock.Activate()
-	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
-	defer httpmock.DeactivateAndReset()
-
-	// test
-	a := New()
-	a.LoadFromUrl("https://example.com/appcast.xml")
-
-	// test
-	assert.Equal(t, "https://example.com/appcast.xml", a.GetURL())
 }
 
 func TestBaseAppcast_Uncomment_Unknown(t *testing.T) {

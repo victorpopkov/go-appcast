@@ -131,19 +131,14 @@ func (a *Appcast) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
 	return a.Checksum
 }
 
-// GetChecksum is a convenience function to retrieve the Appcast.Checksum.
+// GetChecksum is a convenience function to retrieve an Appcast.Checksum.
 func (a *Appcast) GetChecksum() *Checksum {
 	return a.Checksum
 }
 
-// GetProvider is a convenience function to retrieve the Appcast.Provider.
+// GetProvider is a convenience function to retrieve an Appcast.Provider.
 func (a *Appcast) GetProvider() Provider {
 	return a.Provider
-}
-
-// GetURL is a Appcast.url getter.
-func (a *Appcast) GetURL() string {
-	return a.url
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate
