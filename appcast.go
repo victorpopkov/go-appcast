@@ -97,12 +97,12 @@ func (a *Appcast) LoadFromUrl(i interface{}) error {
 	a.Content = string(body)
 
 	// provider
-	a.Provider = GuessProviderFromURL(a.url)
+	a.Provider = GuessProviderByUrl(a.url)
 	if a.Provider == Unknown {
-		a.Provider = GuessProviderFromContent(a.Content)
+		a.Provider = GuessProviderByContent(body)
 	}
 
-	a.Checksum = NewChecksum(SHA256, []byte(a.Content))
+	a.Checksum = NewChecksum(SHA256, body)
 
 	return nil
 }
@@ -116,8 +116,8 @@ func (a *Appcast) LoadFromFile(path string) error {
 	}
 
 	a.Content = string(data)
-	a.Provider = GuessProviderFromContent(a.Content)
-	a.Checksum = NewChecksum(SHA256, []byte(a.Content))
+	a.Provider = GuessProviderByContent(data)
+	a.Checksum = NewChecksum(SHA256, data)
 
 	return nil
 }

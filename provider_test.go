@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGuessProviderFromContent(t *testing.T) {
+func TestGuessProviderByContent(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
 		"github/default.xml": GitHubAtomFeed,
@@ -33,12 +33,11 @@ func TestGuessProviderFromContent(t *testing.T) {
 	}
 
 	for filename, provider := range testCases {
-		content := string(getTestdata(filename))
-		assert.Equal(t, provider, GuessProviderFromContent(content), fmt.Sprintf("Provider doesn't match: %s", filename))
+		assert.Equal(t, provider, GuessProviderByContent(getTestdata(filename)), fmt.Sprintf("Provider doesn't match: %s", filename))
 	}
 }
 
-func TestGuessProviderFromURL(t *testing.T) {
+func TestGuessProviderByUrl(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
 		"http://github.com/user/repo/releases.atom":  GitHubAtomFeed,
@@ -60,7 +59,7 @@ func TestGuessProviderFromURL(t *testing.T) {
 	}
 
 	for url, provider := range testCases {
-		assert.Equal(t, provider, GuessProviderFromURL(url), fmt.Sprintf("Provider doesn't match: %s", url))
+		assert.Equal(t, provider, GuessProviderByUrl(url), fmt.Sprintf("Provider doesn't match: %s", url))
 	}
 }
 
