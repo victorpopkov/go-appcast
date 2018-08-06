@@ -18,13 +18,13 @@ func TestNewClient(t *testing.T) {
 	assert.Equal(t, time.Duration(0), c.Timeout)
 }
 
-func TestInsecureSkipVerify(t *testing.T) {
+func TestClient_InsecureSkipVerify(t *testing.T) {
 	c := NewClient()
 	c.InsecureSkipVerify()
 	assert.IsType(t, &http.Transport{}, c.HTTPClient.Transport)
 }
 
-func TestDo(t *testing.T) {
+func TestClient_Do(t *testing.T) {
 	// mock the request
 	c := NewClient()
 	c.Timeout = time.Duration(time.Second)

@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSourceForgeRSSFeedAppcastExtractReleases(t *testing.T) {
+func TestSourceForgeRSSFeedAppcast_ExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"sourceforge/default.xml": {
 			"2.0.0": {"2016-05-13 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},

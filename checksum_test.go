@@ -16,7 +16,7 @@ func TestNewChecksum(t *testing.T) {
 	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", c.String())
 }
 
-func TestGenerate(t *testing.T) {
+func TestChecksum_generate(t *testing.T) {
 	testCases := map[string][]string{
 		"github/default.xml": {
 			"c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
@@ -123,29 +123,29 @@ func TestGenerate(t *testing.T) {
 	}
 }
 
-func TestGetAlgorithm(t *testing.T) {
+func TestChecksum_GetAlgorithm(t *testing.T) {
 	c := NewChecksum(SHA256, []byte("test"))
 	assert.Equal(t, SHA256, c.GetAlgorithm())
 }
 
-func TestGetSource(t *testing.T) {
+func TestChecksum_GetSource(t *testing.T) {
 	source := []byte("test")
 	c := NewChecksum(SHA256, source)
 	assert.Equal(t, source, c.GetSource())
 }
 
-func TestGetResult(t *testing.T) {
+func TestChecksum_GetResult(t *testing.T) {
 	result, _ := hex.DecodeString("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
 	c := NewChecksum(SHA256, []byte("test"))
 	assert.Equal(t, result, c.GetResult())
 }
 
-func TestChecksumAlgorithmString(t *testing.T) {
+func TestChecksumAlgorithm_String(t *testing.T) {
 	assert.Equal(t, "SHA256", SHA256.String())
 	assert.Equal(t, "MD5", MD5.String())
 }
 
-func TestChecksumString(t *testing.T) {
+func TestChecksum_String(t *testing.T) {
 	c := NewChecksum(SHA256, []byte("test"))
 	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", c.String())
 }

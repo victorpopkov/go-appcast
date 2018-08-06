@@ -64,7 +64,7 @@ func TestGuessProviderFromURL(t *testing.T) {
 	}
 }
 
-func TestString(t *testing.T) {
+func TestProvider_String(t *testing.T) {
 	assert.Equal(t, "-", Unknown.String())
 	assert.Equal(t, "Sparkle RSS Feed", SparkleRSSFeed.String())
 	assert.Equal(t, "SourceForge RSS Feed", SourceForgeRSSFeed.String())

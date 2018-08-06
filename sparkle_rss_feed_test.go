@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
+func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 	testCases := map[string][]int{
 		"sparkle/attributes_as_elements.xml": nil,
 		"sparkle/default_asc.xml":            nil,
@@ -55,7 +55,7 @@ func TestSparkleRSSFeedAppcastUncomment(t *testing.T) {
 	}
 }
 
-func TestSparkleRSSFeedAppcastExtractReleases(t *testing.T) {
+func TestSparkleRSSFeedAppcast_ExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"sparkle/attributes_as_elements.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "200", "https://example.com/app_2.0.0.dmg", "10.10"},

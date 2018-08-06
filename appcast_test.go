@@ -74,7 +74,7 @@ func TestNew(t *testing.T) {
 	assert.Equal(t, Unknown, a.Provider)
 }
 
-func TestLoadFromUrl(t *testing.T) {
+func TestBaseAppcast_LoadFromUrl(t *testing.T) {
 	// mock the request
 	content := string(getTestdata("sparkle/default.xml"))
 	httpmock.Activate()
@@ -115,7 +115,7 @@ func TestLoadFromUrl(t *testing.T) {
 	assert.Nil(t, a.Checksum)
 }
 
-func TestLoadFromFile(t *testing.T) {
+func TestBaseAppcast_LoadFromFile(t *testing.T) {
 	// test (successful)
 	a := New()
 	err := a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
@@ -133,7 +133,7 @@ func TestLoadFromFile(t *testing.T) {
 	assert.Nil(t, a.Checksum)
 }
 
-func TestGenerateChecksum(t *testing.T) {
+func TestBaseAppcast_GenerateChecksum(t *testing.T) {
 	// preparations
 	a := New()
 	a.Content = "test"
@@ -148,7 +148,7 @@ func TestGenerateChecksum(t *testing.T) {
 	assert.Equal(t, MD5, a.Checksum.GetAlgorithm())
 }
 
-func TestGetChecksum(t *testing.T) {
+func TestBaseAppcast_GetChecksum(t *testing.T) {
 	// preparations
 	a := New()
 	a.Content = "test"
@@ -158,7 +158,7 @@ func TestGetChecksum(t *testing.T) {
 	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum().String())
 }
 
-func TestGetProvider(t *testing.T) {
+func TestBaseAppcast_GetProvider(t *testing.T) {
 	// preparations
 	a := New()
 	a.Provider = SparkleRSSFeed
@@ -167,7 +167,7 @@ func TestGetProvider(t *testing.T) {
 	assert.Equal(t, SparkleRSSFeed, a.GetProvider())
 }
 
-func TestGetURL(t *testing.T) {
+func TestBaseAppcast_GetURL(t *testing.T) {
 	// mock the request
 	content := string(getTestdata("sparkle/default.xml"))
 	httpmock.Activate()
@@ -182,7 +182,7 @@ func TestGetURL(t *testing.T) {
 	assert.Equal(t, "https://example.com/appcast.xml", a.GetURL())
 }
 
-func TestUncommentUnknown(t *testing.T) {
+func TestBaseAppcast_Uncomment_Unknown(t *testing.T) {
 	// preparations
 	a := New()
 
@@ -192,7 +192,7 @@ func TestUncommentUnknown(t *testing.T) {
 	assert.Equal(t, "uncommenting is not available for \"Unknown\" provider", err.Error())
 }
 
-func TestUncommentSparkleRSSFeed(t *testing.T) {
+func TestBaseAppcast_Uncomment_SparkleRSSFeed(t *testing.T) {
 	// preparations
 	a := New()
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
@@ -211,7 +211,7 @@ func TestUncommentSparkleRSSFeed(t *testing.T) {
 	}
 }
 
-func TestUncommentSourceForgeRSSFeed(t *testing.T) {
+func TestBaseAppcast_Uncomment_SourceForgeRSSFeed(t *testing.T) {
 	// preparations
 	a := New()
 
@@ -223,7 +223,7 @@ func TestUncommentSourceForgeRSSFeed(t *testing.T) {
 	assert.Equal(t, "uncommenting is not available for \"SourceForge RSS Feed\" provider", err.Error())
 }
 
-func TestUncommentGitHubAtomFeed(t *testing.T) {
+func TestBaseAppcast_Uncomment_GitHubAtomFeed(t *testing.T) {
 	// preparations
 	a := New()
 
@@ -235,7 +235,7 @@ func TestUncommentGitHubAtomFeed(t *testing.T) {
 	assert.Equal(t, "uncommenting is not available for \"GitHub Atom Feed\" provider", err.Error())
 }
 
-func TestExtractReleasesUnknown(t *testing.T) {
+func TestBaseAppcast_ExtractReleases_Unknown(t *testing.T) {
 	// preparations
 	a := New()
 
@@ -245,7 +245,7 @@ func TestExtractReleasesUnknown(t *testing.T) {
 	assert.Equal(t, "releases can't be extracted from \"Unknown\" provider", err.Error())
 }
 
-func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
+func TestBaseAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sparkle/attributes_as_elements.xml": {
 			"checksum": "8c42d7835109ff61fe85bba66a44689773e73e0d773feba699bceecefaf09359",
@@ -350,7 +350,7 @@ func TestExtractReleasesSparkleRSSFeed(t *testing.T) {
 	}
 }
 
-func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
+func TestBaseAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sourceforge/default.xml": {
 			"checksum": "c15a5e4755b424b20e3e7138c36045893aec70f9569acd5946796199c6f79596",
@@ -426,7 +426,7 @@ func TestExtractReleasesSourceForgeRSSFeed(t *testing.T) {
 	}
 }
 
-func TestExtractReleasesGitHubAtomFeed(t *testing.T) {
+func TestBaseAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"github/default.xml": {
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
@@ -494,7 +494,7 @@ func TestExtractReleasesGitHubAtomFeed(t *testing.T) {
 	}
 }
 
-func TestSortReleasesByVersions(t *testing.T) {
+func TestBaseAppcast_SortReleasesByVersions(t *testing.T) {
 	testCases := []string{
 		"sparkle/attributes_as_elements.xml",
 		"sparkle/default_asc.xml",
@@ -529,7 +529,7 @@ func TestSortReleasesByVersions(t *testing.T) {
 	}
 }
 
-func TestFilters(t *testing.T) {
+func TestBaseAppcast_Filters(t *testing.T) {
 	// mock the request
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
@@ -578,7 +578,7 @@ func TestFilters(t *testing.T) {
 	a.ResetFilters()
 }
 
-func TestGetReleasesLength(t *testing.T) {
+func TestBaseAppcast_GetReleasesLength(t *testing.T) {
 	// preparations
 	a := New()
 	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
@@ -588,7 +588,7 @@ func TestGetReleasesLength(t *testing.T) {
 	assert.Len(t, a.Releases, a.GetReleasesLength())
 }
 
-func TestGetFirstRelease(t *testing.T) {
+func TestBaseAppcast_GetFirstRelease(t *testing.T) {
 	// preparations
 	a := New()
 	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))

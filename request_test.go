@@ -20,7 +20,7 @@ func TestNewRequest(t *testing.T) {
 	assert.Equal(t, "parse http://192.168.0.%31/: invalid URL escape \"%31\"", err.Error())
 }
 
-func TestAddHeader(t *testing.T) {
+func TestRequest_AddHeader(t *testing.T) {
 	r, _ := NewRequest("http://example.com/")
 
 	// before

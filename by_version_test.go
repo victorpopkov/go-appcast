@@ -21,7 +21,7 @@ func createTestByVersionReleases() (result []Release) {
 	return result
 }
 
-func TestByVersionLen(t *testing.T) {
+func TestByVersion_Len(t *testing.T) {
 	// preparations
 	testReleases := createTestByVersionReleases()
 
@@ -29,7 +29,7 @@ func TestByVersionLen(t *testing.T) {
 	assert.Equal(t, 3, ByVersion(testReleases).Len())
 }
 
-func TestByVersionSwap(t *testing.T) {
+func TestByVersion_Swap(t *testing.T) {
 	// preparations
 	testReleases := createTestByVersionReleases()
 
@@ -41,7 +41,7 @@ func TestByVersionSwap(t *testing.T) {
 	assert.Equal(t, "1.1.0", testReleases[2].Version.String())
 }
 
-func TestByVersionLess(t *testing.T) {
+func TestByVersion_Less(t *testing.T) {
 	// preparations
 	testReleases := createTestByVersionReleases()
 

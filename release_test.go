@@ -21,7 +21,7 @@ func TestNewRelease(t *testing.T) {
 	assert.Nil(t, r)
 }
 
-func TestSetVersion(t *testing.T) {
+func TestRelease_SetVersion(t *testing.T) {
 	// test (successful)
 	r := new(Release)
 	assert.Nil(t, r.Version)
@@ -38,7 +38,7 @@ func TestSetVersion(t *testing.T) {
 	assert.Nil(t, r.Version)
 }
 
-func TestParsePublishedDateTime(t *testing.T) {
+func TestRelease_ParsePublishedDateTime(t *testing.T) {
 	testCases := map[string]string{
 		"Sun, 14 May 2017 05:04:01 -0700": "2017-05-14 12:04:01 +0000 UTC", // RFC1123Z
 		"Thu, 25 May 2017 19:26:48 UTC":   "2017-05-25 19:26:48 +0000 UTC", // RFC1123
@@ -56,7 +56,7 @@ func TestParsePublishedDateTime(t *testing.T) {
 	}
 }
 
-func TestGetVersionString(t *testing.T) {
+func TestRelease_GetVersionString(t *testing.T) {
 	// preparations
 	r := new(Release)
 	r.SetVersion("1.0.0")
@@ -65,7 +65,7 @@ func TestGetVersionString(t *testing.T) {
 	assert.Equal(t, "1.0.0", r.GetVersionString())
 }
 
-func TestGetBuildString(t *testing.T) {
+func TestRelease_GetBuildString(t *testing.T) {
 	// preparations
 	r := new(Release)
 	r.Build = "1000"
@@ -74,7 +74,7 @@ func TestGetBuildString(t *testing.T) {
 	assert.Equal(t, "1000", r.GetBuildString())
 }
 
-func TestGetVersionOrBuildString(t *testing.T) {
+func TestRelease_GetVersionOrBuildString(t *testing.T) {
 	// preparations
 	r := new(Release)
 	r.Build = "1000"
@@ -87,7 +87,7 @@ func TestGetVersionOrBuildString(t *testing.T) {
 	assert.Equal(t, "1.0.0", r.GetVersionOrBuildString())
 }
 
-func TestGetDownloads(t *testing.T) {
+func TestRelease_GetDownloads(t *testing.T) {
 	// preparations
 	r := new(Release)
 
