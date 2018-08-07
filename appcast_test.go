@@ -715,6 +715,21 @@ func TestAppcast_SetSource(t *testing.T) {
 	assert.Nil(t, a.source)
 }
 
+func TestAppcast_OriginalReleases(t *testing.T) {
+	a := newTestAppcast()
+	assert.Equal(t, a.originalReleases, a.OriginalReleases())
+}
+
+func TestAppcast_SetOriginalReleases(t *testing.T) {
+	// preparations
+	a := newTestAppcast()
+	assert.Nil(t, a.originalReleases)
+
+	// test
+	a.SetOriginalReleases([]Release{{}})
+	assert.Len(t, a.originalReleases, 1)
+}
+
 func TestAppcast_GetChecksum(t *testing.T) {
 	a := newTestAppcast()
 	a.GenerateSourceChecksum(SHA256)
