@@ -37,28 +37,28 @@ type SparkleRSSFeedXMLEnclosure struct {
 	Type               string `xml:"type,attr"`
 }
 
-// Uncomment uncomments XML tags in SparkleRSSFeedAppcast.Content.
-func (a *SparkleRSSFeedAppcast) Uncomment() {
-	if a.Content == "" {
-		return
+// Uncomment uncomments XML tags in SparkleRSSFeedAppcast.source.content.
+func (a *SparkleRSSFeedAppcast) Uncomment() error {
+	if a.source == nil || len(a.source.Content()) == 0 {
+		return fmt.Errorf("no source")
 	}
 
 	regex := regexp.MustCompile(`(<!--([[:space:]]*)?)|(([[:space:]]*)?-->)`)
-	if regex.MatchString(a.Content) {
-		a.Content = regex.ReplaceAllString(a.Content, "")
-		return
+	if regex.Match(a.source.Content()) {
+		a.source.SetContent(regex.ReplaceAll(a.source.Content(), []byte("")))
 	}
+
+	return nil
 }
 
 // ExtractReleases parses the Sparkle RSS Feed content from
-// SparkleRSSFeedAppcast.Content and stores the extracted releases as an array
-// in SparkleRSSFeedAppcast.Releases. Returns an error, if extracting was
-// unsuccessful.
+// SparkleRSSFeedAppcast.source.content and stores the extracted releases as an
+// array in SparkleRSSFeedAppcast.Releases.
 func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 	var x SparkleRSSFeedXML
 	var version, build string
 
-	xml.Unmarshal([]byte(a.Content), &x)
+	xml.Unmarshal(a.source.Content(), &x)
 
 	items := make([]Release, len(x.Items))
 	for i, item := range x.Items {

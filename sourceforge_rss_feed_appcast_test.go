@@ -7,6 +7,37 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// newTestSourceForgeRSSFeedAppcast creates a new SourceForgeRSSFeedAppcast
+// instance for testing purposes and returns its pointer. By default the content
+// is []byte("test"). However, own content can be provided as an argument.
+func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeRSSFeedAppcast {
+	var resultContent []byte
+
+	if len(content) > 0 {
+		resultContent = content[0].([]byte)
+	} else {
+		resultContent = []byte("test")
+	}
+
+	url := "https://sourceforge.net/projects/test/rss"
+	r, _ := NewRequest(url)
+
+	s := &SourceForgeRSSFeedAppcast{
+		Appcast: Appcast{
+			source: &RemoteSource{
+				Source: &Source{
+					content:  resultContent,
+					provider: SourceForgeRSSFeed,
+				},
+				request: r,
+				url:     url,
+			},
+		},
+	}
+
+	return s
+}
+
 func TestSourceForgeRSSFeedAppcast_ExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"sourceforge/default.xml": {
@@ -34,11 +65,10 @@ func TestSourceForgeRSSFeedAppcast_ExtractReleases(t *testing.T) {
 	// test (successful)
 	for filename, releases := range testCases {
 		// preparations
-		a := new(SourceForgeRSSFeedAppcast)
-		a.Content = string(getTestdata(filename))
+		a := newTestSourceForgeRSSFeedAppcast(getTestdata(filename))
+		assert.Empty(t, a.Releases)
 
 		// test
-		assert.Empty(t, a.Releases)
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
 		assert.Len(t, a.Releases, len(releases))
@@ -56,12 +86,11 @@ func TestSourceForgeRSSFeedAppcast_ExtractReleases(t *testing.T) {
 	// test (error)
 	for filename, errorMsg := range errorTestCases {
 		// preparations
-		a := new(SourceForgeRSSFeedAppcast)
-		a.Content = string(getTestdata(filename))
+		a := newTestSourceForgeRSSFeedAppcast(getTestdata(filename))
 
 		// test
 		err := a.ExtractReleases()
 		assert.Error(t, err)
-		assert.Equal(t, errorMsg, err.Error())
+		assert.EqualError(t, err, errorMsg)
 	}
 }

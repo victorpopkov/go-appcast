@@ -43,12 +43,11 @@ type SourceForgeRSSFeedXMLContent struct {
 
 // ExtractReleases parses the SourceForge RSS Feed content from
 // SourceForgeRSSFeedAppcast.Content and stores the extracted releases as an
-// array in SourceForgeRSSFeedAppcast.Releases. Returns an error, if extracting
-// was unsuccessful.
+// array in SourceForgeRSSFeedAppcast.Releases.
 func (a *SourceForgeRSSFeedAppcast) ExtractReleases() error {
 	var x SourceForgeRSSFeedXML
 
-	xml.Unmarshal([]byte(a.Content), &x)
+	xml.Unmarshal(a.source.Content(), &x)
 
 	items := make([]Release, len(x.Items))
 	for i, item := range x.Items {

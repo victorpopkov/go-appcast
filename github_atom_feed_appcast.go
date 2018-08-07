@@ -26,12 +26,11 @@ type GitHubAtomFeedAppcastXMLEntry struct {
 
 // ExtractReleases parses the GitHub Atom Feed content from
 // GitHubAtomFeedAppcast.Content and stores the extracted releases as an
-// array in GitHubAtomFeedAppcast.Releases. Returns an error, if extracting
-// was unsuccessful.
+// array in GitHubAtomFeedAppcast.Releases.
 func (a *GitHubAtomFeedAppcast) ExtractReleases() error {
 	var x GitHubAtomFeedAppcastXML
 
-	xml.Unmarshal([]byte(a.Content), &x)
+	xml.Unmarshal(a.source.Content(), &x)
 
 	items := make([]Release, len(x.Entries))
 	for i, entry := range x.Entries {

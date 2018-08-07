@@ -8,6 +8,37 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// newTestSparkleRSSFeedAppcast creates a new SparkleRSSFeedAppcast instance for
+// testing purposes and returns its pointer. By default the content is
+// []byte("test"). However, own content can be provided as an argument.
+func newTestSparkleRSSFeedAppcast(content ...interface{}) *SparkleRSSFeedAppcast {
+	var resultContent []byte
+
+	if len(content) > 0 {
+		resultContent = content[0].([]byte)
+	} else {
+		resultContent = []byte("test")
+	}
+
+	url := "https://example.com/appcast.xml"
+	r, _ := NewRequest(url)
+
+	s := &SparkleRSSFeedAppcast{
+		Appcast: Appcast{
+			source: &RemoteSource{
+				Source: &Source{
+					content:  resultContent,
+					provider: SparkleRSSFeed,
+				},
+				request: r,
+				url:     url,
+			},
+		},
+	}
+
+	return s
+}
+
 func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 	testCases := map[string][]int{
 		"sparkle/attributes_as_elements.xml": nil,
@@ -27,18 +58,18 @@ func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 	a := new(SparkleRSSFeedAppcast)
 
 	// test (when no content)
-	assert.Empty(t, a.Content)
-	a.Uncomment()
-	assert.Empty(t, a.Content)
+	assert.Nil(t, a.Source())
+	err := a.Uncomment()
+	assert.NotNil(t, err)
 
 	// test (uncommenting)
 	for filename, commentLines := range testCases {
-		a = new(SparkleRSSFeedAppcast)
-		a.Content = string(getTestdata(filename))
+		// preparations
+		a = newTestSparkleRSSFeedAppcast(getTestdata(filename))
 
 		// before SparkleRSSFeedAppcast.Uncomment
 		for _, commentLine := range commentLines {
-			line, _ := getLineFromString(commentLine, a.Content)
+			line, _ := getLine(commentLine, a.Source().Content())
 			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 			assert.True(t, check, fmt.Sprintf("\"%s\" doesn't have a commented out line", filename))
 		}
@@ -48,7 +79,7 @@ func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 
 		// after SparkleRSSFeedAppcast.Uncomment
 		for _, commentLine := range commentLines {
-			line, _ := getLineFromString(commentLine, a.Content)
+			line, _ := getLine(commentLine, a.Source().Content())
 			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 			assert.False(t, check, fmt.Sprintf("\"%s\" didn't uncomment a \"%d\" line", filename, commentLine))
 		}
@@ -120,11 +151,10 @@ func TestSparkleRSSFeedAppcast_ExtractReleases(t *testing.T) {
 	// test (successful)
 	for filename, releases := range testCases {
 		// preparations
-		a := new(SparkleRSSFeedAppcast)
-		a.Content = string(getTestdata(filename))
+		a := newTestSparkleRSSFeedAppcast(getTestdata(filename))
+		assert.Empty(t, a.Releases)
 
 		// test
-		assert.Empty(t, a.Releases)
 		a.Uncomment()
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
@@ -144,12 +174,11 @@ func TestSparkleRSSFeedAppcast_ExtractReleases(t *testing.T) {
 	// test (error)
 	for filename, errorMsg := range errorTestCases {
 		// preparations
-		a := new(SparkleRSSFeedAppcast)
-		a.Content = string(getTestdata(filename))
+		a := newTestSparkleRSSFeedAppcast(getTestdata(filename))
 
 		// test
 		err := a.ExtractReleases()
 		assert.Error(t, err)
-		assert.Equal(t, errorMsg, err.Error())
+		assert.EqualError(t, err, errorMsg)
 	}
 }

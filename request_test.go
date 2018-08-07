@@ -2,6 +2,7 @@ package appcast
 
 import (
 	"testing"
+	"fmt"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -14,10 +15,11 @@ func TestNewRequest(t *testing.T) {
 	assert.Equal(t, "http://example.com/", r.HTTPRequest.URL.String())
 
 	// test "Invalid URL" error
-	r, err = NewRequest("http://192.168.0.%31/")
+	url := "http://192.168.0.%31/"
+	r, err = NewRequest(url)
 	assert.Nil(t, r)
 	assert.Error(t, err)
-	assert.Equal(t, "parse http://192.168.0.%31/: invalid URL escape \"%31\"", err.Error())
+	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
 }
 
 func TestRequest_AddHeader(t *testing.T) {

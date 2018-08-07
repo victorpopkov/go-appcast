@@ -10,7 +10,6 @@ package appcast
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"regexp"
 	"sort"
 )
@@ -18,33 +17,21 @@ import (
 // An Appcast represents the appcast itself and should be inherited by provider
 // specific appcasts.
 type Appcast struct {
-	// Request specifies a Request to be sent by a Client to the server. The
-	// response should never be modified in the Request itself.
-	Request Request
-
-	// Content specifies the copy of the server response from the
-	// Request.HTTPRequest. Unlike the response content from the Request, this can
-	// be modified if needed.
-	Content string
-
-	// Provider specifies one of the supported providers or Provider.Unknown if
-	// the appcast is not recognized by this library.
-	Provider Provider
-
-	// Checksum specifies the hash checksum for the original content from
-	// Request.HTTPRequest. It also includes the used algorithm, source and the
-	// checksum itself.
-	Checksum *Checksum
+	// source specifies an appcast source which holds the information about the
+	// retrieved appcast. Can be any use-case specific Sourcer interface
+	// implementation.
+	//
+	// By default, two sourcers are supported: LocalSource (for loading appcast
+	// from the local file) and RemoteSource (for loading appcast from the
+	// remote location by URL).
+	source Sourcer
 
 	// Releases specify an array of all application releases. All filtered
 	// releases are stored here.
 	Releases []Release
 
-	// url specifies current URL for the Request.HTTPRequest.
-	url string
-
-	// originalReleases specify an original array of all application releases. It
-	// is used to restore the Appcast.Releases using the
+	// originalReleases specify an original array of all application releases.
+	// It is used to restore the Appcast.Releases using the
 	// Appcast.ResetFilters function.
 	originalReleases []Release
 }
@@ -67,112 +54,109 @@ func New() *Appcast {
 	return a
 }
 
-// LoadFromUrl loads the appcast content. Supports the remote URL string or
-// Request struct pointer as an argument.
-func (a *Appcast) LoadFromUrl(i interface{}) error {
-	var req *Request
-
-	switch v := i.(type) {
-	case *Request:
-		req = v
-	case string:
-		url := v
-		newReq, err := NewRequest(url)
-		if err != nil {
-			return err
-		}
-		req = newReq
-	}
-
-	a.url = req.HTTPRequest.URL.String()
-
-	resp, err := DefaultClient.Do(req)
+// LoadFromRemoteSource creates a new RemoteSource instance and loads the data
+// from the remote location by using the RemoteSource.Load method.
+func (a *Appcast) LoadFromRemoteSource(i interface{}) error {
+	s, err := NewRemoteSource(i)
 	if err != nil {
 		return err
 	}
 
-	// content
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-	a.Content = string(body)
-
-	// provider
-	a.Provider = GuessProviderByUrl(a.url)
-	if a.Provider == Unknown {
-		a.Provider = GuessProviderByContent(body)
-	}
-
-	a.Checksum = NewChecksum(SHA256, body)
-
-	return nil
-}
-
-// LoadFromFile loads the appcast content from local file and attempts to guess
-// the provider.
-func (a *Appcast) LoadFromFile(path string) error {
-	data, err := ioutil.ReadFile(path)
+	err = s.Load()
 	if err != nil {
 		return err
 	}
 
-	a.Content = string(data)
-	a.Provider = GuessProviderByContent(data)
-	a.Checksum = NewChecksum(SHA256, data)
+	a.source = s
 
 	return nil
 }
 
-// GenerateChecksum creates a new Checksum instance based on the provided
-// algorithm and returns its pointer. The new Checksum instance pointer replaces
-// the old Appcast.Checksum.
+// LoadFromURL creates a new RemoteSource instance and loads the data from the
+// remote location by using the RemoteSource.Load method.
+//
+// Deprecated: Use Appcast.LoadFromRemoteSource instead.
+func (a *Appcast) LoadFromURL(i interface{}) error {
+	return a.LoadFromRemoteSource(i)
+}
+
+// LoadFromLocalSource creates a new LocalSource instance and loads the data
+// from the local file by using the LocalSource.Load method.
+func (a *Appcast) LoadFromLocalSource(filepath string) error {
+	s := NewLocalSource(filepath)
+	err := s.Load()
+	if err != nil {
+		return err
+	}
+
+	a.source = s
+
+	return nil
+}
+
+// LoadFromFile creates a new LocalSource instance and loads the data from the
+// local file by using the LocalSource.Load method.
+//
+// Deprecated: Use Appcast.LoadFromLocalSource instead.
+func (a *Appcast) LoadFromFile(filepath string) error {
+	return a.LoadFromLocalSource(filepath)
+}
+
+// GenerateSourceChecksum creates a new Checksum instance in the Appcast.source
+// based on the provided algorithm and returns its pointer.
+func (a *Appcast) GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum {
+	a.source.GenerateChecksum(algorithm)
+	return a.source.Checksum()
+}
+
+// GenerateChecksum creates a new Checksum instance in the Appcast.source based
+// on the provided algorithm and returns its pointer.
+//
+// Deprecated: Use Appcast.GenerateSourceChecksum instead.
 func (a *Appcast) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
-	a.Checksum = NewChecksum(algorithm, []byte(a.Content))
-
-	return a.Checksum
-}
-
-// GetChecksum is a convenience function to retrieve an Appcast.Checksum.
-func (a *Appcast) GetChecksum() *Checksum {
-	return a.Checksum
-}
-
-// GetProvider is a convenience function to retrieve an Appcast.Provider.
-func (a *Appcast) GetProvider() Provider {
-	return a.Provider
+	return a.GenerateSourceChecksum(algorithm)
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate
-// provider specific Uncomment function from the supported providers. A
-// successful call returns a "nil" error.
+// provider specific Uncomment function from the supported providers.
 func (a *Appcast) Uncomment() error {
-	switch a.Provider {
+	if a.source == nil {
+		return fmt.Errorf("no source")
+	}
+
+	provider := a.source.Provider()
+	providerString := provider.String()
+
+	switch provider {
 	case SparkleRSSFeed:
 		s := SparkleRSSFeedAppcast{Appcast: *a}
 		s.Uncomment()
-		a.Content = s.Appcast.Content
-		break
+		a.source.SetContent(s.Appcast.source.Content())
+
+		return nil
 	default:
-		p := a.Provider.String()
-		if p == "-" {
-			p = "Unknown"
+		if providerString == "-" {
+			providerString = "Unknown"
 		}
-		return fmt.Errorf("uncommenting is not available for \"%s\" provider", p)
+		break
 	}
 
-	return nil
+	return fmt.Errorf("uncommenting is not available for the \"%s\" provider", providerString)
 }
 
-// ExtractReleases parses the Appcast.Content by calling the appropriate
-// provider specific ExtractReleases function. A successful call returns a "nil"
-// error.
+// ExtractReleases parses the Appcast.source.content by calling the appropriate
+// provider specific ExtractReleases function.
 func (a *Appcast) ExtractReleases() error {
-	switch a.Provider {
+	provider := a.source.Provider()
+
+	switch provider {
 	case SparkleRSSFeed:
 		s := SparkleRSSFeedAppcast{Appcast: *a}
 		err := s.ExtractReleases()
 		if err != nil {
 			return err
 		}
+
 		a.Releases = s.Appcast.Releases
 		a.originalReleases = a.Releases
 		break
@@ -182,6 +166,7 @@ func (a *Appcast) ExtractReleases() error {
 		if err != nil {
 			return err
 		}
+
 		a.Releases = s.Appcast.Releases
 		a.originalReleases = a.Releases
 		break
@@ -191,15 +176,17 @@ func (a *Appcast) ExtractReleases() error {
 		if err != nil {
 			return err
 		}
+
 		a.Releases = s.Appcast.Releases
 		a.originalReleases = a.Releases
 		break
 	default:
-		p := a.Provider.String()
+		p := provider.String()
 		if p == "-" {
 			p = "Unknown"
 		}
-		return fmt.Errorf("releases can't be extracted from \"%s\" provider", p)
+
+		return fmt.Errorf("releases can't be extracted from the \"%s\" provider", p)
 	}
 
 	return nil
@@ -363,4 +350,28 @@ func ExtractSemanticVersions(data string) ([]string, error) {
 	}
 
 	return nil, errors.New("no semantic versions found")
+}
+
+// Source is an Appcast.source getter.
+func (a *Appcast) Source() Sourcer {
+	return a.source
+}
+
+// SetSource is an Appcast.source setter.
+func (a *Appcast) SetSource(source Sourcer) {
+	a.source = source
+}
+
+// GetChecksum is an Appcast.source.checksum getter.
+//
+// Deprecated: Use Appcast.Source.Checksum instead.
+func (a *Appcast) GetChecksum() *Checksum {
+	return a.Source().Checksum()
+}
+
+// Provider is an Appcast.source.provider getter.
+//
+// Deprecated: Use Appcast.Source.Provider instead.
+func (a *Appcast) GetProvider() Provider {
+	return a.Source().Provider()
 }

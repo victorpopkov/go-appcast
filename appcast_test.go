@@ -49,8 +49,7 @@ func getTestdataPath(paths ...string) string {
 }
 
 // ReadLine reads a provided line number from io.Reader and returns it alongside
-// with an error. Error should be "nil", if the line has been retrieved
-// successfully.
+// with an error.
 func readLine(r io.Reader, lineNum int) (line string, err error) {
 	var lastLine int
 
@@ -65,59 +64,152 @@ func readLine(r io.Reader, lineNum int) (line string, err error) {
 	return "", fmt.Errorf("there is no line \"%d\" in specified io.Reader", lineNum)
 }
 
-// getLineFromString returns a specified line from the passed string content and
-// an error. Error should be "nil", if the line has been retrieved successfully.
-func getLineFromString(lineNum int, content string) (line string, err error) {
-	r := bytes.NewReader([]byte(content))
+// getLine returns a specified line from the passed content.
+func getLine(lineNum int, content []byte) (line string, err error) {
+	return readLine(bytes.NewReader(content), lineNum)
+}
 
-	return readLine(r, lineNum)
+// getLineFromString returns a specified line from the passed string content.
+func getLineFromString(lineNum int, content string) (line string, err error) {
+	return getLine(lineNum, []byte(content))
+}
+
+// newTestAppcast creates a new Appcast instance for testing purposes and
+// returns its pointer. By default the content is []byte("test"). However, own
+// content can be provided as an argument.
+func newTestAppcast(content ...interface{}) *Appcast {
+	var resultContent []byte
+
+	if len(content) > 0 {
+		resultContent = content[0].([]byte)
+	} else {
+		resultContent = []byte("test")
+	}
+
+	url := "https://example.com/appcast.xml"
+	r, _ := NewRequest(url)
+
+	s := &Appcast{
+		source: &RemoteSource{
+			Source: &Source{
+				content:  resultContent,
+				provider: Unknown,
+			},
+			request: r,
+			url:     url,
+		},
+	}
+
+	return s
 }
 
 func TestNew(t *testing.T) {
 	a := New()
 	assert.IsType(t, Appcast{}, *a)
-	assert.Equal(t, Unknown, a.Provider)
+	assert.Nil(t, a.source)
 }
 
-func TestBaseAppcast_LoadFromUrl(t *testing.T) {
+func TestBaseAppcast_LoadFromRemoteSource(t *testing.T) {
 	// mock the request
-	content := string(getTestdata("sparkle/default.xml"))
 	httpmock.Activate()
-	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+	httpmock.RegisterResponder(
+		"GET",
+		"https://example.com/appcast.xml",
+		httpmock.NewBytesResponder(200, getTestdata("sparkle/default.xml")),
+	)
 	defer httpmock.DeactivateAndReset()
 
 	// test (successful) [URL]
 	a := New()
-	err := a.LoadFromUrl("https://example.com/appcast.xml")
+	err := a.LoadFromRemoteSource("https://example.com/appcast.xml")
 	assert.Nil(t, err)
-	assert.NotEmpty(t, a.Content)
-	assert.Equal(t, SparkleRSSFeed, a.Provider)
-	assert.NotNil(t, a.Checksum)
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
 
 	// test (successful) [Request]
 	a = New()
 	r, _ := NewRequest("https://example.com/appcast.xml")
-	err = a.LoadFromUrl(r)
+	err = a.LoadFromRemoteSource(r)
 	assert.Nil(t, err)
-	assert.NotEmpty(t, a.Content)
-	assert.Equal(t, SparkleRSSFeed, a.Provider)
-	assert.NotNil(t, a.Checksum)
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
 
 	// test "Invalid URL" error
 	a = New()
-	err = a.LoadFromUrl("http://192.168.0.%31/")
+	url := "http://192.168.0.%31/"
+	err = a.LoadFromRemoteSource(url)
 	assert.Error(t, err)
-	assert.Equal(t, "parse http://192.168.0.%31/: invalid URL escape \"%31\"", err.Error())
-	assert.Equal(t, Unknown, a.Provider)
-	assert.Nil(t, a.Checksum)
+	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
+	assert.Nil(t, a.Source())
 
 	// test "Invalid request" error
 	a = New()
-	err = a.LoadFromUrl("invalid")
+	err = a.LoadFromRemoteSource("invalid")
 	assert.Error(t, err)
-	assert.Equal(t, "Get invalid: no responder found", err.Error())
-	assert.Equal(t, Unknown, a.Provider)
-	assert.Nil(t, a.Checksum)
+	assert.EqualError(t, err, "Get invalid: no responder found")
+	assert.Nil(t, a.Source())
+}
+
+func TestBaseAppcast_LoadFromURL(t *testing.T) {
+	// mock the request
+	httpmock.Activate()
+	httpmock.RegisterResponder(
+		"GET",
+		"https://example.com/appcast.xml",
+		httpmock.NewBytesResponder(200, getTestdata("sparkle/default.xml")),
+	)
+	defer httpmock.DeactivateAndReset()
+
+	// test (successful) [URL]
+	a := New()
+	err := a.LoadFromURL("https://example.com/appcast.xml")
+	assert.Nil(t, err)
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
+
+	// test (successful) [Request]
+	a = New()
+	r, _ := NewRequest("https://example.com/appcast.xml")
+	err = a.LoadFromURL(r)
+	assert.Nil(t, err)
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
+
+	// test "Invalid URL" error
+	a = New()
+	url := "http://192.168.0.%31/"
+	err = a.LoadFromURL(url)
+	assert.Error(t, err)
+	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
+	assert.Nil(t, a.Source())
+
+	// test "Invalid request" error
+	a = New()
+	err = a.LoadFromURL("invalid")
+	assert.Error(t, err)
+	assert.EqualError(t, err, "Get invalid: no responder found")
+	assert.Nil(t, a.Source())
+}
+
+func TestBaseAppcast_LoadFromLocalSource(t *testing.T) {
+	// test (successful)
+	a := New()
+	err := a.LoadFromLocalSource(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
+	assert.Nil(t, err)
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
+
+	// test (error)
+	a = New()
+	err = a.LoadFromLocalSource("unexisting_file.xml")
+	assert.Error(t, err)
+	assert.EqualError(t, err, "open unexisting_file.xml: no such file or directory")
+	assert.Nil(t, a.Source())
 }
 
 func TestBaseAppcast_LoadFromFile(t *testing.T) {
@@ -125,77 +217,67 @@ func TestBaseAppcast_LoadFromFile(t *testing.T) {
 	a := New()
 	err := a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
 	assert.Nil(t, err)
-	assert.NotEmpty(t, a.Content)
-	assert.Equal(t, SparkleRSSFeed, a.Provider)
-	assert.NotNil(t, a.Checksum)
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
 
 	// test (error)
 	a = New()
 	err = a.LoadFromFile("unexisting_file.xml")
 	assert.Error(t, err)
-	assert.Equal(t, "open unexisting_file.xml: no such file or directory", err.Error())
-	assert.Equal(t, Unknown, a.Provider)
-	assert.Nil(t, a.Checksum)
+	assert.EqualError(t, err, "open unexisting_file.xml: no such file or directory")
+	assert.Nil(t, a.Source())
+}
+
+func TestBaseAppcast_GenerateSourceChecksum(t *testing.T) {
+	// preparations
+	a := newTestSparkleRSSFeedAppcast()
+	assert.Nil(t, a.Source().Checksum())
+
+	// test
+	result := a.GenerateSourceChecksum(MD5)
+	assert.Equal(t, result.String(), a.Source().Checksum().String())
+	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result.String())
+	assert.Equal(t, MD5, a.Source().Checksum().Algorithm())
 }
 
 func TestBaseAppcast_GenerateChecksum(t *testing.T) {
 	// preparations
-	a := New()
-	a.Content = "test"
-
-	// before
-	assert.Nil(t, a.Checksum)
+	a := newTestSparkleRSSFeedAppcast()
+	assert.Nil(t, a.Source().Checksum())
 
 	// test
 	result := a.GenerateChecksum(MD5)
+	assert.Equal(t, result.String(), a.Source().Checksum().String())
 	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result.String())
-	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", a.Checksum.String())
-	assert.Equal(t, MD5, a.Checksum.Algorithm())
-}
-
-func TestBaseAppcast_GetChecksum(t *testing.T) {
-	// preparations
-	a := New()
-	a.Content = "test"
-	a.GenerateChecksum(SHA256)
-
-	// test
-	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum().String())
-}
-
-func TestBaseAppcast_GetProvider(t *testing.T) {
-	// preparations
-	a := New()
-	a.Provider = SparkleRSSFeed
-
-	// test
-	assert.Equal(t, SparkleRSSFeed, a.GetProvider())
+	assert.Equal(t, MD5, a.Source().Checksum().Algorithm())
 }
 
 func TestBaseAppcast_Uncomment_Unknown(t *testing.T) {
 	// preparations
-	a := New()
+	a := newTestAppcast()
 
 	// test
 	err := a.Uncomment()
-	assert.Error(t, err)
-	assert.Equal(t, "uncommenting is not available for \"Unknown\" provider", err.Error())
+	assert.EqualError(t, err, "uncommenting is not available for the \"Unknown\" provider")
+	a.SetSource(nil)
+	err = a.Uncomment()
+	assert.EqualError(t, err, "no source")
 }
 
 func TestBaseAppcast_Uncomment_SparkleRSSFeed(t *testing.T) {
 	// preparations
-	a := New()
+	a := newTestAppcast(getTestdata("sparkle/with_comments.xml"))
+	a.source.SetProvider(SparkleRSSFeed)
+
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
 	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
 
 	// test
-	a.Content = string(getTestdata("sparkle/with_comments.xml"))
-	a.Provider = SparkleRSSFeed
 	err := a.Uncomment()
 	assert.Nil(t, err)
-
 	for _, commentLine := range []int{13, 20} {
-		line, _ := getLineFromString(commentLine, a.Content)
+		line, _ := getLine(commentLine, a.Source().Content())
 		check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 		assert.False(t, check)
 	}
@@ -203,36 +285,34 @@ func TestBaseAppcast_Uncomment_SparkleRSSFeed(t *testing.T) {
 
 func TestBaseAppcast_Uncomment_SourceForgeRSSFeed(t *testing.T) {
 	// preparations
-	a := New()
+	a := newTestAppcast(getTestdata("sourceforge/default.xml"))
+	a.source.SetProvider(SourceForgeRSSFeed)
 
 	// test
-	a.Content = string(getTestdata("sourceforge/default.xml"))
-	a.Provider = SourceForgeRSSFeed
 	err := a.Uncomment()
 	assert.Error(t, err)
-	assert.Equal(t, "uncommenting is not available for \"SourceForge RSS Feed\" provider", err.Error())
+	assert.EqualError(t, err, "uncommenting is not available for the \"SourceForge RSS Feed\" provider")
 }
 
 func TestBaseAppcast_Uncomment_GitHubAtomFeed(t *testing.T) {
 	// preparations
-	a := New()
+	a := newTestAppcast(getTestdata("github/default.xml"))
+	a.source.SetProvider(GitHubAtomFeed)
 
 	// test
-	a.Content = string(getTestdata("github/default.xml"))
-	a.Provider = GitHubAtomFeed
 	err := a.Uncomment()
 	assert.Error(t, err)
-	assert.Equal(t, "uncommenting is not available for \"GitHub Atom Feed\" provider", err.Error())
+	assert.EqualError(t, err, "uncommenting is not available for the \"GitHub Atom Feed\" provider")
 }
 
 func TestBaseAppcast_ExtractReleases_Unknown(t *testing.T) {
 	// preparations
-	a := New()
+	a := newTestAppcast()
 
 	// provider "Unknown"
 	err := a.ExtractReleases()
 	assert.Error(t, err)
-	assert.Equal(t, "releases can't be extracted from \"Unknown\" provider", err.Error())
+	assert.EqualError(t, err, "releases can't be extracted from the \"Unknown\" provider")
 }
 
 func TestBaseAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
@@ -295,27 +375,24 @@ func TestBaseAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
 	// test (successful)
 	for filename, data := range testCases {
 		// mock the request
-		content := string(getTestdata(filename))
-		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+		httpmock.RegisterResponder(
+			"GET",
+			"https://example.com/appcast.xml",
+			httpmock.NewBytesResponder(200, getTestdata(filename)),
+		)
 
 		// preparations
 		a := New()
-		assert.Equal(t, Unknown, a.Provider)
-		assert.Empty(t, a.Content)
-		assert.Nil(t, a.Checksum)
+		assert.Nil(t, a.Source())
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
-		a.LoadFromUrl("https://example.com/appcast.xml")
-		assert.Equal(t, SparkleRSSFeed, a.Provider)
-		assert.NotEmpty(t, a.Content)
-		assert.NotNil(t, a.Checksum)
+		a.LoadFromRemoteSource("https://example.com/appcast.xml")
+		assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
+		assert.NotEmpty(t, a.Source().Content())
+		assert.NotNil(t, a.Source().Checksum())
+		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
 		assert.Len(t, a.Releases, 0)
-
-		// generate checksum
-		a.GenerateChecksum(SHA256)
-		assert.Equal(t, SparkleRSSFeed, a.Provider)
-		assert.Equal(t, data["checksum"].(string), a.GetChecksum().String())
 
 		// releases
 		err := a.ExtractReleases()
@@ -326,17 +403,20 @@ func TestBaseAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
 	// test (error)
 	for filename, errorMsg := range errorTestCases {
 		// mock the request
-		content := string(getTestdata(filename))
-		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+		httpmock.RegisterResponder(
+			"GET",
+			"https://example.com/appcast.xml",
+			httpmock.NewBytesResponder(200, getTestdata(filename)),
+		)
 
 		// preparations
 		a := New()
-		a.LoadFromUrl("https://example.com/appcast.xml")
+		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
 		err := a.ExtractReleases()
 		assert.Error(t, err)
-		assert.Equal(t, errorMsg, err.Error())
+		assert.EqualError(t, err, errorMsg)
 	}
 }
 
@@ -371,27 +451,24 @@ func TestBaseAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
 	// test (successful)
 	for filename, data := range testCases {
 		// mock the request
-		content := string(getTestdata(filename))
-		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+		httpmock.RegisterResponder(
+			"GET",
+			"https://example.com/appcast.xml",
+			httpmock.NewBytesResponder(200, getTestdata(filename)),
+		)
 
 		// preparations
 		a := New()
-		assert.Equal(t, Unknown, a.Provider)
-		assert.Empty(t, a.Content)
-		assert.Nil(t, a.Checksum)
+		assert.Nil(t, a.Source())
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
-		a.LoadFromUrl("https://example.com/appcast.xml")
-		assert.Equal(t, SourceForgeRSSFeed, a.Provider)
-		assert.NotEmpty(t, a.Content)
-		assert.NotNil(t, a.Checksum)
+		a.LoadFromRemoteSource("https://example.com/appcast.xml")
+		assert.Equal(t, SourceForgeRSSFeed, a.Source().Provider())
+		assert.NotEmpty(t, a.Source().Content())
+		assert.NotNil(t, a.Source().Checksum())
+		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
 		assert.Len(t, a.Releases, 0)
-
-		// generate checksum
-		a.GenerateChecksum(SHA256)
-		assert.Equal(t, SourceForgeRSSFeed, a.Provider)
-		assert.Equal(t, data["checksum"].(string), a.GetChecksum().String())
 
 		// releases
 		err := a.ExtractReleases()
@@ -402,17 +479,20 @@ func TestBaseAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
 	// test (error)
 	for filename, errorMsg := range errorTestCases {
 		// mock the request
-		content := string(getTestdata(filename))
-		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+		httpmock.RegisterResponder(
+			"GET",
+			"https://example.com/appcast.xml",
+			httpmock.NewBytesResponder(200, getTestdata(filename)),
+		)
 
 		// preparations
 		a := New()
-		a.LoadFromUrl("https://example.com/appcast.xml")
+		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
 		err := a.ExtractReleases()
 		assert.Error(t, err)
-		assert.Equal(t, errorMsg, err.Error())
+		assert.EqualError(t, err, errorMsg)
 	}
 }
 
@@ -439,27 +519,24 @@ func TestBaseAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
 	// test (successful)
 	for filename, data := range testCases {
 		// mock the request
-		content := string(getTestdata(filename))
-		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+		httpmock.RegisterResponder(
+			"GET",
+			"https://example.com/appcast.xml",
+			httpmock.NewBytesResponder(200, getTestdata(filename)),
+		)
 
 		// preparations
 		a := New()
-		assert.Equal(t, Unknown, a.Provider)
-		assert.Empty(t, a.Content)
-		assert.Nil(t, a.Checksum)
+		assert.Nil(t, a.Source())
 		assert.Len(t, a.Releases, 0)
 
 		// load from URL
-		a.LoadFromUrl("https://example.com/appcast.xml")
-		assert.Equal(t, GitHubAtomFeed, a.Provider)
-		assert.NotEmpty(t, a.Content)
-		assert.NotNil(t, a.Checksum)
+		a.LoadFromRemoteSource("https://example.com/appcast.xml")
+		assert.Equal(t, GitHubAtomFeed, a.Source().Provider())
+		assert.NotEmpty(t, a.Source().Content())
+		assert.NotNil(t, a.Source().Checksum())
+		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
 		assert.Len(t, a.Releases, 0)
-
-		// generate checksum
-		a.GenerateChecksum(SHA256)
-		assert.Equal(t, GitHubAtomFeed, a.Provider)
-		assert.Equal(t, data["checksum"].(string), a.GetChecksum().String())
 
 		// releases
 		err := a.ExtractReleases()
@@ -470,17 +547,20 @@ func TestBaseAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
 	// test (error)
 	for filename, errorMsg := range errorTestCases {
 		// mock the request
-		content := string(getTestdata(filename))
-		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+		httpmock.RegisterResponder(
+			"GET",
+			"https://example.com/appcast.xml",
+			httpmock.NewBytesResponder(200, getTestdata(filename)),
+		)
 
 		// preparations
 		a := New()
-		a.LoadFromUrl("https://example.com/appcast.xml")
+		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
 		err := a.ExtractReleases()
 		assert.Error(t, err)
-		assert.Equal(t, errorMsg, err.Error())
+		assert.EqualError(t, err, errorMsg)
 	}
 }
 
@@ -500,12 +580,15 @@ func TestBaseAppcast_SortReleasesByVersions(t *testing.T) {
 
 	for _, filename := range testCases {
 		// mock the request
-		content := string(getTestdata(filename))
-		httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
+		httpmock.RegisterResponder(
+			"GET",
+			"https://example.com/appcast.xml",
+			httpmock.NewBytesResponder(200, getTestdata(filename)),
+		)
 
 		// preparations
 		a := New()
-		a.LoadFromUrl("https://example.com/appcast.xml")
+		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
 
@@ -522,13 +605,16 @@ func TestBaseAppcast_SortReleasesByVersions(t *testing.T) {
 func TestBaseAppcast_Filters(t *testing.T) {
 	// mock the request
 	httpmock.Activate()
+	httpmock.RegisterResponder(
+		"GET",
+		"https://example.com/appcast.xml",
+		httpmock.NewBytesResponder(200, getTestdata("sparkle/prerelease.xml")),
+	)
 	defer httpmock.DeactivateAndReset()
-	content := string(getTestdata("sparkle/prerelease.xml"))
-	httpmock.RegisterResponder("GET", "https://example.com/appcast.xml", httpmock.NewStringResponder(200, content))
 
 	// preparations
 	a := New()
-	a.LoadFromUrl("https://example.com/appcast.xml")
+	a.LoadFromRemoteSource("https://example.com/appcast.xml")
 	a.ExtractReleases()
 
 	// Appcast.FilterReleasesByTitle
@@ -570,8 +656,7 @@ func TestBaseAppcast_Filters(t *testing.T) {
 
 func TestBaseAppcast_GetReleasesLength(t *testing.T) {
 	// preparations
-	a := New()
-	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
+	a := newTestAppcast(getTestdata("sparkle/default.xml"))
 	a.ExtractReleases()
 
 	// test
@@ -580,8 +665,7 @@ func TestBaseAppcast_GetReleasesLength(t *testing.T) {
 
 func TestBaseAppcast_GetFirstRelease(t *testing.T) {
 	// preparations
-	a := New()
-	a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
+	a := newTestSparkleRSSFeedAppcast(getTestdata("sparkle/default.xml"))
 	a.ExtractReleases()
 
 	// test
@@ -608,10 +692,36 @@ func TestExtractSemanticVersions(t *testing.T) {
 		actual, err := ExtractSemanticVersions(data)
 		if versions == nil {
 			assert.Error(t, err)
-			assert.Equal(t, "no semantic versions found", err.Error())
+			assert.EqualError(t, err, "no semantic versions found")
 		} else {
 			assert.Nil(t, err)
 			assert.Equal(t, versions, actual)
 		}
 	}
+}
+
+func TestBaseAppcast_Source(t *testing.T) {
+	a := newTestAppcast()
+	assert.Equal(t, a.source, a.Source())
+}
+
+func TestBaseAppcast_SetSource(t *testing.T) {
+	// preparations
+	a := newTestAppcast()
+	assert.NotNil(t, a.source)
+
+	// test
+	a.SetSource(nil)
+	assert.Nil(t, a.source)
+}
+
+func TestBaseAppcast_GetChecksum(t *testing.T) {
+	a := newTestAppcast()
+	a.GenerateSourceChecksum(SHA256)
+	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum().String())
+}
+
+func TestBaseAppcast_GetProvider(t *testing.T) {
+	a := newTestAppcast()
+	assert.Equal(t, Unknown, a.GetProvider())
 }

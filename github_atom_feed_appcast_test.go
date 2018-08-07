@@ -7,6 +7,37 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// newTestGitHubAtomFeedAppcast creates a new GitHubAtomFeedAppcast instance for
+// testing purposes and returns its pointer. By default the content is
+// []byte("test"). However, own content can be provided as an argument.
+func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast {
+	var resultContent []byte
+
+	if len(content) > 0 {
+		resultContent = content[0].([]byte)
+	} else {
+		resultContent = []byte("test")
+	}
+
+	url := "https://github.com/user/repo/releases.atom"
+	r, _ := NewRequest(url)
+
+	s := &GitHubAtomFeedAppcast{
+		Appcast: Appcast{
+			source: &RemoteSource{
+				Source: &Source{
+					content:  resultContent,
+					provider: GitHubAtomFeed,
+				},
+				request: r,
+				url:     url,
+			},
+		},
+	}
+
+	return s
+}
+
 func TestGitHubAtomFeedAppcast_ExtractReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"github/default.xml": {
@@ -22,11 +53,10 @@ func TestGitHubAtomFeedAppcast_ExtractReleases(t *testing.T) {
 	// test (successful)
 	for filename, releases := range testCases {
 		// preparations
-		a := new(GitHubAtomFeedAppcast)
-		a.Content = string(getTestdata(filename))
+		a := newTestGitHubAtomFeedAppcast(getTestdata(filename))
+		assert.Empty(t, a.Releases)
 
 		// test
-		assert.Empty(t, a.Releases)
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
 		assert.Len(t, a.Releases, len(releases))
@@ -41,12 +71,11 @@ func TestGitHubAtomFeedAppcast_ExtractReleases(t *testing.T) {
 	// test (error)
 	for filename, errorMsg := range errorTestCases {
 		// preparations
-		a := new(GitHubAtomFeedAppcast)
-		a.Content = string(getTestdata(filename))
+		a := newTestGitHubAtomFeedAppcast(getTestdata(filename))
 
 		// test
 		err := a.ExtractReleases()
 		assert.Error(t, err)
-		assert.Equal(t, errorMsg, err.Error())
+		assert.EqualError(t, err, errorMsg)
 	}
 }

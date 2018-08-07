@@ -17,13 +17,12 @@ func Example_sparkleRSSFeed() {
 
 	// example
 	a := New()
-	a.LoadFromUrl("https://www.adium.im/sparkle/appcast-release.xml")
-	a.GenerateChecksum(SHA256)
+	a.LoadFromRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
 	a.ExtractReleases()
 	a.SortReleasesByVersions(DESC)
 
-	fmt.Println("Checksum:", a.GetChecksum())
-	fmt.Println("Provider:", a.GetProvider())
+	fmt.Println("Checksum:", a.Source().Checksum())
+	fmt.Println("Provider:", a.Source().Provider())
 
 	for i, release := range a.Releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
@@ -50,8 +49,7 @@ func Example_sourceForgeRSSFeed() {
 
 	// example
 	a := New()
-	a.LoadFromUrl("https://sourceforge.net/projects/filezilla/rss")
-	a.GenerateChecksum(SHA256)
+	a.LoadFromRemoteSource("https://sourceforge.net/projects/filezilla/rss")
 	a.ExtractReleases()
 
 	// apply some filters
@@ -60,8 +58,8 @@ func Example_sourceForgeRSSFeed() {
 	a.FilterReleasesByURL("macosx")
 	defer a.ResetFilters() // reset
 
-	fmt.Println("Checksum:", a.GetChecksum())
-	fmt.Println("Provider:", a.GetProvider())
+	fmt.Println("Checksum:", a.Source().Checksum())
+	fmt.Println("Provider:", a.Source().Provider())
 
 	for i, release := range a.Releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
@@ -88,12 +86,11 @@ func Example_gitHubAtomFeed() {
 
 	// example
 	a := New()
-	a.LoadFromUrl("https://github.com/atom/atom/releases.atom")
-	a.GenerateChecksum(SHA256)
+	a.LoadFromRemoteSource("https://github.com/atom/atom/releases.atom")
 	a.ExtractReleases()
 
-	fmt.Println("Checksum:", a.GetChecksum())
-	fmt.Println("Provider:", a.GetProvider())
+	fmt.Println("Checksum:", a.Source().Checksum())
+	fmt.Println("Provider:", a.Source().Provider())
 
 	for i, release := range a.Releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.Title, release.PublishedDateTime, release.IsPrerelease)
