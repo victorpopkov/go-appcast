@@ -168,38 +168,19 @@ func (a *Appcast) Uncomment() error {
 // ExtractReleases parses the Appcast.source.content by calling the appropriate
 // provider specific ExtractReleases function.
 func (a *Appcast) ExtractReleases() error {
+	var appcast Appcaster
+
 	provider := a.source.Provider()
 
 	switch provider {
 	case SparkleRSSFeed:
-		s := SparkleRSSFeedAppcast{Appcast: *a}
-		err := s.ExtractReleases()
-		if err != nil {
-			return err
-		}
-
-		a.releases = s.Appcast.releases
-		a.originalReleases = a.releases
+		appcast = &SparkleRSSFeedAppcast{Appcast: *a}
 		break
 	case SourceForgeRSSFeed:
-		s := SourceForgeRSSFeedAppcast{Appcast: *a}
-		err := s.ExtractReleases()
-		if err != nil {
-			return err
-		}
-
-		a.releases = s.Appcast.releases
-		a.originalReleases = a.releases
+		appcast = &SourceForgeRSSFeedAppcast{Appcast: *a}
 		break
 	case GitHubAtomFeed:
-		s := GitHubAtomFeedAppcast{Appcast: *a}
-		err := s.ExtractReleases()
-		if err != nil {
-			return err
-		}
-
-		a.releases = s.Appcast.releases
-		a.originalReleases = a.releases
+		appcast = &GitHubAtomFeedAppcast{Appcast: *a}
 		break
 	default:
 		p := provider.String()
@@ -209,6 +190,14 @@ func (a *Appcast) ExtractReleases() error {
 
 		return fmt.Errorf("releases can't be extracted from the \"%s\" provider", p)
 	}
+
+	err := appcast.ExtractReleases()
+	if err != nil {
+		return err
+	}
+
+	a.releases = appcast.Releases()
+	a.originalReleases = a.releases
 
 	return nil
 }
