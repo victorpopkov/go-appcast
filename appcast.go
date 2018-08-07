@@ -29,6 +29,8 @@ type Appcaster interface {
 	FilterReleasesByPrerelease(inversed ...interface{})
 	Source() Sourcer
 	SetSource(source Sourcer)
+	Releases() []Release
+	SetReleases(releases []Release)
 	OriginalReleases() []Release
 	SetOriginalReleases(originalReleases []Release)
 }
@@ -379,6 +381,16 @@ func (a *Appcast) Source() Sourcer {
 // SetSource is an Appcast.source setter.
 func (a *Appcast) SetSource(source Sourcer) {
 	a.source = source
+}
+
+// Releases is an Appcast.releases getter.
+func (a *Appcast) Releases() []Release {
+	return a.releases
+}
+
+// SetReleases is an Appcast.releases setter.
+func (a *Appcast) SetReleases(releases []Release) {
+	a.releases = releases
 }
 
 // OriginalReleases is an Appcast.originalReleases getter.

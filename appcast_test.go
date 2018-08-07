@@ -715,6 +715,21 @@ func TestAppcast_SetSource(t *testing.T) {
 	assert.Nil(t, a.source)
 }
 
+func TestAppcast_Releases(t *testing.T) {
+	a := newTestAppcast()
+	assert.Equal(t, a.releases, a.Releases())
+}
+
+func TestAppcast_SetReleases(t *testing.T) {
+	// preparations
+	a := newTestAppcast()
+	assert.Nil(t, a.originalReleases)
+
+	// test
+	a.SetReleases([]Release{{}})
+	assert.Len(t, a.releases, 1)
+}
+
 func TestAppcast_OriginalReleases(t *testing.T) {
 	a := newTestAppcast()
 	assert.Equal(t, a.originalReleases, a.OriginalReleases())
