@@ -36,22 +36,22 @@ func newTestLocalSource(content ...interface{}) *LocalSource {
 
 func TestNewLocalSource(t *testing.T) {
 	// preparations
-	filepath := "/tmp/test.txt"
+	path := "/tmp/test.txt"
 
 	// test (successful)
-	s := NewLocalSource(filepath)
+	s := NewLocalSource(path)
 	assert.IsType(t, LocalSource{}, *s)
 	assert.NotNil(t, s.Source)
-	assert.Equal(t, filepath, s.filepath)
+	assert.Equal(t, path, s.filepath)
 }
 
 func TestLocalSource_Load(t *testing.T) {
 	// preparations
-	filepath := getTestdataPath("sparkle/default.xml")
+	path := getTestdataPath("sparkle/default.xml")
 	content := getTestdata("sparkle/default.xml")
 
 	// test (successful)
-	s := NewLocalSource(filepath)
+	s := NewLocalSource(path)
 	err := s.Load()
 	assert.Nil(t, err)
 	assert.Equal(t, SparkleRSSFeed, s.provider)

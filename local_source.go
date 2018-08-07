@@ -16,10 +16,10 @@ type LocalSource struct {
 
 // NewLocalSource returns a new LocalSource instance pointer with the
 // LocalSource.filepath set.
-func NewLocalSource(filepath string) *LocalSource {
+func NewLocalSource(path string) *LocalSource {
 	s := &LocalSource{
 		Source:   &Source{},
-		filepath: filepath,
+		filepath: path,
 	}
 
 	return s
