@@ -54,13 +54,13 @@ func TestGitHubAtomFeedAppcast_ExtractReleases(t *testing.T) {
 	for filename, releases := range testCases {
 		// preparations
 		a := newTestGitHubAtomFeedAppcast(getTestdata(filename))
-		assert.Empty(t, a.Releases)
+		assert.Empty(t, a.releases)
 
 		// test
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
-		assert.Len(t, a.Releases, len(releases))
-		for _, release := range a.Releases {
+		assert.Len(t, a.releases, len(releases))
+		for _, release := range a.releases {
 			v := release.Version.String()
 			assert.Equal(t, fmt.Sprintf("%s", v), release.Title)
 			assert.NotEmpty(t, release.Description)

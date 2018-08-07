@@ -45,9 +45,9 @@ type Appcast struct {
 	// remote location by URL).
 	source Sourcer
 
-	// Releases specify a slice of all application releases. All filtered
+	// releases specify a slice of all application releases. All filtered
 	// releases are stored here.
-	Releases []Release
+	releases []Release
 
 	// originalReleases specify a slice holds a copy of the Appcast.Releases. It
 	// is used to restore the Appcast.Releases using the Appcast.ResetFilters
@@ -176,8 +176,8 @@ func (a *Appcast) ExtractReleases() error {
 			return err
 		}
 
-		a.Releases = s.Appcast.Releases
-		a.originalReleases = a.Releases
+		a.releases = s.Appcast.releases
+		a.originalReleases = a.releases
 		break
 	case SourceForgeRSSFeed:
 		s := SourceForgeRSSFeedAppcast{Appcast: *a}
@@ -186,8 +186,8 @@ func (a *Appcast) ExtractReleases() error {
 			return err
 		}
 
-		a.Releases = s.Appcast.Releases
-		a.originalReleases = a.Releases
+		a.releases = s.Appcast.releases
+		a.originalReleases = a.releases
 		break
 	case GitHubAtomFeed:
 		s := GitHubAtomFeedAppcast{Appcast: *a}
@@ -196,8 +196,8 @@ func (a *Appcast) ExtractReleases() error {
 			return err
 		}
 
-		a.Releases = s.Appcast.Releases
-		a.originalReleases = a.Releases
+		a.releases = s.Appcast.releases
+		a.originalReleases = a.releases
 		break
 	default:
 		p := provider.String()
@@ -215,9 +215,9 @@ func (a *Appcast) ExtractReleases() error {
 // useful if the versions order in the content is inconsistent.
 func (a *Appcast) SortReleasesByVersions(s Sort) {
 	if s == ASC {
-		sort.Sort(ByVersion(a.Releases))
+		sort.Sort(ByVersion(a.releases))
 	} else if s == DESC {
-		sort.Sort(sort.Reverse(ByVersion(a.Releases)))
+		sort.Sort(sort.Reverse(ByVersion(a.releases)))
 	}
 }
 
@@ -226,7 +226,7 @@ func (a *Appcast) SortReleasesByVersions(s Sort) {
 func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 	var result []Release
 
-	for _, release := range a.Releases {
+	for _, release := range a.releases {
 		if inverse == false && f(release) {
 			result = append(result, release)
 			continue
@@ -238,7 +238,7 @@ func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 		}
 	}
 
-	a.Releases = result
+	a.releases = result
 }
 
 // filterReleasesDownloadsBy filters all Downloads for Appcast.Releases
@@ -247,7 +247,7 @@ func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse bool) {
 	var result []Release
 
-	for _, release := range a.Releases {
+	for _, release := range a.releases {
 		for _, download := range release.Downloads {
 			if inverse == false && f(download) {
 				result = append(result, release)
@@ -261,7 +261,7 @@ func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse boo
 		}
 	}
 
-	a.Releases = result
+	a.releases = result
 }
 
 // FilterReleasesByTitle filters all Appcast.Releases by matching the
@@ -338,19 +338,19 @@ func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 // ResetFilters resets the Appcast.Releases to their original state before
 // applying any filters.
 func (a *Appcast) ResetFilters() {
-	a.Releases = a.originalReleases
+	a.releases = a.originalReleases
 }
 
 // GetReleasesLength is a convenience function to retrieve the total number of
 // releases in Appcast.Releases slice.
 func (a *Appcast) GetReleasesLength() int {
-	return len(a.Releases)
+	return len(a.releases)
 }
 
 // GetFirstRelease is a convenience function to retrieve the first release
 // pointer from Appcast.Releases slice.
 func (a *Appcast) GetFirstRelease() *Release {
-	return &a.Releases[0]
+	return &a.releases[0]
 }
 
 // ExtractSemanticVersions extracts semantic versions from the provided data

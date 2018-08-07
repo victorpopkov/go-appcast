@@ -152,14 +152,14 @@ func TestSparkleRSSFeedAppcast_ExtractReleases(t *testing.T) {
 	for filename, releases := range testCases {
 		// preparations
 		a := newTestSparkleRSSFeedAppcast(getTestdata(filename))
-		assert.Empty(t, a.Releases)
+		assert.Empty(t, a.releases)
 
 		// test
 		a.Uncomment()
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
-		assert.Len(t, a.Releases, len(releases))
-		for _, release := range a.Releases {
+		assert.Len(t, a.releases, len(releases))
+		for _, release := range a.releases {
 			v := release.Version.String()
 			assert.Equal(t, fmt.Sprintf("Release %s", v), release.Title)
 			assert.Equal(t, fmt.Sprintf("Release %s Description", v), release.Description)

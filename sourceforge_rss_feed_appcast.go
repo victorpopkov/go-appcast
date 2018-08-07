@@ -83,7 +83,7 @@ func (a *SourceForgeRSSFeedAppcast) ExtractReleases() error {
 		items[i] = *r
 	}
 
-	a.Releases = items
+	a.releases = items
 
 	return nil
 }

@@ -108,7 +108,7 @@ func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
 		items[i] = *r
 	}
 
-	a.Releases = items
+	a.releases = items
 
 	return nil
 }

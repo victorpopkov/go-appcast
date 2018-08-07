@@ -24,7 +24,7 @@ func Example_sparkleRSSFeed() {
 	fmt.Println("Checksum:", a.Source().Checksum())
 	fmt.Println("Provider:", a.Source().Provider())
 
-	for i, release := range a.Releases {
+	for i, release := range a.releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
 	}
 
@@ -61,7 +61,7 @@ func Example_sourceForgeRSSFeed() {
 	fmt.Println("Checksum:", a.Source().Checksum())
 	fmt.Println("Provider:", a.Source().Provider())
 
-	for i, release := range a.Releases {
+	for i, release := range a.releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
 	}
 
@@ -92,7 +92,7 @@ func Example_gitHubAtomFeed() {
 	fmt.Println("Checksum:", a.Source().Checksum())
 	fmt.Println("Provider:", a.Source().Provider())
 
-	for i, release := range a.Releases {
+	for i, release := range a.releases {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.Title, release.PublishedDateTime, release.IsPrerelease)
 	}
 

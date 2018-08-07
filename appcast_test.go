@@ -384,7 +384,7 @@ func TestAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
 		// preparations
 		a := New()
 		assert.Nil(t, a.Source())
-		assert.Len(t, a.Releases, 0)
+		assert.Len(t, a.releases, 0)
 
 		// load from URL
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
@@ -392,12 +392,12 @@ func TestAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
 		assert.NotEmpty(t, a.Source().Content())
 		assert.NotNil(t, a.Source().Checksum())
 		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
-		assert.Len(t, a.Releases, 0)
+		assert.Len(t, a.releases, 0)
 
 		// releases
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
-		assert.Len(t, a.Releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
+		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
 
 	// test (error)
@@ -460,7 +460,7 @@ func TestAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
 		// preparations
 		a := New()
 		assert.Nil(t, a.Source())
-		assert.Len(t, a.Releases, 0)
+		assert.Len(t, a.releases, 0)
 
 		// load from URL
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
@@ -468,12 +468,12 @@ func TestAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
 		assert.NotEmpty(t, a.Source().Content())
 		assert.NotNil(t, a.Source().Checksum())
 		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
-		assert.Len(t, a.Releases, 0)
+		assert.Len(t, a.releases, 0)
 
 		// releases
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
-		assert.Len(t, a.Releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
+		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
 
 	// test (error)
@@ -528,7 +528,7 @@ func TestAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
 		// preparations
 		a := New()
 		assert.Nil(t, a.Source())
-		assert.Len(t, a.Releases, 0)
+		assert.Len(t, a.releases, 0)
 
 		// load from URL
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
@@ -536,12 +536,12 @@ func TestAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
 		assert.NotEmpty(t, a.Source().Content())
 		assert.NotNil(t, a.Source().Checksum())
 		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
-		assert.Len(t, a.Releases, 0)
+		assert.Len(t, a.releases, 0)
 
 		// releases
 		err := a.ExtractReleases()
 		assert.Nil(t, err)
-		assert.Len(t, a.Releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
+		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
 
 	// test (error)
@@ -594,11 +594,11 @@ func TestAppcast_SortReleasesByVersions(t *testing.T) {
 
 		// test (ASC)
 		a.SortReleasesByVersions(ASC)
-		assert.Equal(t, "1.0.0", a.Releases[0].Version.String())
+		assert.Equal(t, "1.0.0", a.releases[0].Version.String())
 
 		// test (DESC)
 		a.SortReleasesByVersions(DESC)
-		assert.Equal(t, "2.0.0", a.Releases[0].Version.String())
+		assert.Equal(t, "2.0.0", a.releases[0].Version.String())
 	}
 }
 
@@ -618,39 +618,39 @@ func TestAppcast_Filters(t *testing.T) {
 	a.ExtractReleases()
 
 	// Appcast.FilterReleasesByTitle
-	assert.Len(t, a.Releases, 4)
+	assert.Len(t, a.releases, 4)
 	a.FilterReleasesByTitle("Release 1.0")
-	assert.Len(t, a.Releases, 2)
+	assert.Len(t, a.releases, 2)
 	a.FilterReleasesByTitle("Release 1.0.0", true)
-	assert.Len(t, a.Releases, 1)
-	assert.Equal(t, "Release 1.0.1", a.Releases[0].Title)
+	assert.Len(t, a.releases, 1)
+	assert.Equal(t, "Release 1.0.1", a.releases[0].Title)
 	a.ResetFilters()
 
 	// Appcast.FilterReleasesByMediaType
-	assert.Len(t, a.Releases, 4)
+	assert.Len(t, a.releases, 4)
 	a.FilterReleasesByMediaType("application/octet-stream")
-	assert.Len(t, a.Releases, 4)
+	assert.Len(t, a.releases, 4)
 	a.FilterReleasesByMediaType("test", true)
-	assert.Len(t, a.Releases, 4)
+	assert.Len(t, a.releases, 4)
 	a.ResetFilters()
 
 	// Appcast.FilterReleasesByURL
-	assert.Len(t, a.Releases, 4)
+	assert.Len(t, a.releases, 4)
 	a.FilterReleasesByURL(`app_1.*dmg$`)
-	assert.Len(t, a.Releases, 3)
+	assert.Len(t, a.releases, 3)
 	a.FilterReleasesByURL(`app_1.0.*dmg$`, true)
-	assert.Len(t, a.Releases, 1)
+	assert.Len(t, a.releases, 1)
 	a.ResetFilters()
 
 	// Appcast.FilterReleasesByPrerelease
-	assert.Len(t, a.Releases, 4)
+	assert.Len(t, a.releases, 4)
 	a.FilterReleasesByPrerelease()
-	assert.Len(t, a.Releases, 1)
+	assert.Len(t, a.releases, 1)
 	a.ResetFilters()
 
-	assert.Len(t, a.Releases, 4)
+	assert.Len(t, a.releases, 4)
 	a.FilterReleasesByPrerelease(true)
-	assert.Len(t, a.Releases, 3)
+	assert.Len(t, a.releases, 3)
 	a.ResetFilters()
 }
 
@@ -660,7 +660,7 @@ func TestAppcast_GetReleasesLength(t *testing.T) {
 	a.ExtractReleases()
 
 	// test
-	assert.Len(t, a.Releases, a.GetReleasesLength())
+	assert.Len(t, a.releases, a.GetReleasesLength())
 }
 
 func TestAppcast_GetFirstRelease(t *testing.T) {
@@ -669,7 +669,7 @@ func TestAppcast_GetFirstRelease(t *testing.T) {
 	a.ExtractReleases()
 
 	// test
-	assert.Equal(t, a.Releases[0].GetVersionString(), a.GetFirstRelease().GetVersionString())
+	assert.Equal(t, a.releases[0].GetVersionString(), a.GetFirstRelease().GetVersionString())
 }
 
 func TestExtractSemanticVersions(t *testing.T) {
