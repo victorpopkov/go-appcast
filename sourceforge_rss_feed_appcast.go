@@ -5,6 +5,12 @@ import (
 	"fmt"
 )
 
+// SourceForgeRSSFeedAppcaster is the interface that wraps the
+// SourceForgeRSSFeedAppcast methods.
+type SourceForgeRSSFeedAppcaster interface {
+	Appcaster
+}
+
 // A SourceForgeRSSFeedAppcast represents appcast for "SourceForge RSS Feed"
 // that is created by SourceForge applications and software distributor.
 type SourceForgeRSSFeedAppcast struct {

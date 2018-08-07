@@ -5,6 +5,12 @@ import (
 	"regexp"
 )
 
+// GitHubAtomFeedAppcaster is the interface that wraps the
+// GitHubAtomFeedAppcaster methods.
+type GitHubAtomFeedAppcaster interface {
+	Appcaster
+}
+
 // A GitHubAtomFeedAppcast represents appcast for "GitHub Atom Feed" that is
 // created by GitHub.
 type GitHubAtomFeedAppcast struct {

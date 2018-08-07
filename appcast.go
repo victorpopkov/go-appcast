@@ -14,6 +14,23 @@ import (
 	"sort"
 )
 
+// Appcaster is the interface that wraps the Appcast methods.
+//
+// This interface should be embedded by provider specific Appcaster interfaces.
+type Appcaster interface {
+	LoadFromRemoteSource(i interface{}) error
+	LoadFromLocalSource(filepath string) error
+	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
+	Uncomment() error
+	ExtractReleases() error
+	SortReleasesByVersions(s Sort)
+	FilterReleasesByTitle(regexpStr string, inversed ...interface{})
+	FilterReleasesByURL(regexpStr string, inversed ...interface{})
+	FilterReleasesByPrerelease(inversed ...interface{})
+	Source() Sourcer
+	SetSource(source Sourcer)
+}
+
 // An Appcast represents the appcast itself and should be inherited by provider
 // specific appcasts.
 type Appcast struct {
