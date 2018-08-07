@@ -37,6 +37,14 @@ func TestGuessProviderByContent(t *testing.T) {
 	}
 }
 
+func TestGuessProviderByContentString(t *testing.T) {
+	assert.Equal(t, SparkleRSSFeed, GuessProviderByContentString(string(getTestdata("sparkle/default.xml"))))
+}
+
+func TestGuessProviderFromContent(t *testing.T) {
+	assert.Equal(t, SparkleRSSFeed, GuessProviderFromContent(string(getTestdata("sparkle/default.xml"))))
+}
+
 func TestGuessProviderByUrl(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
@@ -61,6 +69,10 @@ func TestGuessProviderByUrl(t *testing.T) {
 	for url, provider := range testCases {
 		assert.Equal(t, provider, GuessProviderByUrl(url), fmt.Sprintf("Provider doesn't match: %s", url))
 	}
+}
+
+func TestGuessProviderFromURL(t *testing.T) {
+	assert.Equal(t, GitHubAtomFeed, GuessProviderFromURL("http://github.com/user/repo/releases.atom"))
 }
 
 func TestProvider_String(t *testing.T) {

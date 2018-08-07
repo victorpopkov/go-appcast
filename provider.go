@@ -51,6 +51,20 @@ func GuessProviderByContent(content []byte) Provider {
 	return Unknown
 }
 
+// GuessProviderByContentString attempts to guess the supported provider from
+// the passed content string. By default returns Provider.Unknown.
+func GuessProviderByContentString(content string) Provider {
+	return GuessProviderByContent([]byte(content))
+}
+
+// GuessProviderFromContent attempts to guess the supported provider from the
+// passed content. By default returns Provider.Unknown.
+//
+// Deprecated: Use GuessProviderFromContentString instead.
+func GuessProviderFromContent(content string) Provider {
+	return GuessProviderByContentString(content)
+}
+
 // GuessProviderByUrl attempts to guess the supported provider from the passed
 // URL. Only appcasts that are web-service specific can be guessed. By default
 // returns Provider.Unknown.
@@ -67,6 +81,15 @@ func GuessProviderByUrl(url string) Provider {
 	}
 
 	return Unknown
+}
+
+// GuessProviderFromURL attempts to guess the supported provider from the passed
+// URL. Only appcasts that are web-service specific can be guessed. By default
+// returns Provider.Unknown.
+//
+// Deprecated: Use GuessProviderByUrl instead.
+func GuessProviderFromURL(url string) Provider {
+	return GuessProviderByUrl(url)
 }
 
 // String returns the string representation of the Provider.
