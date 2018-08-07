@@ -23,7 +23,8 @@ type Release struct {
 	// Description specifies the release description.
 	Description string
 
-	// Downloads specifies an array of downloads.
+	// Downloads specifies a slice of Download structs that represent a list of
+	// all downloads for the release.
 	Downloads []Download
 
 	// PublishedDateTime specifies the release published data and time in UTC.
@@ -73,7 +74,7 @@ func (r *Release) SetVersion(value string) error {
 	return nil
 }
 
-// AddDownload adds a new Download to the Release.Downloads array.
+// AddDownload adds a new Download to the Release.Downloads slice.
 func (r *Release) AddDownload(d Download) {
 	r.Downloads = append(r.Downloads, d)
 }

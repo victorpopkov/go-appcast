@@ -43,13 +43,13 @@ type Appcast struct {
 	// remote location by URL).
 	source Sourcer
 
-	// Releases specify an array of all application releases. All filtered
+	// Releases specify a slice of all application releases. All filtered
 	// releases are stored here.
 	Releases []Release
 
-	// originalReleases specify an original array of all application releases.
-	// It is used to restore the Appcast.Releases using the
-	// Appcast.ResetFilters function.
+	// originalReleases specify a slice holds a copy of the Appcast.Releases. It
+	// is used to restore the Appcast.Releases using the Appcast.ResetFilters
+	// function.
 	originalReleases []Release
 }
 
@@ -209,7 +209,7 @@ func (a *Appcast) ExtractReleases() error {
 	return nil
 }
 
-// SortReleasesByVersions sorts Appcast.Releases array by versions. Can be
+// SortReleasesByVersions sorts Appcast.Releases slice by versions. Can be
 // useful if the versions order in the content is inconsistent.
 func (a *Appcast) SortReleasesByVersions(s Sort) {
 	if s == ASC {
@@ -340,13 +340,13 @@ func (a *Appcast) ResetFilters() {
 }
 
 // GetReleasesLength is a convenience function to retrieve the total number of
-// releases in Appcast.Releases array.
+// releases in Appcast.Releases slice.
 func (a *Appcast) GetReleasesLength() int {
 	return len(a.Releases)
 }
 
 // GetFirstRelease is a convenience function to retrieve the first release
-// pointer from Appcast.Releases array.
+// pointer from Appcast.Releases slice.
 func (a *Appcast) GetFirstRelease() *Release {
 	return &a.Releases[0]
 }

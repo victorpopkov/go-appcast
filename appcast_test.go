@@ -29,7 +29,7 @@ func getWorkingDir() string {
 	return pwd
 }
 
-// getTestdata returns a file content as a byte array from the provided testdata
+// getTestdata returns a file content as a byte slice from the provided testdata
 // paths. If the file is not found, prints an error to os.Stdout and exits with
 // exit status 1.
 func getTestdata(paths ...string) []byte {
