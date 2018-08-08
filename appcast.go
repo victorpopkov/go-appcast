@@ -31,6 +31,8 @@ type Appcaster interface {
 	SetSource(source Sourcer)
 	Releases() []Release
 	SetReleases(releases []Release)
+	ReleasesLength() int
+	FirstRelease() *Release
 	OriginalReleases() []Release
 	SetOriginalReleases(originalReleases []Release)
 }
@@ -343,18 +345,6 @@ func (a *Appcast) ResetFilters() {
 	a.releases = a.originalReleases
 }
 
-// GetReleasesLength is a convenience function to retrieve the total number of
-// releases in Appcast.releases slice.
-func (a *Appcast) GetReleasesLength() int {
-	return len(a.releases)
-}
-
-// GetFirstRelease is a convenience function to retrieve the first release
-// pointer from Appcast.releases slice.
-func (a *Appcast) GetFirstRelease() *Release {
-	return &a.releases[0]
-}
-
 // ExtractSemanticVersions extracts semantic versions from the provided data
 // string.
 func ExtractSemanticVersions(data string) ([]string, error) {
@@ -391,6 +381,33 @@ func (a *Appcast) Releases() []Release {
 // SetReleases is an Appcast.releases setter.
 func (a *Appcast) SetReleases(releases []Release) {
 	a.releases = releases
+}
+
+// ReleasesLength is a convenience function to get the Appcast.releases length.
+func (a *Appcast) ReleasesLength() int {
+	return len(a.releases)
+}
+
+// GetReleasesLength is a convenience function to get the Appcast.releases
+// length.
+//
+// Deprecated: Use Appcast.ReleasesLength instead.
+func (a *Appcast) GetReleasesLength() int {
+	return a.ReleasesLength()
+}
+
+// FirstRelease is a convenience function to get the first release pointer from
+// the Appcast.releases slice.
+func (a *Appcast) FirstRelease() *Release {
+	return &a.releases[0]
+}
+
+// GetFirstRelease is a convenience function to get the first release pointer
+// from the Appcast.releases slice.
+//
+// Deprecated: Use Appcast.FirstRelease instead.
+func (a *Appcast) GetFirstRelease() *Release {
+	return a.FirstRelease()
 }
 
 // OriginalReleases is an Appcast.originalReleases getter.

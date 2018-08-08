@@ -673,24 +673,6 @@ func TestAppcast_Filters(t *testing.T) {
 	a.ResetFilters()
 }
 
-func TestAppcast_GetReleasesLength(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("sparkle/default.xml"))
-	a.UnmarshalReleases()
-
-	// test
-	assert.Len(t, a.releases, a.GetReleasesLength())
-}
-
-func TestAppcast_GetFirstRelease(t *testing.T) {
-	// preparations
-	a := newTestSparkleRSSFeedAppcast(getTestdata("sparkle/default.xml"))
-	a.UnmarshalReleases()
-
-	// test
-	assert.Equal(t, a.releases[0].GetVersionString(), a.GetFirstRelease().GetVersionString())
-}
-
 func TestExtractSemanticVersions(t *testing.T) {
 	testCases := map[string][]string{
 		// single
@@ -747,6 +729,42 @@ func TestAppcast_SetReleases(t *testing.T) {
 	// test
 	a.SetReleases([]Release{{}})
 	assert.Len(t, a.releases, 1)
+}
+
+func TestAppcast_ReleasesLength(t *testing.T) {
+	// preparations
+	a := newTestAppcast(getTestdata("sparkle/default.xml"))
+	a.UnmarshalReleases()
+
+	// test
+	assert.Len(t, a.releases, a.ReleasesLength())
+}
+
+func TestAppcast_GetReleasesLength(t *testing.T) {
+	// preparations
+	a := newTestAppcast(getTestdata("sparkle/default.xml"))
+	a.UnmarshalReleases()
+
+	// test
+	assert.Len(t, a.releases, a.GetReleasesLength())
+}
+
+func TestAppcast_FirstRelease(t *testing.T) {
+	// preparations
+	a := newTestSparkleRSSFeedAppcast(getTestdata("sparkle/default.xml"))
+	a.UnmarshalReleases()
+
+	// test
+	assert.Equal(t, a.releases[0].GetVersionString(), a.FirstRelease().GetVersionString())
+}
+
+func TestAppcast_GetFirstRelease(t *testing.T) {
+	// preparations
+	a := newTestSparkleRSSFeedAppcast(getTestdata("sparkle/default.xml"))
+	a.UnmarshalReleases()
+
+	// test
+	assert.Equal(t, a.releases[0].GetVersionString(), a.GetFirstRelease().GetVersionString())
 }
 
 func TestAppcast_OriginalReleases(t *testing.T) {
