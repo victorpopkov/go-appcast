@@ -55,7 +55,7 @@ type Appcast struct {
 
 	// originalReleases specify a slice holds a copy of the Appcast.releases. It
 	// is used to restore the Appcast.releases using the Appcast.ResetFilters
-	// function.
+	// method.
 	originalReleases []Release
 }
 
@@ -148,14 +148,14 @@ func (a *Appcast) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
 	return a.GenerateSourceChecksum(algorithm)
 }
 
-// LoadSource calls source Load method.
+// LoadSource calls the Appcast.source.Load method.
 func (a *Appcast) LoadSource() error {
 	return a.source.Load()
 }
 
 // UnmarshalReleases unmarshals the Appcast.source.content into the
 // Appcast.releases by calling the appropriate provider specific
-// UnmarshalReleases function.
+// UnmarshalReleases method from the supported providers.
 func (a *Appcast) UnmarshalReleases() error {
 	var appcast Appcaster
 
@@ -192,7 +192,7 @@ func (a *Appcast) UnmarshalReleases() error {
 }
 
 // UnmarshalReleases parses the Appcast.source.content by calling the appropriate
-// provider specific UnmarshalReleases function.
+// provider specific UnmarshalReleases method from the supported providers.
 //
 // Deprecated: Use Appcast.UnmarshalReleases instead.
 func (a *Appcast) ExtractReleases() error {
@@ -200,7 +200,7 @@ func (a *Appcast) ExtractReleases() error {
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate
-// provider specific Uncomment function from the supported providers.
+// provider specific Uncomment method from the supported providers.
 func (a *Appcast) Uncomment() error {
 	if a.source == nil {
 		return fmt.Errorf("no source")
@@ -394,22 +394,21 @@ func (a *Appcast) SetReleases(releases []Release) {
 	a.releases = releases
 }
 
-// GetReleasesLength is a convenience function to get the Appcast.releases
-// length.
+// GetReleasesLength is a convenience method to get the Appcast.releases length.
 //
 // Deprecated: Use len(Appcast.Releases) instead.
 func (a *Appcast) GetReleasesLength() int {
 	return len(a.releases)
 }
 
-// FirstRelease is a convenience function to get the first release pointer from
+// FirstRelease is a convenience method to get the first release pointer from
 // the Appcast.releases slice.
 func (a *Appcast) FirstRelease() *Release {
 	return &a.releases[0]
 }
 
-// GetFirstRelease is a convenience function to get the first release pointer
-// from the Appcast.releases slice.
+// GetFirstRelease is a convenience method to get the first release pointer from
+// the Appcast.releases slice.
 //
 // Deprecated: Use Appcast.FirstRelease instead.
 func (a *Appcast) GetFirstRelease() *Release {

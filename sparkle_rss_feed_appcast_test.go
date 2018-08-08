@@ -171,7 +171,7 @@ func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 			assert.True(t, check, fmt.Sprintf("\"%s\" doesn't have a commented out line", filename))
 		}
 
-		// tested function
+		// tested method
 		a.Uncomment()
 
 		// after SparkleRSSFeedAppcast.Uncomment
