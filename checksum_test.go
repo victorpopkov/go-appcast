@@ -129,9 +129,9 @@ func TestChecksum_Algorithm(t *testing.T) {
 }
 
 func TestChecksum_Source(t *testing.T) {
-	source := []byte("test")
-	c := NewChecksum(SHA256, source)
-	assert.Equal(t, source, c.Source())
+	src := []byte("test")
+	c := NewChecksum(SHA256, src)
+	assert.Equal(t, src, c.Source())
 }
 
 func TestChecksum_Result(t *testing.T) {

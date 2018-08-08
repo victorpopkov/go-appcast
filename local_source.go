@@ -17,12 +17,12 @@ type LocalSource struct {
 // NewLocalSource returns a new LocalSource instance pointer with the
 // LocalSource.filepath set.
 func NewLocalSource(path string) *LocalSource {
-	s := &LocalSource{
+	src := &LocalSource{
 		Source:   &Source{},
 		filepath: path,
 	}
 
-	return s
+	return src
 }
 
 // Load loads an appcast content into the LocalSource.Source.content from the

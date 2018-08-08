@@ -22,7 +22,7 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeRSSFee
 	url := "https://sourceforge.net/projects/test/rss"
 	r, _ := NewRequest(url)
 
-	s := &SourceForgeRSSFeedAppcast{
+	appcast := &SourceForgeRSSFeedAppcast{
 		Appcast: Appcast{
 			source: &RemoteSource{
 				Source: &Source{
@@ -35,7 +35,7 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeRSSFee
 		},
 	}
 
-	return s
+	return appcast
 }
 
 func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {

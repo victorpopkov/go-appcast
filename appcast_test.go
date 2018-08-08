@@ -387,8 +387,8 @@ func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// load from URL
-		s, err := NewRemoteSource("https://example.com/appcast.xml")
-		a.SetSource(s)
+		src, err := NewRemoteSource("https://example.com/appcast.xml")
+		a.SetSource(src)
 		a.Source().Load()
 		assert.Nil(t, err)
 		assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
@@ -466,8 +466,8 @@ func TestAppcast_UnmarshalReleases_SourceForgeRSSFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// load from URL
-		s, err := NewRemoteSource("https://example.com/appcast.xml")
-		a.SetSource(s)
+		src, err := NewRemoteSource("https://example.com/appcast.xml")
+		a.SetSource(src)
 		a.Source().Load()
 		assert.Nil(t, err)
 		assert.Equal(t, SourceForgeRSSFeed, a.Source().Provider())
@@ -537,8 +537,8 @@ func TestAppcast_UnmarshalReleases_GitHubAtomFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// load from URL
-		s, err := NewRemoteSource("https://example.com/appcast.xml")
-		a.SetSource(s)
+		src, err := NewRemoteSource("https://example.com/appcast.xml")
+		a.SetSource(src)
 		a.Source().Load()
 		assert.Nil(t, err)
 		assert.Equal(t, GitHubAtomFeed, a.Source().Provider())

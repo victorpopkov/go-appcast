@@ -28,7 +28,7 @@ type Appcaster interface {
 	FilterReleasesByURL(regexpStr string, inversed ...interface{})
 	FilterReleasesByPrerelease(inversed ...interface{})
 	Source() Sourcer
-	SetSource(source Sourcer)
+	SetSource(src Sourcer)
 	Releases() []Release
 	SetReleases(releases []Release)
 	FirstRelease() *Release
@@ -79,17 +79,17 @@ func New() *Appcast {
 // LoadFromRemoteSource creates a new RemoteSource instance and loads the data
 // from the remote location by using the RemoteSource.Load method.
 func (a *Appcast) LoadFromRemoteSource(i interface{}) error {
-	s, err := NewRemoteSource(i)
+	src, err := NewRemoteSource(i)
 	if err != nil {
 		return err
 	}
 
-	err = s.Load()
+	err = src.Load()
 	if err != nil {
 		return err
 	}
 
-	a.source = s
+	a.source = src
 	a.UnmarshalReleases()
 
 	return nil
@@ -106,13 +106,13 @@ func (a *Appcast) LoadFromURL(i interface{}) error {
 // LoadFromLocalSource creates a new LocalSource instance and loads the data
 // from the local file by using the LocalSource.Load method.
 func (a *Appcast) LoadFromLocalSource(path string) error {
-	s := NewLocalSource(path)
-	err := s.Load()
+	src := NewLocalSource(path)
+	err := src.Load()
 	if err != nil {
 		return err
 	}
 
-	a.source = s
+	a.source = src
 	a.UnmarshalReleases()
 
 	return nil
@@ -153,9 +153,9 @@ func (a *Appcast) Uncomment() error {
 
 	switch provider {
 	case SparkleRSSFeed:
-		s := SparkleRSSFeedAppcast{Appcast: *a}
-		s.Uncomment()
-		a.source.SetContent(s.Appcast.source.Content())
+		appcast := SparkleRSSFeedAppcast{Appcast: *a}
+		appcast.Uncomment()
+		a.source.SetContent(appcast.Appcast.source.Content())
 
 		return nil
 	default:
@@ -368,8 +368,8 @@ func (a *Appcast) Source() Sourcer {
 }
 
 // SetSource is an Appcast.source setter.
-func (a *Appcast) SetSource(source Sourcer) {
-	a.source = source
+func (a *Appcast) SetSource(src Sourcer) {
+	a.source = src
 }
 
 // Releases is an Appcast.releases getter.

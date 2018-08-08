@@ -116,8 +116,8 @@ func ExampleRemoteSource() {
 	// example
 	a := New()
 
-	s, _ := NewRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
-	a.SetSource(s)
+	src, _ := NewRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
+	a.SetSource(src)
 	a.Source().Load()
 	a.UnmarshalReleases()
 
@@ -135,8 +135,8 @@ func ExampleRemoteSource() {
 func ExampleLocalSource() {
 	a := New()
 
-	s := NewLocalSource(getTestdataPath("sparkle/example.xml"))
-	a.SetSource(s)
+	src := NewLocalSource(getTestdataPath("sparkle/example.xml"))
+	a.SetSource(src)
 	a.Source().Load()
 	a.UnmarshalReleases()
 

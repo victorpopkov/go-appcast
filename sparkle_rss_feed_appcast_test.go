@@ -23,7 +23,7 @@ func newTestSparkleRSSFeedAppcast(content ...interface{}) *SparkleRSSFeedAppcast
 	url := "https://example.com/appcast.xml"
 	r, _ := NewRequest(url)
 
-	s := &SparkleRSSFeedAppcast{
+	appcast := &SparkleRSSFeedAppcast{
 		Appcast: Appcast{
 			source: &RemoteSource{
 				Source: &Source{
@@ -36,7 +36,7 @@ func newTestSparkleRSSFeedAppcast(content ...interface{}) *SparkleRSSFeedAppcast
 		},
 	}
 
-	return s
+	return appcast
 }
 
 func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {

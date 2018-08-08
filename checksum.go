@@ -39,10 +39,10 @@ type Checksum struct {
 // NewChecksum returns a new Checksum instance pointer. Requires an algorithm
 // that will be used to generate the checksum and a source from which it will
 // be generated.
-func NewChecksum(algorithm ChecksumAlgorithm, source []byte) *Checksum {
+func NewChecksum(algorithm ChecksumAlgorithm, src []byte) *Checksum {
 	c := &Checksum{
 		algorithm: algorithm,
-		source:    source,
+		source:    src,
 	}
 
 	c.generate()

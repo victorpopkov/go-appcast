@@ -22,7 +22,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast
 	url := "https://github.com/user/repo/releases.atom"
 	r, _ := NewRequest(url)
 
-	s := &GitHubAtomFeedAppcast{
+	appcast := &GitHubAtomFeedAppcast{
 		Appcast: Appcast{
 			source: &RemoteSource{
 				Source: &Source{
@@ -35,7 +35,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast
 		},
 	}
 
-	return s
+	return appcast
 }
 
 func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {

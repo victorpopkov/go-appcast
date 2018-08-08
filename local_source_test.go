@@ -18,7 +18,7 @@ func newTestLocalSource(content ...interface{}) *LocalSource {
 		resultContent = []byte("test")
 	}
 
-	s := &LocalSource{
+	src := &LocalSource{
 		Source: &Source{
 			content: resultContent,
 			checksum: &Checksum{
@@ -31,7 +31,7 @@ func newTestLocalSource(content ...interface{}) *LocalSource {
 		filepath: "/tmp/test.txt",
 	}
 
-	return s
+	return src
 }
 
 func TestNewLocalSource(t *testing.T) {
@@ -39,10 +39,10 @@ func TestNewLocalSource(t *testing.T) {
 	path := "/tmp/test.txt"
 
 	// test (successful)
-	s := NewLocalSource(path)
-	assert.IsType(t, LocalSource{}, *s)
-	assert.NotNil(t, s.Source)
-	assert.Equal(t, path, s.filepath)
+	src := NewLocalSource(path)
+	assert.IsType(t, LocalSource{}, *src)
+	assert.NotNil(t, src.Source)
+	assert.Equal(t, path, src.filepath)
 }
 
 func TestLocalSource_Load(t *testing.T) {
@@ -51,21 +51,21 @@ func TestLocalSource_Load(t *testing.T) {
 	content := getTestdata("sparkle/default.xml")
 
 	// test (successful)
-	s := NewLocalSource(path)
-	err := s.Load()
+	src := NewLocalSource(path)
+	err := src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, SparkleRSSFeed, s.provider)
-	assert.Equal(t, string(content), string(s.content))
+	assert.Equal(t, SparkleRSSFeed, src.provider)
+	assert.Equal(t, string(content), string(src.content))
 
 	// test (error)
-	s = newTestLocalSource()
-	err = s.Load()
+	src = newTestLocalSource()
+	err = src.Load()
 	assert.NotNil(t, err)
-	assert.Equal(t, Unknown, s.provider)
-	assert.Equal(t, []byte("test"), s.content)
+	assert.Equal(t, Unknown, src.provider)
+	assert.Equal(t, []byte("test"), src.content)
 }
 
 func TestLocalSource_Filepath(t *testing.T) {
-	s := newTestLocalSource()
-	assert.Equal(t, s.filepath, s.Filepath())
+	src := newTestLocalSource()
+	assert.Equal(t, src.filepath, src.Filepath())
 }

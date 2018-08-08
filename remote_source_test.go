@@ -23,7 +23,7 @@ func newTestRemoteSource(content ...interface{}) *RemoteSource {
 	url := "https://example.com/appcast.xml"
 	r, _ := NewRequest(url)
 
-	s := &RemoteSource{
+	src := &RemoteSource{
 		Source: &Source{
 			content: resultContent,
 			checksum: &Checksum{
@@ -37,7 +37,7 @@ func newTestRemoteSource(content ...interface{}) *RemoteSource {
 		url:     url,
 	}
 
-	return s
+	return src
 }
 
 func TestNewRemoteSource(t *testing.T) {
@@ -45,26 +45,26 @@ func TestNewRemoteSource(t *testing.T) {
 	url := "https://example.com/appcast.xml"
 
 	// test (successful) [URL]
-	s, err := NewRemoteSource(url)
+	src, err := NewRemoteSource(url)
 	assert.Nil(t, err)
-	assert.IsType(t, RemoteSource{}, *s)
-	assert.NotNil(t, s.Source)
-	assert.NotNil(t, s.request)
-	assert.Equal(t, url, s.url)
+	assert.IsType(t, RemoteSource{}, *src)
+	assert.NotNil(t, src.Source)
+	assert.NotNil(t, src.request)
+	assert.Equal(t, url, src.url)
 
 	// test (successful) [Request]
 	r, _ := NewRequest(url)
-	s, err = NewRemoteSource(r)
+	src, err = NewRemoteSource(r)
 	assert.Nil(t, err)
-	assert.IsType(t, RemoteSource{}, *s)
-	assert.NotNil(t, s.Source)
-	assert.NotNil(t, s.request)
-	assert.Equal(t, url, s.url)
+	assert.IsType(t, RemoteSource{}, *src)
+	assert.NotNil(t, src.Source)
+	assert.NotNil(t, src.request)
+	assert.Equal(t, url, src.url)
 
 	// test (error)
 	url = "http://192.168.0.%31/"
-	s, err = NewRemoteSource(url)
-	assert.Nil(t, s)
+	src, err = NewRemoteSource(url)
+	assert.Nil(t, src)
 	assert.Error(t, err)
 	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
 }
@@ -80,50 +80,50 @@ func TestRemoteSource_Load(t *testing.T) {
 	defer httpmock.DeactivateAndReset()
 
 	// test (successful)
-	s, err := NewRemoteSource(url)
+	src, err := NewRemoteSource(url)
 	assert.Nil(t, err)
-	err = s.Load()
+	err = src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, SparkleRSSFeed, s.provider)
-	assert.Equal(t, content, s.content)
+	assert.Equal(t, SparkleRSSFeed, src.provider)
+	assert.Equal(t, content, src.content)
 
 	// test (error)
-	s = newTestRemoteSource()
-	s.request.HTTPRequest.URL = nil
-	err = s.Load()
+	src = newTestRemoteSource()
+	src.request.HTTPRequest.URL = nil
+	err = src.Load()
 	assert.NotNil(t, err)
-	assert.Equal(t, Unknown, s.provider)
-	assert.Equal(t, []byte("test"), s.content)
+	assert.Equal(t, Unknown, src.provider)
+	assert.Equal(t, []byte("test"), src.content)
 }
 
 func TestRemoteSource_GuessProvider(t *testing.T) {
 	// test (Unknown)
-	s := newTestRemoteSource()
-	s.GuessProvider()
-	assert.Equal(t, Unknown, s.Provider())
+	src := newTestRemoteSource()
+	src.GuessProvider()
+	assert.Equal(t, Unknown, src.Provider())
 
 	// test (SparkleRSSFeed)
-	s = newTestRemoteSource(getTestdata("sparkle/default.xml"))
-	s.GuessProvider()
-	assert.Equal(t, SparkleRSSFeed, s.Provider())
+	src = newTestRemoteSource(getTestdata("sparkle/default.xml"))
+	src.GuessProvider()
+	assert.Equal(t, SparkleRSSFeed, src.Provider())
 
 	// test (SourceForgeRSSFeed)
-	s = newTestRemoteSource(getTestdata("sourceforge/default.xml"))
-	s.GuessProvider()
-	assert.Equal(t, SourceForgeRSSFeed, s.Provider())
+	src = newTestRemoteSource(getTestdata("sourceforge/default.xml"))
+	src.GuessProvider()
+	assert.Equal(t, SourceForgeRSSFeed, src.Provider())
 
 	// test (GitHubAtomFeed)
-	s = newTestRemoteSource(getTestdata("github/default.xml"))
-	s.GuessProvider()
-	assert.Equal(t, GitHubAtomFeed, s.Provider())
+	src = newTestRemoteSource(getTestdata("github/default.xml"))
+	src.GuessProvider()
+	assert.Equal(t, GitHubAtomFeed, src.Provider())
 }
 
 func TestRemoteSource_Request(t *testing.T) {
-	s := newTestRemoteSource()
-	assert.Equal(t, s.request, s.Request())
+	src := newTestRemoteSource()
+	assert.Equal(t, src.request, src.Request())
 }
 
 func TestRemoteSource_Url(t *testing.T) {
-	s := newTestRemoteSource()
-	assert.Equal(t, s.url, s.Url())
+	src := newTestRemoteSource()
+	assert.Equal(t, src.url, src.Url())
 }

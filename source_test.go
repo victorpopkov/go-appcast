@@ -11,7 +11,7 @@ import (
 // its pointer.
 func newTestSource() *Source {
 	content := []byte("test")
-	s := &Source{
+	src := &Source{
 		content: content,
 		checksum: &Checksum{
 			algorithm: SHA256,
@@ -21,70 +21,70 @@ func newTestSource() *Source {
 		provider: Unknown,
 	}
 
-	return s
+	return src
 }
 
 func TestSource_Load(t *testing.T) {
-	s := newTestSource()
+	src := newTestSource()
 	assert.Panics(t, func() {
-		s.Load()
+		src.Load()
 	})
 }
 
 func TestSource_Content(t *testing.T) {
-	s := newTestSource()
-	assert.Equal(t, []byte("test"), s.Content())
+	src := newTestSource()
+	assert.Equal(t, []byte("test"), src.Content())
 }
 
 func TestSource_SetContent(t *testing.T) {
-	s := newTestSource()
-	s.SetContent([]byte("new test"))
-	assert.Equal(t, []byte("new test"), s.content)
+	src := newTestSource()
+	src.SetContent([]byte("new test"))
+	assert.Equal(t, []byte("new test"), src.content)
 }
 
 func TestSource_Checksum(t *testing.T) {
-	s := newTestSource()
-	assert.Equal(t, hex.EncodeToString([]byte("test")), s.Checksum().String())
+	src := newTestSource()
+	assert.Equal(t, hex.EncodeToString([]byte("test")), src.Checksum().String())
 }
 
 func TestSource_Provider(t *testing.T) {
-	s := newTestSource()
-	assert.Equal(t, Unknown, s.Provider())
+	src := newTestSource()
+	assert.Equal(t, Unknown, src.Provider())
 }
 
 func TestSource_SetProvider(t *testing.T) {
-	s := newTestSource()
-	s.SetProvider(SparkleRSSFeed)
-	assert.Equal(t, SparkleRSSFeed, s.provider)
+	src := newTestSource()
+	src.SetProvider(SparkleRSSFeed)
+	assert.Equal(t, SparkleRSSFeed, src.provider)
 }
 
 func TestSource_GenerateChecksum(t *testing.T) {
 	// preparations
-	s := newTestSource()
-	assert.Equal(t, hex.EncodeToString([]byte("test")), s.Checksum().String())
+	src := newTestSource()
+	assert.Equal(t, hex.EncodeToString([]byte("test")), src.Checksum().String())
 
 	// test
-	s.GenerateChecksum(SHA256)
-	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", s.Checksum().String())
+	src.GenerateChecksum(SHA256)
+	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", src.Checksum().String())
 }
 
 func TestSource_GuessProvider(t *testing.T) {
 	// test (Unknown)
-	s := newTestSource()
-	assert.Equal(t, Unknown, s.Provider())
+	src := newTestSource()
+	assert.Equal(t, Unknown, src.Provider())
 
 	// test (SparkleRSSFeed)
-	s.SetContent(getTestdata("sparkle/default.xml"))
-	s.GuessProvider()
-	assert.Equal(t, SparkleRSSFeed, s.Provider())
+	src.SetContent(getTestdata("sparkle/default.xml"))
+	src.GuessProvider()
+	assert.Equal(t, SparkleRSSFeed, src.Provider())
 
 	// test (SourceForgeRSSFeed)
-	s.SetContent(getTestdata("sourceforge/default.xml"))
-	s.GuessProvider()
-	assert.Equal(t, SourceForgeRSSFeed, s.Provider())
+	src.SetContent(getTestdata("sourceforge/default.xml"))
+	src.GuessProvider()
+	assert.Equal(t, SourceForgeRSSFeed, src.Provider())
 
 	// test (GitHubAtomFeed)
-	s.SetContent(getTestdata("github/default.xml"))
-	s.GuessProvider()
-	assert.Equal(t, GitHubAtomFeed, s.Provider())
+	src.SetContent(getTestdata("github/default.xml"))
+	src.GuessProvider()
+	assert.Equal(t, GitHubAtomFeed, src.Provider())
 }
