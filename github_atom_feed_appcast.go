@@ -30,10 +30,9 @@ type GitHubAtomFeedAppcastXMLEntry struct {
 	Content string `xml:"content"`
 }
 
-// ExtractReleases parses the GitHub Atom Feed content from
-// GitHubAtomFeedAppcast.Content and stores the extracted releases as an
-// array in GitHubAtomFeedAppcast.Releases.
-func (a *GitHubAtomFeedAppcast) ExtractReleases() error {
+// UnmarshalReleases unmarshals the Appcast.source.content into the
+// Appcast.releases for the "GitHub Atom Feed" provider.
+func (a *GitHubAtomFeedAppcast) UnmarshalReleases() error {
 	var x GitHubAtomFeedAppcastXML
 
 	xml.Unmarshal(a.source.Content(), &x)

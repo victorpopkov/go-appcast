@@ -47,10 +47,9 @@ type SourceForgeRSSFeedXMLContent struct {
 	Filesize int    `xml:"filesize,attr"`
 }
 
-// ExtractReleases parses the SourceForge RSS Feed content from
-// SourceForgeRSSFeedAppcast.Content and stores the extracted releases as an
-// array in SourceForgeRSSFeedAppcast.Releases.
-func (a *SourceForgeRSSFeedAppcast) ExtractReleases() error {
+// UnmarshalReleases unmarshals the Appcast.source.content into the
+// Appcast.releases for the "SourceForge RSS Feed" provider.
+func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() error {
 	var x SourceForgeRSSFeedXML
 
 	xml.Unmarshal(a.source.Content(), &x)

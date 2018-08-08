@@ -38,7 +38,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast
 	return s
 }
 
-func TestGitHubAtomFeedAppcast_ExtractReleases(t *testing.T) {
+func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"github/default.xml": {
 			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
@@ -57,7 +57,7 @@ func TestGitHubAtomFeedAppcast_ExtractReleases(t *testing.T) {
 		assert.Empty(t, a.releases)
 
 		// test
-		err := a.ExtractReleases()
+		err := a.UnmarshalReleases()
 		assert.Nil(t, err)
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
@@ -74,7 +74,7 @@ func TestGitHubAtomFeedAppcast_ExtractReleases(t *testing.T) {
 		a := newTestGitHubAtomFeedAppcast(getTestdata(filename))
 
 		// test
-		err := a.ExtractReleases()
+		err := a.UnmarshalReleases()
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 	}

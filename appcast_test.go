@@ -305,17 +305,17 @@ func TestAppcast_Uncomment_GitHubAtomFeed(t *testing.T) {
 	assert.EqualError(t, err, "uncommenting is not available for the \"GitHub Atom Feed\" provider")
 }
 
-func TestAppcast_ExtractReleases_Unknown(t *testing.T) {
+func TestAppcast_UnmarshalReleases_Unknown(t *testing.T) {
 	// preparations
 	a := newTestAppcast()
 
 	// provider "Unknown"
-	err := a.ExtractReleases()
+	err := a.UnmarshalReleases()
 	assert.Error(t, err)
 	assert.EqualError(t, err, "releases can't be extracted from the \"Unknown\" provider")
 }
 
-func TestAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
+func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sparkle/attributes_as_elements.xml": {
 			"checksum": "8c42d7835109ff61fe85bba66a44689773e73e0d773feba699bceecefaf09359",
@@ -387,7 +387,10 @@ func TestAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// load from URL
-		a.LoadFromRemoteSource("https://example.com/appcast.xml")
+		s, err := NewRemoteSource("https://example.com/appcast.xml")
+		a.SetSource(s)
+		a.Source().Load()
+		assert.Nil(t, err)
 		assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
 		assert.NotEmpty(t, a.Source().Content())
 		assert.NotNil(t, a.Source().Checksum())
@@ -395,7 +398,7 @@ func TestAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// releases
-		err := a.ExtractReleases()
+		err = a.UnmarshalReleases()
 		assert.Nil(t, err)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
@@ -414,13 +417,13 @@ func TestAppcast_ExtractReleases_SparkleRSSFeed(t *testing.T) {
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
-		err := a.ExtractReleases()
+		err := a.UnmarshalReleases()
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 	}
 }
 
-func TestAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
+func TestAppcast_UnmarshalReleases_SourceForgeRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sourceforge/default.xml": {
 			"checksum": "c15a5e4755b424b20e3e7138c36045893aec70f9569acd5946796199c6f79596",
@@ -463,7 +466,10 @@ func TestAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// load from URL
-		a.LoadFromRemoteSource("https://example.com/appcast.xml")
+		s, err := NewRemoteSource("https://example.com/appcast.xml")
+		a.SetSource(s)
+		a.Source().Load()
+		assert.Nil(t, err)
 		assert.Equal(t, SourceForgeRSSFeed, a.Source().Provider())
 		assert.NotEmpty(t, a.Source().Content())
 		assert.NotNil(t, a.Source().Checksum())
@@ -471,7 +477,7 @@ func TestAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// releases
-		err := a.ExtractReleases()
+		err = a.UnmarshalReleases()
 		assert.Nil(t, err)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
@@ -490,13 +496,13 @@ func TestAppcast_ExtractReleases_SourceForgeRSSFeed(t *testing.T) {
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
-		err := a.ExtractReleases()
+		err := a.UnmarshalReleases()
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 	}
 }
 
-func TestAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
+func TestAppcast_UnmarshalReleases_GitHubAtomFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"github/default.xml": {
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
@@ -531,7 +537,10 @@ func TestAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// load from URL
-		a.LoadFromRemoteSource("https://example.com/appcast.xml")
+		s, err := NewRemoteSource("https://example.com/appcast.xml")
+		a.SetSource(s)
+		a.Source().Load()
+		assert.Nil(t, err)
 		assert.Equal(t, GitHubAtomFeed, a.Source().Provider())
 		assert.NotEmpty(t, a.Source().Content())
 		assert.NotNil(t, a.Source().Checksum())
@@ -539,7 +548,7 @@ func TestAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// releases
-		err := a.ExtractReleases()
+		err = a.UnmarshalReleases()
 		assert.Nil(t, err)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
@@ -558,10 +567,20 @@ func TestAppcast_ExtractReleases_GitHubAtomFeed(t *testing.T) {
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
-		err := a.ExtractReleases()
+		err := a.UnmarshalReleases()
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 	}
+}
+
+func TestAppcast_ExtractReleases(t *testing.T) {
+	// preparations
+	a := newTestAppcast()
+
+	// provider "Unknown"
+	err := a.ExtractReleases()
+	assert.Error(t, err)
+	assert.EqualError(t, err, "releases can't be extracted from the \"Unknown\" provider")
 }
 
 func TestAppcast_SortReleasesByVersions(t *testing.T) {
@@ -589,7 +608,7 @@ func TestAppcast_SortReleasesByVersions(t *testing.T) {
 		// preparations
 		a := New()
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
-		err := a.ExtractReleases()
+		err := a.UnmarshalReleases()
 		assert.Nil(t, err)
 
 		// test (ASC)
@@ -615,7 +634,7 @@ func TestAppcast_Filters(t *testing.T) {
 	// preparations
 	a := New()
 	a.LoadFromRemoteSource("https://example.com/appcast.xml")
-	a.ExtractReleases()
+	a.UnmarshalReleases()
 
 	// Appcast.FilterReleasesByTitle
 	assert.Len(t, a.releases, 4)
@@ -657,7 +676,7 @@ func TestAppcast_Filters(t *testing.T) {
 func TestAppcast_GetReleasesLength(t *testing.T) {
 	// preparations
 	a := newTestAppcast(getTestdata("sparkle/default.xml"))
-	a.ExtractReleases()
+	a.UnmarshalReleases()
 
 	// test
 	assert.Len(t, a.releases, a.GetReleasesLength())
@@ -666,7 +685,7 @@ func TestAppcast_GetReleasesLength(t *testing.T) {
 func TestAppcast_GetFirstRelease(t *testing.T) {
 	// preparations
 	a := newTestSparkleRSSFeedAppcast(getTestdata("sparkle/default.xml"))
-	a.ExtractReleases()
+	a.UnmarshalReleases()
 
 	// test
 	assert.Equal(t, a.releases[0].GetVersionString(), a.GetFirstRelease().GetVersionString())

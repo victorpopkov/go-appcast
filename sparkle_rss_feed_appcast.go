@@ -57,10 +57,9 @@ func (a *SparkleRSSFeedAppcast) Uncomment() error {
 	return nil
 }
 
-// ExtractReleases parses the Sparkle RSS Feed content from
-// SparkleRSSFeedAppcast.source.content and stores the extracted releases as an
-// array in SparkleRSSFeedAppcast.Releases.
-func (a *SparkleRSSFeedAppcast) ExtractReleases() error {
+// UnmarshalReleases unmarshals the Appcast.source.content into the
+// Appcast.releases for the "Sparkle RSS Feed" provider.
+func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
 	var x SparkleRSSFeedXML
 	var version, build string
 

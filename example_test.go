@@ -18,7 +18,7 @@ func Example_sparkleRSSFeed() {
 	// example
 	a := New()
 	a.LoadFromRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
-	a.ExtractReleases()
+	a.UnmarshalReleases()
 	a.SortReleasesByVersions(DESC)
 
 	fmt.Println("Checksum:", a.Source().Checksum())
@@ -50,7 +50,7 @@ func Example_sourceForgeRSSFeed() {
 	// example
 	a := New()
 	a.LoadFromRemoteSource("https://sourceforge.net/projects/filezilla/rss")
-	a.ExtractReleases()
+	a.UnmarshalReleases()
 
 	// apply some filters
 	a.FilterReleasesByMediaType("application/x-bzip2")
@@ -87,7 +87,7 @@ func Example_gitHubAtomFeed() {
 	// example
 	a := New()
 	a.LoadFromRemoteSource("https://github.com/atom/atom/releases.atom")
-	a.ExtractReleases()
+	a.UnmarshalReleases()
 
 	fmt.Println("Checksum:", a.Source().Checksum())
 	fmt.Println("Provider:", a.Source().Provider())

@@ -22,7 +22,7 @@ type Appcaster interface {
 	LoadFromLocalSource(path string) error
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	Uncomment() error
-	ExtractReleases() error
+	UnmarshalReleases() error
 	SortReleasesByVersions(s Sort)
 	FilterReleasesByTitle(regexpStr string, inversed ...interface{})
 	FilterReleasesByURL(regexpStr string, inversed ...interface{})
@@ -51,8 +51,8 @@ type Appcast struct {
 	// releases are stored here.
 	releases []Release
 
-	// originalReleases specify a slice holds a copy of the Appcast.Releases. It
-	// is used to restore the Appcast.Releases using the Appcast.ResetFilters
+	// originalReleases specify a slice holds a copy of the Appcast.releases. It
+	// is used to restore the Appcast.releases using the Appcast.ResetFilters
 	// function.
 	originalReleases []Release
 }
@@ -165,9 +165,10 @@ func (a *Appcast) Uncomment() error {
 	return fmt.Errorf("uncommenting is not available for the \"%s\" provider", providerString)
 }
 
-// ExtractReleases parses the Appcast.source.content by calling the appropriate
-// provider specific ExtractReleases function.
-func (a *Appcast) ExtractReleases() error {
+// UnmarshalReleases unmarshals the Appcast.source.content into the
+// Appcast.releases by calling the appropriate provider specific
+// UnmarshalReleases function.
+func (a *Appcast) UnmarshalReleases() error {
 	var appcast Appcaster
 
 	provider := a.source.Provider()
@@ -191,7 +192,7 @@ func (a *Appcast) ExtractReleases() error {
 		return fmt.Errorf("releases can't be extracted from the \"%s\" provider", p)
 	}
 
-	err := appcast.ExtractReleases()
+	err := appcast.UnmarshalReleases()
 	if err != nil {
 		return err
 	}
@@ -202,7 +203,15 @@ func (a *Appcast) ExtractReleases() error {
 	return nil
 }
 
-// SortReleasesByVersions sorts Appcast.Releases slice by versions. Can be
+// UnmarshalReleases parses the Appcast.source.content by calling the appropriate
+// provider specific UnmarshalReleases function.
+//
+// Deprecated: Use Appcast.UnmarshalReleases instead.
+func (a *Appcast) ExtractReleases() error {
+	return a.UnmarshalReleases()
+}
+
+// SortReleasesByVersions sorts Appcast.releases slice by versions. Can be
 // useful if the versions order in the content is inconsistent.
 func (a *Appcast) SortReleasesByVersions(s Sort) {
 	if s == ASC {
@@ -212,7 +221,7 @@ func (a *Appcast) SortReleasesByVersions(s Sort) {
 	}
 }
 
-// filterReleasesBy filters all Appcast.Releases using the passed function.
+// filterReleasesBy filters all Appcast.releases using the passed function.
 // If inverse is set to "true", the unmatched releases will be used instead.
 func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 	var result []Release
@@ -232,7 +241,7 @@ func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 	a.releases = result
 }
 
-// filterReleasesDownloadsBy filters all Downloads for Appcast.Releases
+// filterReleasesDownloadsBy filters all Downloads for Appcast.releases
 // using the passed function. If inverse is set to "true", the unmatched
 // releases will be used instead.
 func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse bool) {
@@ -255,7 +264,7 @@ func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse boo
 	a.releases = result
 }
 
-// FilterReleasesByTitle filters all Appcast.Releases by matching the
+// FilterReleasesByTitle filters all Appcast.releases by matching the
 // release title with the provided RegExp string. If inversed bool is set to
 // "true", the unmatched releases will be used instead.
 func (a *Appcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{}) {
@@ -291,7 +300,7 @@ func (a *Appcast) FilterReleasesByMediaType(regexpStr string, inversed ...interf
 	}, inverse)
 }
 
-// FilterReleasesByURL filters all Appcast.Releases by matching the release
+// FilterReleasesByURL filters all Appcast.releases by matching the release
 // download URL with the provided RegExp string. If inversed bool is set to
 // "true", the unmatched releases will be used instead.
 func (a *Appcast) FilterReleasesByURL(regexpStr string, inversed ...interface{}) {
@@ -309,7 +318,7 @@ func (a *Appcast) FilterReleasesByURL(regexpStr string, inversed ...interface{})
 	}, inverse)
 }
 
-// FilterReleasesByPrerelease filters all Appcast.Releases by matching only
+// FilterReleasesByPrerelease filters all Appcast.releases by matching only
 // prereleases. If inversed bool is set to "true", the stable releases will be
 // matched instead.
 func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
@@ -326,20 +335,20 @@ func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 	}, inverse)
 }
 
-// ResetFilters resets the Appcast.Releases to their original state before
+// ResetFilters resets the Appcast.releases to their original state before
 // applying any filters.
 func (a *Appcast) ResetFilters() {
 	a.releases = a.originalReleases
 }
 
 // GetReleasesLength is a convenience function to retrieve the total number of
-// releases in Appcast.Releases slice.
+// releases in Appcast.releases slice.
 func (a *Appcast) GetReleasesLength() int {
 	return len(a.releases)
 }
 
 // GetFirstRelease is a convenience function to retrieve the first release
-// pointer from Appcast.Releases slice.
+// pointer from Appcast.releases slice.
 func (a *Appcast) GetFirstRelease() *Release {
 	return &a.releases[0]
 }

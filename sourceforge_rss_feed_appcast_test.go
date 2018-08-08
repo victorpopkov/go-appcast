@@ -38,7 +38,7 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeRSSFee
 	return s
 }
 
-func TestSourceForgeRSSFeedAppcast_ExtractReleases(t *testing.T) {
+func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"sourceforge/default.xml": {
 			"2.0.0": {"2016-05-13 12:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
@@ -69,7 +69,7 @@ func TestSourceForgeRSSFeedAppcast_ExtractReleases(t *testing.T) {
 		assert.Empty(t, a.releases)
 
 		// test
-		err := a.ExtractReleases()
+		err := a.UnmarshalReleases()
 		assert.Nil(t, err)
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
@@ -89,7 +89,7 @@ func TestSourceForgeRSSFeedAppcast_ExtractReleases(t *testing.T) {
 		a := newTestSourceForgeRSSFeedAppcast(getTestdata(filename))
 
 		// test
-		err := a.ExtractReleases()
+		err := a.UnmarshalReleases()
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 	}
