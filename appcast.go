@@ -31,7 +31,6 @@ type Appcaster interface {
 	SetSource(source Sourcer)
 	Releases() []Release
 	SetReleases(releases []Release)
-	ReleasesLength() int
 	FirstRelease() *Release
 	OriginalReleases() []Release
 	SetOriginalReleases(originalReleases []Release)
@@ -383,17 +382,12 @@ func (a *Appcast) SetReleases(releases []Release) {
 	a.releases = releases
 }
 
-// ReleasesLength is a convenience function to get the Appcast.releases length.
-func (a *Appcast) ReleasesLength() int {
-	return len(a.releases)
-}
-
 // GetReleasesLength is a convenience function to get the Appcast.releases
 // length.
 //
-// Deprecated: Use Appcast.ReleasesLength instead.
+// Deprecated: Use len(Appcast.Releases) instead.
 func (a *Appcast) GetReleasesLength() int {
-	return a.ReleasesLength()
+	return len(a.releases)
 }
 
 // FirstRelease is a convenience function to get the first release pointer from

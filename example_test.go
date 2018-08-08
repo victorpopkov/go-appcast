@@ -123,7 +123,7 @@ func ExampleRemoteSource() {
 
 	fmt.Println("Checksum:", a.Source().Checksum())
 	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total", a.ReleasesLength())
+	fmt.Printf("Releases: %d total", len(a.Releases()))
 
 	// Output:
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
@@ -142,7 +142,7 @@ func ExampleLocalSource() {
 
 	fmt.Println("Checksum:", a.Source().Checksum())
 	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total", a.ReleasesLength())
+	fmt.Printf("Releases: %d total", len(a.Releases()))
 
 	// Output:
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db

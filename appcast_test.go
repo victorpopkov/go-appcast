@@ -731,15 +731,6 @@ func TestAppcast_SetReleases(t *testing.T) {
 	assert.Len(t, a.releases, 1)
 }
 
-func TestAppcast_ReleasesLength(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("sparkle/default.xml"))
-	a.UnmarshalReleases()
-
-	// test
-	assert.Len(t, a.releases, a.ReleasesLength())
-}
-
 func TestAppcast_GetReleasesLength(t *testing.T) {
 	// preparations
 	a := newTestAppcast(getTestdata("sparkle/default.xml"))
