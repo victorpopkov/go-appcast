@@ -6,9 +6,8 @@ import (
 	"gopkg.in/jarcoal/httpmock.v1"
 )
 
-// ExampleSparkleRSSFeed demonstrates the loading and parsing of the "Sparkle
-// RSS Feed" appcast.
-func Example_sparkleRSSFeed() {
+// Demonstrates the "Sparkle RSS Feed" appcast loading.
+func Example_sparkleRSSFeedAppcast() {
 	// mock the request
 	content := getTestdata("sparkle/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
@@ -37,9 +36,8 @@ func Example_sparkleRSSFeed() {
 	// Release #5: {1.0.6 1.0.6 Adium 1.0.6  [{https://adiumx.cachefly.net/Adium_1.0.6.dmg application/octet-stream 13795246}] 2007-08-13 22:12:45 +0000 UTC false}
 }
 
-// ExampleSourceForgeRSSFeed demonstrates the loading and parsing of the
-// "SourceForge RSS Feed" appcast.
-func Example_sourceForgeRSSFeed() {
+// Demonstrates the "SourceForge RSS Feed" appcast loading.
+func Example_sourceForgeRSSFeedAppcast() {
 	// mock the request
 	content := getTestdata("sourceforge/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
@@ -73,9 +71,8 @@ func Example_sourceForgeRSSFeed() {
 	// Release #5: {3.24.0  /FileZilla_Client/3.24.0/FileZilla_3.24.0_macosx-x86.app.tar.bz2 /FileZilla_Client/3.24.0/FileZilla_3.24.0_macosx-x86.app.tar.bz2 [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.24.0/FileZilla_3.24.0_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8765941}] 2017-01-13 20:20:31 +0000 UTC false}
 }
 
-// ExampleGitHubAtomFeed demonstrates the loading and parsing of the
-// "Github Atom Feed" appcast.
-func Example_gitHubAtomFeed() {
+// Demonstrates the "Github Atom Feed" appcast loading.
+func Example_gitHubAtomFeedAppcast() {
 	// mock the request
 	content := getTestdata("github/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
@@ -106,4 +103,49 @@ func Example_gitHubAtomFeed() {
 	// Release #8: 1.27.0-beta1 1.27.0-beta1 2018-04-26 19:40:51 +0000 UTC true
 	// Release #9: 1.26.1 1.26.1 2018-04-26 19:40:40 +0000 UTC false
 	// Release #10: 1.26.0 1.26.0 2018-04-18 23:00:10 +0000 UTC false
+}
+
+// Demonstrates the RemoteSource usage.
+func ExampleRemoteSource() {
+	// mock the request
+	content := getTestdata("sparkle/example.xml")
+	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
+	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewBytesResponder(200, content))
+	defer httpmock.DeactivateAndReset()
+
+	// example
+	a := New()
+
+	s, _ := NewRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
+	a.SetSource(s)
+	a.Source().Load()
+	a.UnmarshalReleases()
+
+	fmt.Println("Checksum:", a.Source().Checksum())
+	fmt.Println("Provider:", a.Source().Provider())
+	fmt.Printf("Releases: %d total", a.ReleasesLength())
+
+	// Output:
+	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
+	// Provider: Sparkle RSS Feed
+	// Releases: 5 total
+}
+
+// Demonstrates the RemoteSource usage.
+func ExampleLocalSource() {
+	a := New()
+
+	s := NewLocalSource(getTestdataPath("sparkle/example.xml"))
+	a.SetSource(s)
+	a.Source().Load()
+	a.UnmarshalReleases()
+
+	fmt.Println("Checksum:", a.Source().Checksum())
+	fmt.Println("Provider:", a.Source().Provider())
+	fmt.Printf("Releases: %d total", a.ReleasesLength())
+
+	// Output:
+	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
+	// Provider: Sparkle RSS Feed
+	// Releases: 5 total
 }
