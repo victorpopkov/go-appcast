@@ -114,11 +114,10 @@ func ExampleRemoteSource() {
 	defer httpmock.DeactivateAndReset()
 
 	// example
-	a := New()
-
 	src, _ := NewRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
-	a.SetSource(src)
-	a.Source().Load()
+
+	a := New(src)
+	a.LoadSource()
 	a.UnmarshalReleases()
 
 	fmt.Println("Checksum:", a.Source().Checksum())
@@ -133,11 +132,10 @@ func ExampleRemoteSource() {
 
 // Demonstrates the RemoteSource usage.
 func ExampleLocalSource() {
-	a := New()
-
 	src := NewLocalSource(getTestdataPath("sparkle/example.xml"))
-	a.SetSource(src)
-	a.Source().Load()
+
+	a := New(src)
+	a.LoadSource()
 	a.UnmarshalReleases()
 
 	fmt.Println("Checksum:", a.Source().Checksum())
