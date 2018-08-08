@@ -8,11 +8,11 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
+	"regexp"
 )
 
 var testdataPath = "./testdata/"
@@ -259,56 +259,14 @@ func TestAppcast_GenerateChecksum(t *testing.T) {
 	assert.Equal(t, MD5, a.Source().Checksum().Algorithm())
 }
 
-func TestAppcast_Uncomment_Unknown(t *testing.T) {
+func TestAppcast_LoadSource(t *testing.T) {
 	// preparations
-	a := newTestAppcast()
+	a := New(NewLocalSource(getTestdataPath("sparkle/default.xml")))
+	assert.Nil(t, a.source.Content())
 
 	// test
-	err := a.Uncomment()
-	assert.EqualError(t, err, "uncommenting is not available for the \"Unknown\" provider")
-	a.SetSource(nil)
-	err = a.Uncomment()
-	assert.EqualError(t, err, "no source")
-}
-
-func TestAppcast_Uncomment_SparkleRSSFeed(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("sparkle/with_comments.xml"))
-	a.source.SetProvider(SparkleRSSFeed)
-
-	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
-	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
-
-	// test
-	err := a.Uncomment()
-	assert.Nil(t, err)
-	for _, commentLine := range []int{13, 20} {
-		line, _ := getLine(commentLine, a.Source().Content())
-		check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
-		assert.False(t, check)
-	}
-}
-
-func TestAppcast_Uncomment_SourceForgeRSSFeed(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("sourceforge/default.xml"))
-	a.source.SetProvider(SourceForgeRSSFeed)
-
-	// test
-	err := a.Uncomment()
-	assert.Error(t, err)
-	assert.EqualError(t, err, "uncommenting is not available for the \"SourceForge RSS Feed\" provider")
-}
-
-func TestAppcast_Uncomment_GitHubAtomFeed(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("github/default.xml"))
-	a.source.SetProvider(GitHubAtomFeed)
-
-	// test
-	err := a.Uncomment()
-	assert.Error(t, err)
-	assert.EqualError(t, err, "uncommenting is not available for the \"GitHub Atom Feed\" provider")
+	a.LoadSource()
+	assert.NotNil(t, a.source.Content())
 }
 
 func TestAppcast_UnmarshalReleases_Unknown(t *testing.T) {
@@ -587,6 +545,58 @@ func TestAppcast_ExtractReleases(t *testing.T) {
 	err := a.ExtractReleases()
 	assert.Error(t, err)
 	assert.EqualError(t, err, "releases can't be extracted from the \"Unknown\" provider")
+}
+
+func TestAppcast_Uncomment_Unknown(t *testing.T) {
+	// preparations
+	a := newTestAppcast()
+
+	// test
+	err := a.Uncomment()
+	assert.EqualError(t, err, "uncommenting is not available for the \"Unknown\" provider")
+	a.SetSource(nil)
+	err = a.Uncomment()
+	assert.EqualError(t, err, "no source")
+}
+
+func TestAppcast_Uncomment_SparkleRSSFeed(t *testing.T) {
+	// preparations
+	a := newTestAppcast(getTestdata("sparkle/with_comments.xml"))
+	a.source.SetProvider(SparkleRSSFeed)
+
+	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
+	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
+
+	// test
+	err := a.Uncomment()
+	assert.Nil(t, err)
+	for _, commentLine := range []int{13, 20} {
+		line, _ := getLine(commentLine, a.Source().Content())
+		check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
+		assert.False(t, check)
+	}
+}
+
+func TestAppcast_Uncomment_SourceForgeRSSFeed(t *testing.T) {
+	// preparations
+	a := newTestAppcast(getTestdata("sourceforge/default.xml"))
+	a.source.SetProvider(SourceForgeRSSFeed)
+
+	// test
+	err := a.Uncomment()
+	assert.Error(t, err)
+	assert.EqualError(t, err, "uncommenting is not available for the \"SourceForge RSS Feed\" provider")
+}
+
+func TestAppcast_Uncomment_GitHubAtomFeed(t *testing.T) {
+	// preparations
+	a := newTestAppcast(getTestdata("github/default.xml"))
+	a.source.SetProvider(GitHubAtomFeed)
+
+	// test
+	err := a.Uncomment()
+	assert.Error(t, err)
+	assert.EqualError(t, err, "uncommenting is not available for the \"GitHub Atom Feed\" provider")
 }
 
 func TestAppcast_SortReleasesByVersions(t *testing.T) {

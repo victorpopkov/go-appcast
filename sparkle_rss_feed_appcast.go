@@ -43,20 +43,6 @@ type SparkleRSSFeedXMLEnclosure struct {
 	Type               string `xml:"type,attr"`
 }
 
-// Uncomment uncomments XML tags in SparkleRSSFeedAppcast.source.content.
-func (a *SparkleRSSFeedAppcast) Uncomment() error {
-	if a.source == nil || len(a.source.Content()) == 0 {
-		return fmt.Errorf("no source")
-	}
-
-	regex := regexp.MustCompile(`(<!--([[:space:]]*)?)|(([[:space:]]*)?-->)`)
-	if regex.Match(a.source.Content()) {
-		a.source.SetContent(regex.ReplaceAll(a.source.Content(), []byte("")))
-	}
-
-	return nil
-}
-
 // UnmarshalReleases unmarshals the Appcast.source.content into the
 // Appcast.releases for the "Sparkle RSS Feed" provider.
 func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
@@ -108,6 +94,20 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
 	}
 
 	a.releases = items
+
+	return nil
+}
+
+// Uncomment uncomments XML tags in SparkleRSSFeedAppcast.source.content.
+func (a *SparkleRSSFeedAppcast) Uncomment() error {
+	if a.source == nil || len(a.source.Content()) == 0 {
+		return fmt.Errorf("no source")
+	}
+
+	regex := regexp.MustCompile(`(<!--([[:space:]]*)?)|(([[:space:]]*)?-->)`)
+	if regex.Match(a.source.Content()) {
+		a.source.SetContent(regex.ReplaceAll(a.source.Content(), []byte("")))
+	}
 
 	return nil
 }

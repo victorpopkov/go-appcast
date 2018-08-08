@@ -2,10 +2,10 @@ package appcast
 
 import (
 	"fmt"
-	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"regexp"
 )
 
 // newTestSparkleRSSFeedAppcast creates a new SparkleRSSFeedAppcast instance for
@@ -37,53 +37,6 @@ func newTestSparkleRSSFeedAppcast(content ...interface{}) *SparkleRSSFeedAppcast
 	}
 
 	return appcast
-}
-
-func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
-	testCases := map[string][]int{
-		"sparkle/attributes_as_elements.xml": nil,
-		"sparkle/default_asc.xml":            nil,
-		"sparkle/default.xml":                nil,
-		"sparkle/incorrect_namespace.xml":    nil,
-		"sparkle/multiple_enclosure.xml":     nil,
-		"sparkle/single.xml":                 nil,
-		"sparkle/with_comments.xml":          {13, 20},
-		"sparkle/without_namespaces.xml":     nil,
-	}
-
-	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
-	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
-
-	// preparations
-	a := new(SparkleRSSFeedAppcast)
-
-	// test (when no content)
-	assert.Nil(t, a.Source())
-	err := a.Uncomment()
-	assert.NotNil(t, err)
-
-	// test (uncommenting)
-	for filename, commentLines := range testCases {
-		// preparations
-		a = newTestSparkleRSSFeedAppcast(getTestdata(filename))
-
-		// before SparkleRSSFeedAppcast.Uncomment
-		for _, commentLine := range commentLines {
-			line, _ := getLine(commentLine, a.Source().Content())
-			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
-			assert.True(t, check, fmt.Sprintf("\"%s\" doesn't have a commented out line", filename))
-		}
-
-		// tested function
-		a.Uncomment()
-
-		// after SparkleRSSFeedAppcast.Uncomment
-		for _, commentLine := range commentLines {
-			line, _ := getLine(commentLine, a.Source().Content())
-			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
-			assert.False(t, check, fmt.Sprintf("\"%s\" didn't uncomment a \"%d\" line", filename, commentLine))
-		}
-	}
 }
 
 func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
@@ -180,5 +133,52 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		err := a.UnmarshalReleases()
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
+	}
+}
+
+func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
+	testCases := map[string][]int{
+		"sparkle/attributes_as_elements.xml": nil,
+		"sparkle/default_asc.xml":            nil,
+		"sparkle/default.xml":                nil,
+		"sparkle/incorrect_namespace.xml":    nil,
+		"sparkle/multiple_enclosure.xml":     nil,
+		"sparkle/single.xml":                 nil,
+		"sparkle/with_comments.xml":          {13, 20},
+		"sparkle/without_namespaces.xml":     nil,
+	}
+
+	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
+	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
+
+	// preparations
+	a := new(SparkleRSSFeedAppcast)
+
+	// test (when no content)
+	assert.Nil(t, a.Source())
+	err := a.Uncomment()
+	assert.NotNil(t, err)
+
+	// test (uncommenting)
+	for filename, commentLines := range testCases {
+		// preparations
+		a = newTestSparkleRSSFeedAppcast(getTestdata(filename))
+
+		// before SparkleRSSFeedAppcast.Uncomment
+		for _, commentLine := range commentLines {
+			line, _ := getLine(commentLine, a.Source().Content())
+			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
+			assert.True(t, check, fmt.Sprintf("\"%s\" doesn't have a commented out line", filename))
+		}
+
+		// tested function
+		a.Uncomment()
+
+		// after SparkleRSSFeedAppcast.Uncomment
+		for _, commentLine := range commentLines {
+			line, _ := getLine(commentLine, a.Source().Content())
+			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
+			assert.False(t, check, fmt.Sprintf("\"%s\" didn't uncomment a \"%d\" line", filename, commentLine))
+		}
 	}
 }

@@ -21,8 +21,9 @@ type Appcaster interface {
 	LoadFromRemoteSource(i interface{}) error
 	LoadFromLocalSource(path string) error
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
-	Uncomment() error
+	LoadSource() error
 	UnmarshalReleases() error
+	Uncomment() error
 	SortReleasesByVersions(s Sort)
 	FilterReleasesByTitle(regexpStr string, inversed ...interface{})
 	FilterReleasesByURL(regexpStr string, inversed ...interface{})
@@ -147,31 +148,9 @@ func (a *Appcast) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
 	return a.GenerateSourceChecksum(algorithm)
 }
 
-// Uncomment uncomments the commented out lines by calling the appropriate
-// provider specific Uncomment function from the supported providers.
-func (a *Appcast) Uncomment() error {
-	if a.source == nil {
-		return fmt.Errorf("no source")
-	}
-
-	provider := a.source.Provider()
-	providerString := provider.String()
-
-	switch provider {
-	case SparkleRSSFeed:
-		appcast := SparkleRSSFeedAppcast{Appcast: *a}
-		appcast.Uncomment()
-		a.source.SetContent(appcast.Appcast.source.Content())
-
-		return nil
-	default:
-		if providerString == "-" {
-			providerString = "Unknown"
-		}
-		break
-	}
-
-	return fmt.Errorf("uncommenting is not available for the \"%s\" provider", providerString)
+// LoadSource calls source Load method.
+func (a *Appcast) LoadSource() error {
+	return a.source.Load()
 }
 
 // UnmarshalReleases unmarshals the Appcast.source.content into the
@@ -218,6 +197,33 @@ func (a *Appcast) UnmarshalReleases() error {
 // Deprecated: Use Appcast.UnmarshalReleases instead.
 func (a *Appcast) ExtractReleases() error {
 	return a.UnmarshalReleases()
+}
+
+// Uncomment uncomments the commented out lines by calling the appropriate
+// provider specific Uncomment function from the supported providers.
+func (a *Appcast) Uncomment() error {
+	if a.source == nil {
+		return fmt.Errorf("no source")
+	}
+
+	provider := a.source.Provider()
+	providerString := provider.String()
+
+	switch provider {
+	case SparkleRSSFeed:
+		appcast := SparkleRSSFeedAppcast{Appcast: *a}
+		appcast.Uncomment()
+		a.source.SetContent(appcast.Appcast.source.Content())
+
+		return nil
+	default:
+		if providerString == "-" {
+			providerString = "Unknown"
+		}
+		break
+	}
+
+	return fmt.Errorf("uncommenting is not available for the \"%s\" provider", providerString)
 }
 
 // SortReleasesByVersions sorts Appcast.releases slice by versions. Can be
