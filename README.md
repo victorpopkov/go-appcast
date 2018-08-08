@@ -87,7 +87,7 @@ func main() {
 	fmt.Println("Checksum:", a.GetChecksum())
 	fmt.Println("Provider:", a.GetProvider())
 
-	for i, release := range a.Releases {
+	for i, release := range a.Releases() {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
 	}
 
@@ -133,7 +133,7 @@ func main() {
 	fmt.Println("Checksum:", a.GetChecksum())
 	fmt.Println("Provider:", a.GetProvider())
 
-	for i, release := range a.Releases {
+	for i, release := range a.Releases() {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release)
 	}
 
@@ -174,7 +174,7 @@ func main() {
 	fmt.Println("Checksum:", a.GetChecksum())
 	fmt.Println("Provider:", a.GetProvider())
 
-	for i, release := range a.Releases {
+	for i, release := range a.Releases() {
 		fmt.Println(fmt.Sprintf("Release #%d:", i+1), release.Version, release.Title, release.PublishedDateTime, release.IsPrerelease)
 	}
 
@@ -236,7 +236,7 @@ func main() {
 
 	fmt.Println("Checksum:", a.Source().Checksum())
 	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total", a.ReleasesLength())
+	fmt.Printf("Releases: %d total", len(a.Releases()))
 
 	// Output:
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
@@ -275,7 +275,7 @@ func main() {
 
 	fmt.Println("Checksum:", a.Source().Checksum())
 	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total", a.ReleasesLength())
+	fmt.Printf("Releases: %d total", len(a.Releases()))
 
 	// Output:
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
