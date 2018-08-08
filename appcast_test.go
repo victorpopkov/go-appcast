@@ -104,9 +104,15 @@ func newTestAppcast(content ...interface{}) *Appcast {
 }
 
 func TestNew(t *testing.T) {
+	// test (without source)
 	a := New()
 	assert.IsType(t, Appcast{}, *a)
 	assert.Nil(t, a.source)
+
+	// test (with source)
+	a = New(NewLocalSource(getTestdataPath("sparkle/default.xml")))
+	assert.IsType(t, Appcast{}, *a)
+	assert.NotNil(t, a.source)
 }
 
 func TestAppcast_LoadFromRemoteSource(t *testing.T) {

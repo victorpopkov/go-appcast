@@ -69,9 +69,15 @@ const (
 	DESC
 )
 
-// New returns a new Appcast instance pointer.
-func New() *Appcast {
+// New returns a new Appcast instance pointer. The Source can be passed as
+// a parameter.
+func New(src ...interface{}) *Appcast {
 	a := &Appcast{}
+
+	if len(src) > 0 {
+		src := src[0].(Sourcer)
+		a.SetSource(src)
+	}
 
 	return a
 }
