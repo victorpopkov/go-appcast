@@ -11,8 +11,14 @@ information.
 
 - [What the heck is appcast?](#what-the-heck-is-appcast)
 - [Why is this library needed and what it does?](#why-is-this-library-needed-and-what-it-does)
+  - [Features](#features)
 - [Supported providers](#supported-providers)
+  - [Sparkle RSS Feed](#sparkle-rss-feed)
+  - [SourceForge RSS Feed](#sourceforge-rss-feed)
+  - [GitHub Atom Feed](#github-atom-feed)
 - [Sources](#sources)
+  - [RemoteSource](#remotesource)
+  - [LocalSource](#localsource)
 
 ## What the heck is appcast?
 
