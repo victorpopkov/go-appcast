@@ -89,6 +89,7 @@ func (a *Appcast) LoadFromRemoteSource(i interface{}) error {
 	}
 
 	a.source = s
+	a.UnmarshalReleases()
 
 	return nil
 }
@@ -111,6 +112,7 @@ func (a *Appcast) LoadFromLocalSource(path string) error {
 	}
 
 	a.source = s
+	a.UnmarshalReleases()
 
 	return nil
 }
