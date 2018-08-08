@@ -227,11 +227,10 @@ import (
 )
 
 func main() {
-	a := appcast.New()
+	src, _ := appcast.NewRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
 
-	s, _ := appcast.NewRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
-	a.SetSource(s)
-	a.Source().Load()
+	a := appcast.New(src)
+	a.LoadSource()
 	a.UnmarshalReleases()
 
 	fmt.Println("Checksum:", a.Source().Checksum())
@@ -266,11 +265,10 @@ import (
 )
 
 func main() {
-	a := appcast.New()
+	src := appcast.NewLocalSource("/path/to/file.xml")
 
-	s := appcast.NewLocalSource("/path/to/file.xml")
-	a.SetSource(s)
-	a.Source().Load()
+	a := appcast.New(src)
+	a.LoadSource()
 	a.UnmarshalReleases()
 
 	fmt.Println("Checksum:", a.Source().Checksum())
