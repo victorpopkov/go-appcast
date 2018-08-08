@@ -10,9 +10,9 @@ import (
 // RSS Feed" appcast.
 func Example_sparkleRSSFeed() {
 	// mock the request
-	content := string(getTestdata("sparkle/example.xml"))
+	content := getTestdata("sparkle/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
-	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewStringResponder(200, content))
+	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
 
 	// example
@@ -41,9 +41,9 @@ func Example_sparkleRSSFeed() {
 // "SourceForge RSS Feed" appcast.
 func Example_sourceForgeRSSFeed() {
 	// mock the request
-	content := string(getTestdata("sourceforge/example.xml"))
+	content := getTestdata("sourceforge/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
-	httpmock.RegisterResponder("GET", "https://sourceforge.net/projects/filezilla/rss", httpmock.NewStringResponder(200, content))
+	httpmock.RegisterResponder("GET", "https://sourceforge.net/projects/filezilla/rss", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
 
 	// example
@@ -77,9 +77,9 @@ func Example_sourceForgeRSSFeed() {
 // "Github Atom Feed" appcast.
 func Example_gitHubAtomFeed() {
 	// mock the request
-	content := string(getTestdata("github/example.xml"))
+	content := getTestdata("github/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
-	httpmock.RegisterResponder("GET", "https://github.com/atom/atom/releases.atom", httpmock.NewStringResponder(200, content))
+	httpmock.RegisterResponder("GET", "https://github.com/atom/atom/releases.atom", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
 
 	// example
