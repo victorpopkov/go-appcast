@@ -236,8 +236,8 @@ func (a *Appcast) SortReleasesByVersions(s Sort) {
 	}
 }
 
-// filterReleasesBy filters all Appcast.releases using the passed function.
-// If inverse is set to "true", the unmatched releases will be used instead.
+// filterReleasesBy filters all Appcast.releases using the passed function. If
+// inverse is set to true, the unmatched releases will be used instead.
 func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 	var result []Release
 
@@ -256,9 +256,9 @@ func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 	a.releases = result
 }
 
-// filterReleasesDownloadsBy filters all Downloads for Appcast.releases
-// using the passed function. If inverse is set to "true", the unmatched
-// releases will be used instead.
+// filterReleasesDownloadsBy filters all Downloads for Appcast.releases using
+// the passed function. If inverse is set to true, the unmatched releases will
+// be used instead.
 func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse bool) {
 	var result []Release
 
@@ -279,9 +279,9 @@ func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse boo
 	a.releases = result
 }
 
-// FilterReleasesByTitle filters all Appcast.releases by matching the
-// release title with the provided RegExp string. If inversed bool is set to
-// "true", the unmatched releases will be used instead.
+// FilterReleasesByTitle filters all Appcast.releases by matching the release
+// title with the provided RegExp string. If inversed bool is set to true, the
+// unmatched releases will be used instead.
 func (a *Appcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{}) {
 	inverse := false
 	if len(inversed) > 0 {
@@ -298,8 +298,8 @@ func (a *Appcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{
 }
 
 // FilterReleasesByMediaType filters all releases by matching the downloads
-// media type with the provided RegExp string. If inversed bool is set to
-// "true", the unmatched releases will be used instead.
+// media type with the provided RegExp string. If inversed bool is set to true,
+// the unmatched releases will be used instead.
 func (a *Appcast) FilterReleasesByMediaType(regexpStr string, inversed ...interface{}) {
 	inverse := false
 	if len(inversed) > 0 {
@@ -317,7 +317,7 @@ func (a *Appcast) FilterReleasesByMediaType(regexpStr string, inversed ...interf
 
 // FilterReleasesByURL filters all Appcast.releases by matching the release
 // download URL with the provided RegExp string. If inversed bool is set to
-// "true", the unmatched releases will be used instead.
+// true, the unmatched releases will be used instead.
 func (a *Appcast) FilterReleasesByURL(regexpStr string, inversed ...interface{}) {
 	inverse := false
 	if len(inversed) > 0 {
@@ -334,7 +334,7 @@ func (a *Appcast) FilterReleasesByURL(regexpStr string, inversed ...interface{})
 }
 
 // FilterReleasesByPrerelease filters all Appcast.releases by matching only
-// prereleases. If inversed bool is set to "true", the stable releases will be
+// pre-releases. If inversed bool is set to true, the stable releases will be
 // matched instead.
 func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 	inverse := false
