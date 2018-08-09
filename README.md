@@ -16,7 +16,7 @@ information.
   - [Sparkle RSS Feed](#sparkle-rss-feed)
   - [SourceForge RSS Feed](#sourceforge-rss-feed)
   - [GitHub Atom Feed](#github-atom-feed)
-- [Sources](#sources)
+- [Supported sources](#supported-sources)
   - [RemoteSource](#remotesource)
   - [LocalSource](#localsource)
 
@@ -218,7 +218,7 @@ func main() {
 }
 ```
 
-## Sources
+## Supported sources
 
 Out of the box, two main sources where an appcast can be retrieved are
 supported:
