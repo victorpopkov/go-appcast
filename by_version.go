@@ -12,5 +12,5 @@ func (a ByVersion) Swap(i, j int) {
 }
 
 func (a ByVersion) Less(i, j int) bool {
-	return a[i].Version.LessThan(a[j].Version)
+	return a[i].Version().LessThan(a[j].Version())
 }

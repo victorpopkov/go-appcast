@@ -65,13 +65,13 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() error {
 		// new release
 		r, _ := NewRelease(versions[0], "")
 
-		r.Title = item.Title.Chardata
-		r.Description = item.Description.Chardata
+		r.SetTitle(item.Title.Chardata)
+		r.SetDescription(item.Description.Chardata)
 		r.ParsePublishedDateTime(item.PubDate)
 
 		// prerelease
-		if r.Version.Prerelease() != "" {
-			r.IsPrerelease = true
+		if r.Version().Prerelease() != "" {
+			r.SetIsPreRelease(true)
 		}
 
 		// downloads

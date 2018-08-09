@@ -629,11 +629,11 @@ func TestAppcast_SortReleasesByVersions(t *testing.T) {
 
 		// test (ASC)
 		a.SortReleasesByVersions(ASC)
-		assert.Equal(t, "1.0.0", a.releases[0].Version.String())
+		assert.Equal(t, "1.0.0", a.releases[0].Version().String())
 
 		// test (DESC)
 		a.SortReleasesByVersions(DESC)
-		assert.Equal(t, "2.0.0", a.releases[0].Version.String())
+		assert.Equal(t, "2.0.0", a.releases[0].Version().String())
 	}
 }
 
@@ -658,7 +658,7 @@ func TestAppcast_Filters(t *testing.T) {
 	assert.Len(t, a.releases, 2)
 	a.FilterReleasesByTitle("Release 1.0.0", true)
 	assert.Len(t, a.releases, 1)
-	assert.Equal(t, "Release 1.0.1", a.releases[0].Title)
+	assert.Equal(t, "Release 1.0.1", a.releases[0].Title())
 	a.ResetFilters()
 
 	// Appcast.FilterReleasesByMediaType

@@ -61,10 +61,10 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
-			v := release.Version.String()
-			assert.Equal(t, fmt.Sprintf("%s", v), release.Title)
-			assert.NotEmpty(t, release.Description)
-			assert.Equal(t, releases[v][0], release.PublishedDateTime.String())
+			v := release.Version().String()
+			assert.Equal(t, fmt.Sprintf("%s", v), release.Title())
+			assert.NotEmpty(t, release.Description())
+			assert.Equal(t, releases[v][0], release.PublishedDateTime().String())
 		}
 	}
 

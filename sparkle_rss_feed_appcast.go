@@ -77,13 +77,13 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
 			return err
 		}
 
-		r.Title = item.Title
-		r.Description = item.Description
+		r.SetTitle(item.Title)
+		r.SetDescription(item.Description)
 		r.ParsePublishedDateTime(item.PubDate)
 
 		// prerelease
-		if r.Version.Prerelease() != "" {
-			r.IsPrerelease = true
+		if r.Version().Prerelease() != "" {
+			r.SetIsPreRelease(true)
 		}
 
 		// downloads

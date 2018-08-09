@@ -34,11 +34,11 @@ func TestByVersion_Swap(t *testing.T) {
 	testReleases := createTestByVersionReleases()
 
 	// test
-	assert.Equal(t, "1.1.0", testReleases[1].Version.String())
-	assert.Equal(t, "2.0.0", testReleases[2].Version.String())
+	assert.Equal(t, "1.1.0", testReleases[1].Version().String())
+	assert.Equal(t, "2.0.0", testReleases[2].Version().String())
 	ByVersion(testReleases).Swap(1, 2)
-	assert.Equal(t, "2.0.0", testReleases[1].Version.String())
-	assert.Equal(t, "1.1.0", testReleases[2].Version.String())
+	assert.Equal(t, "2.0.0", testReleases[1].Version().String())
+	assert.Equal(t, "1.1.0", testReleases[2].Version().String())
 }
 
 func TestByVersion_Less(t *testing.T) {

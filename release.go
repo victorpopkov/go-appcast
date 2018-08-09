@@ -8,79 +8,192 @@ import (
 	"github.com/hashicorp/go-version"
 )
 
-// A Release represents an application release.
+// Releaser is the interface that wraps the Release methods.
+type Releaser interface {
+	VersionOrBuildString() string
+	Version() *version.Version
+	SetVersion(version *version.Version)
+	SetVersionString(value string) error
+	Build() string
+	SetBuild(build string)
+	Title() string
+	SetTitle(title string)
+	Description() string
+	SetDescription(description string)
+	AddDownload(d Download)
+	Downloads() []Download
+	SetDownloads(downloads []Download)
+	ParsePublishedDateTime(dateTime string) (err error)
+	PublishedDateTime() time.Time
+	SetPublishedDateTime(publishedDateTime time.Time)
+	IsPreRelease() bool
+	SetIsPreRelease(isPreRelease bool)
+}
+
+// Release represents a single application release.
 type Release struct {
-	// Version specifies the release version. It should follow the SemVer
+	// version specifies a release version. It should follow the SemVer
 	// specification.
-	Version *version.Version
+	version *version.Version
 
-	// Build specifies the release build. This could have any value.
-	Build string
+	// build specifies a release build. This could have any value.
+	build string
 
-	// Title specifies the release title.
-	Title string
+	// title specifies a release title.
+	title string
 
-	// Description specifies the release description.
-	Description string
+	// description specifies a release description.
+	description string
 
-	// Downloads specifies a slice of Download structs that represent a list of
-	// all downloads for the release.
-	Downloads []Download
+	// downloads specifies a slice of Download structs which represents a list
+	// of all current release downloads.
+	downloads []Download
 
-	// PublishedDateTime specifies the release published data and time in UTC.
-	PublishedDateTime time.Time
+	// publishedDateTime specifies the release published data and time in UTC.
+	publishedDateTime time.Time
 
-	// IsPrerelease specifies if the current release is not stable.
+	// isPreRelease specifies whether a release is not stable.
 	//
 	// By default, each release is considered to be stable, so the default value
-	// is "false". If the release version, build or any other provider specific
-	// value point that the release is not stable, the value should become "true".
-	IsPrerelease bool
+	// is false. If the release version, build or any other provider specific
+	// value points that a release is unstable, the value should become true.
+	isPreRelease bool
 }
 
 // NewRelease returns a new Release instance pointer. Requires both version and
-// build strings. By default, Release.IsPrerelease is set to "false", so the
+// build strings. By default, Release.IsPrerelease is set to false, so the
 // release will be considered as stable.
 func NewRelease(version string, build string) (*Release, error) {
 	r := &Release{
-		IsPrerelease: false,
+		isPreRelease: false,
 	}
 
 	// add version
-	err := r.SetVersion(version)
+	err := r.SetVersionString(version)
 	if err != nil {
 		return nil, err
 	}
 
 	// add build, if its not empty
 	if build != "" {
-		r.Build = build
+		r.build = build
 	}
 
 	return r, nil
 }
 
-// SetVersion sets the Release.Version from the provided version value string.
-// Returns an error, if the provided version string value doesn't follow SemVer
-// specification.
-func (r *Release) SetVersion(value string) error {
+// VersionOrBuildString retrieves the release version string if it's available.
+// Otherwise, returns the release build string.
+func (r *Release) VersionOrBuildString() string {
+	if r.version == nil || r.version.String() == "" {
+		return r.build
+	}
+
+	return r.version.String()
+}
+
+// GetVersionOrBuildString retrieves the release version string if it's
+// available. Otherwise, returns the release build string.
+//
+// Deprecated: Use Release.VersionOrBuildString instead.
+func (r *Release) GetVersionOrBuildString() string {
+	return r.VersionOrBuildString()
+}
+
+// Version is a Release.version getter.
+func (r *Release) Version() *version.Version {
+	return r.version
+}
+
+// SetVersion is a Release.version setter.
+func (r *Release) SetVersion(version *version.Version) {
+	r.version = version
+}
+
+// GetVersionString is a convenience method to retrieve the release version
+// string stored as the Release.version.
+//
+// Deprecated: Use Release.Version.String methods chain instead.
+func (r *Release) GetVersionString() string {
+	return r.Version().String()
+}
+
+// SetVersionString sets the Release.version from the provided version value
+// string. Returns an error, if the provided version string value doesn't follow
+// the SemVer specification.
+func (r *Release) SetVersionString(value string) error {
 	v, err := version.NewVersion(value)
 	if err != nil {
 		return err
 	}
 
-	r.Version = v
+	r.version = v
 
 	return nil
 }
 
-// AddDownload adds a new Download to the Release.Downloads slice.
-func (r *Release) AddDownload(d Download) {
-	r.Downloads = append(r.Downloads, d)
+// Build is a Release.build getter.
+func (r *Release) Build() string {
+	return r.build
 }
 
-// ParsePublishedDateTime parses the provided dateTime string using predefined
-// time formats and sets the Release.PublishedDateTime in UTC.
+// SetBuild is a Release.build setter.
+func (r *Release) SetBuild(build string) {
+	r.build = build
+}
+
+// GetBuildString is a convenience method to retrieve the release build string
+// stored as the Release.build.
+//
+// Deprecated: Use Release.Build instead.
+func (r *Release) GetBuildString() string {
+	return r.Build()
+}
+
+// Title is a Release.title getter.
+func (r *Release) Title() string {
+	return r.title
+}
+
+// SetTitle is a Release.title setter.
+func (r *Release) SetTitle(title string) {
+	r.title = title
+}
+
+// Description is a Release.description getter.
+func (r *Release) Description() string {
+	return r.description
+}
+
+// SetDescription is a Release.description setter.
+func (r *Release) SetDescription(description string) {
+	r.description = description
+}
+
+// AddDownload appends the provided Download to the Release.downloads slice.
+func (r *Release) AddDownload(d Download) {
+	r.downloads = append(r.downloads, d)
+}
+
+// Downloads is a Release.downloads getter.
+func (r *Release) Downloads() []Download {
+	return r.downloads
+}
+
+// GetDownloads is a Release.downloads getter.
+//
+// Deprecated: Use Release.Downloads instead.
+func (r *Release) GetDownloads() []Download {
+	return r.Downloads()
+}
+
+// SetDownloads is a Release.downloads setter.
+func (r *Release) SetDownloads(downloads []Download) {
+	r.downloads = downloads
+}
+
+// ParsePublishedDateTime parses the provided dateTime string using the
+// predefined time formats and sets the Release.publishedDateTime in UTC.
 func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
 	var re *regexp.Regexp
 
@@ -109,7 +222,7 @@ func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
 	for _, format := range formats {
 		parsedTime, err := time.Parse(format, dateTime)
 		if err == nil {
-			r.PublishedDateTime = parsedTime.UTC()
+			r.publishedDateTime = parsedTime.UTC()
 			return nil
 		}
 	}
@@ -117,30 +230,22 @@ func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
 	return errors.New("parsing of the published datetime failed")
 }
 
-// GetVersionString is a convenience method to retrieve the release version
-// string stored as Release.Version.
-func (r *Release) GetVersionString() string {
-	return r.Version.String()
+// PublishedDateTime is a Release.publishedDateTime getter.
+func (r *Release) PublishedDateTime() time.Time {
+	return r.publishedDateTime
 }
 
-// GetBuildString is a convenience method to retrieve the release build string
-// stored as Release.Build.
-func (r *Release) GetBuildString() string {
-	return r.Build
+// SetPublishedDateTime is a Release.publishedDateTime setter.
+func (r *Release) SetPublishedDateTime(publishedDateTime time.Time) {
+	r.publishedDateTime = publishedDateTime
 }
 
-// GetVersionOrBuildString is a convenience method to retrieve release version
-// string or build if the first in not available.
-func (r *Release) GetVersionOrBuildString() string {
-	if r.Version == nil || r.Version.String() == "" {
-		return r.Build
-	}
-
-	return r.Version.String()
+// IsPreRelease is a Release.isPreRelease getter.
+func (r *Release) IsPreRelease() bool {
+	return r.isPreRelease
 }
 
-// GetDownloads is a convenience method to retrieve the release downloads stored
-// as Release.Downloads.
-func (r *Release) GetDownloads() []Download {
-	return r.Downloads
+// SetIsPreRelease is a Release.isPreRelease setter.
+func (r *Release) SetIsPreRelease(isPreRelease bool) {
+	r.isPreRelease = isPreRelease
 }

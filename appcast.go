@@ -263,7 +263,7 @@ func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse boo
 	var result []Release
 
 	for _, release := range a.releases {
-		for _, download := range release.Downloads {
+		for _, download := range release.Downloads() {
 			if inverse == false && f(download) {
 				result = append(result, release)
 				continue
@@ -290,7 +290,7 @@ func (a *Appcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{
 
 	a.filterReleasesBy(func(r Release) bool {
 		re := regexp.MustCompile(regexpStr)
-		if re.MatchString(r.Title) {
+		if re.MatchString(r.Title()) {
 			return true
 		}
 		return false
@@ -343,7 +343,7 @@ func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 	}
 
 	a.filterReleasesBy(func(r Release) bool {
-		if r.IsPrerelease == true {
+		if r.IsPreRelease() == true {
 			return true
 		}
 		return false
@@ -427,14 +427,14 @@ func (a *Appcast) SetOriginalReleases(originalReleases []Release) {
 
 // GetChecksum is an Appcast.source.checksum getter.
 //
-// Deprecated: Use Appcast.Source.Checksum instead.
+// Deprecated: Use Appcast.Source.Checksum methods chain instead.
 func (a *Appcast) GetChecksum() *Checksum {
 	return a.Source().Checksum()
 }
 
 // Provider is an Appcast.source.provider getter.
 //
-// Deprecated: Use Appcast.Source.Provider instead.
+// Deprecated: Use Appcast.Source.Provider methods chain instead.
 func (a *Appcast) GetProvider() Provider {
 	return a.Source().Provider()
 }

@@ -58,13 +58,13 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() error {
 			return err
 		}
 
-		r.Title = entry.Title
-		r.Description = entry.Content
+		r.SetTitle(entry.Title)
+		r.SetDescription(entry.Content)
 		r.ParsePublishedDateTime(entry.Updated)
 
 		// prerelease
-		if r.Version.Prerelease() != "" {
-			r.IsPrerelease = true
+		if r.Version().Prerelease() != "" {
+			r.SetIsPreRelease(true)
 		}
 
 		// add release
