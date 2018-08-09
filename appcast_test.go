@@ -743,7 +743,7 @@ func TestAppcast_SetReleases(t *testing.T) {
 	assert.Nil(t, a.originalReleases)
 
 	// test
-	a.SetReleases([]Release{{}})
+	a.SetReleases([]Releaser{&Release{}})
 	assert.Len(t, a.releases, 1)
 }
 
@@ -762,7 +762,7 @@ func TestAppcast_FirstRelease(t *testing.T) {
 	a.UnmarshalReleases()
 
 	// test
-	assert.Equal(t, a.releases[0].GetVersionString(), a.FirstRelease().GetVersionString())
+	assert.Equal(t, a.releases[0].Version().String(), a.FirstRelease().Version().String())
 }
 
 func TestAppcast_GetFirstRelease(t *testing.T) {
@@ -771,7 +771,7 @@ func TestAppcast_GetFirstRelease(t *testing.T) {
 	a.UnmarshalReleases()
 
 	// test
-	assert.Equal(t, a.releases[0].GetVersionString(), a.GetFirstRelease().GetVersionString())
+	assert.Equal(t, a.releases[0].Version().String(), a.GetFirstRelease().Version().String())
 }
 
 func TestAppcast_OriginalReleases(t *testing.T) {
@@ -785,7 +785,7 @@ func TestAppcast_SetOriginalReleases(t *testing.T) {
 	assert.Nil(t, a.originalReleases)
 
 	// test
-	a.SetOriginalReleases([]Release{{}})
+	a.SetOriginalReleases([]Releaser{&Release{}})
 	assert.Len(t, a.originalReleases, 1)
 }
 

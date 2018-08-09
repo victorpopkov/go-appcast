@@ -1,7 +1,7 @@
 package appcast
 
-// ByVersion implements sort.Interface for []Release based on the Version field.
-type ByVersion []Release
+// ByVersion implements sort.Interface for the []Releaser based Version field.
+type ByVersion []Releaser
 
 func (a ByVersion) Len() int {
 	return len(a)

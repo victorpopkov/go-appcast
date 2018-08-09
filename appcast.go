@@ -30,11 +30,11 @@ type Appcaster interface {
 	FilterReleasesByPrerelease(inversed ...interface{})
 	Source() Sourcer
 	SetSource(src Sourcer)
-	Releases() []Release
-	SetReleases(releases []Release)
-	FirstRelease() *Release
-	OriginalReleases() []Release
-	SetOriginalReleases(originalReleases []Release)
+	Releases() []Releaser
+	SetReleases(releases []Releaser)
+	FirstRelease() Releaser
+	OriginalReleases() []Releaser
+	SetOriginalReleases(originalReleases []Releaser)
 }
 
 // An Appcast represents the appcast itself and should be inherited by provider
@@ -51,12 +51,12 @@ type Appcast struct {
 
 	// releases specify a slice of all application releases. All filtered
 	// releases are stored here.
-	releases []Release
+	releases []Releaser
 
-	// originalReleases specify a slice holds a copy of the Appcast.releases. It
-	// is used to restore the Appcast.releases using the Appcast.ResetFilters
+	// originalReleases specify a slice holding a copy of the Appcast.releases.
+	// It is used to restore the Appcast.releases using the Appcast.ResetFilters
 	// method.
-	originalReleases []Release
+	originalReleases []Releaser
 }
 
 // Sort holds different supported sorting behaviors.
@@ -238,8 +238,8 @@ func (a *Appcast) SortReleasesByVersions(s Sort) {
 
 // filterReleasesBy filters all Appcast.releases using the passed function. If
 // inverse is set to true, the unmatched releases will be used instead.
-func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
-	var result []Release
+func (a *Appcast) filterReleasesBy(f func(r Releaser) bool, inverse bool) {
+	var result []Releaser
 
 	for _, release := range a.releases {
 		if inverse == false && f(release) {
@@ -260,7 +260,7 @@ func (a *Appcast) filterReleasesBy(f func(r Release) bool, inverse bool) {
 // the passed function. If inverse is set to true, the unmatched releases will
 // be used instead.
 func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse bool) {
-	var result []Release
+	var result []Releaser
 
 	for _, release := range a.releases {
 		for _, download := range release.Downloads() {
@@ -288,7 +288,7 @@ func (a *Appcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{
 		inverse = inversed[0].(bool)
 	}
 
-	a.filterReleasesBy(func(r Release) bool {
+	a.filterReleasesBy(func(r Releaser) bool {
 		re := regexp.MustCompile(regexpStr)
 		if re.MatchString(r.Title()) {
 			return true
@@ -342,7 +342,7 @@ func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 		inverse = inversed[0].(bool)
 	}
 
-	a.filterReleasesBy(func(r Release) bool {
+	a.filterReleasesBy(func(r Releaser) bool {
 		if r.IsPreRelease() == true {
 			return true
 		}
@@ -385,12 +385,12 @@ func (a *Appcast) SetSource(src Sourcer) {
 }
 
 // Releases is an Appcast.releases getter.
-func (a *Appcast) Releases() []Release {
+func (a *Appcast) Releases() []Releaser {
 	return a.releases
 }
 
 // SetReleases is an Appcast.releases setter.
-func (a *Appcast) SetReleases(releases []Release) {
+func (a *Appcast) SetReleases(releases []Releaser) {
 	a.releases = releases
 }
 
@@ -403,25 +403,25 @@ func (a *Appcast) GetReleasesLength() int {
 
 // FirstRelease is a convenience method to get the first release pointer from
 // the Appcast.releases slice.
-func (a *Appcast) FirstRelease() *Release {
-	return &a.releases[0]
+func (a *Appcast) FirstRelease() Releaser {
+	return a.releases[0]
 }
 
 // GetFirstRelease is a convenience method to get the first release pointer from
 // the Appcast.releases slice.
 //
 // Deprecated: Use Appcast.FirstRelease instead.
-func (a *Appcast) GetFirstRelease() *Release {
+func (a *Appcast) GetFirstRelease() Releaser {
 	return a.FirstRelease()
 }
 
 // OriginalReleases is an Appcast.originalReleases getter.
-func (a *Appcast) OriginalReleases() []Release {
+func (a *Appcast) OriginalReleases() []Releaser {
 	return a.originalReleases
 }
 
 // SetOriginalReleases is an Appcast.originalReleases setter.
-func (a *Appcast) SetOriginalReleases(originalReleases []Release) {
+func (a *Appcast) SetOriginalReleases(originalReleases []Releaser) {
 	a.originalReleases = originalReleases
 }
 

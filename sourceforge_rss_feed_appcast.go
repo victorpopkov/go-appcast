@@ -54,7 +54,7 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() error {
 
 	xml.Unmarshal(a.source.Content(), &x)
 
-	items := make([]Release, len(x.Items))
+	items := make([]Releaser, len(x.Items))
 	for i, item := range x.Items {
 		// extract version
 		versions, err := ExtractSemanticVersions(item.Title.Chardata)
@@ -79,7 +79,7 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() error {
 		r.AddDownload(*d)
 
 		// add release
-		items[i] = *r
+		items[i] = r
 	}
 
 	a.releases = items

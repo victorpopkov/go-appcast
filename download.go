@@ -1,6 +1,6 @@
 package appcast
 
-// A Download holds everything describing the release download.
+// Download holds a single release download data.
 type Download struct {
 	// URL specifies the download URL.
 	URL string

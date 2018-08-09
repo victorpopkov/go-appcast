@@ -37,7 +37,7 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() error {
 
 	xml.Unmarshal(a.source.Content(), &x)
 
-	items := make([]Release, len(x.Entries))
+	items := make([]Releaser, len(x.Entries))
 	for i, entry := range x.Entries {
 		version := ""
 
@@ -68,7 +68,7 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() error {
 		}
 
 		// add release
-		items[i] = *r
+		items[i] = r
 	}
 
 	a.releases = items

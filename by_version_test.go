@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func createTestByVersionReleases() (result []Release) {
+func createTestByVersionReleases() (result []Releaser) {
 	testReleases := [][]string{
 		{"1.0.0", "100"},
 		{"1.1.0", "110"},
@@ -15,7 +15,7 @@ func createTestByVersionReleases() (result []Release) {
 
 	for _, release := range testReleases {
 		r, _ := NewRelease(release[0], release[1])
-		result = append(result, *r)
+		result = append(result, r)
 	}
 
 	return result

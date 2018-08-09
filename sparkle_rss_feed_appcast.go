@@ -51,7 +51,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
 
 	xml.Unmarshal(a.source.Content(), &x)
 
-	items := make([]Release, len(x.Items))
+	items := make([]Releaser, len(x.Items))
 	for i, item := range x.Items {
 		if item.Enclosure.ShortVersionString == "" && item.ShortVersionString != "" {
 			version = item.ShortVersionString
@@ -90,7 +90,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
 		d := NewDownload(item.Enclosure.URL, item.Enclosure.Type, item.Enclosure.Length)
 		r.AddDownload(*d)
 
-		items[i] = *r
+		items[i] = r
 	}
 
 	a.releases = items
