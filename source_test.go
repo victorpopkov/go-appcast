@@ -1,8 +1,8 @@
 package appcast
 
 import (
-	"testing"
 	"encoding/hex"
+	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -29,33 +29,6 @@ func TestSource_Load(t *testing.T) {
 	assert.Panics(t, func() {
 		src.Load()
 	})
-}
-
-func TestSource_Content(t *testing.T) {
-	src := newTestSource()
-	assert.Equal(t, []byte("test"), src.Content())
-}
-
-func TestSource_SetContent(t *testing.T) {
-	src := newTestSource()
-	src.SetContent([]byte("new test"))
-	assert.Equal(t, []byte("new test"), src.content)
-}
-
-func TestSource_Checksum(t *testing.T) {
-	src := newTestSource()
-	assert.Equal(t, hex.EncodeToString([]byte("test")), src.Checksum().String())
-}
-
-func TestSource_Provider(t *testing.T) {
-	src := newTestSource()
-	assert.Equal(t, Unknown, src.Provider())
-}
-
-func TestSource_SetProvider(t *testing.T) {
-	src := newTestSource()
-	src.SetProvider(SparkleRSSFeed)
-	assert.Equal(t, SparkleRSSFeed, src.provider)
 }
 
 func TestSource_GenerateChecksum(t *testing.T) {
@@ -87,4 +60,31 @@ func TestSource_GuessProvider(t *testing.T) {
 	src.SetContent(getTestdata("github/default.xml"))
 	src.GuessProvider()
 	assert.Equal(t, GitHubAtomFeed, src.Provider())
+}
+
+func TestSource_Content(t *testing.T) {
+	src := newTestSource()
+	assert.Equal(t, []byte("test"), src.Content())
+}
+
+func TestSource_SetContent(t *testing.T) {
+	src := newTestSource()
+	src.SetContent([]byte("new test"))
+	assert.Equal(t, []byte("new test"), src.content)
+}
+
+func TestSource_Checksum(t *testing.T) {
+	src := newTestSource()
+	assert.Equal(t, hex.EncodeToString([]byte("test")), src.Checksum().String())
+}
+
+func TestSource_Provider(t *testing.T) {
+	src := newTestSource()
+	assert.Equal(t, Unknown, src.Provider())
+}
+
+func TestSource_SetProvider(t *testing.T) {
+	src := newTestSource()
+	src.SetProvider(SparkleRSSFeed)
+	assert.Equal(t, SparkleRSSFeed, src.provider)
 }
