@@ -1,6 +1,8 @@
 package appcast
 
 import (
+	"fmt"
+	"io/ioutil"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -51,6 +53,10 @@ func TestLocalSource_Load(t *testing.T) {
 	content := getTestdata("sparkle/default.xml")
 
 	// test (successful)
+	localSourceReadFile = func(filename string) ([]byte, error) {
+		return content, nil
+	}
+
 	src := NewLocalSource(path)
 	err := src.Load()
 	assert.Nil(t, err)
@@ -58,11 +64,17 @@ func TestLocalSource_Load(t *testing.T) {
 	assert.Equal(t, string(content), string(src.content))
 
 	// test (error)
+	localSourceReadFile = func(filename string) ([]byte, error) {
+		return nil, fmt.Errorf("error")
+	}
+
 	src = newTestLocalSource()
 	err = src.Load()
 	assert.NotNil(t, err)
 	assert.Equal(t, Unknown, src.provider)
 	assert.Equal(t, []byte("test"), src.content)
+
+	localSourceReadFile = ioutil.ReadFile
 }
 
 func TestLocalSource_Filepath(t *testing.T) {
