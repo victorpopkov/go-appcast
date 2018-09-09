@@ -2,6 +2,8 @@ package appcast
 
 import "io/ioutil"
 
+var localSourceReadFile = ioutil.ReadFile
+
 // LocalSourcer is the interface that wraps the LocalSource methods.
 type LocalSourcer interface {
 	Sourcer
@@ -28,7 +30,7 @@ func NewLocalSource(path string) *LocalSource {
 // Load loads an appcast content into the LocalSource.Source.content from the
 // local file by using the path specified in LocalSource.filepath set earlier.
 func (s *LocalSource) Load() error {
-	data, err := ioutil.ReadFile(s.filepath)
+	data, err := localSourceReadFile(s.filepath)
 	if err != nil {
 		return err
 	}
