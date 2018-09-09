@@ -177,7 +177,7 @@ func (a *Appcast) UnmarshalReleases() error {
 			p = "Unknown"
 		}
 
-		return fmt.Errorf("releases can't be extracted from the \"%s\" provider", p)
+		return fmt.Errorf("releases can't be unmarshaled from the \"%s\" provider", p)
 	}
 
 	err := appcast.UnmarshalReleases()
@@ -191,8 +191,9 @@ func (a *Appcast) UnmarshalReleases() error {
 	return nil
 }
 
-// UnmarshalReleases parses the Appcast.source.content by calling the appropriate
-// provider specific UnmarshalReleases method from the supported providers.
+// ExtractReleases unmarshals the Appcast.source.content into the
+// Appcast.releases by calling the appropriate provider specific
+// UnmarshalReleases method from the supported providers.
 //
 // Deprecated: Use Appcast.UnmarshalReleases instead.
 func (a *Appcast) ExtractReleases() error {

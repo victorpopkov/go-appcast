@@ -276,7 +276,7 @@ func TestAppcast_UnmarshalReleases_Unknown(t *testing.T) {
 	// provider "Unknown"
 	err := a.UnmarshalReleases()
 	assert.Error(t, err)
-	assert.EqualError(t, err, "releases can't be extracted from the \"Unknown\" provider")
+	assert.EqualError(t, err, "releases can't be unmarshaled from the \"Unknown\" provider")
 }
 
 func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
@@ -544,7 +544,7 @@ func TestAppcast_ExtractReleases(t *testing.T) {
 	// provider "Unknown"
 	err := a.ExtractReleases()
 	assert.Error(t, err)
-	assert.EqualError(t, err, "releases can't be extracted from the \"Unknown\" provider")
+	assert.EqualError(t, err, "releases can't be unmarshaled from the \"Unknown\" provider")
 }
 
 func TestAppcast_Uncomment_Unknown(t *testing.T) {
