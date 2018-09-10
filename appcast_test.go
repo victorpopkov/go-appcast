@@ -98,6 +98,19 @@ func newTestAppcast(content ...interface{}) *Appcast {
 			request: r,
 			url:     url,
 		},
+		output: &LocalOutput{
+			Output: &Output{
+				content: resultContent,
+				checksum: &Checksum{
+					algorithm: SHA256,
+					source:    resultContent,
+					result:    []byte("test"),
+				},
+				provider: Unknown,
+			},
+			filepath:    "/tmp/test.txt",
+			permissions: 0777,
+		},
 	}
 
 	return s
@@ -730,6 +743,21 @@ func TestAppcast_SetSource(t *testing.T) {
 	// test
 	a.SetSource(nil)
 	assert.Nil(t, a.source)
+}
+
+func TestAppcast_Output(t *testing.T) {
+	a := newTestAppcast()
+	assert.Equal(t, a.output, a.Output())
+}
+
+func TestAppcast_SetOutput(t *testing.T) {
+	// preparations
+	a := newTestAppcast()
+	assert.NotNil(t, a.output)
+
+	// test
+	a.SetOutput(nil)
+	assert.Nil(t, a.output)
 }
 
 func TestAppcast_Releases(t *testing.T) {

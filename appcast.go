@@ -30,6 +30,8 @@ type Appcaster interface {
 	FilterReleasesByPrerelease(inversed ...interface{})
 	Source() Sourcer
 	SetSource(src Sourcer)
+	Output() Outputer
+	SetOutput(src Outputer)
 	Releases() []Releaser
 	SetReleases(releases []Releaser)
 	FirstRelease() Releaser
@@ -48,6 +50,14 @@ type Appcast struct {
 	// from the local file) and RemoteSource (for loading appcast from the
 	// remote location by URL).
 	source Sourcer
+
+	// output specifies an appcast output which holds the information about the
+	// marshaled releases. Can be any use-case specific Outputer interface
+	// implementation.
+	//
+	// By default, only one outputer is supported: LocalOutput (for saving
+	// appcast to the local file).
+	output Outputer
 
 	// releases specify a slice of all application releases. All filtered
 	// releases are stored here.
@@ -383,6 +393,16 @@ func (a *Appcast) Source() Sourcer {
 // SetSource is an Appcast.source setter.
 func (a *Appcast) SetSource(src Sourcer) {
 	a.source = src
+}
+
+// Output is an Appcast.output getter.
+func (a *Appcast) Output() Outputer {
+	return a.output
+}
+
+// SetOutput is an Appcast.output setter.
+func (a *Appcast) SetOutput(output Outputer) {
+	a.output = output
 }
 
 // Releases is an Appcast.releases getter.
