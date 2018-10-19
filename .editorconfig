@@ -1,0 +1,17 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = tab
+max_line_length = 100
+trim_trailing_whitespace = true
+
+[.travis.yml]
+indent_size = 2
+indent_style = space
+
+[*.md]
+max_line_length = 80
+trim_trailing_whitespace = false
