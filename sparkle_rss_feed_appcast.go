@@ -10,6 +10,8 @@ import (
 // methods.
 type SparkleRSSFeedAppcaster interface {
 	Appcaster
+	Channel() *SparkleRSSFeedAppcastChannel
+	SetChannel(channel *SparkleRSSFeedAppcastChannel)
 }
 
 // SparkleRSSFeedAppcast represents the "Sparkle RSS Feed" appcast which is
@@ -55,7 +57,7 @@ type unmarshalSparkleRSSFeedItem struct {
 }
 
 // unmarshalSparkleRSSFeedEnclosure represents the "Sparkle RSS Feed" item
-// enclosure for for unmarshal purposes.
+// enclosure for unmarshal purposes.
 type unmarshalSparkleRSSFeedEnclosure struct {
 	Version            string `xml:"version,attr"`
 	ShortVersionString string `xml:"shortVersionString,attr"`
