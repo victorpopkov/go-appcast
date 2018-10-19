@@ -2,7 +2,7 @@ package appcast
 
 import "net/http"
 
-// A Request represents an HTTP request to be sent by a Client to the server.
+// Request represents an HTTP request to be sent by a Client to the server.
 type Request struct {
 	// HTTPRequest specifies the http.Request to be sent to the remote server. It
 	// includes all request configuration such as URL, protocol version, HTTP

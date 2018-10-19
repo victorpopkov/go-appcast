@@ -23,7 +23,7 @@ var checksumAlgorithmNames = [...]string{
 	"MD5",
 }
 
-// A Checksum holds everything needed to create a hash checksum.
+// Checksum holds everything needed to create a hash checksum.
 type Checksum struct {
 	// algorithm specifies which one of the supported algorithms is used to
 	// generate the resulting checksum.

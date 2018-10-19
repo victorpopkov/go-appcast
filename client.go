@@ -10,7 +10,7 @@ import (
 // appcast package.
 var DefaultClient = NewClient()
 
-// A Client represents an HTTP client that makes requests.
+// Client represents an HTTP client that makes requests.
 type Client struct {
 	// HTTPClient specifies the http.Client which will be used for communicating
 	// with the remote server during the file transfer.

@@ -11,18 +11,18 @@ type GitHubAtomFeedAppcaster interface {
 	Appcaster
 }
 
-// A GitHubAtomFeedAppcast represents appcast for "GitHub Atom Feed" that is
+// GitHubAtomFeedAppcast represents appcast for "GitHub Atom Feed" that is
 // created by GitHub.
 type GitHubAtomFeedAppcast struct {
 	Appcast
 }
 
-// A GitHubAtomFeedAppcastXML represents an Atom itself.
+// GitHubAtomFeedAppcastXML represents an Atom itself.
 type GitHubAtomFeedAppcastXML struct {
 	Entries []GitHubAtomFeedAppcastXMLEntry `xml:"entry"`
 }
 
-// A GitHubAtomFeedAppcastXMLEntry represents an Atom entry.
+// GitHubAtomFeedAppcastXMLEntry represents an Atom entry.
 type GitHubAtomFeedAppcastXMLEntry struct {
 	ID      string `xml:"id"`
 	Updated string `xml:"updated"`

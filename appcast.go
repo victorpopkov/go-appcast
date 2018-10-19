@@ -39,7 +39,7 @@ type Appcaster interface {
 	SetOriginalReleases(originalReleases []Releaser)
 }
 
-// An Appcast represents the appcast itself and should be inherited by
+// Appcast represents the appcast itself and should be inherited by
 // provider-specific appcasts.
 type Appcast struct {
 	// source specifies an appcast source which holds the information about the

@@ -43,7 +43,7 @@ type unmarshalSparkleRSSFeedChannel struct {
 	Items       []unmarshalSparkleRSSFeedItem `xml:"item"`
 }
 
-// A unmarshalSparkleRSSFeedItem represents an RSS item.
+// unmarshalSparkleRSSFeedItem represents an RSS item.
 type unmarshalSparkleRSSFeedItem struct {
 	Title                string                           `xml:"title"`
 	Description          string                           `xml:"description"`

@@ -11,18 +11,18 @@ type SourceForgeRSSFeedAppcaster interface {
 	Appcaster
 }
 
-// A SourceForgeRSSFeedAppcast represents appcast for "SourceForge RSS Feed"
+// SourceForgeRSSFeedAppcast represents appcast for "SourceForge RSS Feed"
 // that is created by SourceForge applications and software distributor.
 type SourceForgeRSSFeedAppcast struct {
 	Appcast
 }
 
-// A SourceForgeRSSFeedXML represents an RSS itself.
+// SourceForgeRSSFeedXML represents an RSS itself.
 type SourceForgeRSSFeedXML struct {
 	Items []SourceForgeRSSFeedXMLItem `xml:"channel>item"`
 }
 
-// A SourceForgeRSSFeedXMLItem represents an RSS item.
+// SourceForgeRSSFeedXMLItem represents an RSS item.
 type SourceForgeRSSFeedXMLItem struct {
 	Title       SourceForgeRSSFeedXMLTitle       `xml:"title"`
 	Description SourceForgeRSSFeedXMLDescription `xml:"description"`
@@ -30,17 +30,17 @@ type SourceForgeRSSFeedXMLItem struct {
 	PubDate     string                           `xml:"pubDate"`
 }
 
-// A SourceForgeRSSFeedXMLTitle represents an RSS item title.
+// SourceForgeRSSFeedXMLTitle represents an RSS item title.
 type SourceForgeRSSFeedXMLTitle struct {
 	Chardata string `xml:",chardata"`
 }
 
-// A SourceForgeRSSFeedXMLDescription represents an RSS item description.
+// SourceForgeRSSFeedXMLDescription represents an RSS item description.
 type SourceForgeRSSFeedXMLDescription struct {
 	Chardata string `xml:",chardata"`
 }
 
-// A SourceForgeRSSFeedXMLContent represents an RSS item content.
+// SourceForgeRSSFeedXMLContent represents an RSS item content.
 type SourceForgeRSSFeedXMLContent struct {
 	URL      string `xml:"url,attr"`
 	Type     string `xml:"type,attr"`
