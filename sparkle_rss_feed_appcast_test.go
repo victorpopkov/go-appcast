@@ -182,3 +182,18 @@ func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 		}
 	}
 }
+
+func TestSparkleRSSFeedAppcast_Channel(t *testing.T) {
+	a := newTestSparkleRSSFeedAppcast()
+	assert.Equal(t, a.channel, a.Channel())
+}
+
+func TestSparkleRSSFeedAppcast_SetChannel(t *testing.T) {
+	// preparations
+	a := newTestSparkleRSSFeedAppcast()
+	assert.Nil(t, a.channel)
+
+	// test
+	a.SetChannel(&SparkleRSSFeedAppcastChannel{})
+	assert.NotNil(t, a.channel)
+}
