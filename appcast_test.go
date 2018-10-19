@@ -171,49 +171,6 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.Nil(t, a.Source())
 }
 
-func TestAppcast_LoadFromURL(t *testing.T) {
-	// mock the request
-	httpmock.Activate()
-	httpmock.RegisterResponder(
-		"GET",
-		"https://example.com/appcast.xml",
-		httpmock.NewBytesResponder(200, getTestdata("sparkle/default.xml")),
-	)
-	defer httpmock.DeactivateAndReset()
-
-	// test (successful) [URL]
-	a := New()
-	err := a.LoadFromURL("https://example.com/appcast.xml")
-	assert.Nil(t, err)
-	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
-	assert.NotNil(t, a.Source().Checksum())
-
-	// test (successful) [Request]
-	a = New()
-	r, _ := NewRequest("https://example.com/appcast.xml")
-	err = a.LoadFromURL(r)
-	assert.Nil(t, err)
-	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
-	assert.NotNil(t, a.Source().Checksum())
-
-	// test "Invalid URL" error
-	a = New()
-	url := "http://192.168.0.%31/"
-	err = a.LoadFromURL(url)
-	assert.Error(t, err)
-	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
-	assert.Nil(t, a.Source())
-
-	// test "Invalid request" error
-	a = New()
-	err = a.LoadFromURL("invalid")
-	assert.Error(t, err)
-	assert.EqualError(t, err, "Get invalid: no responder found")
-	assert.Nil(t, a.Source())
-}
-
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	// test (successful)
 	a := New()
@@ -231,23 +188,6 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.Nil(t, a.Source())
 }
 
-func TestAppcast_LoadFromFile(t *testing.T) {
-	// test (successful)
-	a := New()
-	err := a.LoadFromFile(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
-	assert.Nil(t, err)
-	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
-	assert.NotNil(t, a.Source().Checksum())
-
-	// test (error)
-	a = New()
-	err = a.LoadFromFile("unexisting_file.xml")
-	assert.Error(t, err)
-	assert.EqualError(t, err, "open unexisting_file.xml: no such file or directory")
-	assert.Nil(t, a.Source())
-}
-
 func TestAppcast_GenerateSourceChecksum(t *testing.T) {
 	// preparations
 	a := newTestSparkleRSSFeedAppcast()
@@ -255,18 +195,6 @@ func TestAppcast_GenerateSourceChecksum(t *testing.T) {
 
 	// test
 	result := a.GenerateSourceChecksum(MD5)
-	assert.Equal(t, result.String(), a.Source().Checksum().String())
-	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result.String())
-	assert.Equal(t, MD5, a.Source().Checksum().Algorithm())
-}
-
-func TestAppcast_GenerateChecksum(t *testing.T) {
-	// preparations
-	a := newTestSparkleRSSFeedAppcast()
-	assert.Nil(t, a.Source().Checksum())
-
-	// test
-	result := a.GenerateChecksum(MD5)
 	assert.Equal(t, result.String(), a.Source().Checksum().String())
 	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result.String())
 	assert.Equal(t, MD5, a.Source().Checksum().Algorithm())
@@ -550,16 +478,6 @@ func TestAppcast_UnmarshalReleases_GitHubAtomFeed(t *testing.T) {
 	}
 }
 
-func TestAppcast_ExtractReleases(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-
-	// provider "Unknown"
-	err := a.ExtractReleases()
-	assert.Error(t, err)
-	assert.EqualError(t, err, "releases can't be unmarshaled from the \"Unknown\" provider")
-}
-
 func TestAppcast_Uncomment_Unknown(t *testing.T) {
 	// preparations
 	a := newTestAppcast()
@@ -775,15 +693,6 @@ func TestAppcast_SetReleases(t *testing.T) {
 	assert.Len(t, a.releases, 1)
 }
 
-func TestAppcast_GetReleasesLength(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("sparkle/default.xml"))
-	a.UnmarshalReleases()
-
-	// test
-	assert.Len(t, a.releases, a.GetReleasesLength())
-}
-
 func TestAppcast_FirstRelease(t *testing.T) {
 	// preparations
 	a := newTestSparkleRSSFeedAppcast(getTestdata("sparkle/default.xml"))
@@ -791,15 +700,6 @@ func TestAppcast_FirstRelease(t *testing.T) {
 
 	// test
 	assert.Equal(t, a.releases[0].Version().String(), a.FirstRelease().Version().String())
-}
-
-func TestAppcast_GetFirstRelease(t *testing.T) {
-	// preparations
-	a := newTestSparkleRSSFeedAppcast(getTestdata("sparkle/default.xml"))
-	a.UnmarshalReleases()
-
-	// test
-	assert.Equal(t, a.releases[0].Version().String(), a.GetFirstRelease().Version().String())
 }
 
 func TestAppcast_OriginalReleases(t *testing.T) {
@@ -815,15 +715,4 @@ func TestAppcast_SetOriginalReleases(t *testing.T) {
 	// test
 	a.SetOriginalReleases([]Releaser{&Release{}})
 	assert.Len(t, a.originalReleases, 1)
-}
-
-func TestAppcast_GetChecksum(t *testing.T) {
-	a := newTestAppcast()
-	a.GenerateSourceChecksum(SHA256)
-	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", a.GetChecksum().String())
-}
-
-func TestAppcast_GetProvider(t *testing.T) {
-	a := newTestAppcast()
-	assert.Equal(t, Unknown, a.GetProvider())
 }

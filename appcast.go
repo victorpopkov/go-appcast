@@ -112,14 +112,6 @@ func (a *Appcast) LoadFromRemoteSource(i interface{}) error {
 	return nil
 }
 
-// LoadFromURL creates a new RemoteSource instance and loads the data from the
-// remote location by using the RemoteSource.Load method.
-//
-// Deprecated: Use Appcast.LoadFromRemoteSource instead.
-func (a *Appcast) LoadFromURL(i interface{}) error {
-	return a.LoadFromRemoteSource(i)
-}
-
 // LoadFromLocalSource creates a new LocalSource instance and loads the data
 // from the local file by using the LocalSource.Load method.
 func (a *Appcast) LoadFromLocalSource(path string) error {
@@ -135,27 +127,11 @@ func (a *Appcast) LoadFromLocalSource(path string) error {
 	return nil
 }
 
-// LoadFromFile creates a new LocalSource instance and loads the data from the
-// local file by using the LocalSource.Load method.
-//
-// Deprecated: Use Appcast.LoadFromLocalSource instead.
-func (a *Appcast) LoadFromFile(path string) error {
-	return a.LoadFromLocalSource(path)
-}
-
 // GenerateSourceChecksum creates a new Checksum instance in the Appcast.source
 // based on the provided algorithm and returns its pointer.
 func (a *Appcast) GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum {
 	a.source.GenerateChecksum(algorithm)
 	return a.source.Checksum()
-}
-
-// GenerateChecksum creates a new Checksum instance in the Appcast.source based
-// on the provided algorithm and returns its pointer.
-//
-// Deprecated: Use Appcast.GenerateSourceChecksum instead.
-func (a *Appcast) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
-	return a.GenerateSourceChecksum(algorithm)
 }
 
 // LoadSource calls the Appcast.source.Load method.
@@ -199,15 +175,6 @@ func (a *Appcast) UnmarshalReleases() error {
 	a.originalReleases = a.releases
 
 	return nil
-}
-
-// ExtractReleases unmarshals the Appcast.source.content into the
-// Appcast.releases by calling the appropriate provider specific
-// UnmarshalReleases method from the supported providers.
-//
-// Deprecated: Use Appcast.UnmarshalReleases instead.
-func (a *Appcast) ExtractReleases() error {
-	return a.UnmarshalReleases()
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate
@@ -415,25 +382,10 @@ func (a *Appcast) SetReleases(releases []Releaser) {
 	a.releases = releases
 }
 
-// GetReleasesLength is a convenience method to get the Appcast.releases length.
-//
-// Deprecated: Use len(Appcast.Releases) instead.
-func (a *Appcast) GetReleasesLength() int {
-	return len(a.releases)
-}
-
 // FirstRelease is a convenience method to get the first release pointer from
 // the Appcast.releases slice.
 func (a *Appcast) FirstRelease() Releaser {
 	return a.releases[0]
-}
-
-// GetFirstRelease is a convenience method to get the first release pointer from
-// the Appcast.releases slice.
-//
-// Deprecated: Use Appcast.FirstRelease instead.
-func (a *Appcast) GetFirstRelease() Releaser {
-	return a.FirstRelease()
 }
 
 // OriginalReleases is an Appcast.originalReleases getter.
@@ -444,18 +396,4 @@ func (a *Appcast) OriginalReleases() []Releaser {
 // SetOriginalReleases is an Appcast.originalReleases setter.
 func (a *Appcast) SetOriginalReleases(originalReleases []Releaser) {
 	a.originalReleases = originalReleases
-}
-
-// GetChecksum is an Appcast.source.checksum getter.
-//
-// Deprecated: Use Appcast.Source.Checksum methods chain instead.
-func (a *Appcast) GetChecksum() *Checksum {
-	return a.Source().Checksum()
-}
-
-// Provider is an Appcast.source.provider getter.
-//
-// Deprecated: Use Appcast.Source.Provider methods chain instead.
-func (a *Appcast) GetProvider() Provider {
-	return a.Source().Provider()
 }
