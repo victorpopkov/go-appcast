@@ -140,8 +140,10 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 
 	// test (successful) [URL]
 	a := New()
-	err := a.LoadFromRemoteSource("https://example.com/appcast.xml")
+	p, err := a.LoadFromRemoteSource("https://example.com/appcast.xml")
 	assert.Nil(t, err)
+	assert.IsType(t, &Appcast{}, a)
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
@@ -149,8 +151,10 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	// test (successful) [Request]
 	a = New()
 	r, _ := NewRequest("https://example.com/appcast.xml")
-	err = a.LoadFromRemoteSource(r)
+	p, err = a.LoadFromRemoteSource(r)
 	assert.Nil(t, err)
+	assert.IsType(t, &Appcast{}, a)
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
@@ -158,15 +162,19 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	// test "Invalid URL" error
 	a = New()
 	url := "http://192.168.0.%31/"
-	err = a.LoadFromRemoteSource(url)
+	p, err = a.LoadFromRemoteSource(url)
 	assert.Error(t, err)
+	assert.IsType(t, &Appcast{}, a)
+	assert.Nil(t, p)
 	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
 	assert.Nil(t, a.Source())
 
 	// test "Invalid request" error
 	a = New()
-	err = a.LoadFromRemoteSource("invalid")
+	p, err = a.LoadFromRemoteSource("invalid")
 	assert.Error(t, err)
+	assert.IsType(t, &Appcast{}, a)
+	assert.Nil(t, p)
 	assert.EqualError(t, err, "Get invalid: no responder found")
 	assert.Nil(t, a.Source())
 }

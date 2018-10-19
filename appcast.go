@@ -18,7 +18,7 @@ import (
 //
 // This interface should be embedded by provider-specific Appcaster interfaces.
 type Appcaster interface {
-	LoadFromRemoteSource(i interface{}) error
+	LoadFromRemoteSource(i interface{}) (Appcaster, error)
 	LoadFromLocalSource(path string) error
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	LoadSource() error
@@ -95,21 +95,27 @@ func New(src ...interface{}) *Appcast {
 
 // LoadFromRemoteSource creates a new RemoteSource instance and loads the data
 // from the remote location by using the RemoteSource.Load method.
-func (a *Appcast) LoadFromRemoteSource(i interface{}) error {
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+func (a *Appcast) LoadFromRemoteSource(i interface{}) (Appcaster, error) {
 	src, err := NewRemoteSource(i)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	err = src.Load()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	a.source = src
-	a.UnmarshalReleases()
+	appcast, err := a.UnmarshalReleases()
+	if err != nil {
+		return nil, err
+	}
 
-	return nil
+	return appcast, nil
 }
 
 // LoadFromLocalSource creates a new LocalSource instance and loads the data
@@ -143,7 +149,7 @@ func (a *Appcast) LoadSource() error {
 // Appcast.releases by calling the appropriate provider-specific
 // UnmarshalReleases method from the supported providers.
 //
-// It returns both: the supported provider-specific Appcast implementing the
+// It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
 func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
 	var appcast Appcaster
