@@ -8,6 +8,10 @@ indent_style = tab
 max_line_length = 80
 trim_trailing_whitespace = true
 
+[.remarkrc]
+indent_size = 2
+indent_style = space
+
 [.travis.yml]
 indent_size = 2
 indent_style = space
