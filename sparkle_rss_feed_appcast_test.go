@@ -109,8 +109,10 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 
 		// test
 		a.Uncomment()
-		err := a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Nil(t, err)
+		assert.IsType(t, &SparkleRSSFeedAppcast{}, a)
+		assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
 			v := release.Version().String()
@@ -130,8 +132,10 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		a := newTestSparkleRSSFeedAppcast(getTestdata(filename))
 
 		// test
-		err := a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Error(t, err)
+		assert.IsType(t, &SparkleRSSFeedAppcast{}, a)
+		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
 	}
 }

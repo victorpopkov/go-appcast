@@ -57,8 +57,10 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Empty(t, a.releases)
 
 		// test
-		err := a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Nil(t, err)
+		assert.IsType(t, &GitHubAtomFeedAppcast{}, a)
+		assert.IsType(t, &GitHubAtomFeedAppcast{}, p)
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
 			v := release.Version().String()
@@ -74,8 +76,10 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		a := newTestGitHubAtomFeedAppcast(getTestdata(filename))
 
 		// test
-		err := a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Error(t, err)
+		assert.Nil(t, a)
+		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
 	}
 }

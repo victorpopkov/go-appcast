@@ -49,7 +49,10 @@ type SourceForgeRSSFeedXMLContent struct {
 
 // UnmarshalReleases unmarshals the Appcast.source.content into the
 // Appcast.releases for the "SourceForge RSS Feed" provider.
-func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() error {
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 	var x SourceForgeRSSFeedXML
 
 	xml.Unmarshal(a.source.Content(), &x)
@@ -59,7 +62,7 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() error {
 		// extract version
 		versions, err := ExtractSemanticVersions(item.Title.Chardata)
 		if err != nil {
-			return fmt.Errorf("version is required, but it's not specified in release #%d", i+1)
+			return nil, fmt.Errorf("version is required, but it's not specified in release #%d", i+1)
 		}
 
 		// new release
@@ -84,5 +87,5 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() error {
 
 	a.releases = items
 
-	return nil
+	return a, nil
 }

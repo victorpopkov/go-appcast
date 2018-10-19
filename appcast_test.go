@@ -215,8 +215,10 @@ func TestAppcast_UnmarshalReleases_Unknown(t *testing.T) {
 	a := newTestAppcast()
 
 	// provider "Unknown"
-	err := a.UnmarshalReleases()
+	p, err := a.UnmarshalReleases()
 	assert.Error(t, err)
+	assert.IsType(t, &Appcast{}, a)
+	assert.Nil(t, p)
 	assert.EqualError(t, err, "releases can't be unmarshaled from the \"Unknown\" provider")
 }
 
@@ -303,8 +305,10 @@ func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// releases
-		err = a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Nil(t, err)
+		assert.IsType(t, &Appcast{}, a)
+		assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
 
@@ -322,8 +326,10 @@ func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
-		err := a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Error(t, err)
+		assert.IsType(t, &Appcast{}, a)
+		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
 	}
 }
@@ -382,8 +388,10 @@ func TestAppcast_UnmarshalReleases_SourceForgeRSSFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// releases
-		err = a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Nil(t, err)
+		assert.IsType(t, &Appcast{}, a)
+		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, p)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
 
@@ -401,8 +409,10 @@ func TestAppcast_UnmarshalReleases_SourceForgeRSSFeed(t *testing.T) {
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
-		err := a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Error(t, err)
+		assert.IsType(t, &Appcast{}, a)
+		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
 	}
 }
@@ -453,8 +463,10 @@ func TestAppcast_UnmarshalReleases_GitHubAtomFeed(t *testing.T) {
 		assert.Len(t, a.releases, 0)
 
 		// releases
-		err = a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Nil(t, err)
+		assert.IsType(t, &Appcast{}, a)
+		assert.IsType(t, &GitHubAtomFeedAppcast{}, p)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
 	}
 
@@ -472,8 +484,10 @@ func TestAppcast_UnmarshalReleases_GitHubAtomFeed(t *testing.T) {
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
 
 		// test
-		err := a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Error(t, err)
+		assert.IsType(t, &Appcast{}, a)
+		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
 	}
 }
@@ -555,8 +569,10 @@ func TestAppcast_SortReleasesByVersions(t *testing.T) {
 		// preparations
 		a := New()
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
-		err := a.UnmarshalReleases()
+		p, err := a.UnmarshalReleases()
 		assert.Nil(t, err)
+		assert.IsType(t, &Appcast{}, a)
+		assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
 
 		// test (ASC)
 		a.SortReleasesByVersions(ASC)

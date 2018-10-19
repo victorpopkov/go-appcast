@@ -22,7 +22,7 @@ type Appcaster interface {
 	LoadFromLocalSource(path string) error
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	LoadSource() error
-	UnmarshalReleases() error
+	UnmarshalReleases() (Appcaster, error)
 	Uncomment() error
 	SortReleasesByVersions(s Sort)
 	FilterReleasesByTitle(regexpStr string, inversed ...interface{})
@@ -142,7 +142,10 @@ func (a *Appcast) LoadSource() error {
 // UnmarshalReleases unmarshals the Appcast.source.content into the
 // Appcast.releases by calling the appropriate provider-specific
 // UnmarshalReleases method from the supported providers.
-func (a *Appcast) UnmarshalReleases() error {
+//
+// It returns both: the supported provider-specific Appcast implementing the
+// Appcaster interface and an error.
+func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
 	var appcast Appcaster
 
 	provider := a.source.Provider()
@@ -163,18 +166,18 @@ func (a *Appcast) UnmarshalReleases() error {
 			p = "Unknown"
 		}
 
-		return fmt.Errorf("releases can't be unmarshaled from the \"%s\" provider", p)
+		return nil, fmt.Errorf("releases can't be unmarshaled from the \"%s\" provider", p)
 	}
 
-	err := appcast.UnmarshalReleases()
+	appcast, err := appcast.UnmarshalReleases()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	a.releases = appcast.Releases()
 	a.originalReleases = a.releases
 
-	return nil
+	return appcast, nil
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate

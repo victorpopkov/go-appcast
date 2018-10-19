@@ -32,7 +32,10 @@ type GitHubAtomFeedAppcastXMLEntry struct {
 
 // UnmarshalReleases unmarshals the Appcast.source.content into the
 // Appcast.releases for the "GitHub Atom Feed" provider.
-func (a *GitHubAtomFeedAppcast) UnmarshalReleases() error {
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 	var x GitHubAtomFeedAppcastXML
 
 	xml.Unmarshal(a.source.Content(), &x)
@@ -55,7 +58,7 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() error {
 		// new release
 		r, err := NewRelease(version, "")
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		r.SetTitle(entry.Title)
@@ -73,5 +76,5 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() error {
 
 	a.releases = items
 
-	return nil
+	return a, nil
 }

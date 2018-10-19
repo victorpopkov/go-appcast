@@ -68,7 +68,10 @@ type unmarshalSparkleRSSFeedEnclosure struct {
 
 // UnmarshalReleases unmarshals the Appcast.source.content into the
 // Appcast.releases for the "Sparkle RSS Feed" provider.
-func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 	var x unmarshalSparkleRSSFeed
 	var version, build string
 
@@ -96,7 +99,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
 		}
 
 		if version == "" && build == "" {
-			return fmt.Errorf("version is required, but it's not specified in release #%d", i+1)
+			return nil, fmt.Errorf("version is required, but it's not specified in release #%d", i+1)
 		} else if version == "" && build != "" {
 			version = build
 		}
@@ -104,7 +107,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
 		// new release
 		r, err := NewRelease(version, build)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		r.SetTitle(item.Title)
@@ -125,7 +128,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() error {
 
 	a.releases = items
 
-	return nil
+	return a, nil
 }
 
 // Uncomment uncomments XML tags in SparkleRSSFeedAppcast.source.content.
