@@ -4,24 +4,14 @@ go:
   - "1.10.x"
 
 install:
-  # install Glide
   - curl https://glide.sh/get | sh
-
-  # project dependencies
   - glide install
 
-  # code coverage
-  - go get -v golang.org/x/tools/cmd/cover
-  - if [ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]; then go get github.com/mattn/goveralls; fi
-
 script:
-  # code coverage
-  - go test -v -covermode=count -coverprofile=coverage.out
-  - if [ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]; then $(go env GOPATH | awk 'BEGIN{FS=":"} { print $1 }')/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN; fi
+  - go test -race -coverprofile=coverage.txt -covermode=atomic
 
-env:
-  # Coveralls
-  secure: "jn/xCrLHG6bkuuNZYJ2ZlBkf7ri7XydhgIVi5qWp5lO24qU+9cZyaimJMclB+Ru55pFIxcjNl5mXBpNnyrwffD++MleaZn8fS1GfJe6LJlR6SD0O40gXRkkGdZjusb7o0+iYGitpqtzvRAHRK5favof9ARtIAOf13l7wCZjaXlPxt3626hpozoNOVKJqhdrScuustDVlSYQ2kAJiucYYTy3Mq8EdyiV0RSX5dW3EleQax9+cmkxTOiYpR1JKk4/knXfTFpKE5AFxdNXOywTa2SlIN5CrGlTzY82Bp6aWo0A8tAJx2JrSBriE2T6Kbl9NfrVvpS8k6Z1d6xQrLkCL5z0lxYEclluNJwbDKVCFOcOEQc4wW2Eeq493d+Wr0gbSvLeFNRBR82qu4gAMmqanyKzBZjxPQT2fegIxDsmUTRNJF1JmH4Q/IqzkRglqtnt2AEcz/1AEBJY3tK7eyDOdjyVA0yTtIuL/u9SO+m3+cuOZsEKjdh4iHgeXII7xxoxC+bkxLF2Qtbps5QTFSkJXFAfm7DTr1SkXK0/KS78X6DXeeXFb4hTUPMATyQ2EjBoaGNikDVpd0bcVPTR/dKVuZhyXaPriq/zvZKS30ZQ/dzMUZ9Gxlt0rdNYxV7vo5EhYDw2stHiONzdAhkeOD5Jl+6o1843ra1RHj6kgyzuyk18="
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 notifications:
   email: false
