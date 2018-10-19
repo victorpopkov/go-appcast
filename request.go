@@ -25,7 +25,7 @@ func NewRequest(url string) (*Request, error) {
 }
 
 // AddHeader adds a new header with specified key and value. The headers will
-// be used while making request in Client.Do.
+// be used while making the request in Client.Do.
 func (r *Request) AddHeader(key string, value string) {
 	r.HTTPRequest.Header.Add(key, value)
 }

@@ -55,7 +55,7 @@ type Release struct {
 	// isPreRelease specifies whether a release is not stable.
 	//
 	// By default, each release is considered to be stable, so the default value
-	// is false. If the release version, build or any other provider specific
+	// is false. If the release version, build or any other provider-specific
 	// value points that a release is unstable, the value should become true.
 	isPreRelease bool
 }

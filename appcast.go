@@ -16,7 +16,7 @@ import (
 
 // Appcaster is the interface that wraps the Appcast methods.
 //
-// This interface should be embedded by provider specific Appcaster interfaces.
+// This interface should be embedded by provider-specific Appcaster interfaces.
 type Appcaster interface {
 	LoadFromRemoteSource(i interface{}) error
 	LoadFromLocalSource(path string) error
@@ -39,8 +39,8 @@ type Appcaster interface {
 	SetOriginalReleases(originalReleases []Releaser)
 }
 
-// An Appcast represents the appcast itself and should be inherited by provider
-// specific appcasts.
+// An Appcast represents the appcast itself and should be inherited by
+// provider-specific appcasts.
 type Appcast struct {
 	// source specifies an appcast source which holds the information about the
 	// retrieved appcast. Can be any use-case specific Sourcer interface
@@ -69,7 +69,7 @@ type Appcast struct {
 	originalReleases []Releaser
 }
 
-// Sort holds different supported sorting behaviors.
+// Sort holds different supported sorting behaviours.
 type Sort int
 
 const (
@@ -140,7 +140,7 @@ func (a *Appcast) LoadSource() error {
 }
 
 // UnmarshalReleases unmarshals the Appcast.source.content into the
-// Appcast.releases by calling the appropriate provider specific
+// Appcast.releases by calling the appropriate provider-specific
 // UnmarshalReleases method from the supported providers.
 func (a *Appcast) UnmarshalReleases() error {
 	var appcast Appcaster
@@ -178,7 +178,7 @@ func (a *Appcast) UnmarshalReleases() error {
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate
-// provider specific Uncomment method from the supported providers.
+// provider-specific Uncomment method from the supported providers.
 func (a *Appcast) Uncomment() error {
 	if a.source == nil {
 		return fmt.Errorf("no source")
