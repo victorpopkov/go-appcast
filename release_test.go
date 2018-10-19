@@ -41,21 +41,6 @@ func TestRelease_VersionOrBuildString(t *testing.T) {
 	assert.Equal(t, v, r.VersionOrBuildString())
 }
 
-func TestRelease_GetVersionOrBuildString(t *testing.T) {
-	// preparations
-	v := "1.0.0"
-	b := "1000"
-	r := new(Release)
-	r.build = b
-
-	// test (only build is set)
-	assert.Equal(t, b, r.GetVersionOrBuildString())
-
-	// test (both build and version are set)
-	r.SetVersionString(v)
-	assert.Equal(t, v, r.GetVersionOrBuildString())
-}
-
 func TestRelease_Version(t *testing.T) {
 	// preparations
 	r := new(Release)
@@ -75,16 +60,6 @@ func TestRelease_SetVersion(t *testing.T) {
 	// test
 	r.SetVersion(v)
 	assert.Equal(t, v, r.version)
-}
-
-func TestRelease_GetVersionString(t *testing.T) {
-	// preparations
-	v := "1.0.0"
-	r := new(Release)
-	r.SetVersionString(v)
-
-	// test
-	assert.Equal(t, v, r.GetVersionString())
 }
 
 func TestRelease_SetVersionString(t *testing.T) {
@@ -123,15 +98,6 @@ func TestRelease_SetBuild(t *testing.T) {
 	// test
 	r.SetBuild(b)
 	assert.Equal(t, b, r.build)
-}
-
-func TestRelease_GetBuildString(t *testing.T) {
-	// preparations
-	r := new(Release)
-	r.build = "1000"
-
-	// test
-	assert.Equal(t, "1000", r.GetBuildString())
 }
 
 func TestRelease_Title(t *testing.T) {
@@ -191,16 +157,6 @@ func TestRelease_Downloads(t *testing.T) {
 
 	// test
 	assert.Len(t, r.Downloads(), 2)
-}
-
-func TestRelease_GetDownloads(t *testing.T) {
-	// preparations
-	r := new(Release)
-	r.AddDownload(*NewDownload("https://example.com/one.dmg", "application/octet-stream", 100000))
-	r.AddDownload(*NewDownload("https://example.com/two.dmg", "application/octet-stream", 100000))
-
-	// test
-	assert.Len(t, r.GetDownloads(), 2)
 }
 
 func TestRelease_SetDownloads(t *testing.T) {

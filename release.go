@@ -92,14 +92,6 @@ func (r *Release) VersionOrBuildString() string {
 	return r.version.String()
 }
 
-// GetVersionOrBuildString retrieves the release version string if it's
-// available. Otherwise, returns the release build string.
-//
-// Deprecated: Use Release.VersionOrBuildString instead.
-func (r *Release) GetVersionOrBuildString() string {
-	return r.VersionOrBuildString()
-}
-
 // Version is a Release.version getter.
 func (r *Release) Version() *version.Version {
 	return r.version
@@ -108,14 +100,6 @@ func (r *Release) Version() *version.Version {
 // SetVersion is a Release.version setter.
 func (r *Release) SetVersion(version *version.Version) {
 	r.version = version
-}
-
-// GetVersionString is a convenience method to retrieve the release version
-// string stored as the Release.version.
-//
-// Deprecated: Use Release.Version.String methods chain instead.
-func (r *Release) GetVersionString() string {
-	return r.Version().String()
 }
 
 // SetVersionString sets the Release.version from the provided version value
@@ -140,14 +124,6 @@ func (r *Release) Build() string {
 // SetBuild is a Release.build setter.
 func (r *Release) SetBuild(build string) {
 	r.build = build
-}
-
-// GetBuildString is a convenience method to retrieve the release build string
-// stored as the Release.build.
-//
-// Deprecated: Use Release.Build instead.
-func (r *Release) GetBuildString() string {
-	return r.Build()
 }
 
 // Title is a Release.title getter.
@@ -178,13 +154,6 @@ func (r *Release) AddDownload(d Download) {
 // Downloads is a Release.downloads getter.
 func (r *Release) Downloads() []Download {
 	return r.downloads
-}
-
-// GetDownloads is a Release.downloads getter.
-//
-// Deprecated: Use Release.Downloads instead.
-func (r *Release) GetDownloads() []Download {
-	return r.Downloads()
 }
 
 // SetDownloads is a Release.downloads setter.
