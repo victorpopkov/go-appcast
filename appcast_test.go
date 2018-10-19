@@ -182,16 +182,20 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	// test (successful)
 	a := New()
-	err := a.LoadFromLocalSource(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
+	p, err := a.LoadFromLocalSource(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
 	assert.Nil(t, err)
+	assert.IsType(t, &Appcast{}, a)
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
 
 	// test (error)
 	a = New()
-	err = a.LoadFromLocalSource("unexisting_file.xml")
+	p, err = a.LoadFromLocalSource("unexisting_file.xml")
 	assert.Error(t, err)
+	assert.IsType(t, &Appcast{}, a)
+	assert.Nil(t, p)
 	assert.EqualError(t, err, "open unexisting_file.xml: no such file or directory")
 	assert.Nil(t, a.Source())
 }

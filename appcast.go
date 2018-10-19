@@ -19,7 +19,7 @@ import (
 // This interface should be embedded by provider-specific Appcaster interfaces.
 type Appcaster interface {
 	LoadFromRemoteSource(i interface{}) (Appcaster, error)
-	LoadFromLocalSource(path string) error
+	LoadFromLocalSource(path string) (Appcaster, error)
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	LoadSource() error
 	UnmarshalReleases() (Appcaster, error)
@@ -120,17 +120,23 @@ func (a *Appcast) LoadFromRemoteSource(i interface{}) (Appcaster, error) {
 
 // LoadFromLocalSource creates a new LocalSource instance and loads the data
 // from the local file by using the LocalSource.Load method.
-func (a *Appcast) LoadFromLocalSource(path string) error {
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+func (a *Appcast) LoadFromLocalSource(path string) (Appcaster, error) {
 	src := NewLocalSource(path)
 	err := src.Load()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	a.source = src
-	a.UnmarshalReleases()
+	appcast, err := a.UnmarshalReleases()
+	if err != nil {
+		return nil, err
+	}
 
-	return nil
+	return appcast, nil
 }
 
 // GenerateSourceChecksum creates a new Checksum instance in the Appcast.source
