@@ -19,6 +19,7 @@ func newTestSource() *Source {
 			result:    []byte("test"),
 		},
 		provider: Unknown,
+		appcast:  &SparkleRSSFeedAppcast{},
 	}
 
 	return src
@@ -87,4 +88,15 @@ func TestSource_SetProvider(t *testing.T) {
 	src := newTestSource()
 	src.SetProvider(SparkleRSSFeed)
 	assert.Equal(t, SparkleRSSFeed, src.provider)
+}
+
+func TestSource_Appcast(t *testing.T) {
+	src := newTestSource()
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, src.Appcast())
+}
+
+func TestSource_SetAppcast(t *testing.T) {
+	src := newTestSource()
+	src.SetAppcast(&GitHubAtomFeedAppcast{})
+	assert.IsType(t, &GitHubAtomFeedAppcast{}, src.appcast)
 }

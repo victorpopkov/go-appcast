@@ -13,6 +13,8 @@ type Sourcer interface {
 	Checksum() *Checksum
 	Provider() Provider
 	SetProvider(provider Provider)
+	Appcast() Appcaster
+	SetAppcast(appcast Appcaster)
 }
 
 // Source represents an appcast source which holds the information about the
@@ -33,6 +35,10 @@ type Source struct {
 	// provider specifies the one of the supported providers guessed using the
 	// Source.GuessProvider method.
 	provider Provider
+
+	// appcast specifies the provider-specific appcast guessed for the current
+	// Source.
+	appcast Appcaster
 }
 
 // Load should implement a way of loading an appcast content into the
@@ -76,4 +82,14 @@ func (s *Source) Provider() Provider {
 // SetProvider is a Source.provider setter.
 func (s *Source) SetProvider(provider Provider) {
 	s.provider = provider
+}
+
+// Appcast is a Source.appcast getter.
+func (s *Source) Appcast() Appcaster {
+	return s.appcast
+}
+
+// SetAppcast is a Source.appcast setter.
+func (s *Source) SetAppcast(appcast Appcaster) {
+	s.appcast = appcast
 }
