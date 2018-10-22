@@ -18,6 +18,7 @@ func newTestOutput() *Output {
 			result:    []byte("test"),
 		},
 		provider: Unknown,
+		appcast:  &SparkleRSSFeedAppcast{},
 	}
 
 	return o
@@ -60,4 +61,15 @@ func TestOutput_SetProvider(t *testing.T) {
 	o := newTestOutput()
 	o.SetProvider(SparkleRSSFeed)
 	assert.Equal(t, SparkleRSSFeed, o.provider)
+}
+
+func TestOutput_Appcast(t *testing.T) {
+	o := newTestOutput()
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, o.Appcast())
+}
+
+func TestOutput_SetAppcast(t *testing.T) {
+	o := newTestOutput()
+	o.SetAppcast(&GitHubAtomFeedAppcast{})
+	assert.IsType(t, &GitHubAtomFeedAppcast{}, o.appcast)
 }

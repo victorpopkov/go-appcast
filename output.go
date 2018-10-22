@@ -12,6 +12,8 @@ type Outputer interface {
 	Checksum() *Checksum
 	Provider() Provider
 	SetProvider(provider Provider)
+	Appcast() Appcaster
+	SetAppcast(appcast Appcaster)
 }
 
 // Output represents an appcast output data.
@@ -29,6 +31,10 @@ type Output struct {
 
 	// provider specifies the one of the supported appcast providers.
 	provider Provider
+
+	// appcast specifies the provider-specific appcast guessed for the current
+	// Output.
+	appcast Appcaster
 }
 
 // Save should implement a way of saving an appcast content from the
@@ -66,4 +72,14 @@ func (o *Output) Provider() Provider {
 // SetProvider is an Output.provider setter.
 func (o *Output) SetProvider(provider Provider) {
 	o.provider = provider
+}
+
+// Appcast is a Output.appcast getter.
+func (o *Output) Appcast() Appcaster {
+	return o.appcast
+}
+
+// SetAppcast is a Output.appcast setter.
+func (o *Output) SetAppcast(appcast Appcaster) {
+	o.appcast = appcast
 }
