@@ -2,8 +2,8 @@ package appcast
 
 import (
 	"fmt"
-
 	"gopkg.in/jarcoal/httpmock.v1"
+	"reflect"
 )
 
 // Demonstrates the "Sparkle RSS Feed" appcast loading.
@@ -19,9 +19,10 @@ func Example_sparkleRSSFeedAppcast() {
 	a.LoadFromRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
 	a.SortReleasesByVersions(DESC)
 
-	fmt.Println("Checksum:", a.Source().Checksum())
-	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total\n\n", len(a.Releases()))
+	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
+	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
+	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
+	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
 
 	release := a.Releases()[0]
 	fmt.Printf("First release details:\n\n")
@@ -33,6 +34,7 @@ func Example_sparkleRSSFeedAppcast() {
 	fmt.Printf("%12s %v\n", "Pre-release:", release.IsPreRelease())
 
 	// Output:
+	// Type:     *appcast.SparkleRSSFeedAppcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total
@@ -65,9 +67,10 @@ func Example_sourceForgeRSSFeedAppcast() {
 	a.FilterReleasesByURL("macosx")
 	defer a.ResetFilters() // reset
 
-	fmt.Println("Checksum:", a.Source().Checksum())
-	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total\n\n", len(a.Releases()))
+	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
+	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
+	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
+	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
 
 	release := a.Releases()[0]
 	fmt.Printf("First release details:\n\n")
@@ -78,6 +81,7 @@ func Example_sourceForgeRSSFeedAppcast() {
 	fmt.Printf("%12s %v\n", "Pre-release:", release.IsPreRelease())
 
 	// Output:
+	// Type:     *appcast.SourceForgeRSSFeedAppcast
 	// Checksum: 69886b91a041ce9d742218a77317cd99f87a14199c3f8ba094042dd9d430f7fd
 	// Provider: SourceForge RSS Feed
 	// Releases: 5 total
@@ -103,9 +107,10 @@ func Example_gitHubAtomFeedAppcast() {
 	a := New()
 	a.LoadFromRemoteSource("https://github.com/atom/atom/releases.atom")
 
-	fmt.Println("Checksum:", a.Source().Checksum())
-	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total\n\n", len(a.Releases()))
+	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
+	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
+	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
+	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
 
 	release := a.Releases()[0]
 	fmt.Printf("First release details:\n\n")
@@ -116,6 +121,7 @@ func Example_gitHubAtomFeedAppcast() {
 	fmt.Printf("%12s %v\n", "Pre-release:", release.IsPreRelease())
 
 	// Output:
+	// Type:     *appcast.GitHubAtomFeedAppcast
 	// Checksum: 03b6d9b8199ea377036caafa5358512295afa3c740edf9031dc6739b89e3ba05
 	// Provider: GitHub Atom Feed
 	// Releases: 10 total
@@ -144,11 +150,13 @@ func ExampleRemoteSource() {
 	a.LoadSource()
 	a.UnmarshalReleases()
 
-	fmt.Println("Checksum:", a.Source().Checksum())
-	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total\n", len(a.Releases()))
+	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
+	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
+	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
+	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
 
 	// Output:
+	// Type:     *appcast.SparkleRSSFeedAppcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total
@@ -162,11 +170,13 @@ func ExampleLocalSource() {
 	a.LoadSource()
 	a.UnmarshalReleases()
 
-	fmt.Println("Checksum:", a.Source().Checksum())
-	fmt.Println("Provider:", a.Source().Provider())
-	fmt.Printf("Releases: %d total\n", len(a.Releases()))
+	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
+	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
+	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
+	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
 
 	// Output:
+	// Type:     *appcast.SparkleRSSFeedAppcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total
