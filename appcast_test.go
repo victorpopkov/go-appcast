@@ -181,23 +181,48 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	// test (successful)
+	path := getTestdataPath("sparkle/default.xml")
+	content := getTestdata("sparkle/default.xml")
+
+	localSourceReadFile = func(filename string) ([]byte, error) {
+		return content, nil
+	}
+
 	a := New()
-	p, err := a.LoadFromLocalSource(filepath.Join(getWorkingDir(), testdataPath, "sparkle/default.xml"))
-	assert.Nil(t, err)
+	p, err := a.LoadFromLocalSource(path)
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
+	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
 
 	// test (error)
+	localSourceReadFile = func(filename string) ([]byte, error) {
+		return nil, fmt.Errorf("error")
+	}
+
 	a = New()
-	p, err = a.LoadFromLocalSource("unexisting_file.xml")
-	assert.Error(t, err)
+	p, err = a.LoadFromLocalSource(path)
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.EqualError(t, err, "open unexisting_file.xml: no such file or directory")
+	assert.Error(t, err)
+	assert.EqualError(t, err, "error")
 	assert.Nil(t, a.Source())
+
+	// test (unmarshalling error)
+	localSourceReadFile = func(filename string) ([]byte, error) {
+		return []byte("invalid"), nil
+	}
+
+	a = New()
+	p, err = a.LoadFromLocalSource(path)
+	assert.IsType(t, &Appcast{}, a)
+	assert.Nil(t, p)
+	assert.Error(t, err)
+	assert.EqualError(t, err, "releases can't be unmarshaled from the \"Unknown\" provider")
+
+	localSourceReadFile = ioutil.ReadFile
 }
 
 func TestAppcast_GenerateSourceChecksum(t *testing.T) {
