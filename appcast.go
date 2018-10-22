@@ -186,6 +186,7 @@ func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
 		return nil, err
 	}
 
+	a.source.SetAppcast(appcast)
 	a.releases = appcast.Releases()
 	a.originalReleases = a.releases
 

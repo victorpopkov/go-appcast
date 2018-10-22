@@ -147,6 +147,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 
 	// test (successful) [Request]
 	a = New()
@@ -158,6 +159,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 
 	// test "Invalid URL" error
 	a = New()
@@ -196,6 +198,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 
 	// test (error)
 	localSourceReadFile = func(filename string) ([]byte, error) {
@@ -257,6 +260,7 @@ func TestAppcast_UnmarshalReleases_Unknown(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.EqualError(t, err, "releases can't be unmarshaled from the \"Unknown\" provider")
+	assert.Nil(t, a.source.Appcast())
 }
 
 func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
@@ -347,6 +351,7 @@ func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 		assert.IsType(t, &Appcast{}, a)
 		assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
+		assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 	}
 
 	// test (error)
@@ -368,6 +373,7 @@ func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 		assert.IsType(t, &Appcast{}, a)
 		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
+		assert.Nil(t, a.source.Appcast())
 	}
 }
 
@@ -430,6 +436,7 @@ func TestAppcast_UnmarshalReleases_SourceForgeRSSFeed(t *testing.T) {
 		assert.IsType(t, &Appcast{}, a)
 		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, p)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
+		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a.source.Appcast())
 	}
 
 	// test (error)
@@ -451,6 +458,7 @@ func TestAppcast_UnmarshalReleases_SourceForgeRSSFeed(t *testing.T) {
 		assert.IsType(t, &Appcast{}, a)
 		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
+		assert.Nil(t, a.source.Appcast())
 	}
 }
 
@@ -505,6 +513,7 @@ func TestAppcast_UnmarshalReleases_GitHubAtomFeed(t *testing.T) {
 		assert.IsType(t, &Appcast{}, a)
 		assert.IsType(t, &GitHubAtomFeedAppcast{}, p)
 		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
+		assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
 	}
 
 	// test (error)
@@ -526,6 +535,7 @@ func TestAppcast_UnmarshalReleases_GitHubAtomFeed(t *testing.T) {
 		assert.IsType(t, &Appcast{}, a)
 		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
+		assert.Nil(t, a.source.Appcast())
 	}
 }
 
