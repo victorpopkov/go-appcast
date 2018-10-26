@@ -382,19 +382,19 @@ func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 func TestAppcast_UnmarshalReleases_SourceForgeRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sourceforge/default.xml": {
-			"checksum": "c15a5e4755b424b20e3e7138c36045893aec70f9569acd5946796199c6f79596",
+			"checksum": "d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
 			"releases": 4,
 		},
 		"sourceforge/empty.xml": {
-			"checksum": "12bbf7be638d5cf251c320aacd68c90acef450e3a9a22cc6cbfa29ffa4ee7f6a",
+			"checksum": "569cb5c8fa66b2bae66e7c0d45e6fbbeb06a5f965fc7e6884ff45aab4f17b407",
 			"releases": 0,
 		},
 		"sourceforge/invalid_pubdate.xml": {
-			"checksum": "de0f431e001f7aded7fe01c3aec7412e39898d3f97acf809765fc7e2752ffc2c",
+			"checksum": "160885aaaa2f694b5306e91ea20d08ef514f424e51704947c9f07fffec787cf6",
 			"releases": 4,
 		},
 		"sourceforge/single.xml": {
-			"checksum": "5f3df25c0979faae5b5abef266f5929f4ac6aeb4df74e054461f93e0dbc51183",
+			"checksum": "5384ed38515985f60f990c125f1cceed0261c2c5c2b85181ebd4214a7bc709de",
 			"releases": 1,
 		},
 	}

@@ -4,14 +4,14 @@
     <title>App</title>
     <link>https://example.com/app/</link>
     <description><![CDATA[App Description]]></description>
-    <pubDate>Thu, 13 May 2016 12:00:00 UT</pubDate>
+    <pubDate>Fri, 13 May 2016 12:00:00 UT</pubDate>
     <managingEditor>noreply@sourceforge.net (SourceForge.net)</managingEditor>
     <docs>https://example.com/app/rss</docs>
     <item>
       <title><![CDATA[/app/2.0.0/app_2.0.0.dmg]]></title>
       <link>https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download</link>
       <guid>https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download</guid>
-      <pubDate>Thu, 13 May 2016 12:00:00 UT</pubDate>
+      <pubDate>Fri, 13 May 2016 12:00:00 UT</pubDate>
       <description><![CDATA[/app/2.0.0/app_2.0.0.dmg]]></description>
       <files:sf-file-id xmlns:files="https://sourceforge.net/api/files.rdf#">00000000</files:sf-file-id>
       <files:extra-info xmlns:files="https://sourceforge.net/api/files.rdf#">VAX COFF executable not stripped</files:extra-info>
@@ -35,7 +35,7 @@
       <title><![CDATA[/app/1.0.1/app_1.0.1.dmg]]></title>
       <link>https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download</link>
       <guid>https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download</guid>
-      <pubDate>Tue, 11 May 2016 12:00:00 UT</pubDate>
+      <pubDate>Wed, 11 May 2016 12:00:00 UT</pubDate>
       <description><![CDATA[/app/1.0.1/app_1.0.1.dmg]]></description>
       <files:sf-file-id xmlns:files="https://sourceforge.net/api/files.rdf#">00000000</files:sf-file-id>
       <files:extra-info xmlns:files="https://sourceforge.net/api/files.rdf#">VAX COFF executable not stripped</files:extra-info>
@@ -47,7 +47,7 @@
       <title><![CDATA[/app/1.0.0/app_1.0.0.dmg]]></title>
       <link>https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download</link>
       <guid>https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download</guid>
-      <pubDate>Mon, 10 May 2016 12:00:00 UT</pubDate>
+      <pubDate>Tue, 10 May 2016 12:00:00 UT</pubDate>
       <description><![CDATA[/app/1.0.0/app_1.0.0.dmg]]></description>
       <files:sf-file-id xmlns:files="https://sourceforge.net/api/files.rdf#">00000000</files:sf-file-id>
       <files:extra-info xmlns:files="https://sourceforge.net/api/files.rdf#">VAX COFF executable not stripped</files:extra-info>

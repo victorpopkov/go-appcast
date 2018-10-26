@@ -31,24 +31,24 @@ func TestChecksum_generate(t *testing.T) {
 			"ca0ee1fef654c37bb1e8789ad004bf09",
 		},
 		"sourceforge/default.xml": {
-			"c15a5e4755b424b20e3e7138c36045893aec70f9569acd5946796199c6f79596",
-			"d651167290b95d554dfb92ceb5a1d63a",
+			"d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
+			"76848b058151cae70fcf7d3838329517",
 		},
 		"sourceforge/empty.xml": {
-			"12bbf7be638d5cf251c320aacd68c90acef450e3a9a22cc6cbfa29ffa4ee7f6a",
-			"68bbda55107a4ffd255e7ae6754b0100",
+			"569cb5c8fa66b2bae66e7c0d45e6fbbeb06a5f965fc7e6884ff45aab4f17b407",
+			"f78eefccfcf70937a004b94bd063682b",
 		},
 		"sourceforge/invalid_pubdate.xml": {
-			"de0f431e001f7aded7fe01c3aec7412e39898d3f97acf809765fc7e2752ffc2c",
-			"86b0736b7d2020693892f05f4943849e",
+			"160885aaaa2f694b5306e91ea20d08ef514f424e51704947c9f07fffec787cf6",
+			"c39e1ffc7bbe1e86fe252052269fb766",
 		},
 		"sourceforge/invalid_version.xml": {
-			"a93925887b0d484ce2a16e65945f254c2eca54057eac426d97db83fd19b035ed",
-			"f756e94d2cc6d31de4aa24dec48ae010",
+			"ad841a02d68c60589136f1f01d000b7988989c187da3ffabbf9d89832a84a6f1",
+			"7b10e5b85c41d8601ac939fbf50a1da5",
 		},
 		"sourceforge/single.xml": {
-			"5f3df25c0979faae5b5abef266f5929f4ac6aeb4df74e054461f93e0dbc51183",
-			"5e4efbd7d7540e8fb5adbc1a793383c5",
+			"5384ed38515985f60f990c125f1cceed0261c2c5c2b85181ebd4214a7bc709de",
+			"d81ac48573ac8a08eba66b44104eac7e",
 		},
 		"sparkle/attributes_as_elements.xml": {
 			"8c42d7835109ff61fe85bba66a44689773e73e0d773feba699bceecefaf09359",

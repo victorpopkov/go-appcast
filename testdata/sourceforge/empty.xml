@@ -4,7 +4,7 @@
     <title>App</title>
     <link>https://example.com/app/</link>
     <description><![CDATA[App Description]]></description>
-    <pubDate>Thu, 13 May 2016 12:00:00 UT</pubDate>
+    <pubDate>Fri, 13 May 2016 12:00:00 UT</pubDate>
     <managingEditor>noreply@sourceforge.net (SourceForge.net)</managingEditor>
     <docs>https://example.com/app/rss</docs>
   </channel>
