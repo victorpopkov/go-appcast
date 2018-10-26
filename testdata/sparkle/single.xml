@@ -9,7 +9,7 @@
       <title>Release 2.0.0</title>
       <description><![CDATA[Release 2.0.0 Description]]></description>
       <sparkle:minimumSystemVersion>10.10</sparkle:minimumSystemVersion>
-      <pubDate>Thu, 13 May 2016 12:00:00 +0200</pubDate>
+      <pubDate>Fri, 13 May 2016 12:00:00 +0200</pubDate>
       <enclosure sparkle:version="200" sparkle:shortVersionString="2.0.0" url="https://example.com/app_2.0.0.dmg" length="100000" type="application/octet-stream" />
     </item>
   </channel>

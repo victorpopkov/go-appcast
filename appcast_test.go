@@ -268,23 +268,23 @@ func TestAppcast_UnmarshalReleases_Unknown(t *testing.T) {
 func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sparkle/attributes_as_elements.xml": {
-			"checksum": "8c42d7835109ff61fe85bba66a44689773e73e0d773feba699bceecefaf09359",
+			"checksum": "d59d258ce0b06d4c6216f6589aefb36e2bd37fbd647f175741cc248021e0e8b4",
 			"releases": 4,
 		},
 		"sparkle/default_asc.xml": {
-			"checksum": "9f94a728eab952284b47cc52acfbbb64de71f3d38e5b643d1f3523ef84495d9f",
+			"checksum": "9f8d8eb4c8acfdd53e3084fe5f59aa679bf141afc0c3887141cd2bdfe1427b41",
 			"releases": 4,
 		},
 		"sparkle/default.xml": {
-			"checksum": "83c1fd76a250dd50334db793a0db5da7575fc83d292c7c58fd9d31d5bcef6566",
+			"checksum": "0cb017e2dfd65e07b54580ca8d4eedbfcf6cef5824bcd9539a64afb72fa9ce8c",
 			"releases": 4,
 		},
 		"sparkle/incorrect_namespace.xml": {
-			"checksum": "2e66ef346c49a8472bf8bf26e6e778c5b4d494723223c84c35d9f272a7792430",
+			"checksum": "ff464014dc6a2f6868aca7c3b42521930f791de5fc993d1cc19d747598bcd760",
 			"releases": 4,
 		},
 		"sparkle/invalid_pubdate.xml": {
-			"checksum": "e0273ccbce5a6fb6a5fe31b5edffb8173d88afa308566cf9b4373f3fed909705",
+			"checksum": "9a59f9d0ccd08b317cf784656f6a5bd0e5a1868103ec56d3364baec175dd0da1",
 			"releases": 4,
 		},
 		// "sparkle/multiple_enclosure.xml": {
@@ -296,19 +296,19 @@ func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
 			"releases": 0,
 		},
 		"sparkle/only_version.xml": {
-			"checksum": "5c3e7cf62383d4c0e10e5ec0f7afd1a5e328137101e8b6bade050812e4e7451f",
+			"checksum": "ee5a775fec4d7b95843e284bff6f35f7df30d76af2d1d7c26fc02f735383ef7f",
 			"releases": 4,
 		},
 		"sparkle/prerelease.xml": {
-			"checksum": "56f95889fe5ddabd847adfe995304fd78dbeeefe47354c2e1c8bde0f003ecf5c",
+			"checksum": "8e44fccf005ad4720bcc75b9afffb035befade81bdf9f587984c26842dd7c759",
 			"releases": 4,
 		},
 		"sparkle/single.xml": {
-			"checksum": "ac649bebe55f84d85767072e3a1122778a04e03f56b78226bd57ab50ce9f9306",
+			"checksum": "c59ec641579c6bad98017db7e1076a2997cdef7fff315323dd7f0cabed638d50",
 			"releases": 1,
 		},
 		"sparkle/without_namespaces.xml": {
-			"checksum": "ee2d28f74e7d557bd7259c0f24a261658a9f27a710308a5c539ab761dae487c1",
+			"checksum": "888494294fc74990e4354689a02e50ff425cfcbd498162fdffd5b3d1cd096fa1",
 			"releases": 4,
 		},
 	}

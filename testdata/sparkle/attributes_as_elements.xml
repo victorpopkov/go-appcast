@@ -11,7 +11,7 @@
       <sparkle:version>200</sparkle:version>
       <sparkle:shortVersionString>2.0.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.10</sparkle:minimumSystemVersion>
-      <pubDate>Thu, 13 May 2016 12:00:00 +0200</pubDate>
+      <pubDate>Fri, 13 May 2016 12:00:00 +0200</pubDate>
       <enclosure url="https://example.com/app_2.0.0.dmg" length="100000" type="application/octet-stream" />
     </item>
     <item>
@@ -20,7 +20,7 @@
       <sparkle:version>110</sparkle:version>
       <sparkle:shortVersionString>1.1.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.9</sparkle:minimumSystemVersion>
-      <pubDate>Wed, 12 May 2016 12:00:00 +0200</pubDate>
+      <pubDate>Thu, 12 May 2016 12:00:00 +0200</pubDate>
       <enclosure url="https://example.com/app_1.1.0.dmg" length="100000" type="application/octet-stream" />
     </item>
     <item>
@@ -29,7 +29,7 @@
       <sparkle:version>101</sparkle:version>
       <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.9</sparkle:minimumSystemVersion>
-      <pubDate>Tue, 11 May 2016 12:00:00 +0200</pubDate>
+      <pubDate>Wed, 11 May 2016 12:00:00 +0200</pubDate>
       <enclosure url="https://example.com/app_1.0.1.dmg" length="100000" type="application/octet-stream" />
     </item>
     <item>
@@ -38,7 +38,7 @@
       <sparkle:version>100</sparkle:version>
       <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>10.9</sparkle:minimumSystemVersion>
-      <pubDate>Mon, 10 May 2016 12:00:00 +0200</pubDate>
+      <pubDate>Tue, 10 May 2016 12:00:00 +0200</pubDate>
       <enclosure url="https://example.com/app_1.0.0.dmg" length="100000" type="application/octet-stream" />
     </item>
   </channel>
