@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+## [0.3.0][] - 2018-10-27
+
+### Added
+
+- Extendable `Output` with `Outputer` interface for creating use-case specific outputs
+- Field `Output.appcast` to hold the provider-specific appcast after marshalling
+- Field `Source.appcast` to hold the provider-specific appcast after unmarshalling
+- Source `LocalOutput` with `LocalOutputer` interface to save an appcast to the local file by path
+- Struct `PublishedDateTime` to use as the `Release.publishedDateTime` type in the `release` package
+- Unmarshalling support for the "Sparkle RSS Feed" channel as the `SparkleRSSFeedAppcast.channel`
+
+### Changed
+
+- Code coverage service from "Coveralls" to "Codecov"
+- Dependencies versions to match the latest ones
+- Field `Release.publishedDateTime` type to become the new `PublishedDateTime`
+- Function `NewRelease` to become `New` in the `release` package
+- Method `Appcast.LoadFromLocalSource` to also return the provider-specific appcast
+- Method `Appcast.LoadFromRemoteSource` to also return the provider-specific appcast
+- Method `Appcast.UnmarshalReleases` to also return the provider-specific appcast
+- Method `GitHubAtomFeedAppcast.UnmarshalReleases` to also return the provider-specific appcast
+- Method `SourceForgeRSSFeedAppcast.UnmarshalReleases` to also return the provider-specific appcast
+- Method `SparkleRSSFeedAppcast.UnmarshalReleases` to also return the provider-specific appcast
+- Release to store the original time and format in the `Release.publishedDateTime`
+- Release-specific stuff to be in the separate `release` package
+- Testdata published releases dates to match the real ones in the past
+- Unmarshalling structs for the "Sparkle RSS Feed" to become unexported
+
+### Removed
+
+- Deprecated `Appcast` methods
+- Deprecated `GuessProviderFromContent` and `GuessProviderFromURL` functions
+- Deprecated `Release` methods
+
 ## [0.2.0][] - 2018-08-09
 
 ### Added
@@ -80,4 +114,5 @@ provider
 First release.
 
 [unreleased]: https://github.com/victorpopkov/go-appcast/compare/v0.2.0...HEAD
+[0.3.0]: https://github.com/victorpopkov/go-appcast/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/victorpopkov/go-appcast/compare/v0.1.0...v0.2.0
