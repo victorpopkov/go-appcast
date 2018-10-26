@@ -3,8 +3,10 @@ language: go
 go:
   - "1.10.x"
 
-install:
+before_install:
   - curl https://glide.sh/get | sh
+
+install:
   - glide install
 
 script:
