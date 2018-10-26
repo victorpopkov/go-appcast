@@ -110,7 +110,7 @@ func main() {
 	//       Build: 1.5.10.4
 	//       Title: Adium 1.5.10.4
 	//   Downloads: [{https://adiumx.cachefly.net/Adium_1.5.10.4.dmg application/octet-stream 21140435}]
-	//   Published: 2017-05-14 12:04:01 +0000 UTC
+	//   Published: Sun, 14 May 2017 05:04:01 -0700
 	// Pre-release: false
 }
 ```
@@ -167,7 +167,7 @@ func main() {
 	//     Version: 3.25.2
 	//       Title: /FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2
 	//   Downloads: [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8453714}]
-	//   Published: 2017-04-30 12:07:25 +0000 UTC
+	//   Published: Sun, 30 Apr 2017 12:07:25 UTC
 	// Pre-release: false
 }
 ```
@@ -219,7 +219,7 @@ func main() {
 	//     Version: 1.28.0-beta3
 	//       Title: 1.28.0-beta3
 	//   Downloads: []
-	//   Published: 2018-06-06 17:09:54 +0000 UTC
+	//   Published: 2018-06-06T20:09:54+03:00
 	// Pre-release: true
 }
 ```
