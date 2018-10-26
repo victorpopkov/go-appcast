@@ -65,7 +65,11 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 
 		r.SetTitle(entry.Title)
 		r.SetDescription(entry.Content)
-		r.ParsePublishedDateTime(entry.Updated)
+
+		// publishedDateTime
+		p := release.NewPublishedDateTime()
+		p.Parse(entry.Updated)
+		r.SetPublishedDateTime(p)
 
 		// prerelease
 		if r.Version().Prerelease() != "" {

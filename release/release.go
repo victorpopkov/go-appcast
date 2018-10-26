@@ -2,10 +2,6 @@
 package release
 
 import (
-	"errors"
-	"regexp"
-	"time"
-
 	"github.com/hashicorp/go-version"
 )
 
@@ -24,9 +20,8 @@ type Releaser interface {
 	AddDownload(d Download)
 	Downloads() []Download
 	SetDownloads(downloads []Download)
-	ParsePublishedDateTime(dateTime string) (err error)
-	PublishedDateTime() time.Time
-	SetPublishedDateTime(publishedDateTime time.Time)
+	PublishedDateTime() *PublishedDateTime
+	SetPublishedDateTime(publishedDateTime *PublishedDateTime)
 	IsPreRelease() bool
 	SetIsPreRelease(isPreRelease bool)
 }
@@ -50,8 +45,8 @@ type Release struct {
 	// of all current release downloads.
 	downloads []Download
 
-	// publishedDateTime specifies the release published data and time in UTC.
-	publishedDateTime time.Time
+	// publishedDateTime specifies the release published data and time.
+	publishedDateTime *PublishedDateTime
 
 	// isPreRelease specifies whether a release is not stable.
 	//
@@ -162,51 +157,13 @@ func (r *Release) SetDownloads(downloads []Download) {
 	r.downloads = downloads
 }
 
-// ParsePublishedDateTime parses the provided dateTime string using the
-// predefined time formats and sets the Release.publishedDateTime in UTC.
-func (r *Release) ParsePublishedDateTime(dateTime string) (err error) {
-	var re *regexp.Regexp
-
-	formats := []string{
-		time.RFC1123Z,
-		time.RFC1123,
-		time.RFC3339,
-		"Monday, January 02, 2006 15:04:05 MST",
-	}
-
-	// remove suffixes "st|nd|rd|th" from day digit
-	re = regexp.MustCompile(`(\d+)(st|nd|rd|th)`)
-	if re.MatchString(dateTime) {
-		// extract last part that represents version
-		versionMatches := re.FindAllStringSubmatch(dateTime, 1)
-		dateTime = re.ReplaceAllString(dateTime, versionMatches[0][1])
-	}
-
-	// change "UT" to "UTC"
-	re = regexp.MustCompile(`UT$`)
-	if re.MatchString(dateTime) {
-		dateTime = re.ReplaceAllString(dateTime, "UTC")
-	}
-
-	// parse by predefined formats
-	for _, format := range formats {
-		parsedTime, err := time.Parse(format, dateTime)
-		if err == nil {
-			r.publishedDateTime = parsedTime.UTC()
-			return nil
-		}
-	}
-
-	return errors.New("parsing of the published datetime failed")
-}
-
 // PublishedDateTime is a Release.publishedDateTime getter.
-func (r *Release) PublishedDateTime() time.Time {
+func (r *Release) PublishedDateTime() *PublishedDateTime {
 	return r.publishedDateTime
 }
 
 // SetPublishedDateTime is a Release.publishedDateTime setter.
-func (r *Release) SetPublishedDateTime(publishedDateTime time.Time) {
+func (r *Release) SetPublishedDateTime(publishedDateTime *PublishedDateTime) {
 	r.publishedDateTime = publishedDateTime
 }
 

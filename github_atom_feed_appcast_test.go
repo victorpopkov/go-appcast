@@ -41,10 +41,10 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast
 func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"github/default.xml": {
-			"2.0.0": {"2016-05-13 10:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
-			"1.1.0": {"2016-05-12 10:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
-			"1.0.1": {"2016-05-11 10:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
-			"1.0.0": {"2016-05-10 10:00:00 +0000 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
+			"2.0.0": {"2016-05-13T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
+			"1.1.0": {"2016-05-12T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
+			"1.0.1": {"2016-05-11T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
+			"1.0.0": {"2016-05-10T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
 		},
 	}
 

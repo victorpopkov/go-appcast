@@ -12,9 +12,9 @@ type Download struct {
 	Length int
 }
 
-// NewDownload returns a new Download instance pointer. Requires an URL.
-// Optionally, the type can be specified as a second parameter and length as a
-// third one.
+// NewDownload returns a new Download instance pointer. Requires an URL to be
+// passed as a parameter. Optionally, the type can be specified as a second
+// parameter and the length as a third one.
 func NewDownload(URL string, a ...interface{}) *Download {
 	d := &Download{
 		URL: URL,

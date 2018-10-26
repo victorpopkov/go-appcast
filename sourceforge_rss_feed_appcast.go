@@ -72,7 +72,11 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 
 		r.SetTitle(item.Title.Chardata)
 		r.SetDescription(item.Description.Chardata)
-		r.ParsePublishedDateTime(item.PubDate)
+
+		// publishedDateTime
+		p := release.NewPublishedDateTime()
+		p.Parse(item.PubDate)
+		r.SetPublishedDateTime(p)
 
 		// prerelease
 		if r.Version().Prerelease() != "" {

@@ -114,7 +114,11 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 
 		r.SetTitle(item.Title)
 		r.SetDescription(item.Description)
-		r.ParsePublishedDateTime(item.PubDate)
+
+		// publishedDateTime
+		p := release.NewPublishedDateTime()
+		p.Parse(item.PubDate)
+		r.SetPublishedDateTime(p)
 
 		// prerelease
 		if r.Version().Prerelease() != "" {
