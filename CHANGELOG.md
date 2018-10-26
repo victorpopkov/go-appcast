@@ -49,7 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 methods chain
 - Extendable `Source` with `Sourcer` interface for creating use-case specific
 sources
-- Field `Appcast.source` to hold the source specific data instead of the removed
+- Field `Appcast.source` to hold the source-specific data instead of the removed
 `Appcast` fields
 - Function `GuessProviderByContent` for the `[]byte` type similar to the
 deprecated `GuessProviderFromContent`
@@ -101,7 +101,7 @@ methods chain
 
 ### Removed
 
-- Source specific `Appcast` fields in favour of `Appcast.source` field
+- Source-specific `Appcast` fields in favour of `Appcast.source` field
 
 ### Fixed
 
