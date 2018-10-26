@@ -3,6 +3,8 @@ package appcast
 import (
 	"encoding/xml"
 	"fmt"
+
+	"go-appcast/release"
 )
 
 // SourceForgeRSSFeedAppcaster is the interface that wraps the
@@ -57,7 +59,7 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 
 	xml.Unmarshal(a.source.Content(), &x)
 
-	items := make([]Releaser, len(x.Items))
+	items := make([]release.Releaser, len(x.Items))
 	for i, item := range x.Items {
 		// extract version
 		versions, err := ExtractSemanticVersions(item.Title.Chardata)
@@ -66,7 +68,7 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// new release
-		r, _ := NewRelease(versions[0], "")
+		r, _ := release.NewRelease(versions[0], "")
 
 		r.SetTitle(item.Title.Chardata)
 		r.SetDescription(item.Description.Chardata)
@@ -78,7 +80,7 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// downloads
-		d := NewDownload(item.Content.URL, item.Content.Type, item.Content.Filesize)
+		d := release.NewDownload(item.Content.URL, item.Content.Type, item.Content.Filesize)
 		r.AddDownload(*d)
 
 		// add release

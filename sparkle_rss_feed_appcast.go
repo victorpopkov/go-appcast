@@ -4,6 +4,8 @@ import (
 	"encoding/xml"
 	"fmt"
 	"regexp"
+
+	"go-appcast/release"
 )
 
 // SparkleRSSFeedAppcaster is the interface that wraps the SparkleRSSFeedAppcast
@@ -84,7 +86,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		Language:    x.Channel.Language,
 	}
 
-	items := make([]Releaser, len(x.Channel.Items))
+	items := make([]release.Releaser, len(x.Channel.Items))
 	for i, item := range x.Channel.Items {
 		if item.Enclosure.ShortVersionString == "" && item.ShortVersionString != "" {
 			version = item.ShortVersionString
@@ -105,7 +107,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// new release
-		r, err := NewRelease(version, build)
+		r, err := release.NewRelease(version, build)
 		if err != nil {
 			return nil, err
 		}
@@ -120,7 +122,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// downloads
-		d := NewDownload(item.Enclosure.URL, item.Enclosure.Type, item.Enclosure.Length)
+		d := release.NewDownload(item.Enclosure.URL, item.Enclosure.Type, item.Enclosure.Length)
 		r.AddDownload(*d)
 
 		items[i] = r

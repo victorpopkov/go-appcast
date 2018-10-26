@@ -1,4 +1,4 @@
-package appcast
+package release
 
 // Download holds a single release download data.
 type Download struct {

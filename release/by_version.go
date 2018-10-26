@@ -1,4 +1,4 @@
-package appcast
+package release
 
 // ByVersion implements sort.Interface for the []Releaser based Version field.
 type ByVersion []Releaser

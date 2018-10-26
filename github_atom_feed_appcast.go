@@ -3,6 +3,8 @@ package appcast
 import (
 	"encoding/xml"
 	"regexp"
+
+	"go-appcast/release"
 )
 
 // GitHubAtomFeedAppcaster is the interface that wraps the
@@ -40,7 +42,7 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 
 	xml.Unmarshal(a.source.Content(), &x)
 
-	items := make([]Releaser, len(x.Entries))
+	items := make([]release.Releaser, len(x.Entries))
 	for i, entry := range x.Entries {
 		version := ""
 
@@ -56,7 +58,7 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// new release
-		r, err := NewRelease(version, "")
+		r, err := release.NewRelease(version, "")
 		if err != nil {
 			return nil, err
 		}

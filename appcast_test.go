@@ -8,11 +8,13 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
-	"regexp"
+
+	"go-appcast/release"
 )
 
 var testdataPath = "./testdata/"
@@ -752,7 +754,7 @@ func TestAppcast_SetReleases(t *testing.T) {
 	assert.Nil(t, a.originalReleases)
 
 	// test
-	a.SetReleases([]Releaser{&Release{}})
+	a.SetReleases([]release.Releaser{&release.Release{}})
 	assert.Len(t, a.releases, 1)
 }
 
@@ -776,6 +778,6 @@ func TestAppcast_SetOriginalReleases(t *testing.T) {
 	assert.Nil(t, a.originalReleases)
 
 	// test
-	a.SetOriginalReleases([]Releaser{&Release{}})
+	a.SetOriginalReleases([]release.Releaser{&release.Release{}})
 	assert.Len(t, a.originalReleases, 1)
 }

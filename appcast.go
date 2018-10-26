@@ -12,6 +12,8 @@ import (
 	"fmt"
 	"regexp"
 	"sort"
+
+	"go-appcast/release"
 )
 
 // Appcaster is the interface that wraps the Appcast methods.
@@ -32,11 +34,11 @@ type Appcaster interface {
 	SetSource(src Sourcer)
 	Output() Outputer
 	SetOutput(src Outputer)
-	Releases() []Releaser
-	SetReleases(releases []Releaser)
-	FirstRelease() Releaser
-	OriginalReleases() []Releaser
-	SetOriginalReleases(originalReleases []Releaser)
+	Releases() []release.Releaser
+	SetReleases(releases []release.Releaser)
+	FirstRelease() release.Releaser
+	OriginalReleases() []release.Releaser
+	SetOriginalReleases(originalReleases []release.Releaser)
 }
 
 // Appcast represents the appcast itself and should be inherited by
@@ -61,12 +63,12 @@ type Appcast struct {
 
 	// releases specify a slice of all application releases. All filtered
 	// releases are stored here.
-	releases []Releaser
+	releases []release.Releaser
 
 	// originalReleases specify a slice holding a copy of the Appcast.releases.
 	// It is used to restore the Appcast.releases using the Appcast.ResetFilters
 	// method.
-	originalReleases []Releaser
+	originalReleases []release.Releaser
 }
 
 // Sort holds different supported sorting behaviours.
@@ -224,16 +226,16 @@ func (a *Appcast) Uncomment() error {
 // useful if the versions order in the content is inconsistent.
 func (a *Appcast) SortReleasesByVersions(s Sort) {
 	if s == ASC {
-		sort.Sort(ByVersion(a.releases))
+		sort.Sort(release.ByVersion(a.releases))
 	} else if s == DESC {
-		sort.Sort(sort.Reverse(ByVersion(a.releases)))
+		sort.Sort(sort.Reverse(release.ByVersion(a.releases)))
 	}
 }
 
 // filterReleasesBy filters all Appcast.releases using the passed function. If
 // inverse is set to true, the unmatched releases will be used instead.
-func (a *Appcast) filterReleasesBy(f func(r Releaser) bool, inverse bool) {
-	var result []Releaser
+func (a *Appcast) filterReleasesBy(f func(r release.Releaser) bool, inverse bool) {
+	var result []release.Releaser
 
 	for _, release := range a.releases {
 		if inverse == false && f(release) {
@@ -253,8 +255,8 @@ func (a *Appcast) filterReleasesBy(f func(r Releaser) bool, inverse bool) {
 // filterReleasesDownloadsBy filters all Downloads for Appcast.releases using
 // the passed function. If inverse is set to true, the unmatched releases will
 // be used instead.
-func (a *Appcast) filterReleasesDownloadsBy(f func(d Download) bool, inverse bool) {
-	var result []Releaser
+func (a *Appcast) filterReleasesDownloadsBy(f func(d release.Download) bool, inverse bool) {
+	var result []release.Releaser
 
 	for _, release := range a.releases {
 		for _, download := range release.Downloads() {
@@ -282,7 +284,7 @@ func (a *Appcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{
 		inverse = inversed[0].(bool)
 	}
 
-	a.filterReleasesBy(func(r Releaser) bool {
+	a.filterReleasesBy(func(r release.Releaser) bool {
 		re := regexp.MustCompile(regexpStr)
 		if re.MatchString(r.Title()) {
 			return true
@@ -300,7 +302,7 @@ func (a *Appcast) FilterReleasesByMediaType(regexpStr string, inversed ...interf
 		inverse = inversed[0].(bool)
 	}
 
-	a.filterReleasesDownloadsBy(func(d Download) bool {
+	a.filterReleasesDownloadsBy(func(d release.Download) bool {
 		re := regexp.MustCompile(regexpStr)
 		if re.MatchString(d.Type) {
 			return true
@@ -318,7 +320,7 @@ func (a *Appcast) FilterReleasesByURL(regexpStr string, inversed ...interface{})
 		inverse = inversed[0].(bool)
 	}
 
-	a.filterReleasesDownloadsBy(func(d Download) bool {
+	a.filterReleasesDownloadsBy(func(d release.Download) bool {
 		re := regexp.MustCompile(regexpStr)
 		if re.MatchString(d.URL) {
 			return true
@@ -336,7 +338,7 @@ func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 		inverse = inversed[0].(bool)
 	}
 
-	a.filterReleasesBy(func(r Releaser) bool {
+	a.filterReleasesBy(func(r release.Releaser) bool {
 		if r.IsPreRelease() == true {
 			return true
 		}
@@ -389,27 +391,27 @@ func (a *Appcast) SetOutput(output Outputer) {
 }
 
 // Releases is an Appcast.releases getter.
-func (a *Appcast) Releases() []Releaser {
+func (a *Appcast) Releases() []release.Releaser {
 	return a.releases
 }
 
 // SetReleases is an Appcast.releases setter.
-func (a *Appcast) SetReleases(releases []Releaser) {
+func (a *Appcast) SetReleases(releases []release.Releaser) {
 	a.releases = releases
 }
 
 // FirstRelease is a convenience method to get the first release pointer from
 // the Appcast.releases slice.
-func (a *Appcast) FirstRelease() Releaser {
+func (a *Appcast) FirstRelease() release.Releaser {
 	return a.releases[0]
 }
 
 // OriginalReleases is an Appcast.originalReleases getter.
-func (a *Appcast) OriginalReleases() []Releaser {
+func (a *Appcast) OriginalReleases() []release.Releaser {
 	return a.originalReleases
 }
 
 // SetOriginalReleases is an Appcast.originalReleases setter.
-func (a *Appcast) SetOriginalReleases(originalReleases []Releaser) {
+func (a *Appcast) SetOriginalReleases(originalReleases []release.Releaser) {
 	a.originalReleases = originalReleases
 }

@@ -1,4 +1,4 @@
-package appcast
+package release
 
 import (
 	"testing"
