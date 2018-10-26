@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"encoding/hex"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewChecksum(t *testing.T) {
