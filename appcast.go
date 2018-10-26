@@ -13,7 +13,7 @@ import (
 	"regexp"
 	"sort"
 
-	"go-appcast/release"
+	"github.com/victorpopkov/go-appcast/release"
 )
 
 // Appcaster is the interface that wraps the Appcast methods.

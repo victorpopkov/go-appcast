@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 	"regexp"
 
-	"go-appcast/release"
+	"github.com/victorpopkov/go-appcast/release"
 )
 
 // GitHubAtomFeedAppcaster is the interface that wraps the

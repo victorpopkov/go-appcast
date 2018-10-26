@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"regexp"
 
-	"go-appcast/release"
+	"github.com/victorpopkov/go-appcast/release"
 )
 
 // SparkleRSSFeedAppcaster is the interface that wraps the SparkleRSSFeedAppcast

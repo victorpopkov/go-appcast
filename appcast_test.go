@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
-	"go-appcast/release"
+	"github.com/victorpopkov/go-appcast/release"
 )
 
 var testdataPath = "./testdata/"

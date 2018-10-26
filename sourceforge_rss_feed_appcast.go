@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	"go-appcast/release"
+	"github.com/victorpopkov/go-appcast/release"
 )
 
 // SourceForgeRSSFeedAppcaster is the interface that wraps the
