@@ -11,12 +11,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Extendable `Output` with `Outputer` interface for creating use-case specific outputs
+- Extendable `Output` with `Outputer` interface for creating use-case specific
+outputs
 - Field `Output.appcast` to hold the provider-specific appcast after marshalling
-- Field `Source.appcast` to hold the provider-specific appcast after unmarshalling
-- Source `LocalOutput` with `LocalOutputer` interface to save an appcast to the local file by path
-- Struct `PublishedDateTime` to use as the `Release.publishedDateTime` type in the `release` package
-- Unmarshalling support for the "Sparkle RSS Feed" channel as the `SparkleRSSFeedAppcast.channel`
+- Field `Source.appcast` to hold the provider-specific appcast after
+unmarshalling
+- Source `LocalOutput` with `LocalOutputer` interface to save an appcast to the
+local file by path
+- Struct `PublishedDateTime` to use as the `Release.publishedDateTime` type in
+the `release` package
+- Unmarshalling support for the "Sparkle RSS Feed" channel as the
+`SparkleRSSFeedAppcast.channel`
 
 ### Changed
 
@@ -24,12 +29,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Dependencies versions to match the latest ones
 - Field `Release.publishedDateTime` type to become the new `PublishedDateTime`
 - Function `NewRelease` to become `New` in the `release` package
-- Method `Appcast.LoadFromLocalSource` to also return the provider-specific appcast
-- Method `Appcast.LoadFromRemoteSource` to also return the provider-specific appcast
-- Method `Appcast.UnmarshalReleases` to also return the provider-specific appcast
-- Method `GitHubAtomFeedAppcast.UnmarshalReleases` to also return the provider-specific appcast
-- Method `SourceForgeRSSFeedAppcast.UnmarshalReleases` to also return the provider-specific appcast
-- Method `SparkleRSSFeedAppcast.UnmarshalReleases` to also return the provider-specific appcast
+- Method `Appcast.LoadFromLocalSource` to also return the provider-specific
+appcast
+- Method `Appcast.LoadFromRemoteSource` to also return the provider-specific
+appcast
+- Method `Appcast.UnmarshalReleases` to also return the provider-specific
+appcast
+- Method `GitHubAtomFeedAppcast.UnmarshalReleases` to also return the
+provider-specific appcast
+- Method `SourceForgeRSSFeedAppcast.UnmarshalReleases` to also return the
+provider-specific appcast
+- Method `SparkleRSSFeedAppcast.UnmarshalReleases` to also return the
+provider-specific appcast
 - Release to store the original time and format in the `Release.publishedDateTime`
 - Release-specific stuff to be in the separate `release` package
 - Testdata published releases dates to match the real ones in the past
