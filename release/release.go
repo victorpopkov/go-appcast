@@ -61,10 +61,10 @@ type Release struct {
 	isPreRelease bool
 }
 
-// NewRelease returns a new Release instance pointer. Requires both version and
-// build strings. By default, Release.IsPrerelease is set to false, so the
-// release will be considered as stable.
-func NewRelease(version string, build string) (*Release, error) {
+// New returns a new Release instance pointer. Requires both version and build
+// strings. By default, Release.IsPrerelease is set to false, so the release
+// will be considered as stable.
+func New(version string, build string) (*Release, error) {
 	r := &Release{
 		isPreRelease: false,
 	}

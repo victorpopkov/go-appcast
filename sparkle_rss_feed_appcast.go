@@ -107,7 +107,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// new release
-		r, err := release.NewRelease(version, build)
+		r, err := release.New(version, build)
 		if err != nil {
 			return nil, err
 		}

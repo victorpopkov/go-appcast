@@ -14,14 +14,14 @@ func TestNewRelease(t *testing.T) {
 	b := "1000"
 
 	// test (successful)
-	r, err := NewRelease(v, b)
+	r, err := New(v, b)
 	assert.Nil(t, err)
 	assert.IsType(t, Release{}, *r)
 	assert.Equal(t, v, r.version.String())
 	assert.Equal(t, b, r.build)
 
 	// test (error)
-	r, err = NewRelease("invalid", b)
+	r, err = New("invalid", b)
 	assert.Error(t, err)
 	assert.Nil(t, r)
 }

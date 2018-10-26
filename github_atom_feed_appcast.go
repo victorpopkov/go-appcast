@@ -58,7 +58,7 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// new release
-		r, err := release.NewRelease(version, "")
+		r, err := release.New(version, "")
 		if err != nil {
 			return nil, err
 		}

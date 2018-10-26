@@ -68,7 +68,7 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// new release
-		r, _ := release.NewRelease(versions[0], "")
+		r, _ := release.New(versions[0], "")
 
 		r.SetTitle(item.Title.Chardata)
 		r.SetDescription(item.Description.Chardata)

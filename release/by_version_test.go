@@ -14,7 +14,7 @@ func createTestByVersionReleases() (result []Releaser) {
 	}
 
 	for _, release := range testReleases {
-		r, _ := NewRelease(release[0], release[1])
+		r, _ := New(release[0], release[1])
 		result = append(result, r)
 	}
 
