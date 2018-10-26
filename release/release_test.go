@@ -183,11 +183,19 @@ func TestRelease_ParsePublishedDateTime(t *testing.T) {
 		"Monday, January 12th, 2010 23:30:00 GMT-5": "2010-01-12 23:30:00 +0000 UTC",
 	}
 
+	// test (successful)
 	for dateTime, expected := range testCases {
 		r := new(Release)
-		r.ParsePublishedDateTime(dateTime)
+		err := r.ParsePublishedDateTime(dateTime)
+		assert.Nil(t, err)
 		assert.Equal(t, expected, r.publishedDateTime.String())
 	}
+
+	// test (error)
+	r := new(Release)
+	err := r.ParsePublishedDateTime("invalid")
+	assert.Error(t, err)
+	assert.EqualError(t, err, "parsing of the published datetime failed")
 }
 
 func TestRelease_PublishedDateTime(t *testing.T) {
