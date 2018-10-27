@@ -23,7 +23,7 @@ func newTestPublishedDateTime() *PublishedDateTime {
 
 }
 
-func TestPublishedDateTime_NewPublishedDateTime(t *testing.T) {
+func TestNewPublishedDateTime(t *testing.T) {
 	// preparations
 	now := time.Now()
 	d := NewPublishedDateTime(now)

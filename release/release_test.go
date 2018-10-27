@@ -30,7 +30,7 @@ func newTestRelease() *Release {
 	}
 }
 
-func TestNewRelease(t *testing.T) {
+func TestNew(t *testing.T) {
 	// preparations
 	v := "1.0.0"
 	b := "1000"
