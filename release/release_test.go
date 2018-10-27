@@ -15,12 +15,13 @@ func newTestRelease() *Release {
 	t, _ := time.Parse(time.RFC1123Z, "Fri, 13 May 2016 12:00:00 +0200")
 
 	return &Release{
-		version:           v,
-		build:             "1000",
-		title:             "Test",
-		description:       "Test",
-		publishedDateTime: NewPublishedDateTime(t),
-		releaseNotesLink:  "https://example.com/changelogs/1.0.0.html",
+		version:              v,
+		build:                "1000",
+		title:                "Test",
+		description:          "Test",
+		publishedDateTime:    NewPublishedDateTime(t),
+		releaseNotesLink:     "https://example.com/changelogs/1.0.0.html",
+		minimumSystemVersion: "10.9",
 		downloads: []Download{
 			*NewDownload("https://example.com/1.0.0/one.dmg", "application/octet-stream", 100000),
 			*NewDownload("https://example.com/1.0.0/two.dmg", "application/octet-stream", 100000),
@@ -153,6 +154,17 @@ func TestRelease_SetReleaseNotesLink(t *testing.T) {
 	r := newTestRelease()
 	r.SetReleaseNotesLink("test")
 	assert.Equal(t, "test", r.releaseNotesLink)
+}
+
+func TestRelease_MinimumSystemVersion(t *testing.T) {
+	r := newTestRelease()
+	assert.Equal(t, r.minimumSystemVersion, r.MinimumSystemVersion())
+}
+
+func TestRelease_SetMinimumSystemVersion(t *testing.T) {
+	r := newTestRelease()
+	r.SetMinimumSystemVersion("10.13.6")
+	assert.Equal(t, "10.13.6", r.minimumSystemVersion)
 }
 
 func TestRelease_AddDownload(t *testing.T) {
