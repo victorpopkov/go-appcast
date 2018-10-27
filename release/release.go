@@ -15,11 +15,13 @@ type Releaser interface {
 	SetTitle(title string)
 	Description() string
 	SetDescription(description string)
+	PublishedDateTime() *PublishedDateTime
+	SetPublishedDateTime(publishedDateTime *PublishedDateTime)
+	ReleaseNotesLink() string
+	SetReleaseNotesLink(releaseNotesLink string)
 	AddDownload(d Download)
 	Downloads() []Download
 	SetDownloads(downloads []Download)
-	PublishedDateTime() *PublishedDateTime
-	SetPublishedDateTime(publishedDateTime *PublishedDateTime)
 	IsPreRelease() bool
 	SetIsPreRelease(isPreRelease bool)
 }
@@ -39,12 +41,15 @@ type Release struct {
 	// description specifies a release description.
 	description string
 
+	// publishedDateTime specifies the release published date and time.
+	publishedDateTime *PublishedDateTime
+
+	// releaseNotesLink specifies a link to the release notes.
+	releaseNotesLink string
+
 	// downloads specifies a slice of Download structs which represents a list
 	// of all current release downloads.
 	downloads []Download
-
-	// publishedDateTime specifies the release published data and time.
-	publishedDateTime *PublishedDateTime
 
 	// isPreRelease specifies whether a release is not stable.
 	//
@@ -140,6 +145,26 @@ func (r *Release) SetDescription(description string) {
 	r.description = description
 }
 
+// PublishedDateTime is a Release.publishedDateTime getter.
+func (r *Release) PublishedDateTime() *PublishedDateTime {
+	return r.publishedDateTime
+}
+
+// SetPublishedDateTime is a Release.publishedDateTime setter.
+func (r *Release) SetPublishedDateTime(publishedDateTime *PublishedDateTime) {
+	r.publishedDateTime = publishedDateTime
+}
+
+// ReleaseNotesLink is a Release.releaseNotesLink getter.
+func (r *Release) ReleaseNotesLink() string {
+	return r.releaseNotesLink
+}
+
+// SetReleaseNotesLink is a Release.releaseNotesLink setter.
+func (r *Release) SetReleaseNotesLink(releaseNotesLink string) {
+	r.releaseNotesLink = releaseNotesLink
+}
+
 // AddDownload appends the provided Download to the Release.downloads slice.
 func (r *Release) AddDownload(d Download) {
 	r.downloads = append(r.downloads, d)
@@ -153,16 +178,6 @@ func (r *Release) Downloads() []Download {
 // SetDownloads is a Release.downloads setter.
 func (r *Release) SetDownloads(downloads []Download) {
 	r.downloads = downloads
-}
-
-// PublishedDateTime is a Release.publishedDateTime getter.
-func (r *Release) PublishedDateTime() *PublishedDateTime {
-	return r.publishedDateTime
-}
-
-// SetPublishedDateTime is a Release.publishedDateTime setter.
-func (r *Release) SetPublishedDateTime(publishedDateTime *PublishedDateTime) {
-	r.publishedDateTime = publishedDateTime
 }
 
 // IsPreRelease is a Release.isPreRelease getter.
