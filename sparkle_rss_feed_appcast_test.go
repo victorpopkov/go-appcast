@@ -3,9 +3,9 @@ package appcast
 import (
 	"fmt"
 	"testing"
+	"regexp"
 
 	"github.com/stretchr/testify/assert"
-	"regexp"
 )
 
 // newTestSparkleRSSFeedAppcast creates a new SparkleRSSFeedAppcast instance for

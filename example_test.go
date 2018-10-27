@@ -2,8 +2,9 @@ package appcast
 
 import (
 	"fmt"
-	"gopkg.in/jarcoal/httpmock.v1"
 	"reflect"
+
+	"gopkg.in/jarcoal/httpmock.v1"
 )
 
 // Demonstrates the "Sparkle RSS Feed" appcast loading.

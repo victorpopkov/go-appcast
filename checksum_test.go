@@ -1,10 +1,10 @@
 package appcast
 
 import (
+	"encoding/hex"
 	"fmt"
 	"testing"
 
-	"encoding/hex"
 	"github.com/stretchr/testify/assert"
 )
 

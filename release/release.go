@@ -1,9 +1,7 @@
 // Package release provides functionality for appcast releases.
 package release
 
-import (
-	"github.com/hashicorp/go-version"
-)
+import "github.com/hashicorp/go-version"
 
 // Releaser is the interface that wraps the Release methods.
 type Releaser interface {

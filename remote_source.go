@@ -1,8 +1,6 @@
 package appcast
 
-import (
-	"io/ioutil"
-)
+import "io/ioutil"
 
 // RemoteSourcer is the interface that wraps the RemoteSource methods.
 type RemoteSourcer interface {

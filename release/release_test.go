@@ -2,10 +2,10 @@ package release
 
 import (
 	"testing"
+	"time"
 
 	"github.com/hashicorp/go-version"
 	"github.com/stretchr/testify/assert"
-	"time"
 )
 
 func TestNewRelease(t *testing.T) {

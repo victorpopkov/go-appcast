@@ -2,8 +2,9 @@ package appcast
 
 import (
 	"encoding/hex"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // newTestOutput creates a new Output instance for testing purposes and returns
