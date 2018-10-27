@@ -27,12 +27,14 @@ func Example_sparkleRSSFeedAppcast() {
 
 	release := a.Releases()[0]
 	fmt.Printf("First release details:\n\n")
-	fmt.Printf("%12s %s\n", "Version:", release.Version())
-	fmt.Printf("%12s %s\n", "Build:", release.Build())
-	fmt.Printf("%12s %s\n", "Title:", release.Title())
-	fmt.Printf("%12s %v\n", "Downloads:", release.Downloads())
-	fmt.Printf("%12s %v\n", "Published:", release.PublishedDateTime())
-	fmt.Printf("%12s %v\n", "Pre-release:", release.IsPreRelease())
+	fmt.Printf("%23s %s\n", "Version:", release.Version())
+	fmt.Printf("%23s %s\n", "Build:", release.Build())
+	fmt.Printf("%23s %s\n", "Title:", release.Title())
+	fmt.Printf("%23s %v\n", "Published:", release.PublishedDateTime())
+	fmt.Printf("%23s %v\n", "Release notes:", release.ReleaseNotesLink())
+	fmt.Printf("%23s %v\n", "Minimum system version:", release.MinimumSystemVersion())
+	fmt.Printf("%23s %v\n", "Downloads:", release.Downloads())
+	fmt.Printf("%23s %v\n", "Pre-release:", release.IsPreRelease())
 
 	// Output:
 	// Type:     *appcast.SparkleRSSFeedAppcast
@@ -42,12 +44,14 @@ func Example_sparkleRSSFeedAppcast() {
 	//
 	// First release details:
 	//
-	//     Version: 1.5.10.4
-	//       Build: 1.5.10.4
-	//       Title: Adium 1.5.10.4
-	//   Downloads: [{https://adiumx.cachefly.net/Adium_1.5.10.4.dmg application/octet-stream 21140435}]
-	//   Published: Sun, 14 May 2017 05:04:01 -0700
-	// Pre-release: false
+	//                Version: 1.5.10.4
+	//                  Build: 1.5.10.4
+	//                  Title: Adium 1.5.10.4
+	//              Published: Sun, 14 May 2017 05:04:01 -0700
+	//          Release notes: https://www.adium.im/changelogs/1.5.10.4.html
+	// Minimum system version: 10.7.5
+	//              Downloads: [{https://adiumx.cachefly.net/Adium_1.5.10.4.dmg application/octet-stream 21140435}]
+	//            Pre-release: false
 }
 
 // Demonstrates the "SourceForge RSS Feed" appcast loading.
@@ -77,8 +81,8 @@ func Example_sourceForgeRSSFeedAppcast() {
 	fmt.Printf("First release details:\n\n")
 	fmt.Printf("%12s %s\n", "Version:", release.Version())
 	fmt.Printf("%12s %s\n", "Title:", release.Title())
-	fmt.Printf("%12s %v\n", "Downloads:", release.Downloads())
 	fmt.Printf("%12s %v\n", "Published:", release.PublishedDateTime())
+	fmt.Printf("%12s %v\n", "Downloads:", release.Downloads())
 	fmt.Printf("%12s %v\n", "Pre-release:", release.IsPreRelease())
 
 	// Output:
@@ -91,8 +95,8 @@ func Example_sourceForgeRSSFeedAppcast() {
 	//
 	//     Version: 3.25.2
 	//       Title: /FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2
-	//   Downloads: [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8453714}]
 	//   Published: Sun, 30 Apr 2017 12:07:25 UTC
+	//   Downloads: [{https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2/download application/x-bzip2; charset=binary 8453714}]
 	// Pre-release: false
 }
 
@@ -117,8 +121,8 @@ func Example_gitHubAtomFeedAppcast() {
 	fmt.Printf("First release details:\n\n")
 	fmt.Printf("%12s %s\n", "Version:", release.Version())
 	fmt.Printf("%12s %s\n", "Title:", release.Title())
-	fmt.Printf("%12s %v\n", "Downloads:", release.Downloads())
 	fmt.Printf("%12s %v\n", "Published:", release.PublishedDateTime())
+	fmt.Printf("%12s %v\n", "Downloads:", release.Downloads())
 	fmt.Printf("%12s %v\n", "Pre-release:", release.IsPreRelease())
 
 	// Output:
@@ -131,8 +135,8 @@ func Example_gitHubAtomFeedAppcast() {
 	//
 	//     Version: 1.28.0-beta3
 	//       Title: 1.28.0-beta3
-	//   Downloads: []
 	//   Published: 2018-06-06T20:09:54+03:00
+	//   Downloads: []
 	// Pre-release: true
 }
 
