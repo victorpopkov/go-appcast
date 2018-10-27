@@ -19,13 +19,13 @@ type GitHubAtomFeedAppcast struct {
 	Appcast
 }
 
-// GitHubAtomFeedAppcastXML represents an Atom itself.
-type GitHubAtomFeedAppcastXML struct {
-	Entries []GitHubAtomFeedAppcastXMLEntry `xml:"entry"`
+// unmarshalGitHubAtomFeed represents an Atom itself.
+type unmarshalGitHubAtomFeed struct {
+	Entries []unmarshalGitHubAtomFeedEntry `xml:"entry"`
 }
 
-// GitHubAtomFeedAppcastXMLEntry represents an Atom entry.
-type GitHubAtomFeedAppcastXMLEntry struct {
+// unmarshalGitHubAtomFeedEntry represents an Atom entry.
+type unmarshalGitHubAtomFeedEntry struct {
 	ID      string `xml:"id"`
 	Updated string `xml:"updated"`
 	Title   string `xml:"title"`
@@ -38,7 +38,7 @@ type GitHubAtomFeedAppcastXMLEntry struct {
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
 func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
-	var x GitHubAtomFeedAppcastXML
+	var x unmarshalGitHubAtomFeed
 
 	xml.Unmarshal(a.source.Content(), &x)
 
