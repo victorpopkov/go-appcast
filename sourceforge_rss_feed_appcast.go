@@ -19,31 +19,31 @@ type SourceForgeRSSFeedAppcast struct {
 	Appcast
 }
 
-// SourceForgeRSSFeedXML represents an RSS itself.
-type SourceForgeRSSFeedXML struct {
-	Items []SourceForgeRSSFeedXMLItem `xml:"channel>item"`
+// unmarshalSourceForgeRSSFeed represents an RSS itself.
+type unmarshalSourceForgeRSSFeed struct {
+	Items []unmarshalSourceForgeRSSFeedItem `xml:"channel>item"`
 }
 
-// SourceForgeRSSFeedXMLItem represents an RSS item.
-type SourceForgeRSSFeedXMLItem struct {
-	Title       SourceForgeRSSFeedXMLTitle       `xml:"title"`
-	Description SourceForgeRSSFeedXMLDescription `xml:"description"`
-	Content     SourceForgeRSSFeedXMLContent     `xml:"content"`
-	PubDate     string                           `xml:"pubDate"`
+// unmarshalSourceForgeRSSFeedItem represents an RSS item.
+type unmarshalSourceForgeRSSFeedItem struct {
+	Title       unmarshalSourceForgeRSSFeedTitle       `xml:"title"`
+	Description unmarshalSourceForgeRSSFeedDescription `xml:"description"`
+	Content     unmarshalSourceForgeRSSFeedContent     `xml:"content"`
+	PubDate     string                                 `xml:"pubDate"`
 }
 
-// SourceForgeRSSFeedXMLTitle represents an RSS item title.
-type SourceForgeRSSFeedXMLTitle struct {
+// unmarshalSourceForgeRSSFeedTitle represents an RSS item title.
+type unmarshalSourceForgeRSSFeedTitle struct {
 	Chardata string `xml:",chardata"`
 }
 
-// SourceForgeRSSFeedXMLDescription represents an RSS item description.
-type SourceForgeRSSFeedXMLDescription struct {
+// unmarshalSourceForgeRSSFeedDescription represents an RSS item description.
+type unmarshalSourceForgeRSSFeedDescription struct {
 	Chardata string `xml:",chardata"`
 }
 
-// SourceForgeRSSFeedXMLContent represents an RSS item content.
-type SourceForgeRSSFeedXMLContent struct {
+// unmarshalSourceForgeRSSFeedContent represents an RSS item content.
+type unmarshalSourceForgeRSSFeedContent struct {
 	URL      string `xml:"url,attr"`
 	Type     string `xml:"type,attr"`
 	Filesize int    `xml:"filesize,attr"`
@@ -55,7 +55,7 @@ type SourceForgeRSSFeedXMLContent struct {
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
 func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
-	var x SourceForgeRSSFeedXML
+	var x unmarshalSourceForgeRSSFeed
 
 	xml.Unmarshal(a.source.Content(), &x)
 
