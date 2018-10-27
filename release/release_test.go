@@ -8,6 +8,27 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// newTestRelease creates a new Release instance for testing purposes and
+// returns its pointer.
+func newTestRelease() *Release {
+	v, _ := version.NewVersion("1.0.0")
+	t, _ := time.Parse(time.RFC1123Z, "Fri, 13 May 2016 12:00:00 +0200")
+
+	return &Release{
+		version:           v,
+		build:             "1000",
+		title:             "Test",
+		description:       "Test",
+		publishedDateTime: NewPublishedDateTime(t),
+		releaseNotesLink:  "https://example.com/changelogs/1.0.0.html",
+		downloads: []Download{
+			*NewDownload("https://example.com/1.0.0/one.dmg", "application/octet-stream", 100000),
+			*NewDownload("https://example.com/1.0.0/two.dmg", "application/octet-stream", 100000),
+		},
+		isPreRelease: false,
+	}
+}
+
 func TestNewRelease(t *testing.T) {
 	// preparations
 	v := "1.0.0"
@@ -42,20 +63,14 @@ func TestRelease_VersionOrBuildString(t *testing.T) {
 }
 
 func TestRelease_Version(t *testing.T) {
-	// preparations
-	r := new(Release)
-	r.SetVersionString("1.0.0")
-
-	// test
+	r := newTestRelease()
 	assert.Equal(t, r.version, r.Version())
 }
 
 func TestRelease_SetVersion(t *testing.T) {
 	// preparations
-	r := new(Release)
-	v, err := version.NewVersion("1.0.0")
-	assert.Nil(t, err)
-	assert.Nil(t, r.version)
+	r := newTestRelease()
+	v, _ := version.NewVersion("1.0.0")
 
 	// test
 	r.SetVersion(v)
@@ -64,148 +79,117 @@ func TestRelease_SetVersion(t *testing.T) {
 
 func TestRelease_SetVersionString(t *testing.T) {
 	// preparations
-	v := "1.0.0"
+	v := "1.0.1"
 
 	// test (successful)
-	r := new(Release)
-	assert.Nil(t, r.version)
+	r := newTestRelease()
+	assert.Equal(t, "1.0.0", r.version.String())
 	err := r.SetVersionString(v)
 	assert.Nil(t, err)
 	assert.Equal(t, v, r.version.String())
 
 	// test (error)
-	r = new(Release)
-	assert.Nil(t, r.version)
+	r = newTestRelease()
+	assert.Equal(t, "1.0.0", r.version.String())
 	err = r.SetVersionString("invalid")
 	assert.Error(t, err)
-	assert.Nil(t, r.version)
+	assert.Equal(t, "1.0.0", r.version.String())
 }
 
 func TestRelease_Build(t *testing.T) {
-	// preparations
-	r := new(Release)
-	r.build = "1000"
-
-	// test
+	r := newTestRelease()
 	assert.Equal(t, r.build, r.Build())
 }
 
 func TestRelease_SetBuild(t *testing.T) {
-	// preparations
-	b := "1000"
-	r := new(Release)
-
-	// test
-	r.SetBuild(b)
-	assert.Equal(t, b, r.build)
+	r := newTestRelease()
+	r.SetBuild("1001")
+	assert.Equal(t, "1001", r.build)
 }
 
 func TestRelease_Title(t *testing.T) {
-	// preparations
-	r := new(Release)
-	r.title = "title"
-
-	// test
+	r := newTestRelease()
 	assert.Equal(t, r.title, r.Title())
 }
 
 func TestRelease_SetTitle(t *testing.T) {
-	// preparations
-	title := "title"
-	r := new(Release)
-
-	// test
-	r.SetTitle(title)
-	assert.Equal(t, title, r.title)
+	r := newTestRelease()
+	r.SetTitle("Title")
+	assert.Equal(t, "Title", r.title)
 }
 
 func TestRelease_Description(t *testing.T) {
-	// preparations
-	r := new(Release)
-	r.description = "description"
-
-	// test
+	r := newTestRelease()
 	assert.Equal(t, r.description, r.Description())
 }
 
 func TestRelease_SetDescription(t *testing.T) {
-	// preparations
-	d := "description"
-	r := new(Release)
-
-	// test
-	r.SetDescription(d)
-	assert.Equal(t, d, r.description)
-}
-
-func TestRelease_AddDownload(t *testing.T) {
-	// preparations
-	r := new(Release)
-	assert.Len(t, r.downloads, 0)
-
-	// test
-	r.AddDownload(*NewDownload("https://example.com/one.dmg", "application/octet-stream", 100000))
-	r.AddDownload(*NewDownload("https://example.com/two.dmg", "application/octet-stream", 100000))
-	assert.Len(t, r.downloads, 2)
-}
-
-func TestRelease_Downloads(t *testing.T) {
-	// preparations
-	r := new(Release)
-	r.AddDownload(*NewDownload("https://example.com/one.dmg", "application/octet-stream", 100000))
-	r.AddDownload(*NewDownload("https://example.com/two.dmg", "application/octet-stream", 100000))
-
-	// test
-	assert.Len(t, r.Downloads(), 2)
-}
-
-func TestRelease_SetDownloads(t *testing.T) {
-	// preparations
-	r := new(Release)
-	assert.Len(t, r.downloads, 0)
-
-	// test
-	r.SetDownloads([]Download{
-		*NewDownload("https://example.com/one.dmg", "application/octet-stream", 100000),
-		*NewDownload("https://example.com/two.dmg", "application/octet-stream", 100000),
-	})
-	assert.Len(t, r.downloads, 2)
+	r := newTestRelease()
+	r.SetDescription("Description")
+	assert.Equal(t, "Description", r.description)
 }
 
 func TestRelease_PublishedDateTime(t *testing.T) {
-	// preparations
-	now := time.Now()
-	r := new(Release)
-	r.publishedDateTime = NewPublishedDateTime(now)
-
-	// test
+	r := newTestRelease()
 	assert.Equal(t, r.publishedDateTime, r.PublishedDateTime())
 }
 
 func TestRelease_SetPublishedDateTime(t *testing.T) {
 	// preparations
 	now := time.Now()
-	r := new(Release)
+	r := newTestRelease()
 
 	// test
 	r.SetPublishedDateTime(NewPublishedDateTime(now))
 	assert.Equal(t, now.UTC(), r.publishedDateTime.time.UTC())
 }
 
-func TestRelease_IsPreRelease(t *testing.T) {
+func TestRelease_ReleaseNotesLink(t *testing.T) {
+	r := newTestRelease()
+	assert.Equal(t, r.releaseNotesLink, r.ReleaseNotesLink())
+}
+
+func TestRelease_SetReleaseNotesLink(t *testing.T) {
+	r := newTestRelease()
+	r.SetReleaseNotesLink("test")
+	assert.Equal(t, "test", r.releaseNotesLink)
+}
+
+func TestRelease_AddDownload(t *testing.T) {
 	// preparations
-	r := new(Release)
-	r.isPreRelease = true
+	r := newTestRelease()
 
 	// test
+	assert.Len(t, r.downloads, 2)
+	r.AddDownload(*NewDownload("https://example.com/1.0.0/three.dmg", "application/octet-stream", 100000))
+	r.AddDownload(*NewDownload("https://example.com/1.0.0/four.dmg", "application/octet-stream", 100000))
+	assert.Len(t, r.downloads, 4)
+}
+
+func TestRelease_Downloads(t *testing.T) {
+	r := newTestRelease()
+	assert.Equal(t, r.downloads, r.Downloads())
+}
+
+func TestRelease_SetDownloads(t *testing.T) {
+	// preparations
+	d := []Download{
+		*NewDownload("https://example.com/1.0.0/one.dmg", "application/octet-stream", 100000),
+	}
+
+	// test
+	r := newTestRelease()
+	r.SetDownloads(d)
+	assert.Equal(t, d, r.downloads)
+}
+
+func TestRelease_IsPreRelease(t *testing.T) {
+	r := newTestRelease()
 	assert.Equal(t, r.isPreRelease, r.IsPreRelease())
 }
 
 func TestRelease_SetIsPreRelease(t *testing.T) {
-	// preparations
-	r := new(Release)
-
-	// test
+	r := newTestRelease()
 	r.SetIsPreRelease(true)
 	assert.Equal(t, true, r.isPreRelease)
 }
