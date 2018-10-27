@@ -51,8 +51,9 @@ type unmarshalSparkleRSSFeedChannel struct {
 type unmarshalSparkleRSSFeedItem struct {
 	Title                string                           `xml:"title"`
 	Description          string                           `xml:"description"`
-	MinimumSystemVersion string                           `xml:"minimumSystemVersion"`
 	PubDate              string                           `xml:"pubDate"`
+	ReleaseNotesLink     string                           `xml:"releaseNotesLink"`
+	MinimumSystemVersion string                           `xml:"minimumSystemVersion"`
 	Enclosure            unmarshalSparkleRSSFeedEnclosure `xml:"enclosure"`
 	Version              string                           `xml:"version"`
 	ShortVersionString   string                           `xml:"shortVersionString"`
@@ -114,6 +115,8 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 
 		r.SetTitle(item.Title)
 		r.SetDescription(item.Description)
+		r.SetReleaseNotesLink(item.ReleaseNotesLink)
+		r.SetMinimumSystemVersion(item.MinimumSystemVersion)
 
 		// publishedDateTime
 		p := release.NewPublishedDateTime()
