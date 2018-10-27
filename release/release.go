@@ -19,6 +19,8 @@ type Releaser interface {
 	SetPublishedDateTime(publishedDateTime *PublishedDateTime)
 	ReleaseNotesLink() string
 	SetReleaseNotesLink(releaseNotesLink string)
+	MinimumSystemVersion() string
+	SetMinimumSystemVersion(minimumSystemVersion string)
 	AddDownload(d Download)
 	Downloads() []Download
 	SetDownloads(downloads []Download)
@@ -46,6 +48,10 @@ type Release struct {
 
 	// releaseNotesLink specifies a link to the release notes.
 	releaseNotesLink string
+
+	// minimumSystemVersion specifies the required system version for the
+	// current app release.
+	minimumSystemVersion string
 
 	// downloads specifies a slice of Download structs which represents a list
 	// of all current release downloads.
@@ -163,6 +169,16 @@ func (r *Release) ReleaseNotesLink() string {
 // SetReleaseNotesLink is a Release.releaseNotesLink setter.
 func (r *Release) SetReleaseNotesLink(releaseNotesLink string) {
 	r.releaseNotesLink = releaseNotesLink
+}
+
+// MinimumSystemVersion is a Release.minimumSystemVersion getter.
+func (r *Release) MinimumSystemVersion() string {
+	return r.minimumSystemVersion
+}
+
+// SetMinimumSystemVersion is a Release.minimumSystemVersion setter.
+func (r *Release) SetMinimumSystemVersion(minimumSystemVersion string) {
+	r.minimumSystemVersion = minimumSystemVersion
 }
 
 // AddDownload appends the provided Download to the Release.downloads slice.
