@@ -79,9 +79,9 @@ func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 			assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), release.Title())
 			assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), release.Description())
 			assert.Equal(t, releases[v][0], release.PublishedDateTime().String())
-			assert.Equal(t, releases[v][1], release.Downloads()[0].URL)
-			assert.Equal(t, "application/octet-stream", release.Downloads()[0].Type)
-			assert.Equal(t, 100000, release.Downloads()[0].Length)
+			assert.Equal(t, releases[v][1], release.Downloads()[0].Url())
+			assert.Equal(t, "application/octet-stream", release.Downloads()[0].Filetype())
+			assert.Equal(t, 100000, release.Downloads()[0].Length())
 		}
 	}
 

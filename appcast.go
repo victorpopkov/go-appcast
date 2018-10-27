@@ -237,14 +237,14 @@ func (a *Appcast) SortReleasesByVersions(s Sort) {
 func (a *Appcast) filterReleasesBy(f func(r release.Releaser) bool, inverse bool) {
 	var result []release.Releaser
 
-	for _, release := range a.releases {
-		if inverse == false && f(release) {
-			result = append(result, release)
+	for _, r := range a.releases {
+		if inverse == false && f(r) {
+			result = append(result, r)
 			continue
 		}
 
-		if inverse == true && !f(release) {
-			result = append(result, release)
+		if inverse == true && !f(r) {
+			result = append(result, r)
 			continue
 		}
 	}
@@ -258,15 +258,15 @@ func (a *Appcast) filterReleasesBy(f func(r release.Releaser) bool, inverse bool
 func (a *Appcast) filterReleasesDownloadsBy(f func(d release.Download) bool, inverse bool) {
 	var result []release.Releaser
 
-	for _, release := range a.releases {
-		for _, download := range release.Downloads() {
+	for _, r := range a.releases {
+		for _, download := range r.Downloads() {
 			if inverse == false && f(download) {
-				result = append(result, release)
+				result = append(result, r)
 				continue
 			}
 
 			if inverse == true && !f(download) {
-				result = append(result, release)
+				result = append(result, r)
 				continue
 			}
 		}
@@ -304,7 +304,7 @@ func (a *Appcast) FilterReleasesByMediaType(regexpStr string, inversed ...interf
 
 	a.filterReleasesDownloadsBy(func(d release.Download) bool {
 		re := regexp.MustCompile(regexpStr)
-		if re.MatchString(d.Type) {
+		if re.MatchString(d.Filetype()) {
 			return true
 		}
 		return false
@@ -322,7 +322,7 @@ func (a *Appcast) FilterReleasesByURL(regexpStr string, inversed ...interface{})
 
 	a.filterReleasesDownloadsBy(func(d release.Download) bool {
 		re := regexp.MustCompile(regexpStr)
-		if re.MatchString(d.URL) {
+		if re.MatchString(d.Url()) {
 			return true
 		}
 		return false
