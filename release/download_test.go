@@ -14,16 +14,25 @@ func newTestDownload() *Download {
 		filetype:     "application/octet-stream",
 		length:       100000,
 		dsaSignature: "MC4CFQCeqQ/MxlFt2H3rQfCPimChDPibCgIVAJhZmHcU8ZHylc7EjvbkVr3ardLp",
+		md5:          "098f6bcd4621d373cade4e832627b4f6",
 	}
 }
 
 func TestNewDownload(t *testing.T) {
-	d := NewDownload("https://example.com/1.0.0/app.dmg", "application/octet-stream", 100000, "test")
+	d := NewDownload(
+		"https://example.com/1.0.0/app.dmg",
+		"application/octet-stream",
+		100000,
+		"MC4CFQCeqQ/MxlFt2H3rQfCPimChDPibCgIVAJhZmHcU8ZHylc7EjvbkVr3ardLp",
+		"098f6bcd4621d373cade4e832627b4f6",
+	)
+
 	assert.IsType(t, Download{}, *d)
 	assert.Equal(t, "https://example.com/1.0.0/app.dmg", d.url)
 	assert.Equal(t, "application/octet-stream", d.filetype)
 	assert.Equal(t, 100000, d.length)
-	assert.Equal(t, "test", d.dsaSignature)
+	assert.Equal(t, "MC4CFQCeqQ/MxlFt2H3rQfCPimChDPibCgIVAJhZmHcU8ZHylc7EjvbkVr3ardLp", d.dsaSignature)
+	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", d.md5)
 }
 
 func TestDownload_Url(t *testing.T) {
@@ -68,4 +77,15 @@ func TestDownload_SetDsaSignature(t *testing.T) {
 	d := newTestDownload()
 	d.SetDsaSignature("test")
 	assert.Equal(t, "test", d.dsaSignature)
+}
+
+func TestDownload_Md5(t *testing.T) {
+	d := newTestDownload()
+	assert.Equal(t, d.md5, d.Md5())
+}
+
+func TestDownload_SetMd5(t *testing.T) {
+	d := newTestDownload()
+	d.SetMd5("test")
+	assert.Equal(t, "test", d.md5)
 }
