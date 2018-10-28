@@ -8,6 +8,8 @@ type Downloader interface {
 	SetFiletype(filetype string)
 	Length() int
 	SetLength(length int)
+	DsaSignature() string
+	SetDsaSignature(dsaSignature string)
 }
 
 // Download holds a single release download data.
@@ -20,11 +22,14 @@ type Download struct {
 
 	// length specifies a request length.
 	length int
+
+	// dsaSignature specifies a file DSA signature value.
+	dsaSignature string
 }
 
 // NewDownload returns a new Download instance pointer. Requires an url to be
 // passed as a parameter. Optionally, the filetype can be passed as a second
-// parameter and the length as a third one.
+// parameter, the length as a third one and the dsaSignature as a fourth.
 func NewDownload(url string, a ...interface{}) *Download {
 	d := &Download{
 		url: url,
@@ -36,6 +41,10 @@ func NewDownload(url string, a ...interface{}) *Download {
 
 	if len(a) > 1 {
 		d.length = a[1].(int)
+	}
+
+	if len(a) > 2 {
+		d.dsaSignature = a[2].(string)
 	}
 
 	return d
@@ -69,4 +78,14 @@ func (d *Download) Length() int {
 // SetLength is a Download.length setter.
 func (d *Download) SetLength(length int) {
 	d.length = length
+}
+
+// DsaSignature is a Download.dsaSignature getter.
+func (d *Download) DsaSignature() string {
+	return d.dsaSignature
+}
+
+// SetDsaSignature is a Download.dsaSignature setter.
+func (d *Download) SetDsaSignature(dsaSignature string) {
+	d.dsaSignature = dsaSignature
 }
