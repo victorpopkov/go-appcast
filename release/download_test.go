@@ -10,23 +10,25 @@ import (
 // returns its pointer.
 func newTestDownload() *Download {
 	return &Download{
-		url:      "https://example.com/1.0.0/app.dmg",
-		filetype: "application/octet-stream",
-		length:   100000,
+		url:          "https://example.com/1.0.0/app.dmg",
+		filetype:     "application/octet-stream",
+		length:       100000,
+		dsaSignature: "MC4CFQCeqQ/MxlFt2H3rQfCPimChDPibCgIVAJhZmHcU8ZHylc7EjvbkVr3ardLp",
 	}
 }
 
 func TestNewDownload(t *testing.T) {
-	d := NewDownload("https://example.com/1.0.0/app.dmg", "application/octet-stream", 100000)
+	d := NewDownload("https://example.com/1.0.0/app.dmg", "application/octet-stream", 100000, "test")
 	assert.IsType(t, Download{}, *d)
 	assert.Equal(t, "https://example.com/1.0.0/app.dmg", d.url)
 	assert.Equal(t, "application/octet-stream", d.filetype)
 	assert.Equal(t, 100000, d.length)
+	assert.Equal(t, "test", d.dsaSignature)
 }
 
 func TestDownload_Url(t *testing.T) {
 	d := newTestDownload()
-	assert.Equal(t, "https://example.com/1.0.0/app.dmg", d.Url())
+	assert.Equal(t, d.url, d.Url())
 }
 
 func TestDownload_SetUrl(t *testing.T) {
@@ -37,7 +39,7 @@ func TestDownload_SetUrl(t *testing.T) {
 
 func TestDownload_Filetype(t *testing.T) {
 	d := newTestDownload()
-	assert.Equal(t, "application/octet-stream", d.Filetype())
+	assert.Equal(t, d.filetype, d.Filetype())
 }
 
 func TestDownload_SetFiletype(t *testing.T) {
@@ -48,11 +50,22 @@ func TestDownload_SetFiletype(t *testing.T) {
 
 func TestDownload_Length(t *testing.T) {
 	d := newTestDownload()
-	assert.Equal(t, 100000, d.Length())
+	assert.Equal(t, d.length, d.Length())
 }
 
 func TestDownload_SetLength(t *testing.T) {
 	d := newTestDownload()
 	d.SetLength(200000)
 	assert.Equal(t, 200000, d.length)
+}
+
+func TestDownload_DsaSignature(t *testing.T) {
+	d := newTestDownload()
+	assert.Equal(t, d.dsaSignature, d.DsaSignature())
+}
+
+func TestDownload_SetDsaSignature(t *testing.T) {
+	d := newTestDownload()
+	d.SetDsaSignature("test")
+	assert.Equal(t, "test", d.dsaSignature)
 }
