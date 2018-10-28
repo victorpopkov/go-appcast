@@ -63,6 +63,7 @@ type unmarshalSparkleRSSFeedItem struct {
 // enclosure for unmarshal purposes.
 type unmarshalSparkleRSSFeedEnclosure struct {
 	DsaSignature       string `xml:"dsaSignature,attr"`
+	MD5Sum             string `xml:"md5Sum,attr"`
 	Version            string `xml:"version,attr"`
 	ShortVersionString string `xml:"shortVersionString,attr"`
 	URL                string `xml:"url,attr"`
@@ -130,12 +131,8 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		}
 
 		// downloads
-		d := release.NewDownload(
-			item.Enclosure.URL,
-			item.Enclosure.Type,
-			item.Enclosure.Length,
-			item.Enclosure.DsaSignature,
-		)
+		e := item.Enclosure
+		d := release.NewDownload(e.URL, e.Type, e.Length, e.DsaSignature, e.MD5Sum)
 
 		r.AddDownload(*d)
 
