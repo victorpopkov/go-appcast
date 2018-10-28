@@ -10,6 +10,8 @@ type Downloader interface {
 	SetLength(length int)
 	DsaSignature() string
 	SetDsaSignature(dsaSignature string)
+	Md5() string
+	SetMd5(dsaSignature string)
 }
 
 // Download holds a single release download data.
@@ -25,11 +27,15 @@ type Download struct {
 
 	// dsaSignature specifies a file DSA signature value.
 	dsaSignature string
+
+	// md5 specifies a file MD5 checksum.
+	md5 string
 }
 
 // NewDownload returns a new Download instance pointer. Requires an url to be
 // passed as a parameter. Optionally, the filetype can be passed as a second
-// parameter, the length as a third one and the dsaSignature as a fourth.
+// parameter, the length as a third one, the dsaSignature as a fourth and the
+// md5 as a fifth.
 func NewDownload(url string, a ...interface{}) *Download {
 	d := &Download{
 		url: url,
@@ -45,6 +51,10 @@ func NewDownload(url string, a ...interface{}) *Download {
 
 	if len(a) > 2 {
 		d.dsaSignature = a[2].(string)
+	}
+
+	if len(a) > 3 {
+		d.md5 = a[3].(string)
 	}
 
 	return d
@@ -88,4 +98,14 @@ func (d *Download) DsaSignature() string {
 // SetDsaSignature is a Download.dsaSignature setter.
 func (d *Download) SetDsaSignature(dsaSignature string) {
 	d.dsaSignature = dsaSignature
+}
+
+// Md5 is a Download.md5 getter.
+func (d *Download) Md5() string {
+	return d.md5
+}
+
+// SetMd5 is a Download.md5 setter.
+func (d *Download) SetMd5(md5 string) {
+	d.md5 = md5
 }
