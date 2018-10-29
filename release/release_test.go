@@ -19,7 +19,7 @@ func newTestRelease() *Release {
 		build:                "1000",
 		title:                "Test",
 		description:          "Test",
-		publishedDateTime:    NewPublishedDateTime(t),
+		publishedDateTime:    NewPublishedDateTime(&t),
 		releaseNotesLink:     "https://example.com/changelogs/1.0.0.html",
 		minimumSystemVersion: "10.9",
 		downloads: []Download{
@@ -141,7 +141,7 @@ func TestRelease_SetPublishedDateTime(t *testing.T) {
 	r := newTestRelease()
 
 	// test
-	r.SetPublishedDateTime(NewPublishedDateTime(now))
+	r.SetPublishedDateTime(NewPublishedDateTime(&now))
 	assert.Equal(t, now.UTC(), r.publishedDateTime.time.UTC())
 }
 

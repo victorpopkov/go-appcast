@@ -68,7 +68,7 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		},
 		"sparkle/invalid_pubdate.xml": {
 			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
-			"1.1.0": {"0001-01-01 00:00:00 +0000 UTC", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.1.0": {"", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},

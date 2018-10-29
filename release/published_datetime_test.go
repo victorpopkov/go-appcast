@@ -17,7 +17,7 @@ func newTestPublishedDateTime() *PublishedDateTime {
 
 	return &PublishedDateTime{
 		original: s,
-		time:     d,
+		time:     &d,
 		format:   f,
 	}
 
@@ -26,7 +26,7 @@ func newTestPublishedDateTime() *PublishedDateTime {
 func TestNewPublishedDateTime(t *testing.T) {
 	// preparations
 	now := time.Now()
-	d := NewPublishedDateTime(now)
+	d := NewPublishedDateTime(&now)
 
 	// test
 	assert.IsType(t, PublishedDateTime{}, *d)
@@ -72,7 +72,7 @@ func TestPublishedDateTime_SetTime(t *testing.T) {
 
 	// test
 	assert.Equal(t, "2017-05-14 14:00:00 +0000 UTC", d.time.UTC().String())
-	d.SetTime(now)
+	d.SetTime(&now)
 	assert.Equal(t, now.UTC().String(), d.time.UTC().String())
 }
 
@@ -88,6 +88,11 @@ func TestPublishedDateTime_SetFormat(t *testing.T) {
 }
 
 func TestPublishedDateTime_String(t *testing.T) {
+	// test (successful)
 	d := newTestPublishedDateTime()
 	assert.Equal(t, "Sun, 14 May 2017 12:00:00 -0200", d.String())
+
+	// test (nil)
+	d.time = nil
+	assert.Equal(t, "", d.String())
 }

@@ -17,8 +17,8 @@ var PublishedDateTimeFormats = []string{
 // PublishedDateTimer is the interface that wraps the PublishedDateTime methods.
 type PublishedDateTimer interface {
 	Parse(dateTime string) (err error)
-	Time() time.Time
-	SetTime(time time.Time)
+	Time() *time.Time
+	SetTime(time *time.Time)
 	Format() string
 	SetFormat(format string)
 }
@@ -29,7 +29,7 @@ type PublishedDateTime struct {
 	original string
 
 	// time specifies the original time.
-	time time.Time
+	time *time.Time
 
 	// format represents the format in which
 	format string
@@ -41,7 +41,7 @@ func NewPublishedDateTime(a ...interface{}) *PublishedDateTime {
 	d := new(PublishedDateTime)
 
 	if len(a) > 0 {
-		t := a[0].(time.Time)
+		t := a[0].(*time.Time)
 		d.time = t
 	}
 
@@ -73,7 +73,7 @@ func (p *PublishedDateTime) Parse(dateTime string) (err error) {
 	for _, format := range PublishedDateTimeFormats {
 		parsedTime, err := time.Parse(format, dateTime)
 		if err == nil {
-			p.time = parsedTime
+			p.time = &parsedTime
 			p.format = format
 
 			return nil
@@ -84,12 +84,12 @@ func (p *PublishedDateTime) Parse(dateTime string) (err error) {
 }
 
 // Time is a PublishedDateTime.time getter.
-func (p *PublishedDateTime) Time() time.Time {
+func (p *PublishedDateTime) Time() *time.Time {
 	return p.time
 }
 
 // SetTime is a PublishedDateTime.time setter.
-func (p *PublishedDateTime) SetTime(time time.Time) {
+func (p *PublishedDateTime) SetTime(time *time.Time) {
 	p.time = time
 }
 
@@ -105,6 +105,10 @@ func (p *PublishedDateTime) SetFormat(format string) {
 
 // String returns the string representation of the PublishedDateTime.
 func (p *PublishedDateTime) String() string {
+	if p.time == nil {
+		return ""
+	}
+
 	if p.format != "" {
 		return p.time.Format(p.format)
 	}
