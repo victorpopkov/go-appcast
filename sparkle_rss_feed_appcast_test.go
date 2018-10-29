@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/victorpopkov/go-appcast/client"
 )
 
 // newTestSparkleRSSFeedAppcast creates a new SparkleRSSFeedAppcast instance for
@@ -21,7 +22,7 @@ func newTestSparkleRSSFeedAppcast(content ...interface{}) *SparkleRSSFeedAppcast
 	}
 
 	url := "https://example.com/appcast.xml"
-	r, _ := NewRequest(url)
+	r, _ := client.NewRequest(url)
 
 	appcast := &SparkleRSSFeedAppcast{
 		Appcast: Appcast{

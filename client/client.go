@@ -1,14 +1,11 @@
-package appcast
+// Package client provides functionality for making remote client requests.
+package client
 
 import (
 	"crypto/tls"
 	"net/http"
 	"time"
 )
-
-// DefaultClient is the default Client that is used for making requests in the
-// appcast package.
-var DefaultClient = NewClient()
 
 // Client represents an HTTP client that makes requests.
 type Client struct {

@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/victorpopkov/go-appcast/client"
 )
 
 // newTestGitHubAtomFeedAppcast creates a new GitHubAtomFeedAppcast instance for
@@ -20,7 +21,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast
 	}
 
 	url := "https://github.com/user/repo/releases.atom"
-	r, _ := NewRequest(url)
+	r, _ := client.NewRequest(url)
 
 	appcast := &GitHubAtomFeedAppcast{
 		Appcast: Appcast{

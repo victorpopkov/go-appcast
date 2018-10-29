@@ -13,8 +13,13 @@ import (
 	"regexp"
 	"sort"
 
+	"github.com/victorpopkov/go-appcast/client"
 	"github.com/victorpopkov/go-appcast/release"
 )
+
+// DefaultClient is the default Client that is used for making requests in the
+// appcast package.
+var DefaultClient = client.NewClient()
 
 // Appcaster is the interface that wraps the Appcast methods.
 //

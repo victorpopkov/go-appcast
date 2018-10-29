@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/victorpopkov/go-appcast/client"
 )
 
 // newTestSourceForgeRSSFeedAppcast creates a new SourceForgeRSSFeedAppcast
@@ -20,7 +21,7 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeRSSFee
 	}
 
 	url := "https://sourceforge.net/projects/test/rss"
-	r, _ := NewRequest(url)
+	r, _ := client.NewRequest(url)
 
 	appcast := &SourceForgeRSSFeedAppcast{
 		Appcast: Appcast{

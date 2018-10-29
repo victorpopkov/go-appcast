@@ -1,18 +1,22 @@
 package appcast
 
-import "io/ioutil"
+import (
+	"io/ioutil"
+
+	"github.com/victorpopkov/go-appcast/client"
+)
 
 // RemoteSourcer is the interface that wraps the RemoteSource methods.
 type RemoteSourcer interface {
 	Sourcer
-	Request() *Request
+	Request() *client.Request
 	Url() string
 }
 
 // RemoteSource represents an appcast source from the remote location.
 type RemoteSource struct {
 	*Source
-	request *Request
+	request *client.Request
 	url     string
 }
 
@@ -21,13 +25,13 @@ type RemoteSource struct {
 //
 // Supports both the remote URL string or Request struct pointer as an argument.
 func NewRemoteSource(src interface{}) (*RemoteSource, error) {
-	var request *Request
+	var request *client.Request
 
 	switch v := src.(type) {
-	case *Request:
+	case *client.Request:
 		request = v
 	case string:
-		newReq, err := NewRequest(v)
+		newReq, err := client.NewRequest(v)
 		if err != nil {
 			return nil, err
 		}
@@ -72,7 +76,7 @@ func (s *RemoteSource) GuessProvider() {
 }
 
 // Request is a RemoteSource.request getter.
-func (s *RemoteSource) Request() *Request {
+func (s *RemoteSource) Request() *client.Request {
 	return s.request
 }
 

@@ -14,6 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
+	"github.com/victorpopkov/go-appcast/client"
 	"github.com/victorpopkov/go-appcast/release"
 )
 
@@ -89,7 +90,7 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	}
 
 	url := "https://example.com/appcast.xml"
-	r, _ := NewRequest(url)
+	r, _ := client.NewRequest(url)
 
 	s := &Appcast{
 		source: &RemoteSource{
@@ -153,7 +154,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 
 	// test (successful) [Request]
 	a = New()
-	r, _ := NewRequest("https://example.com/appcast.xml")
+	r, _ := client.NewRequest("https://example.com/appcast.xml")
 	p, err = a.LoadFromRemoteSource(r)
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
