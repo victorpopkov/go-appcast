@@ -10,8 +10,8 @@ import (
 	"gopkg.in/jarcoal/httpmock.v1"
 )
 
-func TestNewClient(t *testing.T) {
-	c := NewClient()
+func TestNew(t *testing.T) {
+	c := New()
 	assert.IsType(t, Client{}, *c)
 	assert.IsType(t, http.Client{}, *c.HTTPClient)
 	assert.Equal(t, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36", c.UserAgent)
@@ -19,14 +19,14 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestClient_InsecureSkipVerify(t *testing.T) {
-	c := NewClient()
+	c := New()
 	c.InsecureSkipVerify()
 	assert.IsType(t, &http.Transport{}, c.HTTPClient.Transport)
 }
 
 func TestClient_Do(t *testing.T) {
 	// mock the request
-	c := NewClient()
+	c := New()
 	c.Timeout = time.Duration(time.Second)
 	httpmock.ActivateNonDefault(c.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://example.com/", httpmock.NewStringResponder(200, `Test`))

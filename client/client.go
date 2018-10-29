@@ -23,8 +23,9 @@ type Client struct {
 	Timeout time.Duration
 }
 
-// NewClient returns a new Client instance pointer, using default configuration.
-func NewClient() *Client {
+// New returns a new Client instance pointer with the default Client.UserAgent
+// and Client.HTTPClient.
+func New() *Client {
 	return &Client{
 		UserAgent:  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36",
 		HTTPClient: http.DefaultClient,

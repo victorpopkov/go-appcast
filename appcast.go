@@ -19,7 +19,7 @@ import (
 
 // DefaultClient is the default Client that is used for making requests in the
 // appcast package.
-var DefaultClient = client.NewClient()
+var DefaultClient = client.New()
 
 // Appcaster is the interface that wraps the Appcast methods.
 //
