@@ -167,9 +167,9 @@ func (a *Appcast) LoadSource() error {
 func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
 	var appcast Appcaster
 
-	provider := a.source.Provider()
+	p := a.source.Provider()
 
-	switch provider {
+	switch p {
 	case SparkleRSSFeed:
 		appcast = &SparkleRSSFeedAppcast{Appcast: *a}
 		break
@@ -180,12 +180,12 @@ func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
 		appcast = &GitHubAtomFeedAppcast{Appcast: *a}
 		break
 	default:
-		p := provider.String()
-		if p == "-" {
-			p = "Unknown"
+		provider := p.String()
+		if provider == "-" {
+			provider = "Unknown"
 		}
 
-		return nil, fmt.Errorf("releases can't be unmarshaled from the \"%s\" provider", p)
+		return nil, fmt.Errorf("releases for the \"%s\" provider can't be unmarshaled", provider)
 	}
 
 	appcast, err := appcast.UnmarshalReleases()

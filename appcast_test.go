@@ -226,7 +226,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.Error(t, err)
-	assert.EqualError(t, err, "releases can't be unmarshaled from the \"Unknown\" provider")
+	assert.EqualError(t, err, "releases for the \"Unknown\" provider can't be unmarshaled")
 
 	localSourceReadFile = ioutil.ReadFile
 }
@@ -262,7 +262,7 @@ func TestAppcast_UnmarshalReleases_Unknown(t *testing.T) {
 	assert.Error(t, err)
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.EqualError(t, err, "releases can't be unmarshaled from the \"Unknown\" provider")
+	assert.EqualError(t, err, "releases for the \"Unknown\" provider can't be unmarshaled")
 	assert.Nil(t, a.source.Appcast())
 }
 
