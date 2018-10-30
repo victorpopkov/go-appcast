@@ -239,7 +239,7 @@ func TestAppcast_GenerateSourceChecksum(t *testing.T) {
 	// test
 	result := a.GenerateSourceChecksum(MD5)
 	assert.Equal(t, result.String(), a.Source().Checksum().String())
-	assert.Equal(t, "098f6bcd4621d373cade4e832627b4f6", result.String())
+	assert.Equal(t, "21448d1059f783c979967c116b255d43", result.String())
 	assert.Equal(t, MD5, a.Source().Checksum().Algorithm())
 }
 
@@ -761,7 +761,7 @@ func TestAppcast_SetReleases(t *testing.T) {
 
 func TestAppcast_FirstRelease(t *testing.T) {
 	// preparations
-	a := newTestSparkleRSSFeedAppcast(getTestdata("sparkle/default.xml"))
+	a := newTestSparkleRSSFeedAppcast()
 	a.UnmarshalReleases()
 
 	// test
