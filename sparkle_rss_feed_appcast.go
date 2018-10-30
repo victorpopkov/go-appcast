@@ -71,26 +71,39 @@ type unmarshalSparkleRSSFeedEnclosure struct {
 	Type               string `xml:"type,attr"`
 }
 
-// UnmarshalReleases unmarshals the Appcast.source.content into the
-// Appcast.releases for the "Sparkle RSS Feed" provider.
+// UnmarshalReleases unmarshals the SparkleRSSFeedAppcast.source.content into
+// the SparkleRSSFeedAppcast.releases and SparkleRSSFeedAppcast.channel.
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
 func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
-	var x unmarshalSparkleRSSFeed
-	var version, build string
+	var feed unmarshalSparkleRSSFeed
 
-	xml.Unmarshal(a.source.Content(), &x)
+	xml.Unmarshal(a.source.Content(), &feed)
 
 	a.channel = &SparkleRSSFeedAppcastChannel{
-		Title:       x.Channel.Title,
-		Link:        x.Channel.Link,
-		Description: x.Channel.Description,
-		Language:    x.Channel.Language,
+		Title:       feed.Channel.Title,
+		Link:        feed.Channel.Link,
+		Description: feed.Channel.Description,
+		Language:    feed.Channel.Language,
 	}
 
-	items := make([]release.Releaser, len(x.Channel.Items))
-	for i, item := range x.Channel.Items {
+	items, err := a.createReleases(feed)
+	if err != nil {
+		return nil, err
+	}
+
+	a.releases = items
+
+	return a, nil
+}
+
+// createReleases creates a release.Releaser array from the unmarshalled feed.
+func (a *SparkleRSSFeedAppcast) createReleases(feed unmarshalSparkleRSSFeed) ([]release.Releaser, error) {
+	var version, build string
+
+	items := make([]release.Releaser, len(feed.Channel.Items))
+	for i, item := range feed.Channel.Items {
 		if item.Enclosure.ShortVersionString == "" && item.ShortVersionString != "" {
 			version = item.ShortVersionString
 		} else {
@@ -139,9 +152,7 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		items[i] = r
 	}
 
-	a.releases = items
-
-	return a, nil
+	return items, nil
 }
 
 // Uncomment uncomments XML tags in SparkleRSSFeedAppcast.source.content.
