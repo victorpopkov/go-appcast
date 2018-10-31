@@ -41,7 +41,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast
 
 func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
-		"github/default.xml": {
+		"default.xml": {
 			"2.0.0": {"2016-05-13T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
 			"1.1.0": {"2016-05-12T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
 			"1.0.1": {"2016-05-11T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
@@ -49,19 +49,26 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		},
 	}
 
-	errorTestCases := map[string]string{}
+	errorTestCases := map[string]string{
+		"invalid_version.xml": "Malformed version: invalid",
+	}
 
 	// test (successful)
-	for filename, releases := range testCases {
+	for path, releases := range testCases {
 		// preparations
-		a := newTestGitHubAtomFeedAppcast(getTestdata(filename))
-		assert.Empty(t, a.releases)
+		a := newTestGitHubAtomFeedAppcast(getTestdata("github", path))
 
 		// test
-		p, err := a.UnmarshalReleases()
-		assert.Nil(t, err)
 		assert.IsType(t, &GitHubAtomFeedAppcast{}, a)
+		assert.Nil(t, a.source.Appcast())
+		assert.Empty(t, a.releases)
+
+		p, err := a.UnmarshalReleases()
+
+		assert.Nil(t, err)
 		assert.IsType(t, &GitHubAtomFeedAppcast{}, p)
+		//assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
+
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
 			v := release.Version().String()
@@ -71,16 +78,29 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		}
 	}
 
-	// test (error)
-	for filename, errorMsg := range errorTestCases {
+	// test (error) [unmarshalling failure]
+	for path, errorMsg := range errorTestCases {
 		// preparations
-		a := newTestGitHubAtomFeedAppcast(getTestdata(filename))
+		a := newTestGitHubAtomFeedAppcast(getTestdata("github", path))
 
 		// test
+		assert.IsType(t, &GitHubAtomFeedAppcast{}, a)
+		assert.Nil(t, a.source.Appcast())
+
 		p, err := a.UnmarshalReleases()
+
 		assert.Error(t, err)
-		assert.Nil(t, a)
-		assert.Nil(t, p)
 		assert.EqualError(t, err, errorMsg)
+		assert.Nil(t, p)
+		//assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
 	}
+
+	// test (error) [no source]
+	a := new(GitHubAtomFeedAppcast)
+
+	p, err := a.UnmarshalReleases()
+	assert.Error(t, err)
+	assert.EqualError(t, err, "no source")
+	assert.Nil(t, p)
+	assert.Nil(t, a.source)
 }
