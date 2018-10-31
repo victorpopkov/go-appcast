@@ -101,15 +101,15 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 	}
 
 	// test (successful)
-	for filename, releases := range testCases {
+	for path, releases := range testCases {
 		// preparations
-		a := newTestSparkleRSSFeedAppcast("sparkle", filename)
-		assert.Empty(t, a.releases)
+		a := newTestSparkleRSSFeedAppcast("sparkle", path)
 
 		// test
 		assert.IsType(t, &SparkleRSSFeedAppcast{}, a)
 		assert.Nil(t, a.source.Appcast())
 		assert.Nil(t, a.channel)
+		assert.Empty(t, a.releases)
 
 		p, err := a.UnmarshalReleases()
 
@@ -128,7 +128,6 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 			v := release.Version().String()
 			assert.Equal(t, fmt.Sprintf("Release %s", v), release.Title())
 			assert.Equal(t, fmt.Sprintf("Release %s Description", v), release.Description())
-
 			assert.Equal(t, releases[v][0], release.PublishedDateTime().String())
 			assert.Equal(t, releases[v][1], release.Build())
 			assert.Equal(t, releases[v][3], release.MinimumSystemVersion())
@@ -140,10 +139,10 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		}
 	}
 
-	// test (error)
-	for filename, errorMsg := range errorTestCases {
+	// test (error) [unmarshalling failure]
+	for path, errorMsg := range errorTestCases {
 		// preparations
-		a := newTestSparkleRSSFeedAppcast("sparkle", filename)
+		a := newTestSparkleRSSFeedAppcast("sparkle", path)
 
 		// test
 		assert.IsType(t, &SparkleRSSFeedAppcast{}, a)
@@ -159,17 +158,15 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		//assert.Nil(t, a.channel)
 	}
 
-	// test (when SparkleRSSFeedAppcast.source is nil)
-	//a := newTestSparkleRSSFeedAppcast()
-	//a.source = nil
-	//
-	//p, err := a.UnmarshalReleases()
-	//
-	//assert.Error(t, err)
-	//assert.EqualError(t, err, "SparkleRSSFeedAppcast.source is not set")
-	//assert.Nil(t, p)
-	//assert.Nil(t, a.source)
-	//assert.Nil(t, a.channel)
+	// test (error) [no source]
+	a := new(SparkleRSSFeedAppcast)
+
+	p, err := a.UnmarshalReleases()
+	assert.Error(t, err)
+	assert.EqualError(t, err, "no source")
+	assert.Nil(t, p)
+	assert.Nil(t, a.source)
+	assert.Nil(t, a.channel)
 }
 
 func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
@@ -187,36 +184,38 @@ func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
 	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
 
-	// preparations
-	a := new(SparkleRSSFeedAppcast)
-
-	// test (when no content)
-	assert.Nil(t, a.Source())
-	err := a.Uncomment()
-	assert.NotNil(t, err)
-
-	// test (uncommenting)
+	// test (successful)
 	for filename, commentLines := range testCases {
 		// preparations
 		a := newTestSparkleRSSFeedAppcast("sparkle", filename)
 
-		// before SparkleRSSFeedAppcast.Uncomment
+		// before
 		for _, commentLine := range commentLines {
-			line, _ := getLine(commentLine, a.Source().Content())
+			line, _ := getLine(commentLine, a.source.Content())
 			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 			assert.True(t, check, fmt.Sprintf("\"%s\" doesn't have a commented out line", filename))
 		}
 
-		// tested method
-		a.Uncomment()
+		err := a.Uncomment()
 
-		// after SparkleRSSFeedAppcast.Uncomment
+		// after
+		assert.Nil(t, err)
+
 		for _, commentLine := range commentLines {
-			line, _ := getLine(commentLine, a.Source().Content())
+			line, _ := getLine(commentLine, a.source.Content())
 			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 			assert.False(t, check, fmt.Sprintf("\"%s\" didn't uncomment a \"%d\" line", filename, commentLine))
 		}
 	}
+
+	// test (error) [no source]
+	a := new(SparkleRSSFeedAppcast)
+
+	err := a.Uncomment()
+	assert.Error(t, err)
+	assert.EqualError(t, err, "no source")
+	assert.Nil(t, a.source)
+	assert.Nil(t, a.channel)
 }
 
 func TestSparkleRSSFeedAppcast_Channel(t *testing.T) {
