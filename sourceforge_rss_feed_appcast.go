@@ -55,12 +55,16 @@ type unmarshalSourceForgeRSSFeedContent struct {
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
 func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
-	var x unmarshalSourceForgeRSSFeed
+	var feed unmarshalSourceForgeRSSFeed
 
-	xml.Unmarshal(a.source.Content(), &x)
+	if a.source == nil || len(a.source.Content()) == 0 {
+		return nil, fmt.Errorf("no source")
+	}
 
-	items := make([]release.Releaser, len(x.Items))
-	for i, item := range x.Items {
+	xml.Unmarshal(a.source.Content(), &feed)
+
+	items := make([]release.Releaser, len(feed.Items))
+	for i, item := range feed.Items {
 		// extract version
 		versions, err := ExtractSemanticVersions(item.Title.Chardata)
 		if err != nil {
