@@ -207,10 +207,10 @@ func (a *Appcast) Uncomment() error {
 		return fmt.Errorf("no source")
 	}
 
-	provider := a.source.Provider()
-	providerString := provider.String()
+	p := a.source.Provider()
+	provider := p.String()
 
-	switch provider {
+	switch p {
 	case SparkleRSSFeed:
 		appcast := SparkleRSSFeedAppcast{Appcast: *a}
 		appcast.Uncomment()
@@ -218,13 +218,13 @@ func (a *Appcast) Uncomment() error {
 
 		return nil
 	default:
-		if providerString == "-" {
-			providerString = "Unknown"
+		if provider == "-" {
+			provider = "Unknown"
 		}
 		break
 	}
 
-	return fmt.Errorf("uncommenting is not available for the \"%s\" provider", providerString)
+	return fmt.Errorf("uncommenting is not available for the \"%s\" provider", provider)
 }
 
 // SortReleasesByVersions sorts Appcast.releases slice by versions. Can be
