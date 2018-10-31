@@ -2,6 +2,7 @@ package appcast
 
 import (
 	"encoding/xml"
+	"fmt"
 	"regexp"
 
 	"github.com/victorpopkov/go-appcast/release"
@@ -38,12 +39,16 @@ type unmarshalGitHubAtomFeedEntry struct {
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
 func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
-	var x unmarshalGitHubAtomFeed
+	var feed unmarshalGitHubAtomFeed
 
-	xml.Unmarshal(a.source.Content(), &x)
+	if a.source == nil || len(a.source.Content()) == 0 {
+		return nil, fmt.Errorf("no source")
+	}
 
-	items := make([]release.Releaser, len(x.Entries))
-	for i, entry := range x.Entries {
+	xml.Unmarshal(a.source.Content(), &feed)
+
+	items := make([]release.Releaser, len(feed.Entries))
+	for i, entry := range feed.Entries {
 		version := ""
 
 		re := regexp.MustCompile(`\/.*\/(.*$)`)
