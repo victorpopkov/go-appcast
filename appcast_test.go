@@ -141,47 +141,65 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	)
 	defer httpmock.DeactivateAndReset()
 
-	// test (successful) [URL]
+	// test (successful) [url]
 	a := New()
 	p, err := a.LoadFromRemoteSource("https://example.com/appcast.xml")
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
-	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
-	assert.NotNil(t, a.Source().Checksum())
+	assert.NotEmpty(t, a.source.Content())
+	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
+	assert.NotNil(t, a.source.Checksum())
 	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 
-	// test (successful) [Request]
+	// test (successful) [request]
 	a = New()
 	r, _ := client.NewRequest("https://example.com/appcast.xml")
 	p, err = a.LoadFromRemoteSource(r)
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
-	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
-	assert.NotNil(t, a.Source().Checksum())
+	assert.NotEmpty(t, a.source.Content())
+	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
+	assert.NotNil(t, a.source.Checksum())
 	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 
-	// test "Invalid URL" error
+	// test (error) [invalid url]
 	a = New()
 	url := "http://192.168.0.%31/"
 	p, err = a.LoadFromRemoteSource(url)
 	assert.Error(t, err)
+	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
-	assert.Nil(t, a.Source())
+	assert.Nil(t, a.source)
 
-	// test "Invalid request" error
+	// test (error) [invalid request]
 	a = New()
 	p, err = a.LoadFromRemoteSource("invalid")
 	assert.Error(t, err)
+	assert.EqualError(t, err, "Get invalid: no responder found")
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.EqualError(t, err, "Get invalid: no responder found")
-	assert.Nil(t, a.Source())
+	assert.Nil(t, a.source)
+
+	// test (error) [unmarshalling failure]
+	url = "https://example.com/appcast.xml"
+	httpmock.Activate()
+	httpmock.RegisterResponder(
+		"GET",
+		url,
+		httpmock.NewBytesResponder(200, getTestdata("sparkle/invalid_version.xml")),
+	)
+
+	a = New()
+	p, err = a.LoadFromRemoteSource(url)
+	assert.Error(t, err)
+	assert.EqualError(t, err, "Malformed version: invalid")
+	assert.IsType(t, &Appcast{}, a)
+	assert.Nil(t, p)
+	assert.IsType(t, &RemoteSource{}, a.source)
+	assert.Nil(t, a.source.Appcast())
 }
 
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
@@ -198,12 +216,12 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
 	assert.Nil(t, err)
-	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
-	assert.NotNil(t, a.Source().Checksum())
+	assert.NotEmpty(t, a.source.Content())
+	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
+	assert.NotNil(t, a.source.Checksum())
 	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 
-	// test (error)
+	// test (error) [reading failure]
 	localSourceReadFile = func(filename string) ([]byte, error) {
 		return nil, fmt.Errorf("error")
 	}
@@ -214,9 +232,9 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.Nil(t, p)
 	assert.Error(t, err)
 	assert.EqualError(t, err, "error")
-	assert.Nil(t, a.Source())
+	assert.Nil(t, a.source)
 
-	// test (unmarshalling error)
+	// test (error) [unmarshalling failure]
 	localSourceReadFile = func(filename string) ([]byte, error) {
 		return []byte("invalid"), nil
 	}
@@ -234,13 +252,13 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 func TestAppcast_GenerateSourceChecksum(t *testing.T) {
 	// preparations
 	a := newTestSparkleRSSFeedAppcast()
-	assert.Nil(t, a.Source().Checksum())
+	assert.Nil(t, a.source.Checksum())
 
 	// test
 	result := a.GenerateSourceChecksum(MD5)
-	assert.Equal(t, result.String(), a.Source().Checksum().String())
+	assert.Equal(t, result.String(), a.source.Checksum().String())
 	assert.Equal(t, "21448d1059f783c979967c116b255d43", result.String())
-	assert.Equal(t, MD5, a.Source().Checksum().Algorithm())
+	assert.Equal(t, MD5, a.source.Checksum().Algorithm())
 }
 
 func TestAppcast_LoadSource(t *testing.T) {
@@ -253,345 +271,137 @@ func TestAppcast_LoadSource(t *testing.T) {
 	assert.NotNil(t, a.source.Content())
 }
 
-func TestAppcast_UnmarshalReleases_Unknown(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-
-	// provider "Unknown"
-	p, err := a.UnmarshalReleases()
-	assert.Error(t, err)
-	assert.IsType(t, &Appcast{}, a)
-	assert.Nil(t, p)
-	assert.EqualError(t, err, "releases for the \"Unknown\" provider can't be unmarshaled")
-	assert.Nil(t, a.source.Appcast())
-}
-
-func TestAppcast_UnmarshalReleases_SparkleRSSFeed(t *testing.T) {
+func TestAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sparkle/attributes_as_elements.xml": {
+			"provider": SparkleRSSFeed,
+			"appcast":  &SparkleRSSFeedAppcast{},
 			"checksum": "d59d258ce0b06d4c6216f6589aefb36e2bd37fbd647f175741cc248021e0e8b4",
 			"releases": 4,
 		},
-		"sparkle/default_asc.xml": {
-			"checksum": "9f8d8eb4c8acfdd53e3084fe5f59aa679bf141afc0c3887141cd2bdfe1427b41",
-			"releases": 4,
-		},
-		"sparkle/default.xml": {
-			"checksum": "0cb017e2dfd65e07b54580ca8d4eedbfcf6cef5824bcd9539a64afb72fa9ce8c",
-			"releases": 4,
-		},
-		"sparkle/incorrect_namespace.xml": {
-			"checksum": "ff464014dc6a2f6868aca7c3b42521930f791de5fc993d1cc19d747598bcd760",
-			"releases": 4,
-		},
-		"sparkle/invalid_pubdate.xml": {
-			"checksum": "9a59f9d0ccd08b317cf784656f6a5bd0e5a1868103ec56d3364baec175dd0da1",
-			"releases": 4,
-		},
-		// "sparkle/multiple_enclosure.xml": {
-		// 	"checksum": "48fc8531b253c5d3ed83abfe040edeeafb327d103acbbacf12c2288769dc80b9",
-		// 	"releases": 4,
-		// },
-		"sparkle/no_releases.xml": {
-			"checksum": "befd99d96be280ca7226c58ef1400309905ad20d2723e69e829cf050e802afcf",
-			"releases": 0,
-		},
-		"sparkle/only_version.xml": {
-			"checksum": "ee5a775fec4d7b95843e284bff6f35f7df30d76af2d1d7c26fc02f735383ef7f",
-			"releases": 4,
-		},
-		"sparkle/prerelease.xml": {
-			"checksum": "8e44fccf005ad4720bcc75b9afffb035befade81bdf9f587984c26842dd7c759",
-			"releases": 4,
-		},
-		"sparkle/single.xml": {
-			"checksum": "c59ec641579c6bad98017db7e1076a2997cdef7fff315323dd7f0cabed638d50",
-			"releases": 1,
-		},
-		"sparkle/without_namespaces.xml": {
-			"checksum": "888494294fc74990e4354689a02e50ff425cfcbd498162fdffd5b3d1cd096fa1",
-			"releases": 4,
-		},
-	}
-
-	errorTestCases := map[string]string{
-		"sparkle/invalid_version.xml": "Malformed version: invalid",
-		"sparkle/with_comments.xml":   "version is required, but it's not specified in release #1",
-	}
-
-	// preparations for mocking the request
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
-
-	// test (successful)
-	for filename, data := range testCases {
-		// mock the request
-		httpmock.RegisterResponder(
-			"GET",
-			"https://example.com/appcast.xml",
-			httpmock.NewBytesResponder(200, getTestdata(filename)),
-		)
-
-		// preparations
-		a := New()
-		assert.Nil(t, a.Source())
-		assert.Len(t, a.releases, 0)
-
-		// load from URL
-		src, err := NewRemoteSource("https://example.com/appcast.xml")
-		a.SetSource(src)
-		a.Source().Load()
-		assert.Nil(t, err)
-		assert.Equal(t, SparkleRSSFeed, a.Source().Provider())
-		assert.NotEmpty(t, a.Source().Content())
-		assert.NotNil(t, a.Source().Checksum())
-		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
-		assert.Len(t, a.releases, 0)
-
-		// releases
-		p, err := a.UnmarshalReleases()
-		assert.Nil(t, err)
-		assert.IsType(t, &Appcast{}, a)
-		assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
-		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
-		assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
-	}
-
-	// test (error)
-	for filename, errorMsg := range errorTestCases {
-		// mock the request
-		httpmock.RegisterResponder(
-			"GET",
-			"https://example.com/appcast.xml",
-			httpmock.NewBytesResponder(200, getTestdata(filename)),
-		)
-
-		// preparations
-		a := New()
-		a.LoadFromRemoteSource("https://example.com/appcast.xml")
-
-		// test
-		p, err := a.UnmarshalReleases()
-		assert.Error(t, err)
-		assert.IsType(t, &Appcast{}, a)
-		assert.Nil(t, p)
-		assert.EqualError(t, err, errorMsg)
-		assert.Nil(t, a.source.Appcast())
-	}
-}
-
-func TestAppcast_UnmarshalReleases_SourceForgeRSSFeed(t *testing.T) {
-	testCases := map[string]map[string]interface{}{
 		"sourceforge/default.xml": {
+			"provider": SourceForgeRSSFeed,
+			"appcast":  &SourceForgeRSSFeedAppcast{},
 			"checksum": "d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
 			"releases": 4,
 		},
-		"sourceforge/empty.xml": {
-			"checksum": "569cb5c8fa66b2bae66e7c0d45e6fbbeb06a5f965fc7e6884ff45aab4f17b407",
-			"releases": 0,
-		},
-		"sourceforge/invalid_pubdate.xml": {
-			"checksum": "160885aaaa2f694b5306e91ea20d08ef514f424e51704947c9f07fffec787cf6",
-			"releases": 4,
-		},
-		"sourceforge/single.xml": {
-			"checksum": "5384ed38515985f60f990c125f1cceed0261c2c5c2b85181ebd4214a7bc709de",
-			"releases": 1,
-		},
-	}
-
-	errorTestCases := map[string]string{
-		"sourceforge/invalid_version.xml": "version is required, but it's not specified in release #2",
-	}
-
-	// preparations for mocking the request
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
-
-	// test (successful)
-	for filename, data := range testCases {
-		// mock the request
-		httpmock.RegisterResponder(
-			"GET",
-			"https://example.com/appcast.xml",
-			httpmock.NewBytesResponder(200, getTestdata(filename)),
-		)
-
-		// preparations
-		a := New()
-		assert.Nil(t, a.Source())
-		assert.Len(t, a.releases, 0)
-
-		// load from URL
-		src, err := NewRemoteSource("https://example.com/appcast.xml")
-		a.SetSource(src)
-		a.Source().Load()
-		assert.Nil(t, err)
-		assert.Equal(t, SourceForgeRSSFeed, a.Source().Provider())
-		assert.NotEmpty(t, a.Source().Content())
-		assert.NotNil(t, a.Source().Checksum())
-		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
-		assert.Len(t, a.releases, 0)
-
-		// releases
-		p, err := a.UnmarshalReleases()
-		assert.Nil(t, err)
-		assert.IsType(t, &Appcast{}, a)
-		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, p)
-		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
-		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a.source.Appcast())
-	}
-
-	// test (error)
-	for filename, errorMsg := range errorTestCases {
-		// mock the request
-		httpmock.RegisterResponder(
-			"GET",
-			"https://example.com/appcast.xml",
-			httpmock.NewBytesResponder(200, getTestdata(filename)),
-		)
-
-		// preparations
-		a := New()
-		a.LoadFromRemoteSource("https://example.com/appcast.xml")
-
-		// test
-		p, err := a.UnmarshalReleases()
-		assert.Error(t, err)
-		assert.IsType(t, &Appcast{}, a)
-		assert.Nil(t, p)
-		assert.EqualError(t, err, errorMsg)
-		assert.Nil(t, a.source.Appcast())
-	}
-}
-
-func TestAppcast_UnmarshalReleases_GitHubAtomFeed(t *testing.T) {
-	testCases := map[string]map[string]interface{}{
 		"github/default.xml": {
+			"provider": GitHubAtomFeed,
+			"appcast":  &GitHubAtomFeedAppcast{},
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
 			"releases": 4,
 		},
-		"github/invalid_pubdate.xml": {
-			"checksum": "52f87bba760a4e5f8ee418cdbc3806853d79ad10d3f961e5c54d1f5abf09b24b",
-			"releases": 4,
+		"unknown.xml": {
+			"provider": Unknown,
+			"checksum": "c29665078d79a8e67b37b46a51f2a34c6092719833ccddfdda6109fd8f28043c",
+			"error":    "releases for the \"Unknown\" provider can't be unmarshaled",
 		},
-	}
-
-	errorTestCases := map[string]string{
-		"github/invalid_version.xml": "Malformed version: invalid",
+		"sparkle/invalid_version.xml": {
+			"provider": SparkleRSSFeed,
+			"checksum": "65d754f5bd04cfad33d415a3605297069127e14705c14b8127a626935229b198",
+			"error":    "Malformed version: invalid",
+		},
 	}
 
 	// preparations for mocking the request
 	httpmock.Activate()
 	defer httpmock.DeactivateAndReset()
 
-	// test (successful)
-	for filename, data := range testCases {
+	// test
+	for path, data := range testCases {
 		// mock the request
 		httpmock.RegisterResponder(
 			"GET",
 			"https://example.com/appcast.xml",
-			httpmock.NewBytesResponder(200, getTestdata(filename)),
+			httpmock.NewBytesResponder(200, getTestdata(path)),
 		)
 
 		// preparations
 		a := New()
-		assert.Nil(t, a.Source())
-		assert.Len(t, a.releases, 0)
 
-		// load from URL
+		assert.Nil(t, a.source)
+		assert.Empty(t, a.releases)
+
 		src, err := NewRemoteSource("https://example.com/appcast.xml")
 		a.SetSource(src)
-		a.Source().Load()
+		a.source.Load()
+
 		assert.Nil(t, err)
-		assert.Equal(t, GitHubAtomFeed, a.Source().Provider())
-		assert.NotEmpty(t, a.Source().Content())
-		assert.NotNil(t, a.Source().Checksum())
-		assert.Equal(t, data["checksum"].(string), a.Source().Checksum().String())
-		assert.Len(t, a.releases, 0)
+		assert.Equal(t, src, a.source)
+		assert.Empty(t, a.releases)
+		assert.Equal(t, data["provider"], a.source.Provider())
+		assert.NotEmpty(t, a.source.Content())
+		assert.Equal(t, data["checksum"], a.source.Checksum().String())
 
-		// releases
 		p, err := a.UnmarshalReleases()
-		assert.Nil(t, err)
-		assert.IsType(t, &Appcast{}, a)
-		assert.IsType(t, &GitHubAtomFeedAppcast{}, p)
-		assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", filename))
-		assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
-	}
 
-	// test (error)
-	for filename, errorMsg := range errorTestCases {
-		// mock the request
-		httpmock.RegisterResponder(
-			"GET",
-			"https://example.com/appcast.xml",
-			httpmock.NewBytesResponder(200, getTestdata(filename)),
-		)
-
-		// preparations
-		a := New()
-		a.LoadFromRemoteSource("https://example.com/appcast.xml")
-
-		// test
-		p, err := a.UnmarshalReleases()
-		assert.Error(t, err)
-		assert.IsType(t, &Appcast{}, a)
-		assert.Nil(t, p)
-		assert.EqualError(t, err, errorMsg)
-		assert.Nil(t, a.source.Appcast())
+		if data["error"] == nil {
+			// test (successful)
+			assert.Nil(t, err)
+			assert.IsType(t, &Appcast{}, a)
+			assert.IsType(t, data["appcast"], p)
+			assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", path))
+			assert.IsType(t, data["appcast"], a.source.Appcast())
+		} else {
+			// test (error)
+			assert.Error(t, err)
+			assert.EqualError(t, err, data["error"].(string))
+			assert.IsType(t, &Appcast{}, a)
+			assert.Nil(t, p)
+		}
 	}
 }
 
-func TestAppcast_Uncomment_Unknown(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-
-	// test
-	err := a.Uncomment()
-	assert.EqualError(t, err, "uncommenting is not available for the \"Unknown\" provider")
-	a.SetSource(nil)
-	err = a.Uncomment()
-	assert.EqualError(t, err, "no source")
-}
-
-func TestAppcast_Uncomment_SparkleRSSFeed(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("sparkle/with_comments.xml"))
-	a.source.SetProvider(SparkleRSSFeed)
+func TestAppcast_Uncomment(t *testing.T) {
+	testCases := map[string]map[string]interface{}{
+		"sparkle/with_comments.xml": {
+			"lines": []int{13, 20},
+		},
+		"sourceforge/default.xml": {
+			"error": "uncommenting is not available for the \"SourceForge RSS Feed\" provider",
+		},
+		"github/default.xml": {
+			"error": "uncommenting is not available for the \"GitHub Atom Feed\" provider",
+		},
+		"unknown.xml": {
+			"error": "uncommenting is not available for the \"Unknown\" provider",
+		},
+	}
 
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
 	regexCommentEnd := regexp.MustCompile(`>([[:space:]]*)?-->`)
 
 	// test
-	err := a.Uncomment()
-	assert.Nil(t, err)
-	for _, commentLine := range []int{13, 20} {
-		line, _ := getLine(commentLine, a.Source().Content())
-		check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
-		assert.False(t, check)
+	for path, data := range testCases {
+		// preparations
+		a := newTestAppcast(getTestdata(path))
+		a.source.GuessProvider()
+
+		err := a.Uncomment()
+
+		if data["error"] == nil {
+			// test (successful)
+			assert.Nil(t, err)
+
+			for _, commentLine := range data["lines"].([]int) {
+				line, _ := getLine(commentLine, a.source.Content())
+				check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
+				assert.False(t, check)
+			}
+		} else {
+			// test (error)
+			assert.Error(t, err)
+			assert.EqualError(t, err, data["error"].(string))
+		}
 	}
-}
 
-func TestAppcast_Uncomment_SourceForgeRSSFeed(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("sourceforge/default.xml"))
-	a.source.SetProvider(SourceForgeRSSFeed)
+	// test (error) [no source]
+	a := new(Appcast)
 
-	// test
 	err := a.Uncomment()
 	assert.Error(t, err)
-	assert.EqualError(t, err, "uncommenting is not available for the \"SourceForge RSS Feed\" provider")
-}
-
-func TestAppcast_Uncomment_GitHubAtomFeed(t *testing.T) {
-	// preparations
-	a := newTestAppcast(getTestdata("github/default.xml"))
-	a.source.SetProvider(GitHubAtomFeed)
-
-	// test
-	err := a.Uncomment()
-	assert.Error(t, err)
-	assert.EqualError(t, err, "uncommenting is not available for the \"GitHub Atom Feed\" provider")
+	assert.EqualError(t, err, "no source")
+	assert.Nil(t, a.source)
 }
 
 func TestAppcast_SortReleasesByVersions(t *testing.T) {
@@ -716,7 +526,7 @@ func TestExtractSemanticVersions(t *testing.T) {
 
 func TestAppcast_Source(t *testing.T) {
 	a := newTestAppcast()
-	assert.Equal(t, a.source, a.Source())
+	assert.Equal(t, a.source, a.source)
 }
 
 func TestAppcast_SetSource(t *testing.T) {
