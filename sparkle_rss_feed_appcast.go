@@ -79,6 +79,10 @@ type unmarshalSparkleRSSFeedEnclosure struct {
 func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 	var feed unmarshalSparkleRSSFeed
 
+	if a.source == nil || len(a.source.Content()) == 0 {
+		return nil, fmt.Errorf("no source")
+	}
+
 	xml.Unmarshal(a.source.Content(), &feed)
 
 	a.channel = &SparkleRSSFeedAppcastChannel{
