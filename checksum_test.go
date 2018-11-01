@@ -9,10 +9,15 @@ import (
 )
 
 func TestNewChecksum(t *testing.T) {
-	c := NewChecksum(SHA256, []byte("test"))
+	// preparations
+	a := SHA256
+	src := []byte("test")
+
+	// test
+	c := NewChecksum(a, src)
 	assert.IsType(t, Checksum{}, *c)
-	assert.Equal(t, SHA256, c.algorithm)
-	assert.Equal(t, []byte("test"), c.source)
+	assert.Equal(t, a, c.algorithm)
+	assert.Equal(t, src, c.source)
 	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", c.String())
 }
 
@@ -25,6 +30,10 @@ func TestChecksum_generate(t *testing.T) {
 		"github/invalid_pubdate.xml": {
 			"52f87bba760a4e5f8ee418cdbc3806853d79ad10d3f961e5c54d1f5abf09b24b",
 			"1aeca62fcdb36aa5ed3c18efdbcc9c02",
+		},
+		"github/invalid_tag.xml": {
+			"ce7bbb1c8c9bc5feffeddf7c4217ab838edc050783bbb21419b13dc47e5f00d5",
+			"8fcf4592654f1016a858b305d7ebf2c1",
 		},
 		"github/invalid_version.xml": {
 			"7375a6cbee6f9369bd8e4ecbda347889a0272b8dd8a5eb473c1dec9dfa753392",
@@ -41,6 +50,10 @@ func TestChecksum_generate(t *testing.T) {
 		"sourceforge/invalid_pubdate.xml": {
 			"160885aaaa2f694b5306e91ea20d08ef514f424e51704947c9f07fffec787cf6",
 			"c39e1ffc7bbe1e86fe252052269fb766",
+		},
+		"sourceforge/invalid_tag.xml": {
+			"408272c1d2ad47ee990b570bdf67bc7af6e10d8a53dabaef60ec4464a2ebf311",
+			"f131f73bc19beb9f2282f4a8d12a854a",
 		},
 		"sourceforge/invalid_version.xml": {
 			"ad841a02d68c60589136f1f01d000b7988989c187da3ffabbf9d89832a84a6f1",
@@ -69,6 +82,10 @@ func TestChecksum_generate(t *testing.T) {
 		"sparkle/invalid_pubdate.xml": {
 			"9a59f9d0ccd08b317cf784656f6a5bd0e5a1868103ec56d3364baec175dd0da1",
 			"c108c194a53216044fbae679a8c0bc76",
+		},
+		"sparkle/invalid_tag.xml": {
+			"682d1670deb5b7cc1c689d7b276e035584be481a6fac5c5f66d568beae88cc30",
+			"16dd1abe0f9b082058eac3979968879c",
 		},
 		"sparkle/invalid_version.xml": {
 			"65d754f5bd04cfad33d415a3605297069127e14705c14b8127a626935229b198",
@@ -114,30 +131,32 @@ func TestChecksum_generate(t *testing.T) {
 		// SHA256
 		c := &Checksum{SHA256, content, nil}
 		c.generate()
-		assert.Equal(t, checkpoints[0], c.String(), fmt.Sprintf("Checksum doesn't match (SHA256): %s", filename))
+		assert.Equal(t, checkpoints[0], c.String(), fmt.Sprintf("SHA256 checksum doesn't match: %s", filename))
 
 		// MD5
 		c = &Checksum{MD5, content, nil}
 		c.generate()
-		assert.Equal(t, checkpoints[1], c.String(), fmt.Sprintf("Checksum doesn't match (MD5): %s", filename))
+		assert.Equal(t, checkpoints[1], c.String(), fmt.Sprintf("MD5 checksum doesn't match: %s", filename))
 	}
 }
 
 func TestChecksum_Algorithm(t *testing.T) {
 	c := NewChecksum(SHA256, []byte("test"))
-	assert.Equal(t, SHA256, c.Algorithm())
+	assert.Equal(t, c.algorithm, c.Algorithm())
 }
 
 func TestChecksum_Source(t *testing.T) {
-	src := []byte("test")
-	c := NewChecksum(SHA256, src)
-	assert.Equal(t, src, c.Source())
+	c := NewChecksum(SHA256, []byte("test"))
+	assert.Equal(t, c.source, c.Source())
 }
 
 func TestChecksum_Result(t *testing.T) {
-	result, _ := hex.DecodeString("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
+	// preparations
 	c := NewChecksum(SHA256, []byte("test"))
-	assert.Equal(t, result, c.Result())
+	expected, _ := hex.DecodeString("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
+
+	// test
+	assert.Equal(t, expected, c.Result())
 }
 
 func TestChecksumAlgorithm_String(t *testing.T) {
