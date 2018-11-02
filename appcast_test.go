@@ -148,7 +148,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleAppcast{}, p)
 	assert.NotEmpty(t, a.source.Content())
-	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
+	assert.Equal(t, Sparkle, a.source.Provider())
 	assert.NotNil(t, a.source.Checksum())
 	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 
@@ -160,7 +160,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleAppcast{}, p)
 	assert.NotEmpty(t, a.source.Content())
-	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
+	assert.Equal(t, Sparkle, a.source.Provider())
 	assert.NotNil(t, a.source.Checksum())
 	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 
@@ -217,7 +217,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.IsType(t, &SparkleAppcast{}, p)
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.source.Content())
-	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
+	assert.Equal(t, Sparkle, a.source.Provider())
 	assert.NotNil(t, a.source.Checksum())
 	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 
@@ -279,7 +279,7 @@ func TestAppcast_LoadSource(t *testing.T) {
 func TestAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sparkle/attributes_as_elements.xml": {
-			"provider": SparkleRSSFeed,
+			"provider": Sparkle,
 			"appcast":  &SparkleAppcast{},
 			"checksum": "d59d258ce0b06d4c6216f6589aefb36e2bd37fbd647f175741cc248021e0e8b4",
 			"releases": 4,
@@ -302,7 +302,7 @@ func TestAppcast_UnmarshalReleases(t *testing.T) {
 			"error":    "releases for the \"Unknown\" provider can't be unmarshaled",
 		},
 		"sparkle/invalid_version.xml": {
-			"provider": SparkleRSSFeed,
+			"provider": Sparkle,
 			"checksum": "65d754f5bd04cfad33d415a3605297069127e14705c14b8127a626935229b198",
 			"error":    "malformed version: invalid",
 		},

@@ -18,15 +18,15 @@ func TestGuessProviderByContent(t *testing.T) {
 		"sourceforge/single.xml":  SourceForgeRSSFeed,
 
 		// Sparkle RSS Feed
-		"sparkle/attributes_as_elements.xml": SparkleRSSFeed,
-		"sparkle/default_asc.xml":            SparkleRSSFeed,
-		"sparkle/default.xml":                SparkleRSSFeed,
-		"sparkle/incorrect_namespace.xml":    SparkleRSSFeed,
-		"sparkle/multiple_enclosure.xml":     SparkleRSSFeed,
-		"sparkle/no_releases.xml":            SparkleRSSFeed,
-		"sparkle/single.xml":                 SparkleRSSFeed,
-		"sparkle/with_comments.xml":          SparkleRSSFeed,
-		"sparkle/without_namespaces.xml":     SparkleRSSFeed,
+		"sparkle/attributes_as_elements.xml": Sparkle,
+		"sparkle/default_asc.xml":            Sparkle,
+		"sparkle/default.xml":                Sparkle,
+		"sparkle/incorrect_namespace.xml":    Sparkle,
+		"sparkle/multiple_enclosure.xml":     Sparkle,
+		"sparkle/no_releases.xml":            Sparkle,
+		"sparkle/single.xml":                 Sparkle,
+		"sparkle/with_comments.xml":          Sparkle,
+		"sparkle/without_namespaces.xml":     Sparkle,
 
 		// Unknown
 		"unknown.xml": Unknown,
@@ -38,7 +38,7 @@ func TestGuessProviderByContent(t *testing.T) {
 }
 
 func TestGuessProviderByContentString(t *testing.T) {
-	assert.Equal(t, SparkleRSSFeed, GuessProviderByContentString(string(getTestdata("sparkle/default.xml"))))
+	assert.Equal(t, Sparkle, GuessProviderByContentString(string(getTestdata("sparkle/default.xml"))))
 }
 
 func TestGuessProviderByUrl(t *testing.T) {
@@ -69,7 +69,7 @@ func TestGuessProviderByUrl(t *testing.T) {
 
 func TestProvider_String(t *testing.T) {
 	assert.Equal(t, "-", Unknown.String())
-	assert.Equal(t, "Sparkle RSS Feed", SparkleRSSFeed.String())
+	assert.Equal(t, "Sparkle RSS Feed", Sparkle.String())
 	assert.Equal(t, "SourceForge RSS Feed", SourceForgeRSSFeed.String())
 	assert.Equal(t, "GitHub Atom Feed", GitHubAtomFeed.String())
 }

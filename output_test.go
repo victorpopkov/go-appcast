@@ -60,8 +60,8 @@ func TestOutput_Provider(t *testing.T) {
 
 func TestOutput_SetProvider(t *testing.T) {
 	o := newTestOutput()
-	o.SetProvider(SparkleRSSFeed)
-	assert.Equal(t, SparkleRSSFeed, o.provider)
+	o.SetProvider(Sparkle)
+	assert.Equal(t, Sparkle, o.provider)
 }
 
 func TestOutput_Appcast(t *testing.T) {

@@ -85,7 +85,7 @@ func TestRemoteSource_Load(t *testing.T) {
 	assert.Nil(t, err)
 	err = src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, SparkleRSSFeed, src.provider)
+	assert.Equal(t, Sparkle, src.provider)
 	assert.Equal(t, content, src.content)
 
 	// test (error)
@@ -103,10 +103,10 @@ func TestRemoteSource_GuessProvider(t *testing.T) {
 	src.GuessProvider()
 	assert.Equal(t, Unknown, src.Provider())
 
-	// test (SparkleRSSFeed)
+	// test (Sparkle)
 	src = newTestRemoteSource(getTestdata("sparkle/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, SparkleRSSFeed, src.Provider())
+	assert.Equal(t, Sparkle, src.Provider())
 
 	// test (SourceForgeRSSFeed)
 	src = newTestRemoteSource(getTestdata("sourceforge/default.xml"))

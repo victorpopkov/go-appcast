@@ -43,7 +43,7 @@ func TestNewLocalOutput(t *testing.T) {
 	path := "/tmp/go-appcast_TestNewLocalOutput.txt"
 
 	// test (successful)
-	o := NewLocalOutput(SparkleRSSFeed, path, 0777)
+	o := NewLocalOutput(Sparkle, path, 0777)
 	assert.IsType(t, LocalOutput{}, *o)
 	assert.NotNil(t, o.Output)
 	assert.Equal(t, path, o.filepath)

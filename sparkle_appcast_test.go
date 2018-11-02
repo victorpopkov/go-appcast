@@ -28,7 +28,7 @@ func newTestSparkleAppcast(paths ...string) *SparkleAppcast {
 			source: &LocalSource{
 				Source: &Source{
 					content:  content,
-					provider: SparkleRSSFeed,
+					provider: Sparkle,
 				},
 				filepath: path,
 			},

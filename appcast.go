@@ -170,7 +170,7 @@ func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
 	p := a.source.Provider()
 
 	switch p {
-	case SparkleRSSFeed:
+	case Sparkle:
 		appcast = &SparkleAppcast{Appcast: *a}
 		break
 	case SourceForgeRSSFeed:
@@ -211,7 +211,7 @@ func (a *Appcast) Uncomment() error {
 	provider := p.String()
 
 	switch p {
-	case SparkleRSSFeed:
+	case Sparkle:
 		appcast := SparkleAppcast{Appcast: *a}
 		appcast.Uncomment()
 		a.source.SetContent(appcast.Appcast.source.Content())

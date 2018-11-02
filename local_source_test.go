@@ -60,7 +60,7 @@ func TestLocalSource_Load(t *testing.T) {
 	src := NewLocalSource(path)
 	err := src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, SparkleRSSFeed, src.provider)
+	assert.Equal(t, Sparkle, src.provider)
 	assert.Equal(t, string(content), string(src.content))
 
 	// test (error)

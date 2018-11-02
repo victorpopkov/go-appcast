@@ -47,10 +47,10 @@ func TestSource_GuessProvider(t *testing.T) {
 	src := newTestSource()
 	assert.Equal(t, Unknown, src.Provider())
 
-	// test (SparkleRSSFeed)
+	// test (Sparkle)
 	src.SetContent(getTestdata("sparkle/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, SparkleRSSFeed, src.Provider())
+	assert.Equal(t, Sparkle, src.Provider())
 
 	// test (SourceForgeRSSFeed)
 	src.SetContent(getTestdata("sourceforge/default.xml"))
@@ -86,8 +86,8 @@ func TestSource_Provider(t *testing.T) {
 
 func TestSource_SetProvider(t *testing.T) {
 	src := newTestSource()
-	src.SetProvider(SparkleRSSFeed)
-	assert.Equal(t, SparkleRSSFeed, src.provider)
+	src.SetProvider(Sparkle)
+	assert.Equal(t, Sparkle, src.provider)
 }
 
 func TestSource_Appcast(t *testing.T) {
