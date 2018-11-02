@@ -83,13 +83,13 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		return nil, fmt.Errorf("no source")
 	}
 
-	xml.Unmarshal(a.source.Content(), &feed)
+	if a.source.Appcast() == nil {
+		a.source.SetAppcast(a)
+	}
 
-	a.channel = &SparkleRSSFeedAppcastChannel{
-		Title:       feed.Channel.Title,
-		Link:        feed.Channel.Link,
-		Description: feed.Channel.Description,
-		Language:    feed.Channel.Language,
+	err := xml.Unmarshal(a.source.Content(), &feed)
+	if err != nil {
+		return nil, err
 	}
 
 	items, err := a.createReleases(feed)
@@ -98,6 +98,12 @@ func (a *SparkleRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 	}
 
 	a.releases = items
+	a.channel = &SparkleRSSFeedAppcastChannel{
+		Title:       feed.Channel.Title,
+		Link:        feed.Channel.Link,
+		Description: feed.Channel.Description,
+		Language:    feed.Channel.Language,
+	}
 
 	return a, nil
 }
@@ -121,7 +127,7 @@ func (a *SparkleRSSFeedAppcast) createReleases(feed unmarshalSparkleRSSFeed) ([]
 		}
 
 		if version == "" && build == "" {
-			return nil, fmt.Errorf("version is required, but it's not specified in release #%d", i+1)
+			return nil, fmt.Errorf("no version in the #%d release", i+1)
 		} else if version == "" && build != "" {
 			version = build
 		}

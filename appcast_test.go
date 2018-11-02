@@ -199,7 +199,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.IsType(t, &RemoteSource{}, a.source)
-	assert.Nil(t, a.source.Appcast())
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 }
 
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
@@ -235,16 +235,21 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.Nil(t, a.source)
 
 	// test (error) [unmarshalling failure]
+	path = getTestdataPath("sparkle/invalid_version.xml")
+	content = getTestdata("sparkle/invalid_version.xml")
+
 	localSourceReadFile = func(filename string) ([]byte, error) {
-		return []byte("invalid"), nil
+		return content, nil
 	}
 
 	a = New()
 	p, err = a.LoadFromLocalSource(path)
+	assert.Error(t, err)
+	assert.EqualError(t, err, "malformed version: invalid")
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.Error(t, err)
-	assert.EqualError(t, err, "releases for the \"Unknown\" provider can't be unmarshaled")
+	assert.IsType(t, &LocalSource{}, a.source)
+	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 
 	localSourceReadFile = ioutil.ReadFile
 }

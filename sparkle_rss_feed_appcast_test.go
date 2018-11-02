@@ -46,17 +46,17 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
 		},
-		"default_asc.xml": {
-			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
-		},
 		"default.xml": {
 			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
 			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
 			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		},
+		"default_asc.xml": {
+			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
 		},
 		"incorrect_namespace.xml": {
 			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
@@ -96,8 +96,9 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
+		"invalid_tag.xml":     "XML syntax error on line 14: element <enclosure> closed by </item>",
 		"invalid_version.xml": "malformed version: invalid",
-		"with_comments.xml":   "version is required, but it's not specified in release #1",
+		"with_comments.xml":   "no version in the #1 release",
 	}
 
 	// test (successful)
@@ -115,7 +116,7 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
-		//assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
 
 		assert.IsType(t, &SparkleRSSFeedAppcastChannel{}, a.channel)
 		assert.Equal(t, "App", a.channel.Title)
@@ -154,8 +155,8 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 		assert.Nil(t, p)
-		//assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
-		//assert.Nil(t, a.channel)
+		assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+		assert.Nil(t, a.channel)
 	}
 
 	// test (error) [no source]
