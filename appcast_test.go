@@ -195,7 +195,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	a = New()
 	p, err = a.LoadFromRemoteSource(url)
 	assert.Error(t, err)
-	assert.EqualError(t, err, "Malformed version: invalid")
+	assert.EqualError(t, err, "malformed version: invalid")
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.IsType(t, &RemoteSource{}, a.source)
@@ -299,7 +299,7 @@ func TestAppcast_UnmarshalReleases(t *testing.T) {
 		"sparkle/invalid_version.xml": {
 			"provider": SparkleRSSFeed,
 			"checksum": "65d754f5bd04cfad33d415a3605297069127e14705c14b8127a626935229b198",
-			"error":    "Malformed version: invalid",
+			"error":    "malformed version: invalid",
 		},
 	}
 

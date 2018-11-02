@@ -1,7 +1,11 @@
 // Package release provides functionality for appcast releases.
 package release
 
-import "github.com/hashicorp/go-version"
+import (
+	"fmt"
+
+	"github.com/hashicorp/go-version"
+)
 
 // Releaser is the interface that wraps the Release methods.
 type Releaser interface {
@@ -113,7 +117,7 @@ func (r *Release) SetVersion(version *version.Version) {
 func (r *Release) SetVersionString(value string) error {
 	v, err := version.NewVersion(value)
 	if err != nil {
-		return err
+		return fmt.Errorf("malformed version: %s", value)
 	}
 
 	r.version = v

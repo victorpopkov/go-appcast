@@ -50,7 +50,7 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"invalid_version.xml": "Malformed version: invalid",
+		"invalid_version.xml": "malformed version: invalid",
 	}
 
 	// test (successful)

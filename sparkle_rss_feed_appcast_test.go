@@ -96,7 +96,7 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"invalid_version.xml": "Malformed version: invalid",
+		"invalid_version.xml": "malformed version: invalid",
 		"with_comments.xml":   "version is required, but it's not specified in release #1",
 	}
 

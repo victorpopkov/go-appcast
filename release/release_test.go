@@ -45,6 +45,7 @@ func TestNew(t *testing.T) {
 	// test (error)
 	r, err = New("invalid", b)
 	assert.Error(t, err)
+	assert.EqualError(t, err, "malformed version: invalid")
 	assert.Nil(t, r)
 }
 
@@ -94,6 +95,7 @@ func TestRelease_SetVersionString(t *testing.T) {
 	assert.Equal(t, "1.0.0", r.version.String())
 	err = r.SetVersionString("invalid")
 	assert.Error(t, err)
+	assert.EqualError(t, err, "malformed version: invalid")
 	assert.Equal(t, "1.0.0", r.version.String())
 }
 
