@@ -7,15 +7,60 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+## [0.4.0][] - 2018-11-02
+
+### Added
+
+- Field `Download.dsaSignature` with getter and setter to hold the DSA signature
+of the file
+- Field `Release.minimumSystemVersion` with getter and setter to hold the
+minimum required system version
+- Field `Release.releaseNotesLink` with getter and setter to hold the release
+notes link
+- Interface `Downloader` implemented by `Download`
+- Support for the "Sparkle RSS Feed" new `<enclosure />` attributes:
+`dsaSignature`, `md5sum`, `minimumSystemVersion` and `releaseNotesLink`
+- Support passing `dsaSignature` and `md5` as parameters in the `NewDownload`
+function
+
+### Changed
+
+- All `Download` fields to become unexported
+- Client-specific stuff to be in the separate `client` package
+- Field `Download.Type` in favour of `Download.filetype`
+- Field `Download.URL` in favour of `Download.url`
+- Field `PublishedDateTime.time` to become a `*time.Time` type
+- Function `NewClient` to become the `New` in the `client` package
+- Method `GitHubAtomFeedAppcast.UnmarshalReleases` to return an error when no
+source or unmarshalling failure
+- Method `PublishedDateTime.String` to return an empty string for the `nil`
+value
+- Method `SourceForgeRSSFeedAppcast.UnmarshalReleases` to return an error when
+no source or unmarshalling failure
+- Method `SparkleRSSFeedAppcast.UnmarshalReleases` to return an error when no
+source or unmarshalling failure
+- Unmarshalling structs for "SourceForge RSS Feed" and "GitHub Atom Feed" to
+become unexported
+
+### Fixed
+
+- Method `GitHubAtomFeedAppcast.UnmarshalReleases` to set the
+`GitHubAtomFeedAppcast.source.appcast`
+- Method `SourceForgeRSSFeedAppcast.UnmarshalReleases` to set the
+`SourceForgeRSSFeedAppcast.source.appcast`
+- Method `SparkleRSSFeedAppcast.UnmarshalReleases` to set the
+`SparkleRSSFeedAppcast.source.appcast`
+
 ## [0.3.0][] - 2018-10-27
 
 ### Added
 
 - Extendable `Output` with `Outputer` interface for creating use-case specific
 outputs
-- Field `Output.appcast` to hold the provider-specific appcast after marshalling
-- Field `Source.appcast` to hold the provider-specific appcast after
-unmarshalling
+- Field `Output.appcast` with getter and setter to hold the provider-specific
+appcast after marshalling
+- Field `Source.appcast` with getter and setter to hold the provider-specific
+appcast after unmarshalling
 - Source `LocalOutput` with `LocalOutputer` interface to save an appcast to the
 local file by path
 - Struct `PublishedDateTime` to use as the `Release.publishedDateTime` type in
@@ -28,7 +73,7 @@ the `release` package
 - Code coverage service from "Coveralls" to "Codecov"
 - Dependencies versions to match the latest ones
 - Field `Release.publishedDateTime` type to become the new `PublishedDateTime`
-- Function `NewRelease` to become `New` in the `release` package
+- Function `NewRelease` to become the `New` in the `release` package
 - Method `Appcast.LoadFromLocalSource` to also return the provider-specific
 appcast
 - Method `Appcast.LoadFromRemoteSource` to also return the provider-specific
@@ -124,6 +169,7 @@ provider
 
 First release.
 
-[unreleased]: https://github.com/victorpopkov/go-appcast/compare/v0.2.0...HEAD
+[unreleased]: https://github.com/victorpopkov/go-appcast/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/victorpopkov/go-appcast/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/victorpopkov/go-appcast/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/victorpopkov/go-appcast/compare/v0.1.0...v0.2.0
