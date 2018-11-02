@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// newTestSparkleRSSFeedAppcast creates a new SparkleRSSFeedAppcast instance for
-// testing purposes and returns its pointer. By default the source is
-// LocalSource and points to the "Sparkle RSS Feed" default.xml testdata.
-func newTestSparkleRSSFeedAppcast(paths ...string) *SparkleRSSFeedAppcast {
+// newTestSparkleAppcast creates a new SparkleAppcast instance for testing
+// purposes and returns its pointer. By default the source is LocalSource and
+// points to the "Sparkle RSS Feed" default.xml testdata.
+func newTestSparkleAppcast(paths ...string) *SparkleAppcast {
 	var path string
 	var content []byte
 
@@ -23,7 +23,7 @@ func newTestSparkleRSSFeedAppcast(paths ...string) *SparkleRSSFeedAppcast {
 		content = getTestdata("sparkle", "default.xml")
 	}
 
-	appcast := &SparkleRSSFeedAppcast{
+	appcast := &SparkleAppcast{
 		Appcast: Appcast{
 			source: &LocalSource{
 				Source: &Source{
@@ -38,7 +38,7 @@ func newTestSparkleRSSFeedAppcast(paths ...string) *SparkleRSSFeedAppcast {
 	return appcast
 }
 
-func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
+func TestSparkleAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"attributes_as_elements.xml": {
 			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
@@ -104,10 +104,10 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 	// test (successful)
 	for path, releases := range testCases {
 		// preparations
-		a := newTestSparkleRSSFeedAppcast("sparkle", path)
+		a := newTestSparkleAppcast("sparkle", path)
 
 		// test
-		assert.IsType(t, &SparkleRSSFeedAppcast{}, a)
+		assert.IsType(t, &SparkleAppcast{}, a)
 		assert.Nil(t, a.source.Appcast())
 		assert.Nil(t, a.channel)
 		assert.Empty(t, a.releases)
@@ -115,10 +115,10 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		p, err := a.UnmarshalReleases()
 
 		assert.Nil(t, err)
-		assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
-		assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SparkleAppcast{}, p)
+		assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 
-		assert.IsType(t, &SparkleRSSFeedAppcastChannel{}, a.channel)
+		assert.IsType(t, &SparkleAppcastChannel{}, a.channel)
 		assert.Equal(t, "App", a.channel.Title)
 		assert.Equal(t, "https://example.com/app/", a.channel.Link)
 		assert.Equal(t, "App Description", a.channel.Description)
@@ -143,10 +143,10 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 	// test (error) [unmarshalling failure]
 	for path, errorMsg := range errorTestCases {
 		// preparations
-		a := newTestSparkleRSSFeedAppcast("sparkle", path)
+		a := newTestSparkleAppcast("sparkle", path)
 
 		// test
-		assert.IsType(t, &SparkleRSSFeedAppcast{}, a)
+		assert.IsType(t, &SparkleAppcast{}, a)
 		assert.Nil(t, a.source.Appcast())
 		assert.Nil(t, a.channel)
 
@@ -155,12 +155,12 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 		assert.Nil(t, p)
-		assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 		assert.Nil(t, a.channel)
 	}
 
 	// test (error) [no source]
-	a := new(SparkleRSSFeedAppcast)
+	a := new(SparkleAppcast)
 
 	p, err := a.UnmarshalReleases()
 	assert.Error(t, err)
@@ -170,7 +170,7 @@ func TestSparkleRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 	assert.Nil(t, a.channel)
 }
 
-func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
+func TestSparkleAppcast_Uncomment(t *testing.T) {
 	testCases := map[string][]int{
 		"attributes_as_elements.xml": nil,
 		"default_asc.xml":            nil,
@@ -188,7 +188,7 @@ func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 	// test (successful)
 	for filename, commentLines := range testCases {
 		// preparations
-		a := newTestSparkleRSSFeedAppcast("sparkle", filename)
+		a := newTestSparkleAppcast("sparkle", filename)
 
 		// before
 		for _, commentLine := range commentLines {
@@ -210,7 +210,7 @@ func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 	}
 
 	// test (error) [no source]
-	a := new(SparkleRSSFeedAppcast)
+	a := new(SparkleAppcast)
 
 	err := a.Uncomment()
 	assert.Error(t, err)
@@ -219,17 +219,17 @@ func TestSparkleRSSFeedAppcast_Uncomment(t *testing.T) {
 	assert.Nil(t, a.channel)
 }
 
-func TestSparkleRSSFeedAppcast_Channel(t *testing.T) {
-	a := newTestSparkleRSSFeedAppcast()
+func TestSparkleAppcast_Channel(t *testing.T) {
+	a := newTestSparkleAppcast()
 	assert.Equal(t, a.channel, a.Channel())
 }
 
-func TestSparkleRSSFeedAppcast_SetChannel(t *testing.T) {
+func TestSparkleAppcast_SetChannel(t *testing.T) {
 	// preparations
-	a := newTestSparkleRSSFeedAppcast()
+	a := newTestSparkleAppcast()
 	assert.Nil(t, a.channel)
 
 	// test
-	a.SetChannel(&SparkleRSSFeedAppcastChannel{})
+	a.SetChannel(&SparkleAppcastChannel{})
 	assert.NotNil(t, a.channel)
 }

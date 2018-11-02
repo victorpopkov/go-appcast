@@ -146,11 +146,11 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	p, err := a.LoadFromRemoteSource("https://example.com/appcast.xml")
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
+	assert.IsType(t, &SparkleAppcast{}, p)
 	assert.NotEmpty(t, a.source.Content())
 	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
 	assert.NotNil(t, a.source.Checksum())
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 
 	// test (successful) [request]
 	a = New()
@@ -158,11 +158,11 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	p, err = a.LoadFromRemoteSource(r)
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
+	assert.IsType(t, &SparkleAppcast{}, p)
 	assert.NotEmpty(t, a.source.Content())
 	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
 	assert.NotNil(t, a.source.Checksum())
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 
 	// test (error) [invalid url]
 	a = New()
@@ -199,7 +199,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.IsType(t, &RemoteSource{}, a.source)
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 }
 
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
@@ -214,12 +214,12 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	a := New()
 	p, err := a.LoadFromLocalSource(path)
 	assert.IsType(t, &Appcast{}, a)
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
+	assert.IsType(t, &SparkleAppcast{}, p)
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.source.Content())
 	assert.Equal(t, SparkleRSSFeed, a.source.Provider())
 	assert.NotNil(t, a.source.Checksum())
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 
 	// test (error) [reading failure]
 	localSourceReadFile = func(filename string) ([]byte, error) {
@@ -249,14 +249,14 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.IsType(t, &LocalSource{}, a.source)
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, a.source.Appcast())
+	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
 
 	localSourceReadFile = ioutil.ReadFile
 }
 
 func TestAppcast_GenerateSourceChecksum(t *testing.T) {
 	// preparations
-	a := newTestSparkleRSSFeedAppcast()
+	a := newTestSparkleAppcast()
 	assert.Nil(t, a.source.Checksum())
 
 	// test
@@ -280,7 +280,7 @@ func TestAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sparkle/attributes_as_elements.xml": {
 			"provider": SparkleRSSFeed,
-			"appcast":  &SparkleRSSFeedAppcast{},
+			"appcast":  &SparkleAppcast{},
 			"checksum": "d59d258ce0b06d4c6216f6589aefb36e2bd37fbd647f175741cc248021e0e8b4",
 			"releases": 4,
 		},
@@ -437,7 +437,7 @@ func TestAppcast_SortReleasesByVersions(t *testing.T) {
 		p, err := a.UnmarshalReleases()
 		assert.Nil(t, err)
 		assert.IsType(t, &Appcast{}, a)
-		assert.IsType(t, &SparkleRSSFeedAppcast{}, p)
+		assert.IsType(t, &SparkleAppcast{}, p)
 
 		// test (ASC)
 		a.SortReleasesByVersions(ASC)
@@ -576,7 +576,7 @@ func TestAppcast_SetReleases(t *testing.T) {
 
 func TestAppcast_FirstRelease(t *testing.T) {
 	// preparations
-	a := newTestSparkleRSSFeedAppcast()
+	a := newTestSparkleAppcast()
 	a.UnmarshalReleases()
 
 	// test

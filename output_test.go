@@ -19,7 +19,7 @@ func newTestOutput() *Output {
 			result:    []byte("test"),
 		},
 		provider: Unknown,
-		appcast:  &SparkleRSSFeedAppcast{},
+		appcast:  &SparkleAppcast{},
 	}
 
 	return o
@@ -66,7 +66,7 @@ func TestOutput_SetProvider(t *testing.T) {
 
 func TestOutput_Appcast(t *testing.T) {
 	o := newTestOutput()
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, o.Appcast())
+	assert.IsType(t, &SparkleAppcast{}, o.Appcast())
 }
 
 func TestOutput_SetAppcast(t *testing.T) {

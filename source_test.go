@@ -19,7 +19,7 @@ func newTestSource() *Source {
 			result:    []byte("test"),
 		},
 		provider: Unknown,
-		appcast:  &SparkleRSSFeedAppcast{},
+		appcast:  &SparkleAppcast{},
 	}
 
 	return src
@@ -92,7 +92,7 @@ func TestSource_SetProvider(t *testing.T) {
 
 func TestSource_Appcast(t *testing.T) {
 	src := newTestSource()
-	assert.IsType(t, &SparkleRSSFeedAppcast{}, src.Appcast())
+	assert.IsType(t, &SparkleAppcast{}, src.Appcast())
 }
 
 func TestSource_SetAppcast(t *testing.T) {

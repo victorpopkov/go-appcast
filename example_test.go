@@ -43,7 +43,7 @@ func Example_sparkleRSSFeedAppcast() {
 	fmt.Printf("%23s %s\n", "DSA Signature:", d.DsaSignature())
 
 	// Output:
-	// Type:     *appcast.SparkleRSSFeedAppcast
+	// Type:     *appcast.SparkleAppcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total
@@ -185,7 +185,7 @@ func ExampleRemoteSource() {
 	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
 
 	// Output:
-	// Type:     *appcast.SparkleRSSFeedAppcast
+	// Type:     *appcast.SparkleAppcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total
@@ -205,7 +205,7 @@ func ExampleLocalSource() {
 	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
 
 	// Output:
-	// Type:     *appcast.SparkleRSSFeedAppcast
+	// Type:     *appcast.SparkleAppcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total

@@ -171,7 +171,7 @@ func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
 
 	switch p {
 	case SparkleRSSFeed:
-		appcast = &SparkleRSSFeedAppcast{Appcast: *a}
+		appcast = &SparkleAppcast{Appcast: *a}
 		break
 	case SourceForgeRSSFeed:
 		appcast = &SourceForgeRSSFeedAppcast{Appcast: *a}
@@ -212,7 +212,7 @@ func (a *Appcast) Uncomment() error {
 
 	switch p {
 	case SparkleRSSFeed:
-		appcast := SparkleRSSFeedAppcast{Appcast: *a}
+		appcast := SparkleAppcast{Appcast: *a}
 		appcast.Uncomment()
 		a.source.SetContent(appcast.Appcast.source.Content())
 
