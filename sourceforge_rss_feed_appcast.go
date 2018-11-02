@@ -61,14 +61,28 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		return nil, fmt.Errorf("no source")
 	}
 
-	xml.Unmarshal(a.source.Content(), &feed)
+	err := xml.Unmarshal(a.source.Content(), &feed)
+	if err != nil {
+		return nil, err
+	}
 
+	items, err := a.createReleases(feed)
+	if err != nil {
+		return nil, err
+	}
+
+	a.releases = items
+
+	return a, nil
+}
+
+func (a *SourceForgeRSSFeedAppcast) createReleases(feed unmarshalSourceForgeRSSFeed) ([]release.Releaser, error) {
 	items := make([]release.Releaser, len(feed.Items))
 	for i, item := range feed.Items {
 		// extract version
 		versions, err := ExtractSemanticVersions(item.Title.Chardata)
 		if err != nil {
-			return nil, fmt.Errorf("version is required, but it's not specified in release #%d", i+1)
+			return nil, fmt.Errorf("no version in the #%d release", i+1)
 		}
 
 		// new release
@@ -95,7 +109,5 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		items[i] = r
 	}
 
-	a.releases = items
-
-	return a, nil
+	return items, nil
 }

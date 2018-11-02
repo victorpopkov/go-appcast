@@ -60,7 +60,8 @@ func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
-		"invalid_version.xml": "version is required, but it's not specified in release #2",
+		"invalid_tag.xml":     "XML syntax error on line 21: element <content> closed by </item>",
+		"invalid_version.xml": "no version in the #2 release",
 	}
 
 	// test (successful)
@@ -77,7 +78,7 @@ func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, p)
-		//assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a.source.Appcast())
 
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
@@ -107,7 +108,7 @@ func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 		assert.Nil(t, p)
-		//assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a.source.Appcast())
 	}
 
 	// test (error) [no source]
