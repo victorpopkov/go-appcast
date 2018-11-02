@@ -61,6 +61,10 @@ func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		return nil, fmt.Errorf("no source")
 	}
 
+	if a.source.Appcast() == nil {
+		a.source.SetAppcast(a)
+	}
+
 	err := xml.Unmarshal(a.source.Content(), &feed)
 	if err != nil {
 		return nil, err
