@@ -45,8 +45,27 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		return nil, fmt.Errorf("no source")
 	}
 
-	xml.Unmarshal(a.source.Content(), &feed)
+	if a.source.Appcast() == nil {
+		a.source.SetAppcast(a)
+	}
 
+	err := xml.Unmarshal(a.source.Content(), &feed)
+	if err != nil {
+		return nil, err
+	}
+
+	items, err := a.createReleases(feed)
+	if err != nil {
+		return nil, err
+	}
+
+	a.releases = items
+
+	return a, nil
+}
+
+// createReleases creates a release.Releaser array from the unmarshalled feed.
+func (a *GitHubAtomFeedAppcast) createReleases(feed unmarshalGitHubAtomFeed) ([]release.Releaser, error) {
 	items := make([]release.Releaser, len(feed.Entries))
 	for i, entry := range feed.Entries {
 		version := ""
@@ -85,7 +104,5 @@ func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
 		items[i] = r
 	}
 
-	a.releases = items
-
-	return a, nil
+	return items, nil
 }

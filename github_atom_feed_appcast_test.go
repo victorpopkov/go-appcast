@@ -50,6 +50,7 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 	}
 
 	errorTestCases := map[string]string{
+		"invalid_tag.xml":     "XML syntax error on line 18: element <thumbnail> closed by </entry>",
 		"invalid_version.xml": "malformed version: invalid",
 	}
 
@@ -67,7 +68,7 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 
 		assert.Nil(t, err)
 		assert.IsType(t, &GitHubAtomFeedAppcast{}, p)
-		//assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
 
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
@@ -92,7 +93,7 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 		assert.Nil(t, p)
-		//assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
 	}
 
 	// test (error) [no source]
