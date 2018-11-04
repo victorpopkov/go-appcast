@@ -49,12 +49,12 @@ type unmarshalSourceForgeRSSFeedContent struct {
 	Filesize int    `xml:"filesize,attr"`
 }
 
-// UnmarshalReleases unmarshals the Appcast.source.content into the
-// Appcast.releases for the "SourceForge RSS Feed" provider.
+// Unmarshal unmarshals the SourceForgeRSSFeedAppcast.source.content into the
+// SourceForgeRSSFeedAppcast.releases.
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *SourceForgeRSSFeedAppcast) UnmarshalReleases() (Appcaster, error) {
+func (a *SourceForgeRSSFeedAppcast) Unmarshal() (Appcaster, error) {
 	var feed unmarshalSourceForgeRSSFeed
 
 	if a.source == nil || len(a.source.Content()) == 0 {

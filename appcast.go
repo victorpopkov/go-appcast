@@ -29,7 +29,7 @@ type Appcaster interface {
 	LoadFromLocalSource(path string) (Appcaster, error)
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	LoadSource() error
-	UnmarshalReleases() (Appcaster, error)
+	Unmarshal() (Appcaster, error)
 	Uncomment() error
 	SortReleasesByVersions(s Sort)
 	FilterReleasesByTitle(regexpStr string, inversed ...interface{})
@@ -117,7 +117,7 @@ func (a *Appcast) LoadFromRemoteSource(i interface{}) (Appcaster, error) {
 	}
 
 	a.source = src
-	appcast, err := a.UnmarshalReleases()
+	appcast, err := a.Unmarshal()
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func (a *Appcast) LoadFromLocalSource(path string) (Appcaster, error) {
 	}
 
 	a.source = src
-	appcast, err := a.UnmarshalReleases()
+	appcast, err := a.Unmarshal()
 	if err != nil {
 		return nil, err
 	}
@@ -158,13 +158,13 @@ func (a *Appcast) LoadSource() error {
 	return a.source.Load()
 }
 
-// UnmarshalReleases unmarshals the Appcast.source.content into the
-// Appcast.releases by calling the appropriate provider-specific
-// UnmarshalReleases method from the supported providers.
+// Unmarshal unmarshals the Appcast.source.content into the Appcast.releases by
+// calling the appropriate provider-specific Unmarshal method from the supported
+// providers.
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
+func (a *Appcast) Unmarshal() (Appcaster, error) {
 	var appcast Appcaster
 
 	p := a.source.Provider()
@@ -188,7 +188,7 @@ func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
 		return nil, fmt.Errorf("releases for the \"%s\" provider can't be unmarshaled", provider)
 	}
 
-	appcast, err := appcast.UnmarshalReleases()
+	appcast, err := appcast.Unmarshal()
 	if err != nil {
 		return nil, err
 	}

@@ -177,7 +177,7 @@ func ExampleRemoteSource() {
 
 	a := New(src)
 	a.LoadSource()
-	a.UnmarshalReleases()
+	a.Unmarshal()
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
@@ -197,7 +197,7 @@ func ExampleLocalSource() {
 
 	a := New(src)
 	a.LoadSource()
-	a.UnmarshalReleases()
+	a.Unmarshal()
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())

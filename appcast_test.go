@@ -338,7 +338,7 @@ func TestAppcast_UnmarshalReleases(t *testing.T) {
 		assert.NotEmpty(t, a.source.Content())
 		assert.Equal(t, data["checksum"], a.source.Checksum().String())
 
-		p, err := a.UnmarshalReleases()
+		p, err := a.Unmarshal()
 
 		if data["error"] == nil {
 			// test (successful)
@@ -434,7 +434,7 @@ func TestAppcast_SortReleasesByVersions(t *testing.T) {
 		// preparations
 		a := New()
 		a.LoadFromRemoteSource("https://example.com/appcast.xml")
-		p, err := a.UnmarshalReleases()
+		p, err := a.Unmarshal()
 		assert.Nil(t, err)
 		assert.IsType(t, &Appcast{}, a)
 		assert.IsType(t, &SparkleAppcast{}, p)
@@ -462,7 +462,7 @@ func TestAppcast_Filters(t *testing.T) {
 	// preparations
 	a := New()
 	a.LoadFromRemoteSource("https://example.com/appcast.xml")
-	a.UnmarshalReleases()
+	a.Unmarshal()
 
 	// Appcast.FilterReleasesByTitle
 	assert.Len(t, a.releases, 4)
@@ -577,7 +577,7 @@ func TestAppcast_SetReleases(t *testing.T) {
 func TestAppcast_FirstRelease(t *testing.T) {
 	// preparations
 	a := newTestSparkleAppcast()
-	a.UnmarshalReleases()
+	a.Unmarshal()
 
 	// test
 	assert.Equal(t, a.releases[0].Version().String(), a.FirstRelease().Version().String())

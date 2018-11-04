@@ -33,12 +33,12 @@ type unmarshalGitHubAtomFeedEntry struct {
 	Content string `xml:"content"`
 }
 
-// UnmarshalReleases unmarshals the Appcast.source.content into the
-// Appcast.releases for the "GitHub Atom Feed" provider.
+// Unmarshal unmarshals the GitHubAtomFeedAppcast.source.content into the
+// GitHubAtomFeedAppcast.releases.
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *GitHubAtomFeedAppcast) UnmarshalReleases() (Appcaster, error) {
+func (a *GitHubAtomFeedAppcast) Unmarshal() (Appcaster, error) {
 	var feed unmarshalGitHubAtomFeed
 
 	if a.source == nil || len(a.source.Content()) == 0 {

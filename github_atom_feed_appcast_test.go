@@ -64,7 +64,7 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Nil(t, a.source.Appcast())
 		assert.Empty(t, a.releases)
 
-		p, err := a.UnmarshalReleases()
+		p, err := a.Unmarshal()
 
 		assert.Nil(t, err)
 		assert.IsType(t, &GitHubAtomFeedAppcast{}, p)
@@ -88,7 +88,7 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.IsType(t, &GitHubAtomFeedAppcast{}, a)
 		assert.Nil(t, a.source.Appcast())
 
-		p, err := a.UnmarshalReleases()
+		p, err := a.Unmarshal()
 
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
@@ -99,7 +99,7 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 	// test (error) [no source]
 	a := new(GitHubAtomFeedAppcast)
 
-	p, err := a.UnmarshalReleases()
+	p, err := a.Unmarshal()
 	assert.Error(t, err)
 	assert.EqualError(t, err, "no source")
 	assert.Nil(t, p)

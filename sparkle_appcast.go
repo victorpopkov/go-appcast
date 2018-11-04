@@ -71,12 +71,12 @@ type unmarshalSparkleEnclosure struct {
 	Type               string `xml:"type,attr"`
 }
 
-// UnmarshalReleases unmarshals the SparkleAppcast.source.content into the
+// Unmarshal unmarshals the SparkleAppcast.source.content into the
 // SparkleAppcast.releases and SparkleAppcast.channel.
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *SparkleAppcast) UnmarshalReleases() (Appcaster, error) {
+func (a *SparkleAppcast) Unmarshal() (Appcaster, error) {
 	var feed unmarshalSparkle
 
 	if a.source == nil || len(a.source.Content()) == 0 {
