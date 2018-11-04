@@ -8,10 +8,10 @@ import (
 	"github.com/victorpopkov/go-appcast/client"
 )
 
-// newTestGitHubAtomFeedAppcast creates a new GitHubAtomFeedAppcast instance for
+// newTestGitHubAtomFeedAppcast creates a new GitHubAppcast instance for
 // testing purposes and returns its pointer. By default the content is
 // []byte("test"). However, own content can be provided as an argument.
-func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast {
+func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAppcast {
 	var resultContent []byte
 
 	if len(content) > 0 {
@@ -23,7 +23,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast
 	url := "https://github.com/user/repo/releases.atom"
 	r, _ := client.NewRequest(url)
 
-	appcast := &GitHubAtomFeedAppcast{
+	appcast := &GitHubAppcast{
 		Appcast: Appcast{
 			source: &RemoteSource{
 				Source: &Source{
@@ -39,7 +39,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAtomFeedAppcast
 	return appcast
 }
 
-func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
+func TestGitHubAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"default.xml": {
 			"2.0.0": {"2016-05-13T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
@@ -60,15 +60,15 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		a := newTestGitHubAtomFeedAppcast(getTestdata("github", path))
 
 		// test
-		assert.IsType(t, &GitHubAtomFeedAppcast{}, a)
+		assert.IsType(t, &GitHubAppcast{}, a)
 		assert.Nil(t, a.source.Appcast())
 		assert.Empty(t, a.releases)
 
 		p, err := a.Unmarshal()
 
 		assert.Nil(t, err)
-		assert.IsType(t, &GitHubAtomFeedAppcast{}, p)
-		assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &GitHubAppcast{}, p)
+		assert.IsType(t, &GitHubAppcast{}, a.source.Appcast())
 
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
@@ -85,7 +85,7 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		a := newTestGitHubAtomFeedAppcast(getTestdata("github", path))
 
 		// test
-		assert.IsType(t, &GitHubAtomFeedAppcast{}, a)
+		assert.IsType(t, &GitHubAppcast{}, a)
 		assert.Nil(t, a.source.Appcast())
 
 		p, err := a.Unmarshal()
@@ -93,11 +93,11 @@ func TestGitHubAtomFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 		assert.Nil(t, p)
-		assert.IsType(t, &GitHubAtomFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &GitHubAppcast{}, a.source.Appcast())
 	}
 
 	// test (error) [no source]
-	a := new(GitHubAtomFeedAppcast)
+	a := new(GitHubAppcast)
 
 	p, err := a.Unmarshal()
 	assert.Error(t, err)

@@ -8,38 +8,37 @@ import (
 	"github.com/victorpopkov/go-appcast/release"
 )
 
-// GitHubAtomFeedAppcaster is the interface that wraps the
-// GitHubAtomFeedAppcaster methods.
-type GitHubAtomFeedAppcaster interface {
+// GitHubAppcaster is the interface that wraps the GitHubAppcaster methods.
+type GitHubAppcaster interface {
 	Appcaster
 }
 
-// GitHubAtomFeedAppcast represents appcast for "GitHub Atom Feed" that is
-// created by GitHub.
-type GitHubAtomFeedAppcast struct {
+// GitHubAppcast represents appcast for "GitHub Atom Feed" that is created by
+// GitHub.
+type GitHubAppcast struct {
 	Appcast
 }
 
-// unmarshalGitHubAtomFeed represents an Atom itself.
-type unmarshalGitHubAtomFeed struct {
-	Entries []unmarshalGitHubAtomFeedEntry `xml:"entry"`
+// unmarshalGitHub represents an Atom itself.
+type unmarshalGitHub struct {
+	Entries []unmarshalGitHubEntry `xml:"entry"`
 }
 
-// unmarshalGitHubAtomFeedEntry represents an Atom entry.
-type unmarshalGitHubAtomFeedEntry struct {
+// unmarshalGitHubEntry represents an Atom entry.
+type unmarshalGitHubEntry struct {
 	ID      string `xml:"id"`
 	Updated string `xml:"updated"`
 	Title   string `xml:"title"`
 	Content string `xml:"content"`
 }
 
-// Unmarshal unmarshals the GitHubAtomFeedAppcast.source.content into the
-// GitHubAtomFeedAppcast.releases.
+// Unmarshal unmarshals the GitHubAppcast.source.content into the
+// GitHubAppcast.releases.
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *GitHubAtomFeedAppcast) Unmarshal() (Appcaster, error) {
-	var feed unmarshalGitHubAtomFeed
+func (a *GitHubAppcast) Unmarshal() (Appcaster, error) {
+	var feed unmarshalGitHub
 
 	if a.source == nil || len(a.source.Content()) == 0 {
 		return nil, fmt.Errorf("no source")
@@ -65,7 +64,7 @@ func (a *GitHubAtomFeedAppcast) Unmarshal() (Appcaster, error) {
 }
 
 // createReleases creates a release.Releaser array from the unmarshalled feed.
-func (a *GitHubAtomFeedAppcast) createReleases(feed unmarshalGitHubAtomFeed) ([]release.Releaser, error) {
+func (a *GitHubAppcast) createReleases(feed unmarshalGitHub) ([]release.Releaser, error) {
 	items := make([]release.Releaser, len(feed.Entries))
 	for i, entry := range feed.Entries {
 		version := ""

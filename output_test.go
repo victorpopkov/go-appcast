@@ -71,6 +71,6 @@ func TestOutput_Appcast(t *testing.T) {
 
 func TestOutput_SetAppcast(t *testing.T) {
 	o := newTestOutput()
-	o.SetAppcast(&GitHubAtomFeedAppcast{})
-	assert.IsType(t, &GitHubAtomFeedAppcast{}, o.appcast)
+	o.SetAppcast(&GitHubAppcast{})
+	assert.IsType(t, &GitHubAppcast{}, o.appcast)
 }

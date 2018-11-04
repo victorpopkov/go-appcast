@@ -149,7 +149,7 @@ func Example_gitHubAtomFeedAppcast() {
 	fmt.Printf("%12s %d total\n", "Downloads:", len(r.Downloads()))
 
 	// Output:
-	// Type:     *appcast.GitHubAtomFeedAppcast
+	// Type:     *appcast.GitHubAppcast
 	// Checksum: 03b6d9b8199ea377036caafa5358512295afa3c740edf9031dc6739b89e3ba05
 	// Provider: GitHub Atom Feed
 	// Releases: 10 total

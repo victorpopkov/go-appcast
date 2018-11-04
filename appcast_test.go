@@ -292,7 +292,7 @@ func TestAppcast_UnmarshalReleases(t *testing.T) {
 		},
 		"github/default.xml": {
 			"provider": GitHubAtomFeed,
-			"appcast":  &GitHubAtomFeedAppcast{},
+			"appcast":  &GitHubAppcast{},
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
 			"releases": 4,
 		},

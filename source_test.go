@@ -97,6 +97,6 @@ func TestSource_Appcast(t *testing.T) {
 
 func TestSource_SetAppcast(t *testing.T) {
 	src := newTestSource()
-	src.SetAppcast(&GitHubAtomFeedAppcast{})
-	assert.IsType(t, &GitHubAtomFeedAppcast{}, src.appcast)
+	src.SetAppcast(&GitHubAppcast{})
+	assert.IsType(t, &GitHubAppcast{}, src.appcast)
 }
