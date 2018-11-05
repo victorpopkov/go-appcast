@@ -8,10 +8,10 @@ import (
 	"github.com/victorpopkov/go-appcast/client"
 )
 
-// newTestSourceForgeRSSFeedAppcast creates a new SourceForgeRSSFeedAppcast
+// newTestSourceForgeRSSFeedAppcast creates a new SourceForgeAppcast
 // instance for testing purposes and returns its pointer. By default the content
 // is []byte("test"). However, own content can be provided as an argument.
-func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeRSSFeedAppcast {
+func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeAppcast {
 	var resultContent []byte
 
 	if len(content) > 0 {
@@ -23,7 +23,7 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeRSSFee
 	url := "https://sourceforge.net/projects/test/rss"
 	r, _ := client.NewRequest(url)
 
-	appcast := &SourceForgeRSSFeedAppcast{
+	appcast := &SourceForgeAppcast{
 		Appcast: Appcast{
 			source: &RemoteSource{
 				Source: &Source{
@@ -39,7 +39,7 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeRSSFee
 	return appcast
 }
 
-func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
+func TestSourceForgeAppcast_UnmarshalReleases(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"default.xml": {
 			"2.0.0": {"Fri, 13 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
@@ -70,15 +70,15 @@ func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		a := newTestSourceForgeRSSFeedAppcast(getTestdata("sourceforge", path))
 
 		// test
-		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a)
+		assert.IsType(t, &SourceForgeAppcast{}, a)
 		assert.Nil(t, a.source.Appcast())
 		assert.Empty(t, a.releases)
 
 		p, err := a.Unmarshal()
 
 		assert.Nil(t, err)
-		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, p)
-		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SourceForgeAppcast{}, p)
+		assert.IsType(t, &SourceForgeAppcast{}, a.source.Appcast())
 
 		assert.Len(t, a.releases, len(releases))
 		for _, release := range a.releases {
@@ -100,7 +100,7 @@ func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		a := newTestSourceForgeRSSFeedAppcast(getTestdata("sourceforge", path))
 
 		// test
-		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a)
+		assert.IsType(t, &SourceForgeAppcast{}, a)
 		assert.Nil(t, a.source.Appcast())
 
 		p, err := a.Unmarshal()
@@ -108,11 +108,11 @@ func TestSourceForgeRSSFeedAppcast_UnmarshalReleases(t *testing.T) {
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 		assert.Nil(t, p)
-		assert.IsType(t, &SourceForgeRSSFeedAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SourceForgeAppcast{}, a.source.Appcast())
 	}
 
 	// test (error) [no source]
-	a := new(SourceForgeRSSFeedAppcast)
+	a := new(SourceForgeAppcast)
 
 	p, err := a.Unmarshal()
 	assert.Error(t, err)

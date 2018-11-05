@@ -103,7 +103,7 @@ func Example_sourceForgeRSSFeedAppcast() {
 	fmt.Printf("%12s %d\n", "Length:", d.Length())
 
 	// Output:
-	// Type:     *appcast.SourceForgeRSSFeedAppcast
+	// Type:     *appcast.SourceForgeAppcast
 	// Checksum: 69886b91a041ce9d742218a77317cd99f87a14199c3f8ba094042dd9d430f7fd
 	// Provider: SourceForge RSS Feed
 	// Releases: 5 total

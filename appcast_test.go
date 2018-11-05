@@ -286,7 +286,7 @@ func TestAppcast_UnmarshalReleases(t *testing.T) {
 		},
 		"sourceforge/default.xml": {
 			"provider": SourceForgeRSSFeed,
-			"appcast":  &SourceForgeRSSFeedAppcast{},
+			"appcast":  &SourceForgeAppcast{},
 			"checksum": "d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
 			"releases": 4,
 		},

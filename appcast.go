@@ -174,7 +174,7 @@ func (a *Appcast) Unmarshal() (Appcaster, error) {
 		appcast = &SparkleAppcast{Appcast: *a}
 		break
 	case SourceForgeRSSFeed:
-		appcast = &SourceForgeRSSFeedAppcast{Appcast: *a}
+		appcast = &SourceForgeAppcast{Appcast: *a}
 		break
 	case GitHub:
 		appcast = &GitHubAppcast{Appcast: *a}
