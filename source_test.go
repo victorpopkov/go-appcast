@@ -57,10 +57,10 @@ func TestSource_GuessProvider(t *testing.T) {
 	src.GuessProvider()
 	assert.Equal(t, SourceForgeRSSFeed, src.Provider())
 
-	// test (GitHubAtomFeed)
+	// test (GitHub)
 	src.SetContent(getTestdata("github/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, GitHubAtomFeed, src.Provider())
+	assert.Equal(t, GitHub, src.Provider())
 }
 
 func TestSource_Content(t *testing.T) {

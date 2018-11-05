@@ -28,7 +28,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAppcast {
 			source: &RemoteSource{
 				Source: &Source{
 					content:  resultContent,
-					provider: GitHubAtomFeed,
+					provider: GitHub,
 				},
 				request: r,
 				url:     url,

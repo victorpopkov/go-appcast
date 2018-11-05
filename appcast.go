@@ -176,7 +176,7 @@ func (a *Appcast) Unmarshal() (Appcaster, error) {
 	case SourceForgeRSSFeed:
 		appcast = &SourceForgeRSSFeedAppcast{Appcast: *a}
 		break
-	case GitHubAtomFeed:
+	case GitHub:
 		appcast = &GitHubAppcast{Appcast: *a}
 		break
 	default:

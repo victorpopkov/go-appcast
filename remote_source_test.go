@@ -113,10 +113,10 @@ func TestRemoteSource_GuessProvider(t *testing.T) {
 	src.GuessProvider()
 	assert.Equal(t, SourceForgeRSSFeed, src.Provider())
 
-	// test (GitHubAtomFeed)
+	// test (GitHub)
 	src = newTestRemoteSource(getTestdata("github/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, GitHubAtomFeed, src.Provider())
+	assert.Equal(t, GitHub, src.Provider())
 }
 
 func TestRemoteSource_Request(t *testing.T) {

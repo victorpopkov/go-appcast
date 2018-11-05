@@ -10,7 +10,7 @@ import (
 func TestGuessProviderByContent(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
-		"github/default.xml": GitHubAtomFeed,
+		"github/default.xml": GitHub,
 
 		// SourceForge RSS Feed
 		"sourceforge/default.xml": SourceForgeRSSFeed,
@@ -44,8 +44,8 @@ func TestGuessProviderByContentString(t *testing.T) {
 func TestGuessProviderByUrl(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
-		"http://github.com/user/repo/releases.atom":  GitHubAtomFeed,
-		"https://github.com/user/repo/releases.atom": GitHubAtomFeed,
+		"http://github.com/user/repo/releases.atom":  GitHub,
+		"https://github.com/user/repo/releases.atom": GitHub,
 
 		// SourceForge RSS Feed
 		"http://sourceforge.net/projects/name/rss":             SourceForgeRSSFeed,
@@ -71,5 +71,5 @@ func TestProvider_String(t *testing.T) {
 	assert.Equal(t, "-", Unknown.String())
 	assert.Equal(t, "Sparkle RSS Feed", Sparkle.String())
 	assert.Equal(t, "SourceForge RSS Feed", SourceForgeRSSFeed.String())
-	assert.Equal(t, "GitHub Atom Feed", GitHubAtomFeed.String())
+	assert.Equal(t, "GitHub Atom Feed", GitHub.String())
 }
