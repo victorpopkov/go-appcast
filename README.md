@@ -289,7 +289,7 @@ func main() {
 
 	a := appcast.New(src)
 	a.LoadSource()
-	a.UnmarshalReleases()
+	a.Unmarshal()
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
@@ -329,7 +329,7 @@ func main() {
 
 	a := appcast.New(src)
 	a.LoadSource()
-	a.UnmarshalReleases()
+	a.Unmarshal()
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
