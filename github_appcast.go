@@ -63,7 +63,18 @@ func (a *GitHubAppcast) Unmarshal() (Appcaster, error) {
 	return a, nil
 }
 
-// createReleases creates a release.Releaser array from the unmarshalled feed.
+// Unmarshal unmarshals the GitHubAppcast.source.content into the
+// GitHubAppcast.releases.
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+//
+// Deprecated: Use GitHubAppcast.Unmarshal instead.
+func (a *GitHubAppcast) UnmarshalReleases() (Appcaster, error) {
+	return a.Unmarshal()
+}
+
+// createReleases creates a release.Releaser slice from the unmarshalled feed.
 func (a *GitHubAppcast) createReleases(feed unmarshalGitHub) ([]release.Releaser, error) {
 	items := make([]release.Releaser, len(feed.Entries))
 	for i, entry := range feed.Entries {

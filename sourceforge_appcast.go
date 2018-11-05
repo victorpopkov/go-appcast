@@ -80,6 +80,18 @@ func (a *SourceForgeAppcast) Unmarshal() (Appcaster, error) {
 	return a, nil
 }
 
+// Unmarshal unmarshals the SourceForgeAppcast.source.content into the
+// SourceForgeAppcast.releases.
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+//
+// Deprecated: Use SourceForgeAppcast.Unmarshal instead.
+func (a *SourceForgeAppcast) UnmarshalReleases() (Appcaster, error) {
+	return a.Unmarshal()
+}
+
+// createReleases creates a release.Releaser slice from the unmarshalled feed.
 func (a *SourceForgeAppcast) createReleases(feed unmarshalSourceForge) ([]release.Releaser, error) {
 	items := make([]release.Releaser, len(feed.Items))
 	for i, item := range feed.Items {

@@ -30,6 +30,7 @@ type Appcaster interface {
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	LoadSource() error
 	Unmarshal() (Appcaster, error)
+	UnmarshalReleases() (Appcaster, error)
 	Uncomment() error
 	SortReleasesByVersions(s Sort)
 	FilterReleasesByTitle(regexpStr string, inversed ...interface{})
@@ -198,6 +199,18 @@ func (a *Appcast) Unmarshal() (Appcaster, error) {
 	a.originalReleases = a.releases
 
 	return appcast, nil
+}
+
+// Unmarshal unmarshals the Appcast.source.content into the Appcast.releases by
+// calling the appropriate provider-specific Unmarshal method from the supported
+// providers.
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+//
+// Deprecated: Use Appcast.Unmarshal instead.
+func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
+	return a.Unmarshal()
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate

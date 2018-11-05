@@ -65,6 +65,7 @@ func TestGitHubAppcast_Unmarshal(t *testing.T) {
 		assert.Empty(t, a.releases)
 
 		p, err := a.Unmarshal()
+		p, err = a.UnmarshalReleases()
 
 		assert.Nil(t, err)
 		assert.IsType(t, &GitHubAppcast{}, p)
@@ -104,4 +105,8 @@ func TestGitHubAppcast_Unmarshal(t *testing.T) {
 	assert.EqualError(t, err, "no source")
 	assert.Nil(t, p)
 	assert.Nil(t, a.source)
+}
+
+func TestGitHubAppcast_UnmarshalReleases(t *testing.T) {
+	TestGitHubAppcast_Unmarshal(t)
 }

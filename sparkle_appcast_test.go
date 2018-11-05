@@ -113,6 +113,7 @@ func TestSparkleAppcast_Unmarshal(t *testing.T) {
 		assert.Empty(t, a.releases)
 
 		p, err := a.Unmarshal()
+		p, err = a.UnmarshalReleases()
 
 		assert.Nil(t, err)
 		assert.IsType(t, &SparkleAppcast{}, p)
@@ -168,6 +169,10 @@ func TestSparkleAppcast_Unmarshal(t *testing.T) {
 	assert.Nil(t, p)
 	assert.Nil(t, a.source)
 	assert.Nil(t, a.channel)
+}
+
+func TestSparkleAppcast_UnmarshalReleases(t *testing.T) {
+	TestSparkleAppcast_Unmarshal(t)
 }
 
 func TestSparkleAppcast_Uncomment(t *testing.T) {

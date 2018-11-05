@@ -108,7 +108,18 @@ func (a *SparkleAppcast) Unmarshal() (Appcaster, error) {
 	return a, nil
 }
 
-// createReleases creates a release.Releaser array from the unmarshalled feed.
+// Unmarshal unmarshals the SparkleAppcast.source.content into the
+// SparkleAppcast.releases and SparkleAppcast.channel.
+//
+// It returns both: the supported provider-specific appcast implementing the
+// Appcaster interface and an error.
+//
+// Deprecated: Use SparkleAppcast.Unmarshal instead.
+func (a *SparkleAppcast) UnmarshalReleases() (Appcaster, error) {
+	return a.Unmarshal()
+}
+
+// createReleases creates a release.Releaser slice from the unmarshalled feed.
 func (a *SparkleAppcast) createReleases(feed unmarshalSparkle) ([]release.Releaser, error) {
 	var version, build string
 
