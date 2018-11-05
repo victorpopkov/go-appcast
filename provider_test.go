@@ -13,9 +13,9 @@ func TestGuessProviderByContent(t *testing.T) {
 		"github/default.xml": GitHub,
 
 		// SourceForge RSS Feed
-		"sourceforge/default.xml": SourceForgeRSSFeed,
-		"sourceforge/empty.xml":   SourceForgeRSSFeed,
-		"sourceforge/single.xml":  SourceForgeRSSFeed,
+		"sourceforge/default.xml": SourceForge,
+		"sourceforge/empty.xml":   SourceForge,
+		"sourceforge/single.xml":  SourceForge,
 
 		// Sparkle RSS Feed
 		"sparkle/attributes_as_elements.xml": Sparkle,
@@ -48,9 +48,9 @@ func TestGuessProviderByUrl(t *testing.T) {
 		"https://github.com/user/repo/releases.atom": GitHub,
 
 		// SourceForge RSS Feed
-		"http://sourceforge.net/projects/name/rss":             SourceForgeRSSFeed,
-		"https://sourceforge.net/projects/name/rss":            SourceForgeRSSFeed,
-		"https://sourceforge.net/projects/name/rss?path=/name": SourceForgeRSSFeed,
+		"http://sourceforge.net/projects/name/rss":             SourceForge,
+		"https://sourceforge.net/projects/name/rss":            SourceForge,
+		"https://sourceforge.net/projects/name/rss?path=/name": SourceForge,
 
 		// Unknown
 		"https://example.com/user/repo/releases.atom": Unknown,
@@ -70,6 +70,6 @@ func TestGuessProviderByUrl(t *testing.T) {
 func TestProvider_String(t *testing.T) {
 	assert.Equal(t, "-", Unknown.String())
 	assert.Equal(t, "Sparkle RSS Feed", Sparkle.String())
-	assert.Equal(t, "SourceForge RSS Feed", SourceForgeRSSFeed.String())
+	assert.Equal(t, "SourceForge RSS Feed", SourceForge.String())
 	assert.Equal(t, "GitHub Atom Feed", GitHub.String())
 }

@@ -108,10 +108,10 @@ func TestRemoteSource_GuessProvider(t *testing.T) {
 	src.GuessProvider()
 	assert.Equal(t, Sparkle, src.Provider())
 
-	// test (SourceForgeRSSFeed)
+	// test (SourceForge)
 	src = newTestRemoteSource(getTestdata("sourceforge/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, SourceForgeRSSFeed, src.Provider())
+	assert.Equal(t, SourceForge, src.Provider())
 
 	// test (GitHub)
 	src = newTestRemoteSource(getTestdata("github/default.xml"))

@@ -28,7 +28,7 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeAppcas
 			source: &RemoteSource{
 				Source: &Source{
 					content:  resultContent,
-					provider: SourceForgeRSSFeed,
+					provider: SourceForge,
 				},
 				request: r,
 				url:     url,

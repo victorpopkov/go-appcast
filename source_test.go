@@ -52,10 +52,10 @@ func TestSource_GuessProvider(t *testing.T) {
 	src.GuessProvider()
 	assert.Equal(t, Sparkle, src.Provider())
 
-	// test (SourceForgeRSSFeed)
+	// test (SourceForge)
 	src.SetContent(getTestdata("sourceforge/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, SourceForgeRSSFeed, src.Provider())
+	assert.Equal(t, SourceForge, src.Provider())
 
 	// test (GitHub)
 	src.SetContent(getTestdata("github/default.xml"))
