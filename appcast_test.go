@@ -276,7 +276,7 @@ func TestAppcast_LoadSource(t *testing.T) {
 	assert.NotNil(t, a.source.Content())
 }
 
-func TestAppcast_UnmarshalReleases(t *testing.T) {
+func TestAppcast_Unmarshal(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"sparkle/attributes_as_elements.xml": {
 			"provider": Sparkle,

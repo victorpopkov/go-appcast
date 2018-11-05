@@ -39,7 +39,7 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeAppcas
 	return appcast
 }
 
-func TestSourceForgeAppcast_UnmarshalReleases(t *testing.T) {
+func TestSourceForgeAppcast_Unmarshal(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"default.xml": {
 			"2.0.0": {"Fri, 13 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},

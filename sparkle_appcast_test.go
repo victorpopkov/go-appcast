@@ -38,7 +38,7 @@ func newTestSparkleAppcast(paths ...string) *SparkleAppcast {
 	return appcast
 }
 
-func TestSparkleAppcast_UnmarshalReleases(t *testing.T) {
+func TestSparkleAppcast_Unmarshal(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"attributes_as_elements.xml": {
 			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},

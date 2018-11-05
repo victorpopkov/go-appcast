@@ -39,7 +39,7 @@ func newTestGitHubAtomFeedAppcast(content ...interface{}) *GitHubAppcast {
 	return appcast
 }
 
-func TestGitHubAppcast_UnmarshalReleases(t *testing.T) {
+func TestGitHubAppcast_Unmarshal(t *testing.T) {
 	testCases := map[string]map[string][]string{
 		"default.xml": {
 			"2.0.0": {"2016-05-13T12:00:00+02:00", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
