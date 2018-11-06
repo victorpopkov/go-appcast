@@ -20,5 +20,8 @@
 ### GoLand ###
 .idea/
 
-### Project specific ###
+### Project-specific ###
+/node_modules/
 coverage.txt
+package.json
+yarn.lock
