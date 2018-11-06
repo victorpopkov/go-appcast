@@ -53,12 +53,12 @@ func (a *GitHubAppcast) Unmarshal() (Appcaster, error) {
 		return nil, err
 	}
 
-	items, err := a.createReleases(feed)
+	r, err := a.createReleases(feed)
 	if err != nil {
 		return nil, err
 	}
 
-	a.releases = items
+	a.releases = r
 
 	return a, nil
 }
@@ -75,7 +75,7 @@ func (a *GitHubAppcast) UnmarshalReleases() (Appcaster, error) {
 }
 
 // createReleases creates a release.Releaser slice from the unmarshalled feed.
-func (a *GitHubAppcast) createReleases(feed unmarshalGitHub) ([]release.Releaser, error) {
+func (a *GitHubAppcast) createReleases(feed unmarshalGitHub) (release.Releaseser, error) {
 	items := make([]release.Releaser, len(feed.Entries))
 	for i, entry := range feed.Entries {
 		version := ""
@@ -114,5 +114,5 @@ func (a *GitHubAppcast) createReleases(feed unmarshalGitHub) ([]release.Releaser
 		items[i] = r
 	}
 
-	return items, nil
+	return release.NewReleases(items), nil
 }

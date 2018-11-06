@@ -81,8 +81,8 @@ func TestSourceForgeAppcast_Unmarshal(t *testing.T) {
 		assert.IsType(t, &SourceForgeAppcast{}, p)
 		assert.IsType(t, &SourceForgeAppcast{}, a.source.Appcast())
 
-		assert.Len(t, a.releases, len(releases))
-		for _, release := range a.releases {
+		assert.Len(t, releases, a.releases.Len())
+		for _, release := range a.releases.Filtered() {
 			v := release.Version().String()
 			assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), release.Title())
 			assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), release.Description())

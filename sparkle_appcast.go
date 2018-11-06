@@ -92,12 +92,13 @@ func (a *SparkleAppcast) Unmarshal() (Appcaster, error) {
 		return nil, err
 	}
 
-	items, err := a.createReleases(feed)
+	r, err := a.createReleases(feed)
 	if err != nil {
 		return nil, err
 	}
 
-	a.releases = items
+	a.releases = r
+
 	a.channel = &SparkleAppcastChannel{
 		Title:       feed.Channel.Title,
 		Link:        feed.Channel.Link,
@@ -119,8 +120,8 @@ func (a *SparkleAppcast) UnmarshalReleases() (Appcaster, error) {
 	return a.Unmarshal()
 }
 
-// createReleases creates a release.Releaser slice from the unmarshalled feed.
-func (a *SparkleAppcast) createReleases(feed unmarshalSparkle) ([]release.Releaser, error) {
+// createReleases creates a release.Releaseser slice from the unmarshalled feed.
+func (a *SparkleAppcast) createReleases(feed unmarshalSparkle) (release.Releaseser, error) {
 	var version, build string
 
 	items := make([]release.Releaser, len(feed.Channel.Items))
@@ -173,7 +174,7 @@ func (a *SparkleAppcast) createReleases(feed unmarshalSparkle) ([]release.Releas
 		items[i] = r
 	}
 
-	return items, nil
+	return release.NewReleases(items), nil
 }
 
 // Uncomment uncomments XML tags in SparkleAppcast.source.content.

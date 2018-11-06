@@ -70,12 +70,12 @@ func (a *SourceForgeAppcast) Unmarshal() (Appcaster, error) {
 		return nil, err
 	}
 
-	items, err := a.createReleases(feed)
+	r, err := a.createReleases(feed)
 	if err != nil {
 		return nil, err
 	}
 
-	a.releases = items
+	a.releases = r
 
 	return a, nil
 }
@@ -92,7 +92,7 @@ func (a *SourceForgeAppcast) UnmarshalReleases() (Appcaster, error) {
 }
 
 // createReleases creates a release.Releaser slice from the unmarshalled feed.
-func (a *SourceForgeAppcast) createReleases(feed unmarshalSourceForge) ([]release.Releaser, error) {
+func (a *SourceForgeAppcast) createReleases(feed unmarshalSourceForge) (release.Releaseser, error) {
 	items := make([]release.Releaser, len(feed.Items))
 	for i, item := range feed.Items {
 		// extract version
@@ -125,5 +125,5 @@ func (a *SourceForgeAppcast) createReleases(feed unmarshalSourceForge) ([]releas
 		items[i] = r
 	}
 
-	return items, nil
+	return release.NewReleases(items), nil
 }

@@ -125,8 +125,8 @@ func TestSparkleAppcast_Unmarshal(t *testing.T) {
 		assert.Equal(t, "App Description", a.channel.Description)
 		assert.Equal(t, "en", a.channel.Language)
 
-		assert.Len(t, a.releases, len(releases))
-		for _, release := range a.releases {
+		assert.Len(t, releases, a.releases.Len())
+		for _, release := range a.releases.Filtered() {
 			v := release.Version().String()
 			assert.Equal(t, fmt.Sprintf("Release %s", v), release.Title())
 			assert.Equal(t, fmt.Sprintf("Release %s Description", v), release.Description())

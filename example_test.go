@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/victorpopkov/go-appcast/release"
 	"gopkg.in/jarcoal/httpmock.v1"
 )
 
@@ -18,14 +19,14 @@ func Example_sparkleRSSFeedAppcast() {
 	// example
 	a := New()
 	a.LoadFromRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
-	a.SortReleasesByVersions(DESC)
+	a.SortReleasesByVersions(release.DESC)
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
-	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
+	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
-	r := a.Releases()[0]
+	r := a.Releases().First()
 	fmt.Print("First release details:\n\n")
 	fmt.Printf("%23s %s\n", "Version:", r.Version())
 	fmt.Printf("%23s %s\n", "Build:", r.Build())
@@ -87,9 +88,9 @@ func Example_sourceForgeRSSFeedAppcast() {
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
-	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
+	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
-	r := a.Releases()[0]
+	r := a.Releases().First()
 	fmt.Print("First release details:\n\n")
 	fmt.Printf("%12s %s\n", "Version:", r.Version())
 	fmt.Printf("%12s %v\n", "Pre-release:", r.IsPreRelease())
@@ -137,9 +138,9 @@ func Example_gitHubAtomFeedAppcast() {
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
-	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
+	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
-	r := a.Releases()[0]
+	r := a.Releases().First()
 	fmt.Print("First release details:\n\n")
 	fmt.Printf("%12s %s\n", "Version:", r.Version())
 	fmt.Printf("%12s %v\n", "Pre-release:", r.IsPreRelease())
@@ -182,7 +183,7 @@ func ExampleRemoteSource() {
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
-	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
+	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
 	// Output:
 	// Type:     *appcast.SparkleAppcast
@@ -202,7 +203,7 @@ func ExampleLocalSource() {
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
-	fmt.Printf("%-9s %d total\n\n", "Releases:", len(a.Releases()))
+	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
 	// Output:
 	// Type:     *appcast.SparkleAppcast

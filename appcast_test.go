@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
@@ -78,19 +79,93 @@ func getLineFromString(lineNum int, content string) (line string, err error) {
 }
 
 // newTestAppcast creates a new Appcast instance for testing purposes and
-// returns its pointer. By default the content is []byte("test"). However, own
-// content can be provided as an argument.
+// returns its pointer. By default the content is []byte("content"). However,
+// own content can be provided as an argument.
 func newTestAppcast(content ...interface{}) *Appcast {
 	var resultContent []byte
+
+	d := new(release.Download)
+	d.SetUrl("https://example.com/app_2.0.0-beta.dmg")
+	d.SetFiletype("application/octet-stream")
+	d.SetLength(100000)
+
+	r := new(release.Release)
+	r.SetBuild("200")
+	r.SetTitle("Release 2.0.0-beta")
+	r.SetDescription("Release 2.0.0-beta Description")
+	r.SetReleaseNotesLink("https://example.com/changelogs/2.0.0-beta.html")
+	r.SetMinimumSystemVersion("10.10")
+	r.SetDownloads([]release.Download{*d})
+	r.SetIsPreRelease(true)
+
+	// r1
+	d1 := d
+	r1 := *r
+	r1.SetDownloads([]release.Download{*d1})
+	r1.SetVersionString("2.0.0-beta")
+
+	t, _ := time.Parse(time.RFC1123Z, "Fri, 13 May 2016 12:00:00 +0200")
+	r1.SetPublishedDateTime(release.NewPublishedDateTime(&t))
+
+	// r2
+	d2 := d
+	d2.SetUrl("https://example.com/app_1.1.0.dmg")
+
+	r2 := *r
+	r2.SetBuild("110")
+	r2.SetTitle("Release 1.1.0")
+	r2.SetDescription("Release 1.1.0 Description")
+	r2.SetReleaseNotesLink("https://example.com/changelogs/1.1.0.html")
+	r2.SetMinimumSystemVersion("10.9")
+	r2.SetDownloads([]release.Download{*d2})
+	r2.SetVersionString("1.1.0")
+	r2.SetIsPreRelease(false)
+
+	t, _ = time.Parse(time.RFC1123Z, "Thu, 12 May 2016 12:00:00 +0200")
+	r2.SetPublishedDateTime(release.NewPublishedDateTime(&t))
+
+	// r3
+	d3 := d
+	d3.SetUrl("https://example.com/app_1.0.1.dmg")
+
+	r3 := *r
+	r3.SetBuild("101")
+	r3.SetTitle("Release 1.0.1")
+	r3.SetDescription("Release 1.0.1 Description")
+	r3.SetReleaseNotesLink("https://example.com/changelogs/1.0.1.html")
+	r3.SetMinimumSystemVersion("10.9")
+	r3.SetDownloads([]release.Download{*d3})
+	r3.SetVersionString("1.0.1")
+	r3.SetIsPreRelease(false)
+
+	t, _ = time.Parse(time.RFC1123Z, "Wed, 11 May 2016 12:00:00 +0200")
+	r3.SetPublishedDateTime(release.NewPublishedDateTime(&t))
+
+	// r4
+	d4 := d
+	d4.SetUrl("https://example.com/app_1.0.0.dmg")
+
+	r4 := *r
+	r4.SetBuild("100")
+	r4.SetTitle("Release 1.0.0")
+	r4.SetDescription("Release 1.0.0 Description")
+	r4.SetReleaseNotesLink("https://example.com/changelogs/1.0.0.html")
+	r4.SetMinimumSystemVersion("10.9")
+	r4.SetDownloads([]release.Download{*d3})
+	r4.SetVersionString("1.0.0")
+	r4.SetIsPreRelease(false)
+
+	t, _ = time.Parse(time.RFC1123Z, "Tue, 10 May 2016 12:00:00 +0200")
+	r4.SetPublishedDateTime(release.NewPublishedDateTime(&t))
 
 	if len(content) > 0 {
 		resultContent = content[0].([]byte)
 	} else {
-		resultContent = []byte("test")
+		resultContent = []byte("content")
 	}
 
 	url := "https://example.com/appcast.xml"
-	r, _ := client.NewRequest(url)
+	request, _ := client.NewRequest(url)
 
 	s := &Appcast{
 		source: &RemoteSource{
@@ -98,7 +173,7 @@ func newTestAppcast(content ...interface{}) *Appcast {
 				content:  resultContent,
 				provider: Unknown,
 			},
-			request: r,
+			request: request,
 			url:     url,
 		},
 		output: &LocalOutput{
@@ -114,6 +189,7 @@ func newTestAppcast(content ...interface{}) *Appcast {
 			filepath:    "/tmp/test.txt",
 			permissions: 0777,
 		},
+		releases: release.NewReleases([]release.Releaser{&r1, &r2, &r3, &r4}),
 	}
 
 	return s
@@ -256,13 +332,13 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 
 func TestAppcast_GenerateSourceChecksum(t *testing.T) {
 	// preparations
-	a := newTestSparkleAppcast()
+	a := newTestAppcast()
 	assert.Nil(t, a.source.Checksum())
 
 	// test
 	result := a.GenerateSourceChecksum(MD5)
 	assert.Equal(t, result.String(), a.source.Checksum().String())
-	assert.Equal(t, "21448d1059f783c979967c116b255d43", result.String())
+	assert.Equal(t, "9a0364b9e99bb480dd25e1f0284c8555", result.String())
 	assert.Equal(t, MD5, a.source.Checksum().Algorithm())
 }
 
@@ -346,7 +422,7 @@ func TestAppcast_Unmarshal(t *testing.T) {
 			assert.Nil(t, err)
 			assert.IsType(t, &Appcast{}, a)
 			assert.IsType(t, data["appcast"], p)
-			assert.Len(t, a.releases, data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", path))
+			assert.Equal(t, a.releases.Len(), data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", path))
 			assert.IsType(t, data["appcast"], a.source.Appcast())
 		} else {
 			// test (error)
@@ -441,64 +517,53 @@ func TestAppcast_SortReleasesByVersions(t *testing.T) {
 		assert.IsType(t, &SparkleAppcast{}, p)
 
 		// test (ASC)
-		a.SortReleasesByVersions(ASC)
-		assert.Equal(t, "1.0.0", a.releases[0].Version().String())
+		a.SortReleasesByVersions(release.ASC)
+		assert.Equal(t, "1.0.0", a.releases.First().Version().String())
 
 		// test (DESC)
-		a.SortReleasesByVersions(DESC)
-		assert.Equal(t, "2.0.0", a.releases[0].Version().String())
+		a.SortReleasesByVersions(release.DESC)
+		assert.Equal(t, "2.0.0", a.releases.First().Version().String())
 	}
 }
 
 func TestAppcast_Filters(t *testing.T) {
-	// mock the request
-	httpmock.Activate()
-	httpmock.RegisterResponder(
-		"GET",
-		"https://example.com/appcast.xml",
-		httpmock.NewBytesResponder(200, getTestdata("sparkle/prerelease.xml")),
-	)
-	defer httpmock.DeactivateAndReset()
-
 	// preparations
-	a := New()
-	a.LoadFromRemoteSource("https://example.com/appcast.xml")
-	a.Unmarshal()
+	a := newTestAppcast()
 
-	// Appcast.FilterReleasesByTitle
-	assert.Len(t, a.releases, 4)
+	// test (Appcast.FilterReleasesByTitle)
+	assert.Equal(t, 4, a.releases.Len())
 	a.FilterReleasesByTitle("Release 1.0")
-	assert.Len(t, a.releases, 2)
+	assert.Equal(t, 2, a.releases.Len())
 	a.FilterReleasesByTitle("Release 1.0.0", true)
-	assert.Len(t, a.releases, 1)
-	assert.Equal(t, "Release 1.0.1", a.releases[0].Title())
+	assert.Equal(t, 1, a.releases.Len())
+	assert.Equal(t, "Release 1.0.1", a.releases.First().Title())
 	a.ResetFilters()
 
-	// Appcast.FilterReleasesByMediaType
-	assert.Len(t, a.releases, 4)
+	// test (Appcast.FilterReleasesByMediaType)
+	assert.Equal(t, 4, a.releases.Len())
 	a.FilterReleasesByMediaType("application/octet-stream")
-	assert.Len(t, a.releases, 4)
+	assert.Equal(t, 4, a.releases.Len())
 	a.FilterReleasesByMediaType("test", true)
-	assert.Len(t, a.releases, 4)
+	assert.Equal(t, 4, a.releases.Len())
 	a.ResetFilters()
 
-	// Appcast.FilterReleasesByURL
-	assert.Len(t, a.releases, 4)
+	// test (Appcast.FilterReleasesByURL)
+	assert.Equal(t, 4, a.releases.Len())
 	a.FilterReleasesByURL(`app_1.*dmg$`)
-	assert.Len(t, a.releases, 3)
+	assert.Equal(t, 3, a.releases.Len())
 	a.FilterReleasesByURL(`app_1.0.*dmg$`, true)
-	assert.Len(t, a.releases, 1)
+	assert.Equal(t, 1, a.releases.Len())
 	a.ResetFilters()
 
-	// Appcast.FilterReleasesByPrerelease
-	assert.Len(t, a.releases, 4)
+	// test (Appcast.FilterReleasesByPrerelease)
+	assert.Equal(t, 4, a.releases.Len())
 	a.FilterReleasesByPrerelease()
-	assert.Len(t, a.releases, 1)
+	assert.Equal(t, 1, a.releases.Len())
 	a.ResetFilters()
 
-	assert.Len(t, a.releases, 4)
+	assert.Equal(t, 4, a.releases.Len())
 	a.FilterReleasesByPrerelease(true)
-	assert.Len(t, a.releases, 3)
+	assert.Equal(t, 3, a.releases.Len())
 	a.ResetFilters()
 }
 
@@ -566,35 +631,12 @@ func TestAppcast_Releases(t *testing.T) {
 }
 
 func TestAppcast_SetReleases(t *testing.T) {
-	// preparations
 	a := newTestAppcast()
-	assert.Nil(t, a.originalReleases)
-
-	// test
-	a.SetReleases([]release.Releaser{&release.Release{}})
-	assert.Len(t, a.releases, 1)
+	a.SetReleases(nil)
+	assert.Nil(t, a.releases)
 }
 
 func TestAppcast_FirstRelease(t *testing.T) {
-	// preparations
-	a := newTestSparkleAppcast()
-	a.Unmarshal()
-
-	// test
-	assert.Equal(t, a.releases[0].Version().String(), a.FirstRelease().Version().String())
-}
-
-func TestAppcast_OriginalReleases(t *testing.T) {
 	a := newTestAppcast()
-	assert.Equal(t, a.originalReleases, a.OriginalReleases())
-}
-
-func TestAppcast_SetOriginalReleases(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-	assert.Nil(t, a.originalReleases)
-
-	// test
-	a.SetOriginalReleases([]release.Releaser{&release.Release{}})
-	assert.Len(t, a.originalReleases, 1)
+	assert.Equal(t, a.releases.First(), a.FirstRelease())
 }

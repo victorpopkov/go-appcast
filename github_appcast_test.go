@@ -71,8 +71,8 @@ func TestGitHubAppcast_Unmarshal(t *testing.T) {
 		assert.IsType(t, &GitHubAppcast{}, p)
 		assert.IsType(t, &GitHubAppcast{}, a.source.Appcast())
 
-		assert.Len(t, a.releases, len(releases))
-		for _, release := range a.releases {
+		assert.Len(t, releases, a.releases.Len())
+		for _, release := range a.releases.Filtered() {
 			v := release.Version().String()
 			assert.Equal(t, fmt.Sprintf("%s", v), release.Title())
 			assert.NotEmpty(t, release.Description())
