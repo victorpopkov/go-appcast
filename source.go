@@ -6,7 +6,7 @@ package appcast
 // interfaces.
 type Sourcer interface {
 	Load() error
-	GenerateChecksum(algorithm ChecksumAlgorithm)
+	GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum
 	GuessProvider()
 	Content() []byte
 	SetContent(content []byte)
@@ -47,10 +47,12 @@ func (s *Source) Load() error {
 	panic("implement me")
 }
 
-// GenerateChecksum creates a new Checksum instance based on the provided
-// algorithm.
-func (s *Source) GenerateChecksum(algorithm ChecksumAlgorithm) {
-	s.checksum = NewChecksum(algorithm, s.content)
+// GenerateChecksum creates a new Checksum instance pointer based on the
+// provided algorithm and sets it as a Source.checksum.
+func (s *Source) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
+	c := NewChecksum(algorithm, s.content)
+	s.checksum = c
+	return c
 }
 
 // GuessProvider attempts to guess the supported provider based on the

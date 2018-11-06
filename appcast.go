@@ -127,11 +127,10 @@ func (a *Appcast) LoadFromLocalSource(path string) (Appcaster, error) {
 	return appcast, nil
 }
 
-// GenerateSourceChecksum creates a new Checksum instance in the Appcast.source
-// based on the provided algorithm and returns its pointer.
+// GenerateSourceChecksum creates a new Checksum instance pointer based on the
+// provided algorithm and sets it as an Appcast.source.checksum.
 func (a *Appcast) GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum {
-	a.source.GenerateChecksum(algorithm)
-	return a.source.Checksum()
+	return a.source.GenerateChecksum(algorithm)
 }
 
 // LoadSource calls the Appcast.source.Load method.
