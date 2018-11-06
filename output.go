@@ -6,7 +6,7 @@ package appcast
 // interfaces.
 type Outputer interface {
 	Save() error
-	GenerateChecksum(algorithm ChecksumAlgorithm)
+	GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum
 	Content() []byte
 	SetContent(content []byte)
 	Checksum() *Checksum
@@ -43,10 +43,12 @@ func (o *Output) Save() error {
 	panic("implement me")
 }
 
-// GenerateChecksum creates a new Checksum instance based on the provided
-// algorithm.
-func (o *Output) GenerateChecksum(algorithm ChecksumAlgorithm) {
-	o.checksum = NewChecksum(algorithm, o.content)
+// GenerateChecksum creates a new Checksum instance pointer based on the
+// provided algorithm and sets it as an Output.checksum.
+func (o *Output) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
+	c := NewChecksum(algorithm, o.content)
+	o.checksum = c
+	return c
 }
 
 // Content is an Output.content getter.
