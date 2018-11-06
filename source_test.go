@@ -10,19 +10,18 @@ import (
 // newTestSource creates a new Source instance for testing purposes and returns
 // its pointer.
 func newTestSource() *Source {
-	content := []byte("test")
-	src := &Source{
+	content := []byte("content")
+
+	return &Source{
 		content: content,
 		checksum: &Checksum{
 			algorithm: SHA256,
 			source:    content,
 			result:    []byte("test"),
 		},
-		provider: Unknown,
-		appcast:  &SparkleAppcast{},
+		provider: Provider(0),
+		appcast:  &Appcast{},
 	}
-
-	return src
 }
 
 func TestSource_Load(t *testing.T) {
@@ -36,10 +35,12 @@ func TestSource_GenerateChecksum(t *testing.T) {
 	// preparations
 	src := newTestSource()
 	assert.Equal(t, hex.EncodeToString([]byte("test")), src.Checksum().String())
+	expected := "ed7002b439e9ac845f22357d822bac1444730fbdb6016d3ec9432297b9ec9f73"
 
 	// test
-	src.GenerateChecksum(SHA256)
-	assert.Equal(t, "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", src.Checksum().String())
+	c := src.GenerateChecksum(SHA256)
+	assert.Equal(t, expected, c.String())
+	assert.Equal(t, expected, src.Checksum().String())
 }
 
 func TestSource_GuessProvider(t *testing.T) {
@@ -65,7 +66,7 @@ func TestSource_GuessProvider(t *testing.T) {
 
 func TestSource_Content(t *testing.T) {
 	src := newTestSource()
-	assert.Equal(t, []byte("test"), src.Content())
+	assert.Equal(t, src.content, src.Content())
 }
 
 func TestSource_SetContent(t *testing.T) {
@@ -81,22 +82,26 @@ func TestSource_Checksum(t *testing.T) {
 
 func TestSource_Provider(t *testing.T) {
 	src := newTestSource()
-	assert.Equal(t, Unknown, src.Provider())
+	assert.Equal(t, src.provider, src.Provider())
 }
 
 func TestSource_SetProvider(t *testing.T) {
+	// preparations
 	src := newTestSource()
-	src.SetProvider(Sparkle)
-	assert.Equal(t, Sparkle, src.provider)
+	p := Provider(1)
+
+	// test
+	src.SetProvider(p)
+	assert.Equal(t, p, src.provider)
 }
 
 func TestSource_Appcast(t *testing.T) {
 	src := newTestSource()
-	assert.IsType(t, &SparkleAppcast{}, src.Appcast())
+	assert.Equal(t, src.appcast, src.Appcast())
 }
 
 func TestSource_SetAppcast(t *testing.T) {
 	src := newTestSource()
-	src.SetAppcast(&GitHubAppcast{})
-	assert.IsType(t, &GitHubAppcast{}, src.appcast)
+	src.SetAppcast(nil)
+	assert.Nil(t, src.appcast)
 }
