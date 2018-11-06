@@ -1,4 +1,3 @@
-// Package release provides functionality for appcast releases.
 package release
 
 import (
