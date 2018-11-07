@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+## [0.5.0][] - 2018-11-07
+
+### Added
+
+- Interface `Providerer` for the `Output.provider` and the `Source.provider`
+field types
+- Struct and interface `Releases(er)` with all filtering and sorting methods in
+the `release` package
+
+### Changed
+
+- Field `Appcast.releases` to become a `*Releaseser` type
+- Field `Output.provider` to become a `Providerer` type
+- Field `Source.provider` to become a `Providerer` type
+- Method `Output.GenerateChecksum` to return the `Checksum` pointer
+- Method `Source.GenerateChecksum` to return the `Checksum` pointer
+- Provider `GitHubAtomFeed` to become the `GitHub`
+- Provider `SourceForgeRSSFeed` to become the `SourceForge`
+- Provider `SparkleRSSFeed` to become the `Sparkle`
+- Struct and interface `GitHubAtomFeedAppcast(er)` to become the `GitHubAppcast(er)`
+- Struct and interface `SourceForgeRSSFeedAppcast(er)` to become the `SourceForgeAppcast(er)`
+- Struct and interface `SparkleRSSFeedAppcast(er)` to become the `SparkleAppcast(er)`
+
+### Deprecated
+
+- Method `Appcast.FilterReleasesByMediaType` in favour of `Appcast.Releases.FilterByMediaType`
+methods chain
+- Method `Appcast.FilterReleasesByPrerelease` in favour of `Appcast.Releases.FilterByPrerelease`
+methods chain
+- Method `Appcast.FilterReleasesByTitle` in favour of `Appcast.Releases.FilterByTitle`
+methods chain
+- Method `Appcast.FilterReleasesByURL` in favour of `Appcast.Releases.FilterByUrl`
+methods chain
+- Method `Appcast.ResetFilters` in favour of `Appcast.Releases.ResetFilters`
+methods chain
+- Method `Appcast.SortReleasesByVersions` in favour of `Appcast.Releases.SortByVersions`
+methods chain
+- Method `Appcast.UnmarshalReleases` in favour of `Appcast.Unmarshal`
+
+### Removed
+
+- Field `Appcast.originalReleases` in favour of `Appcast.releases.original`
+
 ## [0.4.0][] - 2018-11-02
 
 ### Added
@@ -18,8 +61,8 @@ minimum required system version
 - Field `Release.releaseNotesLink` with getter and setter to hold the release
 notes link
 - Interface `Downloader` implemented by `Download`
-- Support for the "Sparkle RSS Feed" new `<enclosure />` attributes:
-`dsaSignature`, `md5sum`, `minimumSystemVersion` and `releaseNotesLink`
+- Support for the "Sparkle RSS Feed" new `<enclosure />` attributes: `dsaSignature`,
+`md5sum`, `minimumSystemVersion` and `releaseNotesLink`
 - Support passing `dsaSignature` and `md5` as parameters in the `NewDownload`
 function
 
@@ -65,8 +108,7 @@ appcast after unmarshalling
 local file by path
 - Struct `PublishedDateTime` to use as the `Release.publishedDateTime` type in
 the `release` package
-- Unmarshalling support for the "Sparkle RSS Feed" channel as the
-`SparkleRSSFeedAppcast.channel`
+- Unmarshalling support for the "Sparkle RSS Feed" channel as the `SparkleRSSFeedAppcast.channel`
 
 ### Changed
 
@@ -169,7 +211,8 @@ provider
 
 First release.
 
-[unreleased]: https://github.com/victorpopkov/go-appcast/compare/v0.4.0...HEAD
+[unreleased]: https://github.com/victorpopkov/go-appcast/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/victorpopkov/go-appcast/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/victorpopkov/go-appcast/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/victorpopkov/go-appcast/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/victorpopkov/go-appcast/compare/v0.1.0...v0.2.0
