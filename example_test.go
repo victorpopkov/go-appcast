@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/victorpopkov/go-appcast/release"
 	"gopkg.in/jarcoal/httpmock.v1"
+
+	"github.com/victorpopkov/go-appcast/release"
 )
 
 // Demonstrates the "Sparkle RSS Feed" appcast loading.
@@ -19,7 +20,7 @@ func Example_sparkleRSSFeedAppcast() {
 	// example
 	a := New()
 	a.LoadFromRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
-	a.SortReleasesByVersions(release.DESC)
+	a.Releases().SortByVersions(release.DESC)
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
@@ -80,10 +81,10 @@ func Example_sourceForgeRSSFeedAppcast() {
 	a.LoadFromRemoteSource("https://sourceforge.net/projects/filezilla/rss")
 
 	// apply some filters
-	a.FilterReleasesByMediaType("application/x-bzip2")
-	a.FilterReleasesByTitle("FileZilla_Client_Unstable", true)
-	a.FilterReleasesByURL("macosx")
-	defer a.ResetFilters() // reset
+	a.Releases().FilterByMediaType("application/x-bzip2")
+	a.Releases().FilterByTitle("FileZilla_Client_Unstable", true)
+	a.Releases().FilterByUrl("macosx")
+	defer a.Releases().ResetFilters() // reset
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
