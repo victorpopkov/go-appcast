@@ -207,6 +207,34 @@ func TestNew(t *testing.T) {
 	assert.NotNil(t, a.source)
 }
 
+func TestExtractSemanticVersions(t *testing.T) {
+	testCases := map[string][]string{
+		// single
+		"Version 1":           nil,
+		"Version 1.0":         nil,
+		"Version 1.0.2":       {"1.0.2"},
+		"Version 1.0.2-alpha": {"1.0.2-alpha"},
+		"Version 1.0.2-beta":  {"1.0.2-beta"},
+		"Version 1.0.2-dev":   {"1.0.2-dev"},
+		"Version 1.0.2-rc1":   {"1.0.2-rc1"},
+
+		// multiples
+		"First is v1.0.1, second is v1.0.2, third is v1.0.3": {"1.0.1", "1.0.2", "1.0.3"},
+	}
+
+	// test
+	for data, versions := range testCases {
+		actual, err := ExtractSemanticVersions(data)
+		if versions == nil {
+			assert.Error(t, err)
+			assert.EqualError(t, err, "no semantic versions found")
+		} else {
+			assert.Nil(t, err)
+			assert.Equal(t, versions, actual)
+		}
+	}
+}
+
 func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	// mock the request
 	httpmock.Activate()
@@ -487,43 +515,16 @@ func TestAppcast_Uncomment(t *testing.T) {
 }
 
 func TestAppcast_SortReleasesByVersions(t *testing.T) {
-	testCases := []string{
-		"sparkle/attributes_as_elements.xml",
-		"sparkle/default_asc.xml",
-		"sparkle/default.xml",
-		"sparkle/incorrect_namespace.xml",
-		// "sparkle/multiple_enclosure.xml",
-		"sparkle/without_namespaces.xml",
-	}
+	// preparations
+	a := newTestAppcast()
 
-	// preparations for mocking the request
-	httpmock.Activate()
-	defer httpmock.DeactivateAndReset()
+	// test (ASC)
+	a.SortReleasesByVersions(release.ASC)
+	assert.Equal(t, "1.0.0", a.releases.First().Version().String())
 
-	for _, filename := range testCases {
-		// mock the request
-		httpmock.RegisterResponder(
-			"GET",
-			"https://example.com/appcast.xml",
-			httpmock.NewBytesResponder(200, getTestdata(filename)),
-		)
-
-		// preparations
-		a := New()
-		a.LoadFromRemoteSource("https://example.com/appcast.xml")
-		p, err := a.Unmarshal()
-		assert.Nil(t, err)
-		assert.IsType(t, &Appcast{}, a)
-		assert.IsType(t, &SparkleAppcast{}, p)
-
-		// test (ASC)
-		a.SortReleasesByVersions(release.ASC)
-		assert.Equal(t, "1.0.0", a.releases.First().Version().String())
-
-		// test (DESC)
-		a.SortReleasesByVersions(release.DESC)
-		assert.Equal(t, "2.0.0", a.releases.First().Version().String())
-	}
+	// test (DESC)
+	a.SortReleasesByVersions(release.DESC)
+	assert.Equal(t, "2.0.0-beta", a.releases.First().Version().String())
 }
 
 func TestAppcast_Filters(t *testing.T) {
@@ -565,34 +566,6 @@ func TestAppcast_Filters(t *testing.T) {
 	a.FilterReleasesByPrerelease(true)
 	assert.Equal(t, 3, a.releases.Len())
 	a.ResetFilters()
-}
-
-func TestExtractSemanticVersions(t *testing.T) {
-	testCases := map[string][]string{
-		// single
-		"Version 1":           nil,
-		"Version 1.0":         nil,
-		"Version 1.0.2":       {"1.0.2"},
-		"Version 1.0.2-alpha": {"1.0.2-alpha"},
-		"Version 1.0.2-beta":  {"1.0.2-beta"},
-		"Version 1.0.2-dev":   {"1.0.2-dev"},
-		"Version 1.0.2-rc1":   {"1.0.2-rc1"},
-
-		// multiples
-		"First is v1.0.1, second is v1.0.2, third is v1.0.3": {"1.0.1", "1.0.2", "1.0.3"},
-	}
-
-	// test
-	for data, versions := range testCases {
-		actual, err := ExtractSemanticVersions(data)
-		if versions == nil {
-			assert.Error(t, err)
-			assert.EqualError(t, err, "no semantic versions found")
-		} else {
-			assert.Nil(t, err)
-			assert.Equal(t, versions, actual)
-		}
-	}
 }
 
 func TestAppcast_Source(t *testing.T) {

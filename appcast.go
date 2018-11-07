@@ -81,6 +81,24 @@ func New(src ...interface{}) *Appcast {
 	return a
 }
 
+// ExtractSemanticVersions extracts semantic versions from the provided data
+// string.
+func ExtractSemanticVersions(data string) ([]string, error) {
+	var versions []string
+
+	re := regexp.MustCompile(`([0-9]+)\.([0-9]+)\.([0-9]+)(?:(\-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-\-\.]+)?`)
+	if re.MatchString(data) {
+		versionMatches := re.FindAllStringSubmatch(data, -1)
+		for _, match := range versionMatches {
+			versions = append(versions, match[0])
+		}
+
+		return versions, nil
+	}
+
+	return nil, errors.New("no semantic versions found")
+}
+
 // LoadFromRemoteSource creates a new RemoteSource instance and loads the data
 // from the remote location by using the RemoteSource.Load method.
 //
@@ -276,24 +294,6 @@ func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
 // Deprecated: Use Appcast.Releases.ResetFilters methods chain instead.
 func (a *Appcast) ResetFilters() {
 	a.releases.ResetFilters()
-}
-
-// ExtractSemanticVersions extracts semantic versions from the provided data
-// string.
-func ExtractSemanticVersions(data string) ([]string, error) {
-	var versions []string
-
-	re := regexp.MustCompile(`([0-9]+)\.([0-9]+)\.([0-9]+)(?:(\-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-\-\.]+)?`)
-	if re.MatchString(data) {
-		versionMatches := re.FindAllStringSubmatch(data, -1)
-		for _, match := range versionMatches {
-			versions = append(versions, match[0])
-		}
-
-		return versions, nil
-	}
-
-	return nil, errors.New("no semantic versions found")
 }
 
 // Source is an Appcast.source getter.
