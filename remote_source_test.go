@@ -5,8 +5,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/victorpopkov/go-appcast/client"
 	"gopkg.in/jarcoal/httpmock.v1"
+
+	"github.com/victorpopkov/go-appcast/client"
 )
 
 // newTestRemoteSource creates a new RemoteSource instance for testing purposes
