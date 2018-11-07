@@ -10,8 +10,8 @@ type Outputer interface {
 	Content() []byte
 	SetContent(content []byte)
 	Checksum() *Checksum
-	Provider() Provider
-	SetProvider(provider Provider)
+	Provider() Providerer
+	SetProvider(provider Providerer)
 	Appcast() Appcaster
 	SetAppcast(appcast Appcaster)
 }
@@ -30,7 +30,7 @@ type Output struct {
 	checksum *Checksum
 
 	// provider specifies the one of the supported appcast providers.
-	provider Provider
+	provider Providerer
 
 	// appcast specifies the provider-specific appcast guessed for the current
 	// Output.
@@ -67,12 +67,12 @@ func (o *Output) Checksum() *Checksum {
 }
 
 // Provider is an Output.provider getter.
-func (o *Output) Provider() Provider {
+func (o *Output) Provider() Providerer {
 	return o.provider
 }
 
 // SetProvider is an Output.provider setter.
-func (o *Output) SetProvider(provider Provider) {
+func (o *Output) SetProvider(provider Providerer) {
 	o.provider = provider
 }
 
