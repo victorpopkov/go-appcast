@@ -11,8 +11,8 @@ type Sourcer interface {
 	Content() []byte
 	SetContent(content []byte)
 	Checksum() *Checksum
-	Provider() Provider
-	SetProvider(provider Provider)
+	Provider() Providerer
+	SetProvider(provider Providerer)
 	Appcast() Appcaster
 	SetAppcast(appcast Appcaster)
 }
@@ -34,7 +34,7 @@ type Source struct {
 
 	// provider specifies the one of the supported providers guessed using the
 	// Source.GuessProvider method.
-	provider Provider
+	provider Providerer
 
 	// appcast specifies the provider-specific appcast guessed for the current
 	// Source.
@@ -77,12 +77,12 @@ func (s *Source) Checksum() *Checksum {
 }
 
 // Provider is a Source.provider getter.
-func (s *Source) Provider() Provider {
+func (s *Source) Provider() Providerer {
 	return s.provider
 }
 
 // SetProvider is a Source.provider setter.
-func (s *Source) SetProvider(provider Provider) {
+func (s *Source) SetProvider(provider Providerer) {
 	s.provider = provider
 }
 
