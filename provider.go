@@ -2,6 +2,11 @@ package appcast
 
 import "regexp"
 
+// Providerer is the Provider interface.
+type Providerer interface {
+	String() string
+}
+
 // Provider holds different supported providers.
 type Provider int
 
