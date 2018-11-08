@@ -18,9 +18,12 @@ func TestGuessProviderByContent(t *testing.T) {
 		"../github/testdata/unmarshal/prerelease.xml":      GitHub,
 
 		// SourceForge RSS Feed
-		"sourceforge/default.xml": SourceForge,
-		"sourceforge/empty.xml":   SourceForge,
-		"sourceforge/single.xml":  SourceForge,
+		"../sourceforge/testdata/unmarshal/default.xml":         SourceForge,
+		"../sourceforge/testdata/unmarshal/empty.xml":           SourceForge,
+		"../sourceforge/testdata/unmarshal/invalid_pubdate.xml": SourceForge,
+		"../sourceforge/testdata/unmarshal/invalid_tag.xml":     SourceForge,
+		"../sourceforge/testdata/unmarshal/invalid_version.xml": SourceForge,
+		"../sourceforge/testdata/unmarshal/prerelease.xml":      SourceForge,
 
 		// Sparkle RSS Feed
 		"../sparkle/testdata/unmarshal/attributes_as_elements.xml": Sparkle,

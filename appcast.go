@@ -14,6 +14,7 @@ import (
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
 	"github.com/victorpopkov/go-appcast/github"
+	"github.com/victorpopkov/go-appcast/sourceforge"
 	"github.com/victorpopkov/go-appcast/sparkle"
 )
 
@@ -116,7 +117,7 @@ func (a *Appcast) Unmarshal() (appcaster.Appcaster, error) {
 		appcast = &sparkle.Appcast{Appcast: a.Appcast}
 		break
 	case SourceForge:
-		appcast = &SourceForgeAppcast{Appcast: a.Appcast}
+		appcast = &sourceforge.Appcast{Appcast: a.Appcast}
 		break
 	case GitHub:
 		appcast = &github.Appcast{Appcast: a.Appcast}

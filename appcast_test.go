@@ -19,6 +19,7 @@ import (
 	"github.com/victorpopkov/go-appcast/client"
 	"github.com/victorpopkov/go-appcast/github"
 	"github.com/victorpopkov/go-appcast/release"
+	"github.com/victorpopkov/go-appcast/sourceforge"
 	"github.com/victorpopkov/go-appcast/sparkle"
 )
 
@@ -353,9 +354,9 @@ func TestAppcast_Unmarshal(t *testing.T) {
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
 			"releases": 4,
 		},
-		"sourceforge/default.xml": {
+		"../sourceforge/testdata/unmarshal/default.xml": {
 			"provider": SourceForge,
-			"appcast":  &SourceForgeAppcast{},
+			"appcast":  &sourceforge.Appcast{},
 			"checksum": "d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
 			"releases": 4,
 		},
@@ -432,7 +433,7 @@ func TestAppcast_Uncomment(t *testing.T) {
 		"../sparkle/testdata/unmarshal/with_comments.xml": {
 			"lines": []int{13, 20},
 		},
-		"sourceforge/default.xml": {
+		"../sourceforge/testdata/unmarshal/default.xml": {
 			"error": "uncommenting is not available for the \"SourceForge RSS Feed\" provider",
 		},
 		"../github/testdata/unmarshal/default.xml": {

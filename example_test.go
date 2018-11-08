@@ -71,7 +71,7 @@ func Example_sparkleRSSFeedAppcast() {
 // Demonstrates the "SourceForge RSS Feed" appcast loading.
 func Example_sourceForgeRSSFeedAppcast() {
 	// mock the request
-	content := getTestdata("sourceforge/example.xml")
+	content := getTestdata("../sourceforge/testdata/unmarshal/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://sourceforge.net/projects/filezilla/rss", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -105,7 +105,7 @@ func Example_sourceForgeRSSFeedAppcast() {
 	fmt.Printf("%12s %d\n", "Length:", d.Length())
 
 	// Output:
-	// Type:     *appcast.SourceForgeAppcast
+	// Type:     *sourceforge.Appcast
 	// Checksum: 69886b91a041ce9d742218a77317cd99f87a14199c3f8ba094042dd9d430f7fd
 	// Provider: SourceForge RSS Feed
 	// Releases: 5 total
