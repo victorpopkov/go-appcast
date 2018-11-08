@@ -15,6 +15,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
+	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
 	"github.com/victorpopkov/go-appcast/release"
 )
@@ -167,72 +168,46 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	url := "https://example.com/appcast.xml"
 	request, _ := client.NewRequest(url)
 
-	s := &Appcast{
-		source: &RemoteSource{
-			Source: &Source{
-				content:  resultContent,
-				provider: Unknown,
-			},
-			request: request,
-			url:     url,
-		},
-		output: &LocalOutput{
-			Output: &Output{
-				content: resultContent,
-				checksum: &Checksum{
-					algorithm: SHA256,
-					source:    resultContent,
-					result:    []byte("test"),
-				},
-				provider: Unknown,
-			},
-			filepath:    "/tmp/test.txt",
-			permissions: 0777,
-		},
-		releases: release.NewReleases([]release.Releaser{&r1, &r2, &r3, &r4}),
+	s := new(appcaster.Source)
+	s.SetContent(resultContent)
+	s.GenerateChecksum(appcaster.SHA256)
+	s.SetProvider(Unknown)
+
+	source := &RemoteSource{
+		Source:  s,
+		request: request,
+		url:     url,
 	}
 
-	return s
+	o := new(appcaster.Output)
+	o.SetContent(resultContent)
+	o.GenerateChecksum(appcaster.SHA256)
+	s.SetProvider(Unknown)
+
+	output := &LocalOutput{
+		Output:      o,
+		filepath:    "/tmp/test.txt",
+		permissions: 0777,
+	}
+
+	a := new(Appcast)
+	a.SetSource(source)
+	a.SetOutput(output)
+	a.SetReleases(release.NewReleases([]release.Releaser{&r1, &r2, &r3, &r4}))
+
+	return a
 }
 
 func TestNew(t *testing.T) {
 	// test (without source)
 	a := New()
 	assert.IsType(t, Appcast{}, *a)
-	assert.Nil(t, a.source)
+	assert.Nil(t, a.Source())
 
 	// test (with source)
 	a = New(NewLocalSource(getTestdataPath("sparkle/default.xml")))
 	assert.IsType(t, Appcast{}, *a)
-	assert.NotNil(t, a.source)
-}
-
-func TestExtractSemanticVersions(t *testing.T) {
-	testCases := map[string][]string{
-		// single
-		"Version 1":           nil,
-		"Version 1.0":         nil,
-		"Version 1.0.2":       {"1.0.2"},
-		"Version 1.0.2-alpha": {"1.0.2-alpha"},
-		"Version 1.0.2-beta":  {"1.0.2-beta"},
-		"Version 1.0.2-dev":   {"1.0.2-dev"},
-		"Version 1.0.2-rc1":   {"1.0.2-rc1"},
-
-		// multiples
-		"First is v1.0.1, second is v1.0.2, third is v1.0.3": {"1.0.1", "1.0.2", "1.0.3"},
-	}
-
-	// test
-	for data, versions := range testCases {
-		actual, err := ExtractSemanticVersions(data)
-		if versions == nil {
-			assert.Error(t, err)
-			assert.EqualError(t, err, "no semantic versions found")
-		} else {
-			assert.Nil(t, err)
-			assert.Equal(t, versions, actual)
-		}
-	}
+	assert.NotNil(t, a.Source())
 }
 
 func TestAppcast_LoadFromRemoteSource(t *testing.T) {
@@ -251,10 +226,10 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleAppcast{}, p)
-	assert.NotEmpty(t, a.source.Content())
-	assert.Equal(t, Sparkle, a.source.Provider())
-	assert.NotNil(t, a.source.Checksum())
-	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, Sparkle, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
+	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
 
 	// test (successful) [request]
 	a = New()
@@ -263,10 +238,10 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleAppcast{}, p)
-	assert.NotEmpty(t, a.source.Content())
-	assert.Equal(t, Sparkle, a.source.Provider())
-	assert.NotNil(t, a.source.Checksum())
-	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, Sparkle, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
+	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
 
 	// test (error) [invalid url]
 	a = New()
@@ -276,7 +251,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.Nil(t, a.source)
+	assert.Nil(t, a.Source())
 
 	// test (error) [invalid request]
 	a = New()
@@ -285,7 +260,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.EqualError(t, err, "Get invalid: no responder found")
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.Nil(t, a.source)
+	assert.Nil(t, a.Source())
 
 	// test (error) [unmarshalling failure]
 	url = "https://example.com/appcast.xml"
@@ -302,8 +277,8 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.EqualError(t, err, "malformed version: invalid")
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.IsType(t, &RemoteSource{}, a.source)
-	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
+	assert.IsType(t, &RemoteSource{}, a.Source())
+	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
 }
 
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
@@ -320,10 +295,10 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &SparkleAppcast{}, p)
 	assert.Nil(t, err)
-	assert.NotEmpty(t, a.source.Content())
-	assert.Equal(t, Sparkle, a.source.Provider())
-	assert.NotNil(t, a.source.Checksum())
-	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
+	assert.NotEmpty(t, a.Source().Content())
+	assert.Equal(t, Sparkle, a.Source().Provider())
+	assert.NotNil(t, a.Source().Checksum())
+	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
 
 	// test (error) [reading failure]
 	localSourceReadFile = func(filename string) ([]byte, error) {
@@ -336,7 +311,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.Nil(t, p)
 	assert.Error(t, err)
 	assert.EqualError(t, err, "error")
-	assert.Nil(t, a.source)
+	assert.Nil(t, a.Source())
 
 	// test (error) [unmarshalling failure]
 	path = getTestdataPath("sparkle/invalid_version.xml")
@@ -352,40 +327,28 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.EqualError(t, err, "malformed version: invalid")
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.IsType(t, &LocalSource{}, a.source)
-	assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
+	assert.IsType(t, &LocalSource{}, a.Source())
+	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
 
 	localSourceReadFile = ioutil.ReadFile
-}
-
-func TestAppcast_GenerateSourceChecksum(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-	assert.Nil(t, a.source.Checksum())
-
-	// test
-	result := a.GenerateSourceChecksum(MD5)
-	assert.Equal(t, result.String(), a.source.Checksum().String())
-	assert.Equal(t, "9a0364b9e99bb480dd25e1f0284c8555", result.String())
-	assert.Equal(t, MD5, a.source.Checksum().Algorithm())
 }
 
 func TestAppcast_LoadSource(t *testing.T) {
 	// preparations
 	a := New(NewLocalSource(getTestdataPath("sparkle/default.xml")))
-	assert.Nil(t, a.source.Content())
+	assert.Nil(t, a.Source().Content())
 
 	// test
 	a.LoadSource()
-	assert.NotNil(t, a.source.Content())
+	assert.NotNil(t, a.Source().Content())
 }
 
 func TestAppcast_Unmarshal(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		"sparkle/attributes_as_elements.xml": {
-			"provider": Sparkle,
-			"appcast":  &SparkleAppcast{},
-			"checksum": "d59d258ce0b06d4c6216f6589aefb36e2bd37fbd647f175741cc248021e0e8b4",
+		"github/default.xml": {
+			"provider": GitHub,
+			"appcast":  &GitHubAppcast{},
+			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
 			"releases": 4,
 		},
 		"sourceforge/default.xml": {
@@ -394,10 +357,10 @@ func TestAppcast_Unmarshal(t *testing.T) {
 			"checksum": "d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
 			"releases": 4,
 		},
-		"github/default.xml": {
-			"provider": GitHub,
-			"appcast":  &GitHubAppcast{},
-			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
+		"sparkle/default.xml": {
+			"provider": Sparkle,
+			"appcast":  &SparkleAppcast{},
+			"checksum": "0cb017e2dfd65e07b54580ca8d4eedbfcf6cef5824bcd9539a64afb72fa9ce8c",
 			"releases": 4,
 		},
 		"unknown.xml": {
@@ -428,19 +391,19 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		// preparations
 		a := New()
 
-		assert.Nil(t, a.source)
-		assert.Empty(t, a.releases)
+		assert.Nil(t, a.Source())
+		assert.Empty(t, a.Releases())
 
 		src, err := NewRemoteSource("https://example.com/appcast.xml")
 		a.SetSource(src)
-		a.source.Load()
+		a.Source().Load()
 
 		assert.Nil(t, err)
-		assert.Equal(t, src, a.source)
-		assert.Empty(t, a.releases)
-		assert.Equal(t, data["provider"], a.source.Provider())
-		assert.NotEmpty(t, a.source.Content())
-		assert.Equal(t, data["checksum"], a.source.Checksum().String())
+		assert.Equal(t, src, a.Source())
+		assert.Empty(t, a.Releases())
+		assert.Equal(t, data["provider"], a.Source().Provider())
+		assert.NotEmpty(t, a.Source().Content())
+		assert.Equal(t, data["checksum"], a.Source().Checksum().String())
 
 		p, err := a.Unmarshal()
 		p, err = a.UnmarshalReleases()
@@ -450,8 +413,8 @@ func TestAppcast_Unmarshal(t *testing.T) {
 			assert.Nil(t, err)
 			assert.IsType(t, &Appcast{}, a)
 			assert.IsType(t, data["appcast"], p)
-			assert.Equal(t, a.releases.Len(), data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", path))
-			assert.IsType(t, data["appcast"], a.source.Appcast())
+			assert.Equal(t, a.Releases().Len(), data["releases"].(int), fmt.Sprintf("%s: number of releases doesn't match", path))
+			assert.IsType(t, data["appcast"], a.Source().Appcast())
 		} else {
 			// test (error)
 			assert.Error(t, err)
@@ -485,7 +448,7 @@ func TestAppcast_Uncomment(t *testing.T) {
 	for path, data := range testCases {
 		// preparations
 		a := newTestAppcast(getTestdata(path))
-		a.source.GuessProvider()
+		a.Source().GuessProvider()
 
 		err := a.Uncomment()
 
@@ -494,7 +457,7 @@ func TestAppcast_Uncomment(t *testing.T) {
 			assert.Nil(t, err)
 
 			for _, commentLine := range data["lines"].([]int) {
-				line, _ := getLine(commentLine, a.source.Content())
+				line, _ := getLine(commentLine, a.Source().Content())
 				check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 				assert.False(t, check)
 			}
@@ -511,105 +474,5 @@ func TestAppcast_Uncomment(t *testing.T) {
 	err := a.Uncomment()
 	assert.Error(t, err)
 	assert.EqualError(t, err, "no source")
-	assert.Nil(t, a.source)
-}
-
-func TestAppcast_SortReleasesByVersions(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-
-	// test (ASC)
-	a.SortReleasesByVersions(release.ASC)
-	assert.Equal(t, "1.0.0", a.releases.First().Version().String())
-
-	// test (DESC)
-	a.SortReleasesByVersions(release.DESC)
-	assert.Equal(t, "2.0.0-beta", a.releases.First().Version().String())
-}
-
-func TestAppcast_Filters(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-
-	// test (Appcast.FilterReleasesByTitle)
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByTitle("Release 1.0")
-	assert.Equal(t, 2, a.releases.Len())
-	a.FilterReleasesByTitle("Release 1.0.0", true)
-	assert.Equal(t, 1, a.releases.Len())
-	assert.Equal(t, "Release 1.0.1", a.releases.First().Title())
-	a.ResetFilters()
-
-	// test (Appcast.FilterReleasesByMediaType)
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByMediaType("application/octet-stream")
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByMediaType("test", true)
-	assert.Equal(t, 4, a.releases.Len())
-	a.ResetFilters()
-
-	// test (Appcast.FilterReleasesByURL)
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByURL(`app_1.*dmg$`)
-	assert.Equal(t, 3, a.releases.Len())
-	a.FilterReleasesByURL(`app_1.0.*dmg$`, true)
-	assert.Equal(t, 1, a.releases.Len())
-	a.ResetFilters()
-
-	// test (Appcast.FilterReleasesByPrerelease)
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByPrerelease()
-	assert.Equal(t, 1, a.releases.Len())
-	a.ResetFilters()
-
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByPrerelease(true)
-	assert.Equal(t, 3, a.releases.Len())
-	a.ResetFilters()
-}
-
-func TestAppcast_Source(t *testing.T) {
-	a := newTestAppcast()
-	assert.Equal(t, a.source, a.source)
-}
-
-func TestAppcast_SetSource(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-	assert.NotNil(t, a.source)
-
-	// test
-	a.SetSource(nil)
-	assert.Nil(t, a.source)
-}
-
-func TestAppcast_Output(t *testing.T) {
-	a := newTestAppcast()
-	assert.Equal(t, a.output, a.Output())
-}
-
-func TestAppcast_SetOutput(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-	assert.NotNil(t, a.output)
-
-	// test
-	a.SetOutput(nil)
-	assert.Nil(t, a.output)
-}
-
-func TestAppcast_Releases(t *testing.T) {
-	a := newTestAppcast()
-	assert.Equal(t, a.releases, a.Releases())
-}
-
-func TestAppcast_SetReleases(t *testing.T) {
-	a := newTestAppcast()
-	a.SetReleases(nil)
-	assert.Nil(t, a.releases)
-}
-
-func TestAppcast_FirstRelease(t *testing.T) {
-	a := newTestAppcast()
-	assert.Equal(t, a.releases.First(), a.FirstRelease())
+	assert.Nil(t, a.Source())
 }

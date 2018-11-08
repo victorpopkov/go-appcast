@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/victorpopkov/go-appcast/appcaster"
 )
 
 // newTestSparkleAppcast creates a new SparkleAppcast instance for testing
@@ -23,19 +25,20 @@ func newTestSparkleAppcast(paths ...string) *SparkleAppcast {
 		content = getTestdata("sparkle", "default.xml")
 	}
 
-	appcast := &SparkleAppcast{
-		Appcast: Appcast{
-			source: &LocalSource{
-				Source: &Source{
-					content:  content,
-					provider: Sparkle,
-				},
-				filepath: path,
-			},
-		},
+	s := new(appcaster.Source)
+	s.SetContent(content)
+	s.GenerateChecksum(appcaster.SHA256)
+	s.SetProvider(Unknown)
+
+	source := &LocalSource{
+		Source:   s,
+		filepath: path,
 	}
 
-	return appcast
+	a := new(SparkleAppcast)
+	a.SetSource(source)
+
+	return a
 }
 
 func TestSparkleAppcast_Unmarshal(t *testing.T) {
@@ -108,16 +111,16 @@ func TestSparkleAppcast_Unmarshal(t *testing.T) {
 
 		// test
 		assert.IsType(t, &SparkleAppcast{}, a)
-		assert.Nil(t, a.source.Appcast())
+		assert.Nil(t, a.Source().Appcast())
 		assert.Nil(t, a.channel)
-		assert.Empty(t, a.releases)
+		assert.Empty(t, a.Releases())
 
 		p, err := a.Unmarshal()
 		p, err = a.UnmarshalReleases()
 
 		assert.Nil(t, err)
 		assert.IsType(t, &SparkleAppcast{}, p)
-		assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
 
 		assert.IsType(t, &SparkleAppcastChannel{}, a.channel)
 		assert.Equal(t, "App", a.channel.Title)
@@ -125,8 +128,8 @@ func TestSparkleAppcast_Unmarshal(t *testing.T) {
 		assert.Equal(t, "App Description", a.channel.Description)
 		assert.Equal(t, "en", a.channel.Language)
 
-		assert.Len(t, releases, a.releases.Len())
-		for _, release := range a.releases.Filtered() {
+		assert.Len(t, releases, a.Releases().Len())
+		for _, release := range a.Releases().Filtered() {
 			v := release.Version().String()
 			assert.Equal(t, fmt.Sprintf("Release %s", v), release.Title())
 			assert.Equal(t, fmt.Sprintf("Release %s Description", v), release.Description())
@@ -148,7 +151,7 @@ func TestSparkleAppcast_Unmarshal(t *testing.T) {
 
 		// test
 		assert.IsType(t, &SparkleAppcast{}, a)
-		assert.Nil(t, a.source.Appcast())
+		assert.Nil(t, a.Source().Appcast())
 		assert.Nil(t, a.channel)
 
 		p, err := a.Unmarshal()
@@ -156,7 +159,7 @@ func TestSparkleAppcast_Unmarshal(t *testing.T) {
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 		assert.Nil(t, p)
-		assert.IsType(t, &SparkleAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
 		assert.Nil(t, a.channel)
 	}
 
@@ -167,7 +170,7 @@ func TestSparkleAppcast_Unmarshal(t *testing.T) {
 	assert.Error(t, err)
 	assert.EqualError(t, err, "no source")
 	assert.Nil(t, p)
-	assert.Nil(t, a.source)
+	assert.Nil(t, a.Source())
 	assert.Nil(t, a.channel)
 }
 
@@ -177,14 +180,7 @@ func TestSparkleAppcast_UnmarshalReleases(t *testing.T) {
 
 func TestSparkleAppcast_Uncomment(t *testing.T) {
 	testCases := map[string][]int{
-		"attributes_as_elements.xml": nil,
-		"default_asc.xml":            nil,
-		"default.xml":                nil,
-		"incorrect_namespace.xml":    nil,
-		"multiple_enclosure.xml":     nil,
-		"single.xml":                 nil,
-		"with_comments.xml":          {13, 20},
-		"without_namespaces.xml":     nil,
+		"with_comments.xml": {13, 20},
 	}
 
 	regexCommentStart := regexp.MustCompile(`<!--([[:space:]]*)?<`)
@@ -197,7 +193,7 @@ func TestSparkleAppcast_Uncomment(t *testing.T) {
 
 		// before
 		for _, commentLine := range commentLines {
-			line, _ := getLine(commentLine, a.source.Content())
+			line, _ := getLine(commentLine, a.Source().Content())
 			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 			assert.True(t, check, fmt.Sprintf("\"%s\" doesn't have a commented out line", filename))
 		}
@@ -208,7 +204,7 @@ func TestSparkleAppcast_Uncomment(t *testing.T) {
 		assert.Nil(t, err)
 
 		for _, commentLine := range commentLines {
-			line, _ := getLine(commentLine, a.source.Content())
+			line, _ := getLine(commentLine, a.Source().Content())
 			check := regexCommentStart.MatchString(line) && regexCommentEnd.MatchString(line)
 			assert.False(t, check, fmt.Sprintf("\"%s\" didn't uncomment a \"%d\" line", filename, commentLine))
 		}
@@ -220,7 +216,7 @@ func TestSparkleAppcast_Uncomment(t *testing.T) {
 	err := a.Uncomment()
 	assert.Error(t, err)
 	assert.EqualError(t, err, "no source")
-	assert.Nil(t, a.source)
+	assert.Nil(t, a.Source())
 	assert.Nil(t, a.channel)
 }
 

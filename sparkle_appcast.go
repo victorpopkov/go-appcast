@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/release"
 )
 
 // SparkleAppcaster is the interface that wraps the SparkleAppcast
 // methods.
 type SparkleAppcaster interface {
-	Appcaster
+	appcaster.Appcaster
 	Channel() *SparkleAppcastChannel
 	SetChannel(channel *SparkleAppcastChannel)
 }
@@ -19,7 +20,7 @@ type SparkleAppcaster interface {
 // SparkleAppcast represents the "Sparkle RSS Feed" appcast which is generated
 // by the Sparkle Framework.
 type SparkleAppcast struct {
-	Appcast
+	appcaster.Appcast
 	channel *SparkleAppcastChannel
 }
 
@@ -76,18 +77,18 @@ type unmarshalSparkleEnclosure struct {
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *SparkleAppcast) Unmarshal() (Appcaster, error) {
+func (a *SparkleAppcast) Unmarshal() (appcaster.Appcaster, error) {
 	var feed unmarshalSparkle
 
-	if a.source == nil || len(a.source.Content()) == 0 {
+	if a.Source() == nil || len(a.Source().Content()) == 0 {
 		return nil, fmt.Errorf("no source")
 	}
 
-	if a.source.Appcast() == nil {
-		a.source.SetAppcast(a)
+	if a.Source().Appcast() == nil {
+		a.Source().SetAppcast(a)
 	}
 
-	err := xml.Unmarshal(a.source.Content(), &feed)
+	err := xml.Unmarshal(a.Source().Content(), &feed)
 	if err != nil {
 		return nil, err
 	}
@@ -97,7 +98,7 @@ func (a *SparkleAppcast) Unmarshal() (Appcaster, error) {
 		return nil, err
 	}
 
-	a.releases = r
+	a.SetReleases(r)
 
 	a.channel = &SparkleAppcastChannel{
 		Title:       feed.Channel.Title,
@@ -116,7 +117,7 @@ func (a *SparkleAppcast) Unmarshal() (Appcaster, error) {
 // Appcaster interface and an error.
 //
 // Deprecated: Use SparkleAppcast.Unmarshal instead.
-func (a *SparkleAppcast) UnmarshalReleases() (Appcaster, error) {
+func (a *SparkleAppcast) UnmarshalReleases() (appcaster.Appcaster, error) {
 	return a.Unmarshal()
 }
 
@@ -178,14 +179,14 @@ func (a *SparkleAppcast) createReleases(feed unmarshalSparkle) (release.Releases
 }
 
 // Uncomment uncomments XML tags in SparkleAppcast.source.content.
-func (a *SparkleAppcast) Uncomment() error {
-	if a.source == nil || len(a.source.Content()) == 0 {
+func (a SparkleAppcast) Uncomment() error {
+	if a.Source() == nil || len(a.Source().Content()) == 0 {
 		return fmt.Errorf("no source")
 	}
 
 	regex := regexp.MustCompile(`(<!--([[:space:]]*)?)|(([[:space:]]*)?-->)`)
-	if regex.Match(a.source.Content()) {
-		a.source.SetContent(regex.ReplaceAll(a.source.Content(), []byte("")))
+	if regex.Match(a.Source().Content()) {
+		a.Source().SetContent(regex.ReplaceAll(a.Source().Content(), []byte("")))
 	}
 
 	return nil

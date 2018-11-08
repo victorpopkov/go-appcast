@@ -1,4 +1,5 @@
-// Package release provides an appcast release(s) that suits most appcast providers.
+// Package release provides an appcast release(s) that suits most appcast
+// providers.
 //
 // Officially, it supports 3 providers: "GitHub Atom Feed", "SourceForge RSS
 // Feed" and "Sparkle RSS Feed". However, it can be extended to your own needs

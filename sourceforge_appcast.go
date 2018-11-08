@@ -4,19 +4,20 @@ import (
 	"encoding/xml"
 	"fmt"
 
+	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/release"
 )
 
 // SourceForgeAppcaster is the interface that wraps the SourceForgeAppcast
 // methods.
 type SourceForgeAppcaster interface {
-	Appcaster
+	appcaster.Appcaster
 }
 
 // SourceForgeAppcast represents appcast for "SourceForge RSS Feed" that is
 // created by the SourceForge applications and software distributor.
 type SourceForgeAppcast struct {
-	Appcast
+	appcaster.Appcast
 }
 
 // unmarshalSourceForge represents an RSS itself.
@@ -54,18 +55,18 @@ type unmarshalSourceForgeContent struct {
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *SourceForgeAppcast) Unmarshal() (Appcaster, error) {
+func (a *SourceForgeAppcast) Unmarshal() (appcaster.Appcaster, error) {
 	var feed unmarshalSourceForge
 
-	if a.source == nil || len(a.source.Content()) == 0 {
+	if a.Source() == nil || len(a.Source().Content()) == 0 {
 		return nil, fmt.Errorf("no source")
 	}
 
-	if a.source.Appcast() == nil {
-		a.source.SetAppcast(a)
+	if a.Source().Appcast() == nil {
+		a.Source().SetAppcast(a)
 	}
 
-	err := xml.Unmarshal(a.source.Content(), &feed)
+	err := xml.Unmarshal(a.Source().Content(), &feed)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +76,7 @@ func (a *SourceForgeAppcast) Unmarshal() (Appcaster, error) {
 		return nil, err
 	}
 
-	a.releases = r
+	a.SetReleases(r)
 
 	return a, nil
 }
@@ -87,7 +88,7 @@ func (a *SourceForgeAppcast) Unmarshal() (Appcaster, error) {
 // Appcaster interface and an error.
 //
 // Deprecated: Use SourceForgeAppcast.Unmarshal instead.
-func (a *SourceForgeAppcast) UnmarshalReleases() (Appcaster, error) {
+func (a *SourceForgeAppcast) UnmarshalReleases() (appcaster.Appcaster, error) {
 	return a.Unmarshal()
 }
 
@@ -96,7 +97,7 @@ func (a *SourceForgeAppcast) createReleases(feed unmarshalSourceForge) (release.
 	items := make([]release.Releaser, len(feed.Items))
 	for i, item := range feed.Items {
 		// extract version
-		versions, err := ExtractSemanticVersions(item.Title.Chardata)
+		versions, err := appcaster.ExtractSemanticVersions(item.Title.Chardata)
 		if err != nil {
 			return nil, fmt.Errorf("no version in the #%d release", i+1)
 		}

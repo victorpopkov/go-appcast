@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/victorpopkov/go-appcast/appcaster"
 )
 
 // newTestLocalSource creates a new LocalSource instance for testing purposes
@@ -20,20 +22,15 @@ func newTestLocalSource(content ...interface{}) *LocalSource {
 		resultContent = []byte("test")
 	}
 
-	src := &LocalSource{
-		Source: &Source{
-			content: resultContent,
-			checksum: &Checksum{
-				algorithm: SHA256,
-				source:    resultContent,
-				result:    []byte("test"),
-			},
-			provider: Unknown,
-		},
+	s := new(appcaster.Source)
+	s.SetContent(resultContent)
+	s.GenerateChecksum(appcaster.SHA256)
+	s.SetProvider(Unknown)
+
+	return &LocalSource{
+		Source:   s,
 		filepath: "/tmp/test.txt",
 	}
-
-	return src
 }
 
 func TestNewLocalSource(t *testing.T) {
@@ -60,8 +57,8 @@ func TestLocalSource_Load(t *testing.T) {
 	src := NewLocalSource(path)
 	err := src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, Sparkle, src.provider)
-	assert.Equal(t, string(content), string(src.content))
+	assert.Equal(t, Sparkle, src.Provider())
+	assert.Equal(t, string(content), string(src.Content()))
 
 	// test (error)
 	localSourceReadFile = func(filename string) ([]byte, error) {
@@ -71,8 +68,8 @@ func TestLocalSource_Load(t *testing.T) {
 	src = newTestLocalSource()
 	err = src.Load()
 	assert.NotNil(t, err)
-	assert.Equal(t, Unknown, src.provider)
-	assert.Equal(t, []byte("test"), src.content)
+	assert.Equal(t, Unknown, src.Provider())
+	assert.Equal(t, []byte("test"), src.Content())
 
 	localSourceReadFile = ioutil.ReadFile
 }

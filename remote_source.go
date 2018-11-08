@@ -3,19 +3,20 @@ package appcast
 import (
 	"io/ioutil"
 
+	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
 )
 
 // RemoteSourcer is the interface that wraps the RemoteSource methods.
 type RemoteSourcer interface {
-	Sourcer
+	appcaster.Sourcer
 	Request() *client.Request
 	Url() string
 }
 
 // RemoteSource represents an appcast source from the remote location.
 type RemoteSource struct {
-	*Source
+	*appcaster.Source
 	request *client.Request
 	url     string
 }
@@ -39,7 +40,7 @@ func NewRemoteSource(src interface{}) (*RemoteSource, error) {
 	}
 
 	s := &RemoteSource{
-		Source:  &Source{},
+		Source:  &appcaster.Source{},
 		request: request,
 		url:     request.HTTPRequest.URL.String(),
 	}
@@ -57,10 +58,10 @@ func (s *RemoteSource) Load() error {
 
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
-	s.content = body
+	s.SetContent(body)
 
 	s.GuessProvider()
-	s.checksum = NewChecksum(SHA256, s.content)
+	s.GenerateChecksum(appcaster.SHA256)
 
 	return nil
 }
@@ -69,9 +70,9 @@ func (s *RemoteSource) Load() error {
 // RemoteSource.url and RemoteSource.Source.content. By default returns an
 // Unknown provider.
 func (s *RemoteSource) GuessProvider() {
-	s.provider = GuessProviderByUrl(s.url)
-	if s.provider == Unknown {
-		s.provider = GuessProviderByContent(s.content)
+	s.SetProvider(GuessProviderByUrl(s.url))
+	if s.Provider() == Unknown {
+		s.SetProvider(GuessProviderByContent(s.Content()))
 	}
 }
 

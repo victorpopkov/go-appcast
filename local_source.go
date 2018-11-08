@@ -1,18 +1,22 @@
 package appcast
 
-import "io/ioutil"
+import (
+	"io/ioutil"
+
+	"github.com/victorpopkov/go-appcast/appcaster"
+)
 
 var localSourceReadFile = ioutil.ReadFile
 
 // LocalSourcer is the interface that wraps the LocalSource methods.
 type LocalSourcer interface {
-	Sourcer
+	appcaster.Sourcer
 	Filepath() string
 }
 
 // LocalSource represents an appcast source from the local file.
 type LocalSource struct {
-	*Source
+	*appcaster.Source
 	filepath string
 }
 
@@ -20,7 +24,7 @@ type LocalSource struct {
 // LocalSource.filepath set.
 func NewLocalSource(path string) *LocalSource {
 	src := &LocalSource{
-		Source:   &Source{},
+		Source:   &appcaster.Source{},
 		filepath: path,
 	}
 
@@ -35,11 +39,17 @@ func (s *LocalSource) Load() error {
 		return err
 	}
 
-	s.content = data
+	s.SetContent(data)
 	s.GuessProvider()
-	s.checksum = NewChecksum(SHA256, s.content)
+	s.GenerateChecksum(appcaster.SHA256)
 
 	return nil
+}
+
+// GuessProvider attempts to guess the supported provider based on the
+// Source.content. By default returns an Unknown provider.
+func (s *LocalSource) GuessProvider() {
+	s.SetProvider(GuessProviderByContent(s.Content()))
 }
 
 // Filepath is a LocalSource.filepath getter.

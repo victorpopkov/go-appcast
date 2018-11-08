@@ -5,18 +5,19 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/release"
 )
 
 // GitHubAppcaster is the interface that wraps the GitHubAppcaster methods.
 type GitHubAppcaster interface {
-	Appcaster
+	appcaster.Appcaster
 }
 
 // GitHubAppcast represents appcast for "GitHub Atom Feed" that is created by
 // GitHub.
 type GitHubAppcast struct {
-	Appcast
+	appcaster.Appcast
 }
 
 // unmarshalGitHub represents an Atom itself.
@@ -37,18 +38,18 @@ type unmarshalGitHubEntry struct {
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *GitHubAppcast) Unmarshal() (Appcaster, error) {
+func (a *GitHubAppcast) Unmarshal() (appcaster.Appcaster, error) {
 	var feed unmarshalGitHub
 
-	if a.source == nil || len(a.source.Content()) == 0 {
+	if a.Source() == nil || len(a.Source().Content()) == 0 {
 		return nil, fmt.Errorf("no source")
 	}
 
-	if a.source.Appcast() == nil {
-		a.source.SetAppcast(a)
+	if a.Source().Appcast() == nil {
+		a.Source().SetAppcast(a)
 	}
 
-	err := xml.Unmarshal(a.source.Content(), &feed)
+	err := xml.Unmarshal(a.Source().Content(), &feed)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +59,7 @@ func (a *GitHubAppcast) Unmarshal() (Appcaster, error) {
 		return nil, err
 	}
 
-	a.releases = r
+	a.SetReleases(r)
 
 	return a, nil
 }
@@ -70,7 +71,7 @@ func (a *GitHubAppcast) Unmarshal() (Appcaster, error) {
 // Appcaster interface and an error.
 //
 // Deprecated: Use GitHubAppcast.Unmarshal instead.
-func (a *GitHubAppcast) UnmarshalReleases() (Appcaster, error) {
+func (a *GitHubAppcast) UnmarshalReleases() (appcaster.Appcaster, error) {
 	return a.Unmarshal()
 }
 

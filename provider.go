@@ -1,14 +1,18 @@
 package appcast
 
-import "regexp"
+import (
+	"regexp"
+
+	"github.com/victorpopkov/go-appcast/appcaster"
+)
 
 // Providerer is the Provider interface.
 type Providerer interface {
-	String() string
+	appcaster.Providerer
 }
 
 // Provider holds different supported providers.
-type Provider int
+type Provider appcaster.Provider
 
 const (
 	// Unknown represents an unknown appcast provider.

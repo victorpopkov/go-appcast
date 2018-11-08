@@ -2,6 +2,7 @@ package appcast
 
 import (
 	"fmt"
+	"github.com/victorpopkov/go-appcast/appcaster"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -24,20 +25,21 @@ func newTestSourceForgeRSSFeedAppcast(content ...interface{}) *SourceForgeAppcas
 	url := "https://sourceforge.net/projects/test/rss"
 	r, _ := client.NewRequest(url)
 
-	appcast := &SourceForgeAppcast{
-		Appcast: Appcast{
-			source: &RemoteSource{
-				Source: &Source{
-					content:  resultContent,
-					provider: SourceForge,
-				},
-				request: r,
-				url:     url,
-			},
-		},
+	s := new(appcaster.Source)
+	s.SetContent(resultContent)
+	s.GenerateChecksum(appcaster.SHA256)
+	s.SetProvider(SourceForge)
+
+	source := &RemoteSource{
+		Source:  s,
+		request: r,
+		url:     url,
 	}
 
-	return appcast
+	a := new(SourceForgeAppcast)
+	a.SetSource(source)
+
+	return a
 }
 
 func TestSourceForgeAppcast_Unmarshal(t *testing.T) {
@@ -72,18 +74,18 @@ func TestSourceForgeAppcast_Unmarshal(t *testing.T) {
 
 		// test
 		assert.IsType(t, &SourceForgeAppcast{}, a)
-		assert.Nil(t, a.source.Appcast())
-		assert.Empty(t, a.releases)
+		assert.Nil(t, a.Source().Appcast())
+		assert.Empty(t, a.Releases())
 
 		p, err := a.Unmarshal()
 		p, err = a.UnmarshalReleases()
 
 		assert.Nil(t, err)
 		assert.IsType(t, &SourceForgeAppcast{}, p)
-		assert.IsType(t, &SourceForgeAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SourceForgeAppcast{}, a.Source().Appcast())
 
-		assert.Len(t, releases, a.releases.Len())
-		for _, release := range a.releases.Filtered() {
+		assert.Len(t, releases, a.Releases().Len())
+		for _, release := range a.Releases().Filtered() {
 			v := release.Version().String()
 			assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), release.Title())
 			assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), release.Description())
@@ -103,14 +105,14 @@ func TestSourceForgeAppcast_Unmarshal(t *testing.T) {
 
 		// test
 		assert.IsType(t, &SourceForgeAppcast{}, a)
-		assert.Nil(t, a.source.Appcast())
+		assert.Nil(t, a.Source().Appcast())
 
 		p, err := a.Unmarshal()
 
 		assert.Error(t, err)
 		assert.EqualError(t, err, errorMsg)
 		assert.Nil(t, p)
-		assert.IsType(t, &SourceForgeAppcast{}, a.source.Appcast())
+		assert.IsType(t, &SourceForgeAppcast{}, a.Source().Appcast())
 	}
 
 	// test (error) [no source]
@@ -120,5 +122,5 @@ func TestSourceForgeAppcast_Unmarshal(t *testing.T) {
 	assert.Error(t, err)
 	assert.EqualError(t, err, "no source")
 	assert.Nil(t, p)
-	assert.Nil(t, a.source)
+	assert.Nil(t, a.Source())
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/jarcoal/httpmock.v1"
 
+	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
 )
 
@@ -25,21 +26,16 @@ func newTestRemoteSource(content ...interface{}) *RemoteSource {
 	url := "https://example.com/appcast.xml"
 	r, _ := client.NewRequest(url)
 
-	src := &RemoteSource{
-		Source: &Source{
-			content: resultContent,
-			checksum: &Checksum{
-				algorithm: SHA256,
-				source:    resultContent,
-				result:    []byte("test"),
-			},
-			provider: Unknown,
-		},
+	s := new(appcaster.Source)
+	s.SetContent(resultContent)
+	s.GenerateChecksum(appcaster.SHA256)
+	s.SetProvider(Unknown)
+
+	return &RemoteSource{
+		Source:  s,
 		request: r,
 		url:     url,
 	}
-
-	return src
 }
 
 func TestNewRemoteSource(t *testing.T) {
@@ -86,16 +82,16 @@ func TestRemoteSource_Load(t *testing.T) {
 	assert.Nil(t, err)
 	err = src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, Sparkle, src.provider)
-	assert.Equal(t, content, src.content)
+	assert.Equal(t, Sparkle, src.Provider())
+	assert.Equal(t, content, src.Content())
 
 	// test (error)
 	src = newTestRemoteSource()
 	src.request.HTTPRequest.URL = nil
 	err = src.Load()
 	assert.NotNil(t, err)
-	assert.Equal(t, Unknown, src.provider)
-	assert.Equal(t, []byte("test"), src.content)
+	assert.Equal(t, Unknown, src.Provider())
+	assert.Equal(t, []byte("test"), src.Content())
 }
 
 func TestRemoteSource_GuessProvider(t *testing.T) {
