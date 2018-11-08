@@ -18,6 +18,7 @@ import (
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
 	"github.com/victorpopkov/go-appcast/release"
+	"github.com/victorpopkov/go-appcast/sparkle"
 )
 
 var testdataPath = "./testdata/"
@@ -205,7 +206,7 @@ func TestNew(t *testing.T) {
 	assert.Nil(t, a.Source())
 
 	// test (with source)
-	a = New(NewLocalSource(getTestdataPath("sparkle/default.xml")))
+	a = New(NewLocalSource(getTestdataPath("../sparkle/testdata/unmarshal/default.xml")))
 	assert.IsType(t, Appcast{}, *a)
 	assert.NotNil(t, a.Source())
 }
@@ -216,7 +217,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	httpmock.RegisterResponder(
 		"GET",
 		"https://example.com/appcast.xml",
-		httpmock.NewBytesResponder(200, getTestdata("sparkle/default.xml")),
+		httpmock.NewBytesResponder(200, getTestdata("../sparkle/testdata/unmarshal/default.xml")),
 	)
 	defer httpmock.DeactivateAndReset()
 
@@ -225,11 +226,11 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	p, err := a.LoadFromRemoteSource("https://example.com/appcast.xml")
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
-	assert.IsType(t, &SparkleAppcast{}, p)
+	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, Sparkle, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
-	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
+	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
 	// test (successful) [request]
 	a = New()
@@ -237,11 +238,11 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	p, err = a.LoadFromRemoteSource(r)
 	assert.Nil(t, err)
 	assert.IsType(t, &Appcast{}, a)
-	assert.IsType(t, &SparkleAppcast{}, p)
+	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, Sparkle, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
-	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
+	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
 	// test (error) [invalid url]
 	a = New()
@@ -268,7 +269,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	httpmock.RegisterResponder(
 		"GET",
 		url,
-		httpmock.NewBytesResponder(200, getTestdata("sparkle/invalid_version.xml")),
+		httpmock.NewBytesResponder(200, getTestdata("../sparkle/testdata/unmarshal/invalid_version.xml")),
 	)
 
 	a = New()
@@ -278,13 +279,13 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.IsType(t, &RemoteSource{}, a.Source())
-	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
+	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 }
 
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	// test (successful)
-	path := getTestdataPath("sparkle/default.xml")
-	content := getTestdata("sparkle/default.xml")
+	path := getTestdataPath("../sparkle/testdata/unmarshal/default.xml")
+	content := getTestdata("../sparkle/testdata/unmarshal/default.xml")
 
 	localSourceReadFile = func(filename string) ([]byte, error) {
 		return content, nil
@@ -293,12 +294,12 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	a := New()
 	p, err := a.LoadFromLocalSource(path)
 	assert.IsType(t, &Appcast{}, a)
-	assert.IsType(t, &SparkleAppcast{}, p)
+	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, Sparkle, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
-	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
+	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
 	// test (error) [reading failure]
 	localSourceReadFile = func(filename string) ([]byte, error) {
@@ -314,8 +315,8 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.Nil(t, a.Source())
 
 	// test (error) [unmarshalling failure]
-	path = getTestdataPath("sparkle/invalid_version.xml")
-	content = getTestdata("sparkle/invalid_version.xml")
+	path = getTestdataPath("../sparkle/testdata/unmarshal/invalid_version.xml")
+	content = getTestdata("../sparkle/testdata/unmarshal/invalid_version.xml")
 
 	localSourceReadFile = func(filename string) ([]byte, error) {
 		return content, nil
@@ -328,14 +329,14 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.IsType(t, &LocalSource{}, a.Source())
-	assert.IsType(t, &SparkleAppcast{}, a.Source().Appcast())
+	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
 	localSourceReadFile = ioutil.ReadFile
 }
 
 func TestAppcast_LoadSource(t *testing.T) {
 	// preparations
-	a := New(NewLocalSource(getTestdataPath("sparkle/default.xml")))
+	a := New(NewLocalSource(getTestdataPath("../sparkle/testdata/unmarshal/default.xml")))
 	assert.Nil(t, a.Source().Content())
 
 	// test
@@ -357,9 +358,9 @@ func TestAppcast_Unmarshal(t *testing.T) {
 			"checksum": "d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
 			"releases": 4,
 		},
-		"sparkle/default.xml": {
+		"../sparkle/testdata/unmarshal/default.xml": {
 			"provider": Sparkle,
-			"appcast":  &SparkleAppcast{},
+			"appcast":  &sparkle.Appcast{},
 			"checksum": "0cb017e2dfd65e07b54580ca8d4eedbfcf6cef5824bcd9539a64afb72fa9ce8c",
 			"releases": 4,
 		},
@@ -368,7 +369,7 @@ func TestAppcast_Unmarshal(t *testing.T) {
 			"checksum": "c29665078d79a8e67b37b46a51f2a34c6092719833ccddfdda6109fd8f28043c",
 			"error":    "releases for the \"Unknown\" provider can't be unmarshaled",
 		},
-		"sparkle/invalid_version.xml": {
+		"../sparkle/testdata/unmarshal/invalid_version.xml": {
 			"provider": Sparkle,
 			"checksum": "65d754f5bd04cfad33d415a3605297069127e14705c14b8127a626935229b198",
 			"error":    "malformed version: invalid",
@@ -427,7 +428,7 @@ func TestAppcast_Unmarshal(t *testing.T) {
 
 func TestAppcast_Uncomment(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		"sparkle/with_comments.xml": {
+		"../sparkle/testdata/unmarshal/with_comments.xml": {
 			"lines": []int{13, 20},
 		},
 		"sourceforge/default.xml": {

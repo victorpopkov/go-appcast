@@ -12,7 +12,7 @@ import (
 // Demonstrates the "Sparkle RSS Feed" appcast loading.
 func Example_sparkleRSSFeedAppcast() {
 	// mock the request
-	content := getTestdata("sparkle/example.xml")
+	content := getTestdata("../sparkle/testdata/unmarshal/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -45,7 +45,7 @@ func Example_sparkleRSSFeedAppcast() {
 	fmt.Printf("%23s %s\n", "DSA Signature:", d.DsaSignature())
 
 	// Output:
-	// Type:     *appcast.SparkleAppcast
+	// Type:     *sparkle.Appcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total
@@ -169,7 +169,7 @@ func Example_gitHubAtomFeedAppcast() {
 // Demonstrates the RemoteSource usage.
 func ExampleRemoteSource() {
 	// mock the request
-	content := getTestdata("sparkle/example.xml")
+	content := getTestdata("../sparkle/testdata/unmarshal/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -187,7 +187,7 @@ func ExampleRemoteSource() {
 	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
 	// Output:
-	// Type:     *appcast.SparkleAppcast
+	// Type:     *sparkle.Appcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total
@@ -195,7 +195,7 @@ func ExampleRemoteSource() {
 
 // Demonstrates the LocalSource usage.
 func ExampleLocalSource() {
-	src := NewLocalSource(getTestdataPath("sparkle/example.xml"))
+	src := NewLocalSource(getTestdataPath("../sparkle/testdata/unmarshal/example.xml"))
 
 	a := New(src)
 	a.LoadSource()
@@ -207,7 +207,7 @@ func ExampleLocalSource() {
 	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
 	// Output:
-	// Type:     *appcast.SparkleAppcast
+	// Type:     *sparkle.Appcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed
 	// Releases: 5 total

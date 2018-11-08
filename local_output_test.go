@@ -47,7 +47,7 @@ func TestNewLocalOutput(t *testing.T) {
 
 func TestLocalOutput_Save(t *testing.T) {
 	// preparations
-	content := getTestdata("sparkle/default.xml")
+	content := getTestdata("../sparkle/testdata/unmarshal/default.xml")
 
 	// test (successful)
 	localOutputWriteFile = func(filename string, data []byte, perm os.FileMode) error {

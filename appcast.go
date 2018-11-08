@@ -13,6 +13,7 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
+	"github.com/victorpopkov/go-appcast/sparkle"
 )
 
 // DefaultClient is the default Client that is used for making requests in the
@@ -111,7 +112,7 @@ func (a *Appcast) Unmarshal() (appcaster.Appcaster, error) {
 
 	switch p {
 	case Sparkle:
-		appcast = &SparkleAppcast{Appcast: a.Appcast}
+		appcast = &sparkle.Appcast{Appcast: a.Appcast}
 		break
 	case SourceForge:
 		appcast = &SourceForgeAppcast{Appcast: a.Appcast}
@@ -162,7 +163,7 @@ func (a *Appcast) Uncomment() error {
 
 	switch p {
 	case Sparkle:
-		appcast := SparkleAppcast{Appcast: a.Appcast}
+		appcast := sparkle.Appcast{Appcast: a.Appcast}
 		appcast.Uncomment()
 		a.Source().SetContent(appcast.Appcast.Source().Content())
 		return nil

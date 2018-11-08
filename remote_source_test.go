@@ -70,7 +70,7 @@ func TestNewRemoteSource(t *testing.T) {
 func TestRemoteSource_Load(t *testing.T) {
 	// preparations
 	url := "https://example.com/appcast.xml"
-	content := getTestdata("sparkle/default.xml")
+	content := getTestdata("../sparkle/testdata/unmarshal/default.xml")
 
 	// mock the request
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
@@ -101,7 +101,7 @@ func TestRemoteSource_GuessProvider(t *testing.T) {
 	assert.Equal(t, Unknown, src.Provider())
 
 	// test (Sparkle)
-	src = newTestRemoteSource(getTestdata("sparkle/default.xml"))
+	src = newTestRemoteSource(getTestdata("../sparkle/testdata/unmarshal/default.xml"))
 	src.GuessProvider()
 	assert.Equal(t, Sparkle, src.Provider())
 
