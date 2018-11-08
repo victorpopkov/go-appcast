@@ -127,7 +127,7 @@ func Example_sourceForgeRSSFeedAppcast() {
 // Demonstrates the "Github Atom Feed" appcast loading.
 func Example_gitHubAtomFeedAppcast() {
 	// mock the request
-	content := getTestdata("github/example.xml")
+	content := getTestdata("../github/testdata/unmarshal/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://github.com/atom/atom/releases.atom", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -151,7 +151,7 @@ func Example_gitHubAtomFeedAppcast() {
 	fmt.Printf("%12s %d total\n", "Downloads:", len(r.Downloads()))
 
 	// Output:
-	// Type:     *appcast.GitHubAppcast
+	// Type:     *github.Appcast
 	// Checksum: 03b6d9b8199ea377036caafa5358512295afa3c740edf9031dc6739b89e3ba05
 	// Provider: GitHub Atom Feed
 	// Releases: 10 total

@@ -10,7 +10,12 @@ import (
 func TestGuessProviderByContent(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
-		"github/default.xml": GitHub,
+		"../github/testdata/unmarshal/default.xml":         GitHub,
+		"../github/testdata/unmarshal/empty.xml":           GitHub,
+		"../github/testdata/unmarshal/invalid_pubdate.xml": GitHub,
+		"../github/testdata/unmarshal/invalid_tag.xml":     GitHub,
+		"../github/testdata/unmarshal/invalid_version.xml": GitHub,
+		"../github/testdata/unmarshal/prerelease.xml":      GitHub,
 
 		// SourceForge RSS Feed
 		"sourceforge/default.xml": SourceForge,

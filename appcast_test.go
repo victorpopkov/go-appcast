@@ -17,6 +17,7 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
+	"github.com/victorpopkov/go-appcast/github"
 	"github.com/victorpopkov/go-appcast/release"
 	"github.com/victorpopkov/go-appcast/sparkle"
 )
@@ -346,9 +347,9 @@ func TestAppcast_LoadSource(t *testing.T) {
 
 func TestAppcast_Unmarshal(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		"github/default.xml": {
+		"../github/testdata/unmarshal/default.xml": {
 			"provider": GitHub,
-			"appcast":  &GitHubAppcast{},
+			"appcast":  &github.Appcast{},
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
 			"releases": 4,
 		},
@@ -434,7 +435,7 @@ func TestAppcast_Uncomment(t *testing.T) {
 		"sourceforge/default.xml": {
 			"error": "uncommenting is not available for the \"SourceForge RSS Feed\" provider",
 		},
-		"github/default.xml": {
+		"../github/testdata/unmarshal/default.xml": {
 			"error": "uncommenting is not available for the \"GitHub Atom Feed\" provider",
 		},
 		"unknown.xml": {
