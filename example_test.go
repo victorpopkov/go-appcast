@@ -12,7 +12,7 @@ import (
 // Demonstrates the "Sparkle RSS Feed" appcast loading.
 func Example_sparkleRSSFeedAppcast() {
 	// mock the request
-	content := getTestdata("../sparkle/testdata/unmarshal/example.xml")
+	content := getTestdata("../provider/sparkle/testdata/unmarshal/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -71,7 +71,7 @@ func Example_sparkleRSSFeedAppcast() {
 // Demonstrates the "SourceForge RSS Feed" appcast loading.
 func Example_sourceForgeRSSFeedAppcast() {
 	// mock the request
-	content := getTestdata("../sourceforge/testdata/unmarshal/example.xml")
+	content := getTestdata("../provider/sourceforge/testdata/unmarshal/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://sourceforge.net/projects/filezilla/rss", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -127,7 +127,7 @@ func Example_sourceForgeRSSFeedAppcast() {
 // Demonstrates the "Github Atom Feed" appcast loading.
 func Example_gitHubAtomFeedAppcast() {
 	// mock the request
-	content := getTestdata("../github/testdata/unmarshal/example.xml")
+	content := getTestdata("../provider/github/testdata/unmarshal/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://github.com/atom/atom/releases.atom", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -169,7 +169,7 @@ func Example_gitHubAtomFeedAppcast() {
 // Demonstrates the RemoteSource usage.
 func ExampleRemoteSource() {
 	// mock the request
-	content := getTestdata("../sparkle/testdata/unmarshal/example.xml")
+	content := getTestdata("../provider/sparkle/testdata/unmarshal/example.xml")
 	httpmock.ActivateNonDefault(DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
@@ -195,7 +195,7 @@ func ExampleRemoteSource() {
 
 // Demonstrates the LocalSource usage.
 func ExampleLocalSource() {
-	src := NewLocalSource(getTestdataPath("../sparkle/testdata/unmarshal/example.xml"))
+	src := NewLocalSource(getTestdataPath("../provider/sparkle/testdata/unmarshal/example.xml"))
 
 	a := New(src)
 	a.LoadSource()

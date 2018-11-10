@@ -17,10 +17,10 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
-	"github.com/victorpopkov/go-appcast/github"
+	"github.com/victorpopkov/go-appcast/provider/github"
+	"github.com/victorpopkov/go-appcast/provider/sourceforge"
+	"github.com/victorpopkov/go-appcast/provider/sparkle"
 	"github.com/victorpopkov/go-appcast/release"
-	"github.com/victorpopkov/go-appcast/sourceforge"
-	"github.com/victorpopkov/go-appcast/sparkle"
 )
 
 var testdataPath = "./testdata/"
@@ -208,7 +208,7 @@ func TestNew(t *testing.T) {
 	assert.Nil(t, a.Source())
 
 	// test (with source)
-	a = New(NewLocalSource(getTestdataPath("../sparkle/testdata/unmarshal/default.xml")))
+	a = New(NewLocalSource(getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")))
 	assert.IsType(t, Appcast{}, *a)
 	assert.NotNil(t, a.Source())
 }
@@ -219,7 +219,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	httpmock.RegisterResponder(
 		"GET",
 		"https://example.com/appcast.xml",
-		httpmock.NewBytesResponder(200, getTestdata("../sparkle/testdata/unmarshal/default.xml")),
+		httpmock.NewBytesResponder(200, getTestdata("../provider/sparkle/testdata/unmarshal/default.xml")),
 	)
 	defer httpmock.DeactivateAndReset()
 
@@ -271,7 +271,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	httpmock.RegisterResponder(
 		"GET",
 		url,
-		httpmock.NewBytesResponder(200, getTestdata("../sparkle/testdata/unmarshal/invalid_version.xml")),
+		httpmock.NewBytesResponder(200, getTestdata("../provider/sparkle/testdata/unmarshal/invalid_version.xml")),
 	)
 
 	a = New()
@@ -286,8 +286,8 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 
 func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	// test (successful)
-	path := getTestdataPath("../sparkle/testdata/unmarshal/default.xml")
-	content := getTestdata("../sparkle/testdata/unmarshal/default.xml")
+	path := getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")
+	content := getTestdata("../provider/sparkle/testdata/unmarshal/default.xml")
 
 	localSourceReadFile = func(filename string) ([]byte, error) {
 		return content, nil
@@ -317,8 +317,8 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.Nil(t, a.Source())
 
 	// test (error) [unmarshalling failure]
-	path = getTestdataPath("../sparkle/testdata/unmarshal/invalid_version.xml")
-	content = getTestdata("../sparkle/testdata/unmarshal/invalid_version.xml")
+	path = getTestdataPath("../provider/sparkle/testdata/unmarshal/invalid_version.xml")
+	content = getTestdata("../provider/sparkle/testdata/unmarshal/invalid_version.xml")
 
 	localSourceReadFile = func(filename string) ([]byte, error) {
 		return content, nil
@@ -338,7 +338,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 
 func TestAppcast_LoadSource(t *testing.T) {
 	// preparations
-	a := New(NewLocalSource(getTestdataPath("../sparkle/testdata/unmarshal/default.xml")))
+	a := New(NewLocalSource(getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")))
 	assert.Nil(t, a.Source().Content())
 
 	// test
@@ -348,19 +348,19 @@ func TestAppcast_LoadSource(t *testing.T) {
 
 func TestAppcast_Unmarshal(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		"../github/testdata/unmarshal/default.xml": {
+		"../provider/github/testdata/unmarshal/default.xml": {
 			"provider": GitHub,
 			"appcast":  &github.Appcast{},
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
 			"releases": 4,
 		},
-		"../sourceforge/testdata/unmarshal/default.xml": {
+		"../provider/sourceforge/testdata/unmarshal/default.xml": {
 			"provider": SourceForge,
 			"appcast":  &sourceforge.Appcast{},
 			"checksum": "d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
 			"releases": 4,
 		},
-		"../sparkle/testdata/unmarshal/default.xml": {
+		"../provider/sparkle/testdata/unmarshal/default.xml": {
 			"provider": Sparkle,
 			"appcast":  &sparkle.Appcast{},
 			"checksum": "0cb017e2dfd65e07b54580ca8d4eedbfcf6cef5824bcd9539a64afb72fa9ce8c",
@@ -371,7 +371,7 @@ func TestAppcast_Unmarshal(t *testing.T) {
 			"checksum": "c29665078d79a8e67b37b46a51f2a34c6092719833ccddfdda6109fd8f28043c",
 			"error":    "releases for the \"Unknown\" provider can't be unmarshaled",
 		},
-		"../sparkle/testdata/unmarshal/invalid_version.xml": {
+		"../provider/sparkle/testdata/unmarshal/invalid_version.xml": {
 			"provider": Sparkle,
 			"checksum": "65d754f5bd04cfad33d415a3605297069127e14705c14b8127a626935229b198",
 			"error":    "malformed version: invalid",
@@ -430,14 +430,14 @@ func TestAppcast_Unmarshal(t *testing.T) {
 
 func TestAppcast_Uncomment(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
-		"../sparkle/testdata/unmarshal/with_comments.xml": {
-			"lines": []int{13, 20},
+		"../provider/github/testdata/unmarshal/default.xml": {
+			"error": "uncommenting is not available for the \"GitHub Atom Feed\" provider",
 		},
-		"../sourceforge/testdata/unmarshal/default.xml": {
+		"../provider/sourceforge/testdata/unmarshal/default.xml": {
 			"error": "uncommenting is not available for the \"SourceForge RSS Feed\" provider",
 		},
-		"../github/testdata/unmarshal/default.xml": {
-			"error": "uncommenting is not available for the \"GitHub Atom Feed\" provider",
+		"../provider/sparkle/testdata/unmarshal/with_comments.xml": {
+			"lines": []int{13, 20},
 		},
 		"unknown.xml": {
 			"error": "uncommenting is not available for the \"Unknown\" provider",

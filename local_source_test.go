@@ -46,8 +46,8 @@ func TestNewLocalSource(t *testing.T) {
 
 func TestLocalSource_Load(t *testing.T) {
 	// preparations
-	path := getTestdataPath("../sparkle/testdata/unmarshal/default.xml")
-	content := getTestdata("../sparkle/testdata/unmarshal/default.xml")
+	path := getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")
+	content := getTestdata("../provider/sparkle/testdata/unmarshal/default.xml")
 
 	// test (successful)
 	localSourceReadFile = func(filename string) ([]byte, error) {

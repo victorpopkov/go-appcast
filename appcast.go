@@ -13,9 +13,9 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
-	"github.com/victorpopkov/go-appcast/github"
-	"github.com/victorpopkov/go-appcast/sourceforge"
-	"github.com/victorpopkov/go-appcast/sparkle"
+	"github.com/victorpopkov/go-appcast/provider/github"
+	"github.com/victorpopkov/go-appcast/provider/sourceforge"
+	"github.com/victorpopkov/go-appcast/provider/sparkle"
 )
 
 // DefaultClient is the default Client that is used for making requests in the

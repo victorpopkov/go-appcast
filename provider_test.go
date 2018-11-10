@@ -10,31 +10,31 @@ import (
 func TestGuessProviderByContent(t *testing.T) {
 	testCases := map[string]Provider{
 		// GitHub Atom Feed
-		"../github/testdata/unmarshal/default.xml":         GitHub,
-		"../github/testdata/unmarshal/empty.xml":           GitHub,
-		"../github/testdata/unmarshal/invalid_pubdate.xml": GitHub,
-		"../github/testdata/unmarshal/invalid_tag.xml":     GitHub,
-		"../github/testdata/unmarshal/invalid_version.xml": GitHub,
-		"../github/testdata/unmarshal/prerelease.xml":      GitHub,
+		"../provider/github/testdata/unmarshal/default.xml":         GitHub,
+		"../provider/github/testdata/unmarshal/empty.xml":           GitHub,
+		"../provider/github/testdata/unmarshal/invalid_pubdate.xml": GitHub,
+		"../provider/github/testdata/unmarshal/invalid_tag.xml":     GitHub,
+		"../provider/github/testdata/unmarshal/invalid_version.xml": GitHub,
+		"../provider/github/testdata/unmarshal/prerelease.xml":      GitHub,
 
 		// SourceForge RSS Feed
-		"../sourceforge/testdata/unmarshal/default.xml":         SourceForge,
-		"../sourceforge/testdata/unmarshal/empty.xml":           SourceForge,
-		"../sourceforge/testdata/unmarshal/invalid_pubdate.xml": SourceForge,
-		"../sourceforge/testdata/unmarshal/invalid_tag.xml":     SourceForge,
-		"../sourceforge/testdata/unmarshal/invalid_version.xml": SourceForge,
-		"../sourceforge/testdata/unmarshal/prerelease.xml":      SourceForge,
+		"../provider/sourceforge/testdata/unmarshal/default.xml":         SourceForge,
+		"../provider/sourceforge/testdata/unmarshal/empty.xml":           SourceForge,
+		"../provider/sourceforge/testdata/unmarshal/invalid_pubdate.xml": SourceForge,
+		"../provider/sourceforge/testdata/unmarshal/invalid_tag.xml":     SourceForge,
+		"../provider/sourceforge/testdata/unmarshal/invalid_version.xml": SourceForge,
+		"../provider/sourceforge/testdata/unmarshal/prerelease.xml":      SourceForge,
 
 		// Sparkle RSS Feed
-		"../sparkle/testdata/unmarshal/attributes_as_elements.xml": Sparkle,
-		"../sparkle/testdata/unmarshal/default_asc.xml":            Sparkle,
-		"../sparkle/testdata/unmarshal/default.xml":                Sparkle,
-		"../sparkle/testdata/unmarshal/incorrect_namespace.xml":    Sparkle,
-		"../sparkle/testdata/unmarshal/multiple_enclosure.xml":     Sparkle,
-		"../sparkle/testdata/unmarshal/no_releases.xml":            Sparkle,
-		"../sparkle/testdata/unmarshal/single.xml":                 Sparkle,
-		"../sparkle/testdata/unmarshal/with_comments.xml":          Sparkle,
-		"../sparkle/testdata/unmarshal/without_namespaces.xml":     Sparkle,
+		"../provider/sparkle/testdata/unmarshal/attributes_as_elements.xml": Sparkle,
+		"../provider/sparkle/testdata/unmarshal/default_asc.xml":            Sparkle,
+		"../provider/sparkle/testdata/unmarshal/default.xml":                Sparkle,
+		"../provider/sparkle/testdata/unmarshal/incorrect_namespace.xml":    Sparkle,
+		"../provider/sparkle/testdata/unmarshal/multiple_enclosure.xml":     Sparkle,
+		"../provider/sparkle/testdata/unmarshal/no_releases.xml":            Sparkle,
+		"../provider/sparkle/testdata/unmarshal/single.xml":                 Sparkle,
+		"../provider/sparkle/testdata/unmarshal/with_comments.xml":          Sparkle,
+		"../provider/sparkle/testdata/unmarshal/without_namespaces.xml":     Sparkle,
 
 		// Unknown
 		"unknown.xml": Unknown,
@@ -46,7 +46,7 @@ func TestGuessProviderByContent(t *testing.T) {
 }
 
 func TestGuessProviderByContentString(t *testing.T) {
-	assert.Equal(t, Sparkle, GuessProviderByContentString(string(getTestdata("../sparkle/testdata/unmarshal/default.xml"))))
+	assert.Equal(t, Sparkle, GuessProviderByContentString(string(getTestdata("../provider/sparkle/testdata/unmarshal/default.xml"))))
 }
 
 func TestGuessProviderByUrl(t *testing.T) {
