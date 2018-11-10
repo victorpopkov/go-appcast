@@ -2,7 +2,6 @@ package appcaster
 
 import (
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -223,86 +222,11 @@ func TestAppcast_Unmarshal(t *testing.T) {
 	})
 }
 
-func TestAppcast_UnmarshalReleases(t *testing.T) {
-	a := newTestAppcast()
-	assert.Panics(t, func() {
-		a.UnmarshalReleases()
-	})
-}
-
 func TestAppcast_Uncomment(t *testing.T) {
 	a := newTestAppcast()
 	assert.Panics(t, func() {
 		a.Uncomment()
 	})
-}
-
-func TestAppcast_SortReleasesByVersions(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-
-	// test (ASC)
-	a.SortReleasesByVersions(release.ASC)
-	assert.Equal(t, "1.0.0", a.releases.First().Version().String())
-
-	// test (DESC)
-	a.SortReleasesByVersions(release.DESC)
-	assert.Equal(t, "2.0.0-beta", a.releases.First().Version().String())
-}
-
-func TestAppcast_Filters(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-
-	// test (Appcast.FilterReleasesByTitle)
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByTitle("Release 1.0")
-	assert.Equal(t, 2, a.releases.Len())
-	a.FilterReleasesByTitle("Release 1.0.0", true)
-	assert.Equal(t, 1, a.releases.Len())
-	spew.Dump(a.releases.First())
-	assert.Equal(t, "Release 1.0.1", a.releases.First().Title())
-	a.ResetFilters()
-
-	// test (Appcast.FilterReleasesByMediaType)
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByMediaType("application/octet-stream")
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByMediaType("test", true)
-	assert.Equal(t, 4, a.releases.Len())
-	a.ResetFilters()
-
-	// test (Appcast.FilterReleasesByURL)
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByURL(`app_1.*dmg$`)
-	assert.Equal(t, 3, a.releases.Len())
-	a.FilterReleasesByURL(`app_1.0.*dmg$`, true)
-	assert.Equal(t, 1, a.releases.Len())
-	a.ResetFilters()
-
-	// test (Appcast.FilterReleasesByPrerelease)
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByPrerelease()
-	assert.Equal(t, 1, a.releases.Len())
-	a.ResetFilters()
-
-	assert.Equal(t, 4, a.releases.Len())
-	a.FilterReleasesByPrerelease(true)
-	assert.Equal(t, 3, a.releases.Len())
-	a.ResetFilters()
-}
-
-func TestAppcast_ResetFilters(t *testing.T) {
-	// preparations
-	a := newTestAppcast()
-	r := a.releases.Filtered()
-	r = append(r, a.releases.First())
-	a.releases.SetFiltered(r)
-	assert.Equal(t, 5, a.releases.Len())
-
-	// test
-	a.ResetFilters()
-	assert.Equal(t, 4, a.releases.Len())
 }
 
 func TestAppcast_Source(t *testing.T) {

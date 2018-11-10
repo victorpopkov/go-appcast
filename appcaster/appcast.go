@@ -19,12 +19,7 @@ type Appcaster interface {
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	LoadSource() error
 	Unmarshal() (Appcaster, error)
-	UnmarshalReleases() (Appcaster, error)
 	Uncomment() error
-	SortReleasesByVersions(s release.Sort)
-	FilterReleasesByTitle(regexpStr string, inversed ...interface{})
-	FilterReleasesByURL(regexpStr string, inversed ...interface{})
-	FilterReleasesByPrerelease(inversed ...interface{})
 	Source() Sourcer
 	SetSource(src Sourcer)
 	Output() Outputer
@@ -110,82 +105,10 @@ func (a *Appcast) Unmarshal() (Appcaster, error) {
 	panic("implement me")
 }
 
-// Unmarshal unmarshals the Appcast.source.content into the Appcast.releases by
-// calling the appropriate provider-specific Unmarshal method from the supported
-// providers.
-//
-// It returns both: the supported provider-specific appcast implementing the
-// Appcaster interface and an error.
-//
-// Deprecated: Use Appcast.Unmarshal instead.
-func (a *Appcast) UnmarshalReleases() (Appcaster, error) {
-	return a.Unmarshal()
-}
-
 // Uncomment uncomments the commented out lines by calling the appropriate
 // provider-specific Uncomment method from the supported providers.
 func (a *Appcast) Uncomment() error {
 	panic("implement me")
-}
-
-// SortReleasesByVersions sorts the Appcast.releases slice by versions. Can be
-// useful if the versions order is inconsistent.
-//
-// Deprecated: Use Appcast.Releases.SortByVersions methods chain instead.
-func (a *Appcast) SortReleasesByVersions(s release.Sort) {
-	a.releases.SortByVersions(s)
-}
-
-// FilterReleasesByTitle filters all Appcast.releases by matching the release
-// title with the provided RegExp string.
-//
-// When inversed bool is set to true, the unmatched releases will be used
-// instead.
-//
-// Deprecated: Use Appcast.Releases.FilterByTitle methods chain instead.
-func (a *Appcast) FilterReleasesByTitle(regexpStr string, inversed ...interface{}) {
-	a.releases.FilterByTitle(regexpStr, inversed...)
-}
-
-// FilterReleasesByMediaType filters all Appcast.releases by matching the
-// downloads media type with the provided RegExp string.
-//
-// When inversed bool is set to true, the unmatched releases will be used
-// instead.
-//
-// Deprecated: Use Appcast.Releases.FilterByMediaType methods chain instead.
-func (a *Appcast) FilterReleasesByMediaType(regexpStr string, inversed ...interface{}) {
-	a.releases.FilterByMediaType(regexpStr, inversed...)
-}
-
-// FilterReleasesByURL filters all Appcast.releases by matching the release
-// download URL with the provided RegExp string.
-//
-// When inversed bool is set to true, the unmatched releases will be used
-// instead.
-//
-// Deprecated: Use Appcast.Releases.FilterByUrl methods chain instead.
-func (a *Appcast) FilterReleasesByURL(regexpStr string, inversed ...interface{}) {
-	a.releases.FilterByUrl(regexpStr, inversed...)
-}
-
-// FilterReleasesByPrerelease filters all Appcast.releases by matching only the
-// pre-releases.
-//
-// When inversed bool is set to true, the unmatched releases will be used
-// instead.
-//
-// Deprecated: Use Appcast.Releases.FilterByPrerelease methods chain instead.
-func (a *Appcast) FilterReleasesByPrerelease(inversed ...interface{}) {
-	a.releases.FilterByPrerelease(inversed...)
-}
-
-// ResetFilters resets the Appcast.releases to their original state before
-// applying any filters.
-//
-// Deprecated: Use Appcast.Releases.ResetFilters methods chain instead.
-func (a *Appcast) ResetFilters() {
-	a.releases.ResetFilters()
 }
 
 // Source is an Appcast.source getter.

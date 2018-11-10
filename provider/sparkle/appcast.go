@@ -38,17 +38,6 @@ func (a *Appcast) Unmarshal() (appcaster.Appcaster, error) {
 	return unmarshal(a)
 }
 
-// UnmarshalReleases unmarshals the Appcast.source.content into the
-// Appcast.releases and Appcast.channel.
-//
-// It returns both: the supported provider-specific appcast implementing the
-// Appcaster interface and an error.
-//
-// Deprecated: Use Appcast.Unmarshal instead.
-func (a *Appcast) UnmarshalReleases() (appcaster.Appcaster, error) {
-	return a.Unmarshal()
-}
-
 // Uncomment uncomments XML tags in Appcast.source.content.
 func (a *Appcast) Uncomment() error {
 	if a.Source() == nil || len(a.Source().Content()) == 0 {

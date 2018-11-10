@@ -107,7 +107,6 @@ func TestSourceForgeAppcast_Unmarshal(t *testing.T) {
 		assert.Empty(t, a.Releases())
 
 		p, err := a.Unmarshal()
-		p, err = a.UnmarshalReleases()
 
 		assert.Nil(t, err)
 		assert.IsType(t, &Appcast{}, p)

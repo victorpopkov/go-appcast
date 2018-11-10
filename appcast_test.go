@@ -414,7 +414,6 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		assert.Equal(t, data["checksum"], a.Source().Checksum().String())
 
 		p, err := a.Unmarshal()
-		p, err = a.UnmarshalReleases()
 
 		if data["error"] == nil {
 			// test (successful)
