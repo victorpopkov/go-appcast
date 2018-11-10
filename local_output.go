@@ -26,9 +26,8 @@ type LocalOutput struct {
 // NewLocalOutput returns a new LocalOutput instance pointer with the
 // LocalOutput.Output.provider, LocalOutput.filepath and LocalOutput.permissions
 // set.
-func NewLocalOutput(provider Provider, path string, perm os.FileMode) *LocalOutput {
+func NewLocalOutput(provider appcaster.Providerer, path string, perm os.FileMode) *LocalOutput {
 	o := new(appcaster.Output)
-	o.SetProvider(Unknown)
 
 	return &LocalOutput{
 		Output:      o,

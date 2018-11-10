@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/victorpopkov/go-appcast/appcaster"
+	"github.com/victorpopkov/go-appcast/provider"
 )
 
 // newTestLocalSource creates a new LocalSource instance for testing purposes
@@ -25,7 +26,7 @@ func newTestLocalSource(content ...interface{}) *LocalSource {
 	s := new(appcaster.Source)
 	s.SetContent(resultContent)
 	s.GenerateChecksum(appcaster.SHA256)
-	s.SetProvider(Unknown)
+	s.SetProvider(provider.Unknown)
 
 	return &LocalSource{
 		Source:   s,
@@ -57,7 +58,7 @@ func TestLocalSource_Load(t *testing.T) {
 	src := NewLocalSource(path)
 	err := src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, Sparkle, src.Provider())
+	assert.Equal(t, provider.Sparkle, src.Provider())
 	assert.Equal(t, string(content), string(src.Content()))
 
 	// test (error)
@@ -68,7 +69,7 @@ func TestLocalSource_Load(t *testing.T) {
 	src = newTestLocalSource()
 	err = src.Load()
 	assert.NotNil(t, err)
-	assert.Equal(t, Unknown, src.Provider())
+	assert.Equal(t, provider.Unknown, src.Provider())
 	assert.Equal(t, []byte("test"), src.Content())
 
 	localSourceReadFile = ioutil.ReadFile

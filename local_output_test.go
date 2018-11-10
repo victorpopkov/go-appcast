@@ -2,12 +2,14 @@ package appcast
 
 import (
 	"fmt"
-	"github.com/victorpopkov/go-appcast/appcaster"
 	"io/ioutil"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/victorpopkov/go-appcast/appcaster"
+	"github.com/victorpopkov/go-appcast/provider"
 )
 
 // newTestLocalOutput creates a new LocalOutput instance for testing purposes
@@ -25,7 +27,7 @@ func newTestLocalOutput(content ...interface{}) *LocalOutput {
 	o := new(appcaster.Output)
 	o.SetContent(resultContent)
 	o.GenerateChecksum(appcaster.SHA256)
-	o.SetProvider(Unknown)
+	o.SetProvider(provider.Unknown)
 
 	return &LocalOutput{
 		Output:      o,
@@ -39,7 +41,7 @@ func TestNewLocalOutput(t *testing.T) {
 	path := "/tmp/go-appcast_TestNewLocalOutput.txt"
 
 	// test (successful)
-	o := NewLocalOutput(Sparkle, path, 0777)
+	o := NewLocalOutput(provider.Sparkle, path, 0777)
 	assert.IsType(t, LocalOutput{}, *o)
 	assert.NotNil(t, o.Output)
 	assert.Equal(t, path, o.filepath)
@@ -57,7 +59,7 @@ func TestLocalOutput_Save(t *testing.T) {
 	o := newTestLocalOutput(content)
 	err := o.Save()
 	assert.Nil(t, err)
-	assert.Equal(t, Unknown, o.Provider())
+	assert.Equal(t, provider.Unknown, o.Provider())
 
 	// test (error)
 	localOutputWriteFile = func(filename string, data []byte, perm os.FileMode) error {
@@ -67,7 +69,7 @@ func TestLocalOutput_Save(t *testing.T) {
 	o = newTestLocalOutput()
 	err = o.Save()
 	assert.NotNil(t, err)
-	assert.Equal(t, Unknown, o.Provider())
+	assert.Equal(t, provider.Unknown, o.Provider())
 	assert.Equal(t, []byte("test"), o.Content())
 
 	localOutputWriteFile = ioutil.WriteFile

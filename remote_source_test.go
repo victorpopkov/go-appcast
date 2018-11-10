@@ -9,6 +9,7 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
+	"github.com/victorpopkov/go-appcast/provider"
 )
 
 // newTestRemoteSource creates a new RemoteSource instance for testing purposes
@@ -29,7 +30,7 @@ func newTestRemoteSource(content ...interface{}) *RemoteSource {
 	s := new(appcaster.Source)
 	s.SetContent(resultContent)
 	s.GenerateChecksum(appcaster.SHA256)
-	s.SetProvider(Unknown)
+	s.SetProvider(provider.Unknown)
 
 	return &RemoteSource{
 		Source:  s,
@@ -82,7 +83,7 @@ func TestRemoteSource_Load(t *testing.T) {
 	assert.Nil(t, err)
 	err = src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, Sparkle, src.Provider())
+	assert.Equal(t, provider.Sparkle, src.Provider())
 	assert.Equal(t, content, src.Content())
 
 	// test (error)
@@ -90,7 +91,7 @@ func TestRemoteSource_Load(t *testing.T) {
 	src.request.HTTPRequest.URL = nil
 	err = src.Load()
 	assert.NotNil(t, err)
-	assert.Equal(t, Unknown, src.Provider())
+	assert.Equal(t, provider.Unknown, src.Provider())
 	assert.Equal(t, []byte("test"), src.Content())
 }
 
@@ -98,22 +99,22 @@ func TestRemoteSource_GuessProvider(t *testing.T) {
 	// test (Unknown)
 	src := newTestRemoteSource()
 	src.GuessProvider()
-	assert.Equal(t, Unknown, src.Provider())
+	assert.Equal(t, provider.Unknown, src.Provider())
 
 	// test (Sparkle)
 	src = newTestRemoteSource(getTestdata("../provider/sparkle/testdata/unmarshal/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, Sparkle, src.Provider())
+	assert.Equal(t, provider.Sparkle, src.Provider())
 
 	// test (SourceForge)
 	src = newTestRemoteSource(getTestdata("../provider/sourceforge/testdata/unmarshal/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, SourceForge, src.Provider())
+	assert.Equal(t, provider.SourceForge, src.Provider())
 
 	// test (GitHub)
 	src = newTestRemoteSource(getTestdata("../provider/github/testdata/unmarshal/default.xml"))
 	src.GuessProvider()
-	assert.Equal(t, GitHub, src.Provider())
+	assert.Equal(t, provider.GitHub, src.Provider())
 }
 
 func TestRemoteSource_Request(t *testing.T) {

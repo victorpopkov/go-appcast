@@ -13,6 +13,7 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
+	"github.com/victorpopkov/go-appcast/provider"
 	"github.com/victorpopkov/go-appcast/provider/github"
 	"github.com/victorpopkov/go-appcast/provider/sourceforge"
 	"github.com/victorpopkov/go-appcast/provider/sparkle"
@@ -113,13 +114,13 @@ func (a *Appcast) Unmarshal() (appcaster.Appcaster, error) {
 	p := a.Source().Provider()
 
 	switch p {
-	case Sparkle:
+	case provider.Sparkle:
 		appcast = &sparkle.Appcast{Appcast: a.Appcast}
 		break
-	case SourceForge:
+	case provider.SourceForge:
 		appcast = &sourceforge.Appcast{Appcast: a.Appcast}
 		break
-	case GitHub:
+	case provider.GitHub:
 		appcast = &github.Appcast{Appcast: a.Appcast}
 		break
 	default:
@@ -164,7 +165,7 @@ func (a *Appcast) Uncomment() error {
 	p := a.Source().Provider()
 
 	switch p {
-	case Sparkle:
+	case provider.Sparkle:
 		appcast := sparkle.Appcast{Appcast: a.Appcast}
 		appcast.Uncomment()
 		a.Source().SetContent(appcast.Appcast.Source().Content())

@@ -17,6 +17,7 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
+	"github.com/victorpopkov/go-appcast/provider"
 	"github.com/victorpopkov/go-appcast/provider/github"
 	"github.com/victorpopkov/go-appcast/provider/sourceforge"
 	"github.com/victorpopkov/go-appcast/provider/sparkle"
@@ -174,7 +175,7 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	s := new(appcaster.Source)
 	s.SetContent(resultContent)
 	s.GenerateChecksum(appcaster.SHA256)
-	s.SetProvider(Unknown)
+	s.SetProvider(provider.Unknown)
 
 	source := &RemoteSource{
 		Source:  s,
@@ -185,7 +186,7 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	o := new(appcaster.Output)
 	o.SetContent(resultContent)
 	o.GenerateChecksum(appcaster.SHA256)
-	s.SetProvider(Unknown)
+	s.SetProvider(provider.Unknown)
 
 	output := &LocalOutput{
 		Output:      o,
@@ -230,7 +231,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, Sparkle, a.Source().Provider())
+	assert.Equal(t, provider.Sparkle, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
 	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
@@ -242,7 +243,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, Sparkle, a.Source().Provider())
+	assert.Equal(t, provider.Sparkle, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
 	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
@@ -299,7 +300,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Source().Content())
-	assert.Equal(t, Sparkle, a.Source().Provider())
+	assert.Equal(t, provider.Sparkle, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
 	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
@@ -349,30 +350,30 @@ func TestAppcast_LoadSource(t *testing.T) {
 func TestAppcast_Unmarshal(t *testing.T) {
 	testCases := map[string]map[string]interface{}{
 		"../provider/github/testdata/unmarshal/default.xml": {
-			"provider": GitHub,
+			"provider": provider.GitHub,
 			"appcast":  &github.Appcast{},
 			"checksum": "c28ff87daf2c02471fd2c836b7ed3776d927a8febbb6b8961daf64ce332f6185",
 			"releases": 4,
 		},
 		"../provider/sourceforge/testdata/unmarshal/default.xml": {
-			"provider": SourceForge,
+			"provider": provider.SourceForge,
 			"appcast":  &sourceforge.Appcast{},
 			"checksum": "d4afcf95e193a46b7decca76786731c015ee0954b276e4c02a37fa2661a6a5d0",
 			"releases": 4,
 		},
 		"../provider/sparkle/testdata/unmarshal/default.xml": {
-			"provider": Sparkle,
+			"provider": provider.Sparkle,
 			"appcast":  &sparkle.Appcast{},
 			"checksum": "0cb017e2dfd65e07b54580ca8d4eedbfcf6cef5824bcd9539a64afb72fa9ce8c",
 			"releases": 4,
 		},
 		"unknown.xml": {
-			"provider": Unknown,
+			"provider": provider.Unknown,
 			"checksum": "c29665078d79a8e67b37b46a51f2a34c6092719833ccddfdda6109fd8f28043c",
 			"error":    "releases for the \"Unknown\" provider can't be unmarshaled",
 		},
 		"../provider/sparkle/testdata/unmarshal/invalid_version.xml": {
-			"provider": Sparkle,
+			"provider": provider.Sparkle,
 			"checksum": "65d754f5bd04cfad33d415a3605297069127e14705c14b8127a626935229b198",
 			"error":    "malformed version: invalid",
 		},

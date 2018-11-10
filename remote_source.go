@@ -5,6 +5,7 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
+	"github.com/victorpopkov/go-appcast/provider"
 )
 
 // RemoteSourcer is the interface that wraps the RemoteSource methods.
@@ -70,9 +71,9 @@ func (s *RemoteSource) Load() error {
 // RemoteSource.url and RemoteSource.Source.content. By default returns an
 // Unknown provider.
 func (s *RemoteSource) GuessProvider() {
-	s.SetProvider(GuessProviderByUrl(s.url))
-	if s.Provider() == Unknown {
-		s.SetProvider(GuessProviderByContent(s.Content()))
+	s.SetProvider(provider.GuessProviderByUrl(s.url))
+	if s.Provider() == provider.Unknown {
+		s.SetProvider(provider.GuessProviderByContent(s.Content()))
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 
 	"github.com/victorpopkov/go-appcast/appcaster"
+	"github.com/victorpopkov/go-appcast/provider"
 )
 
 var localSourceReadFile = ioutil.ReadFile
@@ -49,7 +50,7 @@ func (s *LocalSource) Load() error {
 // GuessProvider attempts to guess the supported provider based on the
 // Source.content. By default returns an Unknown provider.
 func (s *LocalSource) GuessProvider() {
-	s.SetProvider(GuessProviderByContent(s.Content()))
+	s.SetProvider(provider.GuessProviderByContent(s.Content()))
 }
 
 // Filepath is a LocalSource.filepath getter.

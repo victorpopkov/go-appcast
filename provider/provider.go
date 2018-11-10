@@ -1,4 +1,4 @@
-package appcast
+package provider
 
 import (
 	"regexp"
@@ -40,19 +40,19 @@ var providerNames = [...]string{
 // GuessProviderByContent attempts to guess the supported provider from the
 // passed content. By default returns Provider.Unknown.
 func GuessProviderByContent(content []byte) Provider {
-	regexSparkleRSSFeed := regexp.MustCompile(`(?s)(<rss.*xmlns:sparkle)|(?s)(<rss.*<enclosure)`)
-	regexSourceForgeRSSFeed := regexp.MustCompile(`(?s)(<rss.*xmlns:sf)|(?s)(<channel.*xmlns:sf)`)
-	regexGitHubAtomFeed := regexp.MustCompile(`(?s)<feed.*<id>tag:github.com`)
+	regexSparkle := regexp.MustCompile(`(?s)(<rss.*xmlns:sparkle)|(?s)(<rss.*<enclosure)`)
+	regexSourceForge := regexp.MustCompile(`(?s)(<rss.*xmlns:sf)|(?s)(<channel.*xmlns:sf)`)
+	regexGitHub := regexp.MustCompile(`(?s)<feed.*<id>tag:github.com`)
 
-	if regexSparkleRSSFeed.Match(content) {
+	if regexSparkle.Match(content) {
 		return Sparkle
 	}
 
-	if regexSourceForgeRSSFeed.Match(content) {
+	if regexSourceForge.Match(content) {
 		return SourceForge
 	}
 
-	if regexGitHubAtomFeed.Match(content) {
+	if regexGitHub.Match(content) {
 		return GitHub
 	}
 
@@ -69,14 +69,14 @@ func GuessProviderByContentString(content string) Provider {
 // URL. Only appcasts that are web-service specific can be guessed. By default
 // returns Provider.Unknown.
 func GuessProviderByUrl(url string) Provider {
-	regexSourceForgeRSSFeed := regexp.MustCompile(`.*sourceforge.net/projects/.*/rss`)
-	regexGitHubAtomFeed := regexp.MustCompile(`.*github\.com/(?P<user>.*?)/(?P<repo>.*?)/releases\.atom`)
+	regexSourceForge := regexp.MustCompile(`.*sourceforge.net/projects/.*/rss`)
+	regexGitHub := regexp.MustCompile(`.*github\.com/(?P<user>.*?)/(?P<repo>.*?)/releases\.atom`)
 
-	if regexSourceForgeRSSFeed.MatchString(url) {
+	if regexSourceForge.MatchString(url) {
 		return SourceForge
 	}
 
-	if regexGitHubAtomFeed.MatchString(url) {
+	if regexGitHub.MatchString(url) {
 		return GitHub
 	}
 
