@@ -24,10 +24,11 @@ import (
 // This interface should be embedded by provider-specific Appcaster interfaces.
 type Appcaster interface {
 	appcaster.Appcaster
+	LoadFromRemoteSource(i interface{}) (appcaster.Appcaster, error)
+	LoadFromLocalSource(path string) (appcaster.Appcaster, error)
 }
 
-// Appcast represents the appcast itself and should be inherited by
-// provider-specific appcasts.
+// Appcast represents the non provider-specific appcast.
 type Appcast struct {
 	appcaster.Appcast
 }
@@ -50,7 +51,7 @@ func New(src ...interface{}) *Appcast {
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *Appcast) LoadFromRemoteSource(i interface{}) (Appcaster, error) {
+func (a *Appcast) LoadFromRemoteSource(i interface{}) (appcaster.Appcaster, error) {
 	src, err := source.NewRemote(i)
 	if err != nil {
 		return nil, err
@@ -76,7 +77,7 @@ func (a *Appcast) LoadFromRemoteSource(i interface{}) (Appcaster, error) {
 //
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
-func (a *Appcast) LoadFromLocalSource(path string) (Appcaster, error) {
+func (a *Appcast) LoadFromLocalSource(path string) (appcaster.Appcaster, error) {
 	src := source.NewLocal(path)
 	err := src.Load()
 	if err != nil {

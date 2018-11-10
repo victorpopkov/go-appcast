@@ -14,7 +14,7 @@ import (
 
 // Appcaster is the interface that wraps the Appcast methods.
 //
-// This interface should be embedded by provider-specific Appcaster interfaces.
+// This interface should be embedded by your own Appcaster interface.
 type Appcaster interface {
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	LoadSource() error
@@ -29,8 +29,9 @@ type Appcaster interface {
 	FirstRelease() release.Releaser
 }
 
-// Appcast represents the appcast itself and should be inherited by
-// provider-specific appcasts.
+// Appcast represents the appcast itself.
+//
+// This struct should be embedded by your own Appcast struct.
 type Appcast struct {
 	// source specifies an appcast source which holds the information about the
 	// retrieved appcast. Can be any use-case specific Sourcer interface
