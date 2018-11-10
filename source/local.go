@@ -30,8 +30,8 @@ func NewLocal(path string) *Local {
 	}
 }
 
-// Load loads an appcast content into the Local.Source.content from the
-// local file by using the path specified in Local.filepath set earlier.
+// Load loads an appcast content into the Local.Source.content from the local
+// file by using the path specified in Local.filepath set earlier.
 func (l *Local) Load() error {
 	data, err := LocalReadFile(l.filepath)
 	if err != nil {

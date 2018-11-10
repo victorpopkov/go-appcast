@@ -1,4 +1,4 @@
-package appcast
+package output
 
 import (
 	"fmt"
@@ -12,10 +12,10 @@ import (
 	"github.com/victorpopkov/go-appcast/provider"
 )
 
-// newTestLocalOutput creates a new LocalOutput instance for testing purposes
-// and returns its pointer. By default the content is []byte("test"). However,
-// own content can be provided as an argument.
-func newTestLocalOutput(content ...interface{}) *LocalOutput {
+// newTestLocal creates a new Local instance for testing purposes and returns
+// its pointer. By default the content is []byte("test"). However, own content
+// can be provided as an argument.
+func newTestLocal(content ...interface{}) *Local {
 	var resultContent []byte
 
 	if len(content) > 0 {
@@ -29,58 +29,67 @@ func newTestLocalOutput(content ...interface{}) *LocalOutput {
 	o.GenerateChecksum(appcaster.SHA256)
 	o.SetProvider(provider.Unknown)
 
-	return &LocalOutput{
+	return &Local{
 		Output:      o,
 		filepath:    "/tmp/test.txt",
 		permissions: 0777,
 	}
 }
 
-func TestNewLocalOutput(t *testing.T) {
+func TestNewLocal(t *testing.T) {
 	// preparations
 	path := "/tmp/go-appcast_TestNewLocalOutput.txt"
 
 	// test (successful)
-	o := NewLocalOutput(provider.Sparkle, path, 0777)
-	assert.IsType(t, LocalOutput{}, *o)
+	o := NewLocal(provider.Sparkle, path, 0777)
+	assert.IsType(t, Local{}, *o)
 	assert.NotNil(t, o.Output)
 	assert.Equal(t, path, o.filepath)
 }
 
-func TestLocalOutput_Save(t *testing.T) {
-	// preparations
-	content := getTestdata("../provider/sparkle/testdata/unmarshal/default.xml")
-
+func TestLocal_Save(t *testing.T) {
 	// test (successful)
-	localOutputWriteFile = func(filename string, data []byte, perm os.FileMode) error {
+	LocalWriteFile = func(filename string, data []byte, perm os.FileMode) error {
 		return nil
 	}
 
-	o := newTestLocalOutput(content)
+	o := newTestLocal()
 	err := o.Save()
 	assert.Nil(t, err)
 	assert.Equal(t, provider.Unknown, o.Provider())
 
 	// test (error)
-	localOutputWriteFile = func(filename string, data []byte, perm os.FileMode) error {
+	LocalWriteFile = func(filename string, data []byte, perm os.FileMode) error {
 		return fmt.Errorf("error")
 	}
 
-	o = newTestLocalOutput()
+	o = newTestLocal()
 	err = o.Save()
 	assert.NotNil(t, err)
 	assert.Equal(t, provider.Unknown, o.Provider())
 	assert.Equal(t, []byte("test"), o.Content())
 
-	localOutputWriteFile = ioutil.WriteFile
+	LocalWriteFile = ioutil.WriteFile
 }
 
-func TestLocalOutput_Filepath(t *testing.T) {
-	o := newTestLocalOutput()
+func TestLocal_Filepath(t *testing.T) {
+	o := newTestLocal()
 	assert.Equal(t, o.filepath, o.Filepath())
 }
 
-func TestLocalOutput_Permissions(t *testing.T) {
-	o := newTestLocalOutput()
+func TestLocal_SetFilepath(t *testing.T) {
+	src := newTestLocal()
+	src.SetFilepath("")
+	assert.Empty(t, src.filepath)
+}
+
+func TestLocal_Permissions(t *testing.T) {
+	o := newTestLocal()
 	assert.Equal(t, o.permissions, o.Permissions())
+}
+
+func TestLocal_SetPermissions(t *testing.T) {
+	src := newTestLocal()
+	src.SetPermissions(0666)
+	assert.Equal(t, os.FileMode(0x1b6), src.permissions)
 }

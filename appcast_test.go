@@ -17,6 +17,7 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
+	"github.com/victorpopkov/go-appcast/output"
 	"github.com/victorpopkov/go-appcast/provider"
 	"github.com/victorpopkov/go-appcast/provider/github"
 	"github.com/victorpopkov/go-appcast/provider/sourceforge"
@@ -190,15 +191,16 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	o.GenerateChecksum(appcaster.SHA256)
 	s.SetProvider(provider.Unknown)
 
-	output := &LocalOutput{
-		Output:      o,
-		filepath:    "/tmp/test.txt",
-		permissions: 0777,
+	out := &output.Local{
+		Output: o,
 	}
+
+	out.SetFilepath("/tmp/test.txt")
+	out.SetPermissions(0777)
 
 	a := new(Appcast)
 	a.SetSource(src)
-	a.SetOutput(output)
+	a.SetOutput(out)
 	a.SetReleases(release.NewReleases([]release.Releaser{&r1, &r2, &r3, &r4}))
 
 	return a

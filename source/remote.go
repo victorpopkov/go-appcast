@@ -55,8 +55,8 @@ func NewRemote(src interface{}) (*Remote, error) {
 	return s, nil
 }
 
-// Load loads an appcast content into the Remote.Source.content from the
-// remote source by using the Remote.request set earlier.
+// Load loads an appcast content into the Remote.Source.content from the remote
+// source by using the Remote.request set earlier.
 func (r *Remote) Load() error {
 	resp, err := DefaultClient.Do(r.request)
 	if err != nil {
