@@ -1,4 +1,4 @@
-package appcast
+package source
 
 import (
 	"fmt"
@@ -11,10 +11,10 @@ import (
 	"github.com/victorpopkov/go-appcast/provider"
 )
 
-// newTestLocalSource creates a new LocalSource instance for testing purposes
-// and returns its pointer. By default the content is []byte("test"). However,
-// own content can be provided as an argument.
-func newTestLocalSource(content ...interface{}) *LocalSource {
+// newTestLocal creates a new Local instance for testing purposes and returns
+// its pointer. By default the content is []byte("test"). However, own content
+// can be provided as an argument.
+func newTestLocal(content ...interface{}) *Local {
 	var resultContent []byte
 
 	if len(content) > 0 {
@@ -28,54 +28,60 @@ func newTestLocalSource(content ...interface{}) *LocalSource {
 	s.GenerateChecksum(appcaster.SHA256)
 	s.SetProvider(provider.Unknown)
 
-	return &LocalSource{
+	return &Local{
 		Source:   s,
 		filepath: "/tmp/test.txt",
 	}
 }
 
-func TestNewLocalSource(t *testing.T) {
+func TestNewLocal(t *testing.T) {
 	// preparations
 	path := "/tmp/test.txt"
 
 	// test (successful)
-	src := NewLocalSource(path)
-	assert.IsType(t, LocalSource{}, *src)
+	src := NewLocal(path)
+	assert.IsType(t, Local{}, *src)
 	assert.NotNil(t, src.Source)
 	assert.Equal(t, path, src.filepath)
 }
 
-func TestLocalSource_Load(t *testing.T) {
+func TestLocal_Load(t *testing.T) {
 	// preparations
-	path := getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")
-	content := getTestdata("../provider/sparkle/testdata/unmarshal/default.xml")
+	path := "test.xml"
+	content := []byte("test")
 
 	// test (successful)
-	localSourceReadFile = func(filename string) ([]byte, error) {
+	LocalReadFile = func(filename string) ([]byte, error) {
 		return content, nil
 	}
 
-	src := NewLocalSource(path)
+	src := NewLocal(path)
 	err := src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, provider.Sparkle, src.Provider())
+	assert.Equal(t, provider.Unknown, src.Provider())
 	assert.Equal(t, string(content), string(src.Content()))
 
 	// test (error)
-	localSourceReadFile = func(filename string) ([]byte, error) {
+	LocalReadFile = func(filename string) ([]byte, error) {
 		return nil, fmt.Errorf("error")
 	}
 
-	src = newTestLocalSource()
+	src = newTestLocal()
 	err = src.Load()
 	assert.NotNil(t, err)
 	assert.Equal(t, provider.Unknown, src.Provider())
 	assert.Equal(t, []byte("test"), src.Content())
 
-	localSourceReadFile = ioutil.ReadFile
+	LocalReadFile = ioutil.ReadFile
 }
 
-func TestLocalSource_Filepath(t *testing.T) {
-	src := newTestLocalSource()
+func TestLocal_Filepath(t *testing.T) {
+	src := newTestLocal()
 	assert.Equal(t, src.filepath, src.Filepath())
+}
+
+func TestLocal_SetFilepath(t *testing.T) {
+	src := newTestLocal()
+	src.SetFilepath("")
+	assert.Empty(t, src.filepath)
 }

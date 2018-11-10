@@ -22,6 +22,7 @@ import (
 	"github.com/victorpopkov/go-appcast/provider/sourceforge"
 	"github.com/victorpopkov/go-appcast/provider/sparkle"
 	"github.com/victorpopkov/go-appcast/release"
+	"github.com/victorpopkov/go-appcast/source"
 )
 
 var testdataPath = "./testdata/"
@@ -177,11 +178,12 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	s.GenerateChecksum(appcaster.SHA256)
 	s.SetProvider(provider.Unknown)
 
-	source := &RemoteSource{
-		Source:  s,
-		request: request,
-		url:     url,
+	src := &source.Remote{
+		Source: s,
 	}
+
+	src.SetRequest(request)
+	src.SetUrl(url)
 
 	o := new(appcaster.Output)
 	o.SetContent(resultContent)
@@ -195,7 +197,7 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	}
 
 	a := new(Appcast)
-	a.SetSource(source)
+	a.SetSource(src)
 	a.SetOutput(output)
 	a.SetReleases(release.NewReleases([]release.Releaser{&r1, &r2, &r3, &r4}))
 
@@ -209,7 +211,7 @@ func TestNew(t *testing.T) {
 	assert.Nil(t, a.Source())
 
 	// test (with source)
-	a = New(NewLocalSource(getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")))
+	a = New(source.NewLocal(getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")))
 	assert.IsType(t, Appcast{}, *a)
 	assert.NotNil(t, a.Source())
 }
@@ -281,7 +283,7 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	assert.EqualError(t, err, "malformed version: invalid")
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.IsType(t, &RemoteSource{}, a.Source())
+	assert.IsType(t, &source.Remote{}, a.Source())
 	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 }
 
@@ -290,7 +292,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	path := getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")
 	content := getTestdata("../provider/sparkle/testdata/unmarshal/default.xml")
 
-	localSourceReadFile = func(filename string) ([]byte, error) {
+	source.LocalReadFile = func(filename string) ([]byte, error) {
 		return content, nil
 	}
 
@@ -305,7 +307,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
 	// test (error) [reading failure]
-	localSourceReadFile = func(filename string) ([]byte, error) {
+	source.LocalReadFile = func(filename string) ([]byte, error) {
 		return nil, fmt.Errorf("error")
 	}
 
@@ -321,7 +323,7 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	path = getTestdataPath("../provider/sparkle/testdata/unmarshal/invalid_version.xml")
 	content = getTestdata("../provider/sparkle/testdata/unmarshal/invalid_version.xml")
 
-	localSourceReadFile = func(filename string) ([]byte, error) {
+	source.LocalReadFile = func(filename string) ([]byte, error) {
 		return content, nil
 	}
 
@@ -331,15 +333,15 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	assert.EqualError(t, err, "malformed version: invalid")
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
-	assert.IsType(t, &LocalSource{}, a.Source())
+	assert.IsType(t, &source.Local{}, a.Source())
 	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
-	localSourceReadFile = ioutil.ReadFile
+	source.LocalReadFile = ioutil.ReadFile
 }
 
 func TestAppcast_LoadSource(t *testing.T) {
 	// preparations
-	a := New(NewLocalSource(getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")))
+	a := New(source.NewLocal(getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")))
 	assert.Nil(t, a.Source().Content())
 
 	// test
@@ -398,7 +400,7 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		assert.Nil(t, a.Source())
 		assert.Empty(t, a.Releases())
 
-		src, err := NewRemoteSource("https://example.com/appcast.xml")
+		src, err := source.NewRemote("https://example.com/appcast.xml")
 		a.SetSource(src)
 		a.Source().Load()
 

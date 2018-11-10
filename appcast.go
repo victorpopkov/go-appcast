@@ -12,16 +12,12 @@ import (
 	"fmt"
 
 	"github.com/victorpopkov/go-appcast/appcaster"
-	"github.com/victorpopkov/go-appcast/client"
 	"github.com/victorpopkov/go-appcast/provider"
 	"github.com/victorpopkov/go-appcast/provider/github"
 	"github.com/victorpopkov/go-appcast/provider/sourceforge"
 	"github.com/victorpopkov/go-appcast/provider/sparkle"
+	"github.com/victorpopkov/go-appcast/source"
 )
-
-// DefaultClient is the default Client that is used for making requests in the
-// appcast package.
-var DefaultClient = client.New()
 
 // Appcaster is the interface that wraps the Appcast methods.
 //
@@ -55,7 +51,7 @@ func New(src ...interface{}) *Appcast {
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
 func (a *Appcast) LoadFromRemoteSource(i interface{}) (Appcaster, error) {
-	src, err := NewRemoteSource(i)
+	src, err := source.NewRemote(i)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +77,7 @@ func (a *Appcast) LoadFromRemoteSource(i interface{}) (Appcaster, error) {
 // It returns both: the supported provider-specific appcast implementing the
 // Appcaster interface and an error.
 func (a *Appcast) LoadFromLocalSource(path string) (Appcaster, error) {
-	src := NewLocalSource(path)
+	src := source.NewLocal(path)
 	err := src.Load()
 	if err != nil {
 		return nil, err
@@ -124,12 +120,12 @@ func (a *Appcast) Unmarshal() (appcaster.Appcaster, error) {
 		appcast = &github.Appcast{Appcast: a.Appcast}
 		break
 	default:
-		provider := p.String()
-		if provider == "-" {
-			provider = "Unknown"
+		name := p.String()
+		if name == "-" {
+			name = "Unknown"
 		}
 
-		return nil, fmt.Errorf("releases for the \"%s\" provider can't be unmarshaled", provider)
+		return nil, fmt.Errorf("releases for the \"%s\" provider can't be unmarshaled", name)
 	}
 
 	appcast, err := appcast.Unmarshal()
@@ -172,10 +168,10 @@ func (a *Appcast) Uncomment() error {
 		return nil
 	}
 
-	provider := p.String()
-	if provider == "-" {
-		provider = "Unknown"
+	name := p.String()
+	if name == "-" {
+		name = "Unknown"
 	}
 
-	return fmt.Errorf("uncommenting is not available for the \"%s\" provider", provider)
+	return fmt.Errorf("uncommenting is not available for the \"%s\" provider", name)
 }
