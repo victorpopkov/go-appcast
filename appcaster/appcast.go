@@ -97,7 +97,7 @@ func (a *Appcast) GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum 
 
 // LoadSource calls the Appcast.source.Load method.
 func (a *Appcast) LoadSource() error {
-	panic("implement me")
+	return a.Source().Load()
 }
 
 // Unmarshal unmarshals the Appcast.source.content into the Appcast.releases by

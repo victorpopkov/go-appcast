@@ -93,11 +93,6 @@ func (a *Appcast) LoadFromLocalSource(path string) (Appcaster, error) {
 	return appcast, nil
 }
 
-// LoadSource calls the Appcast.source.Load method.
-func (a *Appcast) LoadSource() error {
-	return a.Source().Load()
-}
-
 // Unmarshal unmarshals the Appcast.source.content into the Appcast.releases by
 // calling the appropriate provider-specific Unmarshal method from the supported
 // providers.
