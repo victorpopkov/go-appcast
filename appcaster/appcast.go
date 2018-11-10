@@ -1,4 +1,4 @@
-// Package appcaster provides the base for creating an appcast type(s).
+// Package appcaster provides the base for creating an appcast type.
 //
 // On its own this package provides only core structs, interfaces and
 // functions/methods that suit most appcast providers. It should be extended by

@@ -1,3 +1,4 @@
+// Package output holds the supported sources.
 package source
 
 import (
