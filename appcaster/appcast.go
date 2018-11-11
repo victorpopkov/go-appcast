@@ -55,8 +55,8 @@ type Appcast struct {
 	releases release.Releaseser
 }
 
-// New returns a new Appcast instance pointer. The Source can be passed as
-// a parameter.
+// New returns a new Appcast instance pointer. The source can be passed as a
+// parameter.
 func New(src ...interface{}) *Appcast {
 	a := new(Appcast)
 

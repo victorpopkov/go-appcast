@@ -20,21 +20,20 @@ import (
 )
 
 // Appcaster is the interface that wraps the Appcast methods.
-//
-// This interface should be embedded by provider-specific Appcaster interfaces.
 type Appcaster interface {
 	appcaster.Appcaster
 	LoadFromRemoteSource(i interface{}) (appcaster.Appcaster, error)
 	LoadFromLocalSource(path string) (appcaster.Appcaster, error)
 }
 
-// Appcast represents the non provider-specific appcast.
+// Appcast represents the non provider-specific appcast that will match any
+// supported provider.
 type Appcast struct {
 	appcaster.Appcast
 }
 
-// New returns a new Appcast instance pointer. The Source can be passed as
-// a parameter.
+// New returns a new Appcast instance pointer. The source can be passed as a
+// parameter.
 func New(src ...interface{}) *Appcast {
 	a := new(Appcast)
 
