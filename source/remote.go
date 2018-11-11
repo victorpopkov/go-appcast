@@ -5,7 +5,6 @@ import (
 
 	"github.com/victorpopkov/go-appcast/appcaster"
 	"github.com/victorpopkov/go-appcast/client"
-	"github.com/victorpopkov/go-appcast/provider"
 )
 
 // DefaultClient is the default Client that is used for making requests in the
@@ -67,20 +66,9 @@ func (r *Remote) Load() error {
 	body, _ := ioutil.ReadAll(resp.Body)
 	r.SetContent(body)
 
-	r.GuessProvider()
 	r.GenerateChecksum(appcaster.SHA256)
 
 	return nil
-}
-
-// GuessProvider attempts to guess the supported provider based on the
-// Remote.url and Remote.Source.content. By default returns an
-// Unknown provider.
-func (r *Remote) GuessProvider() {
-	r.SetProvider(provider.GuessProviderByUrl(r.url))
-	if r.Provider() == provider.Unknown {
-		r.SetProvider(provider.GuessProviderByContent(r.Content()))
-	}
 }
 
 // Request is a Remote.request getter.

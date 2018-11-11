@@ -58,7 +58,7 @@ func TestLocal_Load(t *testing.T) {
 	src := NewLocal(path)
 	err := src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, provider.Unknown, src.Provider())
+	assert.Nil(t, src.Provider())
 	assert.Equal(t, string(content), string(src.Content()))
 
 	// test (error)

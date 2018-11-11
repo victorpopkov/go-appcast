@@ -7,7 +7,6 @@ package appcaster
 type Sourcer interface {
 	Load() error
 	GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum
-	GuessProvider()
 	Content() []byte
 	SetContent(content []byte)
 	Checksum() *Checksum
@@ -32,33 +31,34 @@ type Source struct {
 	// This value is set by calling Source.GenerateChecksum.
 	checksum *Checksum
 
-	// provider specifies the one of the supported providers guessed using the
-	// Source.GuessProvider method.
+	// provider specifies the one of the supported providers guessed for the
+	// current source. It should be set right after calling the Source.Load
+	// method inside the Appcast.LoadSource.
 	provider Providerer
 
 	// appcast specifies the provider-specific appcast guessed for the current
-	// Source.
+	// source. It should be set right after the unmarshalling process inside the
+	// Appcast.Unmarshal.
 	appcast Appcaster
 }
 
 // Load should implement a way of loading an appcast content into the
-// Source.content depending on the chosen Sourcer.
+// Source.content depending on the chosen supported source type. It shouldn't
+// set any other field except the Source.content itself.
+//
+// Notice: This method needs to be implemented when embedding this Source.
 func (s *Source) Load() error {
 	panic("implement me")
 }
 
 // GenerateChecksum creates a new Checksum instance pointer based on the
-// provided algorithm and sets it as a Source.checksum.
+// provided algorithm and sets it as a Source.checksum. This method should be
+// called right after the content has been successfully loaded using the
+// Source.Load method.
 func (s *Source) GenerateChecksum(algorithm ChecksumAlgorithm) *Checksum {
 	c := NewChecksum(algorithm, s.content)
 	s.checksum = c
 	return c
-}
-
-// GuessProvider attempts to guess the supported provider based on the
-// Source.content. By default returns an Unknown provider.
-func (s *Source) GuessProvider() {
-	panic("implement me")
 }
 
 // Content is a Source.content getter.

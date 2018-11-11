@@ -43,13 +43,6 @@ func TestSource_GenerateChecksum(t *testing.T) {
 	assert.Equal(t, expected, src.Checksum().String())
 }
 
-func TestSource_GuessProvider(t *testing.T) {
-	src := newTestSource()
-	assert.Panics(t, func() {
-		src.GuessProvider()
-	})
-}
-
 func TestSource_Content(t *testing.T) {
 	src := newTestSource()
 	assert.Equal(t, src.content, src.Content())

@@ -343,12 +343,60 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 
 func TestAppcast_LoadSource(t *testing.T) {
 	// preparations
-	a := New(source.NewLocal(getTestdataPath("../provider/sparkle/testdata/unmarshal/default.xml")))
-	assert.Nil(t, a.Source().Content())
+	path := "../provider/sparkle/testdata/unmarshal/default.xml"
 
-	// test
-	a.LoadSource()
-	assert.NotNil(t, a.Source().Content())
+	// test (successful)
+	a := New(source.NewLocal(getTestdataPath(path)))
+	err := a.LoadSource()
+	assert.Nil(t, err)
+
+	// test (error)
+	a = New(source.NewLocal(getTestdataPath("")))
+	err = a.LoadSource()
+	assert.Error(t, err)
+}
+
+func TestAppcast_GuessSourceProvider(t *testing.T) {
+	// preparations
+	path := "../provider/sparkle/testdata/unmarshal/default.xml"
+
+	// mock the request
+	httpmock.Activate()
+	httpmock.RegisterResponder(
+		"GET",
+		"https://example.com/appcast.xml",
+		httpmock.NewBytesResponder(200, getTestdata(path)),
+	)
+	defer httpmock.DeactivateAndReset()
+
+	// test (*source.Remote)
+	remote, err := source.NewRemote("https://example.com/appcast.xml")
+	assert.Nil(t, err)
+
+	err = remote.Load()
+	assert.Nil(t, err)
+
+	a := New(remote)
+	a.GuessSourceProvider()
+	assert.Equal(t, provider.Sparkle, a.Source().Provider())
+
+	// test (*source.Local)
+	local := source.NewLocal(getTestdataPath(path))
+
+	err = local.Load()
+	assert.Nil(t, err)
+
+	a = New(local)
+	a.GuessSourceProvider()
+	assert.Equal(t, provider.Sparkle, a.Source().Provider())
+
+	// test (default)
+	src := new(appcaster.Source)
+	src.SetContent(getTestdata(path))
+
+	a = New(src)
+	a.GuessSourceProvider()
+	assert.Equal(t, provider.Unknown, a.Source().Provider())
 }
 
 func TestAppcast_Unmarshal(t *testing.T) {
@@ -405,6 +453,7 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		src, err := source.NewRemote("https://example.com/appcast.xml")
 		a.SetSource(src)
 		a.Source().Load()
+		a.GuessSourceProvider()
 
 		assert.Nil(t, err)
 		assert.Equal(t, src, a.Source())
@@ -455,7 +504,7 @@ func TestAppcast_Uncomment(t *testing.T) {
 	for path, data := range testCases {
 		// preparations
 		a := newTestAppcast(getTestdata(path))
-		a.Source().GuessProvider()
+		a.GuessSourceProvider()
 
 		err := a.Uncomment()
 

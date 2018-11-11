@@ -63,6 +63,7 @@ func (a *Appcast) LoadFromRemoteSource(i interface{}) (appcaster.Appcaster, erro
 	}
 
 	a.SetSource(src)
+	a.GuessSourceProvider()
 
 	appcast, err := a.Unmarshal()
 	if err != nil {
@@ -85,6 +86,7 @@ func (a *Appcast) LoadFromLocalSource(path string) (appcaster.Appcaster, error) 
 	}
 
 	a.SetSource(src)
+	a.GuessSourceProvider()
 
 	appcast, err := a.Unmarshal()
 	if err != nil {
@@ -92,6 +94,33 @@ func (a *Appcast) LoadFromLocalSource(path string) (appcaster.Appcaster, error) 
 	}
 
 	return appcast, nil
+}
+
+// LoadSource calls the Appcast.source.Load method.
+func (a *Appcast) LoadSource() error {
+	err := a.Source().Load()
+	if err == nil {
+		a.GuessSourceProvider()
+		return nil
+	}
+
+	return err
+}
+
+// GuessSourceProvider attempts to guess the supported provider based on the
+// Appcast.source.content.
+func (a *Appcast) GuessSourceProvider() {
+	switch src := a.Source().(type) {
+	case *source.Remote:
+		src.SetProvider(provider.GuessProviderByUrl(src.Url()))
+		if src.Provider() == provider.Unknown {
+			src.SetProvider(provider.GuessProviderByContent(src.Content()))
+		}
+	case *source.Local:
+		src.SetProvider(provider.GuessProviderByContent(src.Content()))
+	default:
+		src.SetProvider(provider.Unknown)
+	}
 }
 
 // Unmarshal unmarshals the Appcast.source.content into the Appcast.releases by

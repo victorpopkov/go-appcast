@@ -83,7 +83,7 @@ func TestRemote_Load(t *testing.T) {
 	assert.Nil(t, err)
 	err = src.Load()
 	assert.Nil(t, err)
-	assert.Equal(t, provider.Unknown, src.Provider())
+	assert.Nil(t, src.Provider())
 	assert.Equal(t, content, src.Content())
 
 	// test (error)
@@ -93,12 +93,6 @@ func TestRemote_Load(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, provider.Unknown, src.Provider())
 	assert.Equal(t, []byte("test"), src.Content())
-}
-
-func TestRemote_GuessProvider(t *testing.T) {
-	src := newTestRemote()
-	src.GuessProvider()
-	assert.Equal(t, provider.Unknown, src.Provider())
 }
 
 func TestRemote_Request(t *testing.T) {

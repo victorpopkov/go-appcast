@@ -215,6 +215,13 @@ func TestAppcast_LoadSource(t *testing.T) {
 	})
 }
 
+func TestAppcast_GuessSourceProvider(t *testing.T) {
+	a := newTestAppcast()
+	assert.Panics(t, func() {
+		a.GuessSourceProvider()
+	})
+}
+
 func TestAppcast_Unmarshal(t *testing.T) {
 	a := newTestAppcast()
 	assert.Panics(t, func() {

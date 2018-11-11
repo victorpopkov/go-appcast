@@ -18,6 +18,7 @@ import (
 type Appcaster interface {
 	GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum
 	LoadSource() error
+	GuessSourceProvider()
 	Unmarshal() (Appcaster, error)
 	Uncomment() error
 	Source() Sourcer
@@ -91,9 +92,21 @@ func (a *Appcast) GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum 
 	return a.source.GenerateChecksum(algorithm)
 }
 
-// LoadSource calls the Appcast.source.Load method.
+// LoadSource sets the Appcast.source.content field value depending on the
+// source type. It should call the appropriate Appcast.Source.Load methods
+// chain. After successful load, it should call the Appcast.GuessSourceProvider
+// method to set the appropriate Appcast.source.provider value based on
+// Appcast.source itself.
+//
+// Notice: This method needs to be implemented when embedding this Appcast.
 func (a *Appcast) LoadSource() error {
-	return a.Source().Load()
+	panic("implement me")
+}
+
+// GuessSourceProvider attempts to guess the supported provider based on the
+// Appcast.source.content.
+func (a *Appcast) GuessSourceProvider() {
+	panic("implement me")
 }
 
 // Unmarshal unmarshals the Appcast.source.content into the Appcast.releases by
