@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Adium Updates</title>
+    <language>en</language>
+    <item>
+      <title>Adium 1.5.10.4</title>
+      <pubDate>Sun, 14 May 2017 05:04:01 -0700</pubDate>
+      <sparkle:releaseNotesLink>https://www.adium.im/changelogs/1.5.10.4.html</sparkle:releaseNotesLink>
+      <sparkle:minimumSystemVersion>10.7.5</sparkle:minimumSystemVersion>
+      <enclosure sparkle:dsaSignature="MC4CFQCeqQ/MxlFt2H3rQfCPimChDPibCgIVAJhZmHcU8ZHylc7EjvbkVr3ardLp" sparkle:version="1.5.10.4" url="https://adiumx.cachefly.net/Adium_1.5.10.4.dmg" length="21140435" type="application/octet-stream"/>
+    </item>
+    <item>
+      <title>Adium 1.5.10</title>
+      <pubDate>Sunday, May 19th, 2014 21:25:14 GMT+1</pubDate>
+      <sparkle:releaseNotesLink>https://www.adium.im/changelogs/1.5.10.html</sparkle:releaseNotesLink>
+      <sparkle:minimumSystemVersion>10.6.8</sparkle:minimumSystemVersion>
+      <enclosure sparkle:dsaSignature="MC0CFG8S7oYAEkR+PlgK9Aul+BN4pYCiAhUA059vByxPDitLWuSS+pUwfsDeyqY=" sparkle:version="1.5.10" url="https://adiumx.cachefly.net/Adium_1.5.10.dmg" length="24595712" type="application/octet-stream"/>
+    </item>
+    <item>
+      <title>Adium 1.4.5</title>
+      <pubDate>Tuesday, March 20th, 2012 20:30:00 GMT-5</pubDate>
+      <sparkle:releaseNotesLink>https://www.adium.im/changelogs/1.4.5.html</sparkle:releaseNotesLink>
+      <sparkle:minimumSystemVersion>10.5.8</sparkle:minimumSystemVersion>
+      <enclosure sparkle:dsaSignature="MC0CFQDGpxksd++JLPa1+2AVZw/ruHsQSAIUB5REX5PJxM3bYtAKfwvnaR1pfKo=" sparkle:version="1.4.5" url="https://adiumx.cachefly.net/Adium_1.4.5.dmg" length="23065688" type="application/octet-stream"/>
+    </item>
+    <item>
+      <title>Adium 1.3.10</title>
+      <pubDate>Monday, January 12th, 2010 23:30:00 GMT-5</pubDate>
+      <sparkle:releaseNotesLink>https://www.adium.im/changelogs/1.3.10.html</sparkle:releaseNotesLink>
+      <sparkle:minimumSystemVersion>10.4.0</sparkle:minimumSystemVersion>
+      <enclosure sparkle:md5Sum="16309a78add9dc7695ccc14079baae10" sparkle:version="1.3.10" url="https://adiumx.cachefly.net/Adium_1.3.10.dmg" length="22369877" type="application/octet-stream"/>
+    </item>
+    <item>
+      <title>Adium 1.0.6</title>
+      <pubDate>Monday, August 13th, 2007 22:12:45 GMT-7</pubDate>
+      <sparkle:releaseNotesLink>https://www.adium.im/changelogs/1.0.6.html</sparkle:releaseNotesLink>
+      <sparkle:minimumSystemVersion>10.3.9</sparkle:minimumSystemVersion>
+      <enclosure sparkle:md5Sum="9e19c217f945b7fd82e46d0fa25a5a9b" sparkle:version="1.0.6" url="https://adiumx.cachefly.net/Adium_1.0.6.dmg" length="13795246" type="application/octet-stream"/>
+    </item>
+  </channel>
+</rss>

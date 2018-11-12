@@ -1,25 +1,51 @@
-package appcast
+package appcast_test
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"reflect"
 
 	"gopkg.in/jarcoal/httpmock.v1"
 
+	"github.com/victorpopkov/go-appcast"
 	"github.com/victorpopkov/go-appcast/release"
 	"github.com/victorpopkov/go-appcast/source"
 )
 
+func testdataPath(paths ...string) string {
+	testdataPath := "./testdata/"
+
+	pwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	return filepath.Join(pwd, testdataPath, filepath.Join(paths...))
+}
+
+func testdata(paths ...string) []byte {
+	content, err := ioutil.ReadFile(testdataPath(paths...))
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	return content
+}
+
 // Demonstrates the "Sparkle RSS Feed" appcast loading.
 func Example_sparkleRSSFeedAppcast() {
 	// mock the request
-	content := getTestdata("../provider/sparkle/testdata/unmarshal/example.xml")
+	content := testdata("sparkle.xml")
 	httpmock.ActivateNonDefault(source.DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
 
 	// example
-	a := New()
+	a := appcast.New()
 	a.LoadFromRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
 	a.Releases().SortByVersions(release.DESC)
 
@@ -72,13 +98,13 @@ func Example_sparkleRSSFeedAppcast() {
 // Demonstrates the "SourceForge RSS Feed" appcast loading.
 func Example_sourceForgeRSSFeedAppcast() {
 	// mock the request
-	content := getTestdata("../provider/sourceforge/testdata/unmarshal/example.xml")
+	content := testdata("sourceforge.xml")
 	httpmock.ActivateNonDefault(source.DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://sourceforge.net/projects/filezilla/rss", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
 
 	// example
-	a := New()
+	a := appcast.New()
 	a.LoadFromRemoteSource("https://sourceforge.net/projects/filezilla/rss")
 
 	// apply some filters
@@ -128,13 +154,13 @@ func Example_sourceForgeRSSFeedAppcast() {
 // Demonstrates the "Github Atom Feed" appcast loading.
 func Example_gitHubAtomFeedAppcast() {
 	// mock the request
-	content := getTestdata("../provider/github/testdata/unmarshal/example.xml")
+	content := testdata("github.xml")
 	httpmock.ActivateNonDefault(source.DefaultClient.HTTPClient)
 	httpmock.RegisterResponder("GET", "https://github.com/atom/atom/releases.atom", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
 
 	// example
-	a := New()
+	a := appcast.New()
 	a.LoadFromRemoteSource("https://github.com/atom/atom/releases.atom")
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
@@ -165,51 +191,4 @@ func Example_gitHubAtomFeedAppcast() {
 	//   Published: 2018-06-06T20:09:54+03:00
 	//
 	//   Downloads: 0 total
-}
-
-// Demonstrates the RemoteSource usage.
-func ExampleRemoteSource() {
-	// mock the request
-	content := getTestdata("../provider/sparkle/testdata/unmarshal/example.xml")
-	httpmock.ActivateNonDefault(source.DefaultClient.HTTPClient)
-	httpmock.RegisterResponder("GET", "https://www.adium.im/sparkle/appcast-release.xml", httpmock.NewBytesResponder(200, content))
-	defer httpmock.DeactivateAndReset()
-
-	// example
-	src, _ := source.NewRemote("https://www.adium.im/sparkle/appcast-release.xml")
-
-	a := New(src)
-	a.LoadSource()
-	a.Unmarshal()
-
-	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
-	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
-	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
-	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
-
-	// Output:
-	// Type:     *sparkle.Appcast
-	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
-	// Provider: Sparkle RSS Feed
-	// Releases: 5 total
-}
-
-// Demonstrates the LocalSource usage.
-func ExampleLocalSource() {
-	src := source.NewLocal(getTestdataPath("../provider/sparkle/testdata/unmarshal/example.xml"))
-
-	a := New(src)
-	a.LoadSource()
-	a.Unmarshal()
-
-	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
-	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
-	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
-	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
-
-	// Output:
-	// Type:     *sparkle.Appcast
-	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
-	// Provider: Sparkle RSS Feed
-	// Releases: 5 total
 }
