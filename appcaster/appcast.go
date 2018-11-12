@@ -1,8 +1,8 @@
 // Package appcaster provides the base for creating an appcast type.
 //
-// On its own this package provides only core structs, interfaces and
-// functions/methods that suit most appcast providers. It should be extended by
-// the provider-specific types and shouldn't be used as is.
+// This package shouldn't be used on its own. It only provides core structs,
+// interfaces and functions/methods that need to be extended by your own appcast
+// type(s) and implementations.
 package appcaster
 
 import (
@@ -94,13 +94,14 @@ func (a *Appcast) GenerateSourceChecksum(algorithm ChecksumAlgorithm) *Checksum 
 
 // LoadSource sets the Appcast.source.content field value depending on the
 // source type. It should call the appropriate Appcast.Source.Load methods
-// chain. After successful load, it should call the Appcast.GuessSourceProvider
-// method to set the appropriate Appcast.source.provider value based on
-// Appcast.source itself.
-//
-// Notice: This method needs to be implemented when embedding this Appcast.
+// chain.
 func (a *Appcast) LoadSource() error {
-	panic("implement me")
+	err := a.Source().Load()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // GuessSourceProvider attempts to guess the supported provider based on the

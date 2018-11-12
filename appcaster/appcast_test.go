@@ -13,11 +13,25 @@ import (
 	"github.com/victorpopkov/go-appcast/release"
 )
 
-var testdataPath = "./testdata/"
+type TestSource struct {
+	Source
+}
 
-// getWorkingDir returns a current working directory path. If it's not available
+type TestSourceError struct {
+	Source
+}
+
+func (s *TestSource) Load() error {
+	return nil
+}
+
+func (s *TestSourceError) Load() error {
+	return fmt.Errorf("error")
+}
+
+// workingDir returns a current working directory path. If it's not available
 // prints an error to os.Stdout and exits with error status 1.
-func getWorkingDir() string {
+func workingDir() string {
 	pwd, err := os.Getwd()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -27,11 +41,11 @@ func getWorkingDir() string {
 	return pwd
 }
 
-// getTestdata returns a file content as a byte slice from the provided testdata
+// testdata returns a file content as a byte slice from the provided testdata
 // paths. If the file is not found, prints an error to os.Stdout and exits with
 // exit status 1.
-func getTestdata(paths ...string) []byte {
-	path := getTestdataPath(paths...)
+func testdata(paths ...string) []byte {
+	path := testdataPath(paths...)
 	content, err := ioutil.ReadFile(path)
 	if err != nil {
 		fmt.Println(fmt.Errorf(err.Error()))
@@ -41,9 +55,9 @@ func getTestdata(paths ...string) []byte {
 	return content
 }
 
-// getTestdataPath returns a full path for the provided testdata paths.
-func getTestdataPath(paths ...string) string {
-	return filepath.Join(getWorkingDir(), testdataPath, filepath.Join(paths...))
+// testdataPath returns a full path for the provided testdata paths.
+func testdataPath(paths ...string) string {
+	return filepath.Join(workingDir(), "./testdata/", filepath.Join(paths...))
 }
 
 // newTestAppcast creates a new Appcast instance for testing purposes and
@@ -209,10 +223,18 @@ func TestAppcast_GenerateSourceChecksum(t *testing.T) {
 }
 
 func TestAppcast_LoadSource(t *testing.T) {
+	// preparations
 	a := newTestAppcast()
-	assert.Panics(t, func() {
-		a.LoadSource()
-	})
+
+	// test (successful)
+	a.SetSource(&TestSource{})
+	err := a.LoadSource()
+	assert.Nil(t, err)
+
+	// test (error)
+	a.SetSource(&TestSourceError{})
+	err = a.LoadSource()
+	assert.Error(t, err)
 }
 
 func TestAppcast_GuessSourceProvider(t *testing.T) {
