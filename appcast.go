@@ -26,8 +26,7 @@ type Appcaster interface {
 	LoadFromLocalSource(path string) (appcaster.Appcaster, error)
 }
 
-// Appcast represents the non provider-specific appcast that will match any
-// supported provider.
+// Appcast represents the appcast itself.
 type Appcast struct {
 	appcaster.Appcast
 }
@@ -95,15 +94,18 @@ func (a *Appcast) LoadFromLocalSource(path string) (appcaster.Appcaster, error) 
 	return appcast, nil
 }
 
-// LoadSource calls the Appcast.source.Load method.
+// LoadSource sets the Appcast.source.content field value depending on the
+// source type. It should call the appropriate Appcast.Source.Load methods
+// chain.
 func (a *Appcast) LoadSource() error {
-	err := a.Source().Load()
-	if err == nil {
-		a.GuessSourceProvider()
-		return nil
+	err := a.Appcast.LoadSource()
+	if err != nil {
+		return err
 	}
 
-	return err
+	a.GuessSourceProvider()
+
+	return nil
 }
 
 // GuessSourceProvider attempts to guess the supported provider based on the
