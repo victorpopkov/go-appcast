@@ -39,11 +39,11 @@ func Example() {
 	// mock the request
 	content := testdata("unmarshal/example.xml")
 	httpmock.ActivateNonDefault(source.DefaultClient.HTTPClient)
-	httpmock.RegisterResponder("GET", "https://sourceforge.net/projects/filezilla/rss", httpmock.NewBytesResponder(200, content))
+	httpmock.RegisterResponder("GET", "https://sourceforge.net/projects/wesnoth/rss", httpmock.NewBytesResponder(200, content))
 	defer httpmock.DeactivateAndReset()
 
 	// example
-	src, err := source.NewRemote("https://sourceforge.net/projects/filezilla/rss")
+	src, err := source.NewRemote("https://sourceforge.net/projects/wesnoth/rss")
 	if err != nil {
 		panic(err)
 	}
@@ -57,44 +57,56 @@ func Example() {
 
 	a.Unmarshal()
 
-	// apply some filters
-	a.Releases().FilterByMediaType("application/x-bzip2")
-	a.Releases().FilterByTitle("FileZilla_Client_Unstable", true)
-	a.Releases().FilterByUrl("macosx")
-	defer a.Releases().ResetFilters() // reset
-
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
-	r := a.Releases().First()
-	fmt.Print("First release details:\n\n")
-	fmt.Printf("%12s %s\n", "Version:", r.Version())
-	fmt.Printf("%12s %v\n", "Pre-release:", r.IsPreRelease())
-	fmt.Printf("%12s %s\n", "Title:", r.Title())
-	fmt.Printf("%12s %v\n\n", "Published:", r.PublishedDateTime())
+	fmt.Print("Filtering:\n\n")
+	fmt.Printf("%12s %d total\n", "Before:", a.Releases().Len())
 
-	d := r.Downloads()[0]
-	fmt.Printf("%12s %d total\n\n", "Downloads:", len(r.Downloads()))
-	fmt.Printf("%12s %s\n", "URL:", d.Url())
-	fmt.Printf("%12s %s\n", "Type:", d.Filetype())
-	fmt.Printf("%12s %d\n", "Length:", d.Length())
+	// apply some filters
+	a.Releases().FilterByMediaType("application/x-bzip2")
+	a.Releases().FilterByTitle("wesnoth-1.14", true)
+	a.Releases().FilterByUrl("dmg")
+	defer a.Releases().ResetFilters() // reset
+
+	fmt.Printf("%12s %d total\n\n", "After:", a.Releases().Len())
+
+	if a.Releases().Len() > 0 {
+		r := a.Releases().First()
+		fmt.Print("First release details:\n\n")
+		fmt.Printf("%12s %s\n", "Version:", r.Version())
+		fmt.Printf("%12s %v\n", "Pre-release:", r.IsPreRelease())
+		fmt.Printf("%12s %s\n", "Title:", r.Title())
+		fmt.Printf("%12s %v\n\n", "Published:", r.PublishedDateTime())
+
+		d := r.Downloads()[0]
+		fmt.Printf("%12s %d total\n\n", "Downloads:", len(r.Downloads()))
+		fmt.Printf("%12s %s\n", "URL:", d.Url())
+		fmt.Printf("%12s %s\n", "Type:", d.Filetype())
+		fmt.Printf("%12s %d\n", "Length:", d.Length())
+	}
 
 	// Output:
 	// Type:     *sourceforge.Appcast
-	// Checksum: 69886b91a041ce9d742218a77317cd99f87a14199c3f8ba094042dd9d430f7fd
-	// Releases: 5 total
+	// Checksum: 880cf7f2f6aa0aa0d859f1fc06e4fbcbba3d4de15fa9736bf73c07accb93ce36
+	// Releases: 95 total
+	//
+	// Filtering:
+	//
+	//      Before: 95 total
+	//       After: 10 total
 	//
 	// First release details:
 	//
-	//     Version: 3.25.2
+	//     Version: 1.13.14
 	// Pre-release: false
-	//       Title: /FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2
-	//   Published: Sun, 30 Apr 2017 12:07:25 UTC
+	//       Title: /wesnoth/wesnoth-1.13.14/Wesnoth_1.13.14.dmg
+	//   Published: Sun, 15 Apr 2018 08:45:18 UTC
 	//
 	//   Downloads: 1 total
 	//
-	//         URL: https://sourceforge.net/projects/filezilla/files/FileZilla_Client/3.25.2/FileZilla_3.25.2_macosx-x86.app.tar.bz2/download
+	//         URL: https://sourceforge.net/projects/wesnoth/files/wesnoth/wesnoth-1.13.14/Wesnoth_1.13.14.dmg/download
 	//        Type: application/x-bzip2; charset=binary
-	//      Length: 8453714
+	//      Length: 439082409
 }
