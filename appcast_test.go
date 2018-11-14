@@ -230,8 +230,8 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 
 	// test (successful) [url]
 	a := New()
-	p, err := a.LoadFromRemoteSource("https://example.com/appcast.xml")
-	assert.Nil(t, err)
+	p, errors := a.LoadFromRemoteSource("https://example.com/appcast.xml")
+	assert.Len(t, errors, 0)
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
@@ -242,8 +242,8 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	// test (successful) [request]
 	a = New()
 	r, _ := client.NewRequest("https://example.com/appcast.xml")
-	p, err = a.LoadFromRemoteSource(r)
-	assert.Nil(t, err)
+	p, errors = a.LoadFromRemoteSource(r)
+	assert.Len(t, errors, 0)
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.NotEmpty(t, a.Source().Content())
@@ -254,7 +254,11 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	// test (error) [invalid url]
 	a = New()
 	url := "http://192.168.0.%31/"
-	p, err = a.LoadFromRemoteSource(url)
+	p, errors = a.LoadFromRemoteSource(url)
+
+	assert.Len(t, errors, 1)
+	err := errors[0]
+
 	assert.Error(t, err)
 	assert.EqualError(t, err, fmt.Sprintf("parse %s: invalid URL escape \"%%31\"", url))
 	assert.IsType(t, &Appcast{}, a)
@@ -263,7 +267,11 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 
 	// test (error) [invalid request]
 	a = New()
-	p, err = a.LoadFromRemoteSource("invalid")
+	p, errors = a.LoadFromRemoteSource("invalid")
+
+	assert.Len(t, errors, 1)
+	err = errors[0]
+
 	assert.Error(t, err)
 	assert.EqualError(t, err, "Get invalid: no responder found")
 	assert.IsType(t, &Appcast{}, a)
@@ -280,11 +288,15 @@ func TestAppcast_LoadFromRemoteSource(t *testing.T) {
 	)
 
 	a = New()
-	p, err = a.LoadFromRemoteSource(url)
+	p, errors = a.LoadFromRemoteSource(url)
+
+	assert.Len(t, errors, 1)
+	err = errors[0]
+
 	assert.Error(t, err)
-	assert.EqualError(t, err, "malformed version: invalid")
+	assert.EqualError(t, err, "release #2 (malformed version: invalid)")
 	assert.IsType(t, &Appcast{}, a)
-	assert.Nil(t, p)
+	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.IsType(t, &source.Remote{}, a.Source())
 	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 }
@@ -299,10 +311,10 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	}
 
 	a := New()
-	p, err := a.LoadFromLocalSource(path)
+	p, errors := a.LoadFromLocalSource(path)
+	assert.Len(t, errors, 0)
 	assert.IsType(t, &Appcast{}, a)
 	assert.IsType(t, &sparkle.Appcast{}, p)
-	assert.Nil(t, err)
 	assert.NotEmpty(t, a.Source().Content())
 	assert.Equal(t, provider.Sparkle, a.Source().Provider())
 	assert.NotNil(t, a.Source().Checksum())
@@ -314,7 +326,11 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	}
 
 	a = New()
-	p, err = a.LoadFromLocalSource(path)
+	p, errors = a.LoadFromLocalSource(path)
+
+	assert.Len(t, errors, 1)
+	err := errors[0]
+
 	assert.IsType(t, &Appcast{}, a)
 	assert.Nil(t, p)
 	assert.Error(t, err)
@@ -330,11 +346,15 @@ func TestAppcast_LoadFromLocalSource(t *testing.T) {
 	}
 
 	a = New()
-	p, err = a.LoadFromLocalSource(path)
+	p, errors = a.LoadFromLocalSource(path)
+
+	assert.Len(t, errors, 1)
+	err = errors[0]
+
 	assert.Error(t, err)
-	assert.EqualError(t, err, "malformed version: invalid")
+	assert.EqualError(t, err, "release #2 (malformed version: invalid)")
 	assert.IsType(t, &Appcast{}, a)
-	assert.Nil(t, p)
+	assert.IsType(t, &sparkle.Appcast{}, p)
 	assert.IsType(t, &source.Local{}, a.Source())
 	assert.IsType(t, &sparkle.Appcast{}, a.Source().Appcast())
 
@@ -422,12 +442,16 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		"unknown.xml": {
 			"provider": provider.Unknown,
 			"checksum": "c29665078d79a8e67b37b46a51f2a34c6092719833ccddfdda6109fd8f28043c",
-			"error":    "releases for the \"Unknown\" provider can't be unmarshaled",
+			"error": []string{
+				"releases for the \"Unknown\" provider can't be unmarshaled",
+			},
 		},
 		"../provider/sparkle/testdata/unmarshal/invalid_version.xml": {
 			"provider": provider.Sparkle,
 			"checksum": "65d754f5bd04cfad33d415a3605297069127e14705c14b8127a626935229b198",
-			"error":    "malformed version: invalid",
+			"error": []string{
+				"release #2 (malformed version: invalid)",
+			},
 		},
 	}
 
@@ -462,7 +486,7 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		assert.NotEmpty(t, a.Source().Content())
 		assert.Equal(t, data["checksum"], a.Source().Checksum().String())
 
-		p, err := a.Unmarshal()
+		p, errors := a.Unmarshal()
 
 		if data["error"] == nil {
 			// test (successful)
@@ -473,10 +497,14 @@ func TestAppcast_Unmarshal(t *testing.T) {
 			assert.IsType(t, data["appcast"], a.Source().Appcast())
 		} else {
 			// test (error)
-			assert.Error(t, err)
-			assert.EqualError(t, err, data["error"].(string))
-			assert.IsType(t, &Appcast{}, a)
-			assert.Nil(t, p)
+			errorMsgs := data["error"].([]string)
+			for i, errorMsg := range errorMsgs {
+				err := errors[i]
+				assert.Error(t, err)
+				assert.EqualError(t, err, errorMsg)
+				assert.IsType(t, &Appcast{}, a)
+				assert.IsType(t, &Appcast{}, a)
+			}
 		}
 	}
 }

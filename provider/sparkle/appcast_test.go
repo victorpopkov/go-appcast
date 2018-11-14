@@ -164,10 +164,17 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		},
 	}
 
-	errorTestCases := map[string]string{
-		"invalid_tag.xml":     "XML syntax error on line 14: element <enclosure> closed by </item>",
-		"invalid_version.xml": "malformed version: invalid",
-		"with_comments.xml":   "no version in the #1 release",
+	errorTestCases := map[string][]string{
+		"invalid_tag.xml": {
+			"XML syntax error on line 14: element <enclosure> closed by </item>",
+		},
+		"invalid_version.xml": {
+			"release #2 (malformed version: invalid)",
+		},
+		"with_comments.xml": {
+			"release #1 (no version)",
+			"release #2 (no version)",
+		},
 	}
 
 	// test (successful)
@@ -194,23 +201,23 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		assert.Equal(t, "en", a.channel.Language)
 
 		assert.Len(t, releases, a.Releases().Len())
-		for _, release := range a.Releases().Filtered() {
-			v := release.Version().String()
-			assert.Equal(t, fmt.Sprintf("Release %s", v), release.Title())
-			assert.Equal(t, fmt.Sprintf("Release %s Description", v), release.Description())
-			assert.Equal(t, releases[v][0], release.PublishedDateTime().String())
-			assert.Equal(t, releases[v][1], release.Build())
-			assert.Equal(t, releases[v][3], release.MinimumSystemVersion())
+		for _, r := range a.Releases().Filtered() {
+			v := r.Version().String()
+			assert.Equal(t, fmt.Sprintf("Release %s", v), r.Title())
+			assert.Equal(t, fmt.Sprintf("Release %s Description", v), r.Description())
+			assert.Equal(t, releases[v][0], r.PublishedDateTime().String())
+			assert.Equal(t, releases[v][1], r.Build())
+			assert.Equal(t, releases[v][3], r.MinimumSystemVersion())
 
 			// downloads
-			assert.Equal(t, releases[v][2], release.Downloads()[0].Url())
-			assert.Equal(t, "application/octet-stream", release.Downloads()[0].Filetype())
-			assert.Equal(t, 100000, release.Downloads()[0].Length())
+			assert.Equal(t, releases[v][2], r.Downloads()[0].Url())
+			assert.Equal(t, "application/octet-stream", r.Downloads()[0].Filetype())
+			assert.Equal(t, 100000, r.Downloads()[0].Length())
 		}
 	}
 
 	// test (error) [unmarshalling failure]
-	for path, errorMsg := range errorTestCases {
+	for path, errorMsgs := range errorTestCases {
 		// preparations
 		a := newTestAppcast("unmarshal", path)
 
@@ -219,19 +226,25 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		assert.Nil(t, a.Source().Appcast())
 		assert.Nil(t, a.channel)
 
-		p, err := a.Unmarshal()
+		_, errors := a.Unmarshal()
 
-		assert.Error(t, err)
-		assert.EqualError(t, err, errorMsg)
-		assert.Nil(t, p)
-		assert.IsType(t, &Appcast{}, a.Source().Appcast())
-		assert.Nil(t, a.channel)
+		assert.Len(t, errors, len(errorMsgs))
+		for i, errorMsg := range errorMsgs {
+			err := errors[i]
+			assert.Error(t, err)
+			assert.EqualError(t, err, errorMsg)
+			assert.IsType(t, &Appcast{}, a.Source().Appcast())
+		}
 	}
 
 	// test (error) [no source]
 	a := new(Appcast)
 
-	p, err := a.Unmarshal()
+	p, errors := a.Unmarshal()
+
+	assert.Len(t, errors, 1)
+	err := errors[0]
+
 	assert.Error(t, err)
 	assert.EqualError(t, err, "no source")
 	assert.Nil(t, p)

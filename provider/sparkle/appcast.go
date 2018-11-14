@@ -46,8 +46,8 @@ func New(src ...interface{}) *Appcast {
 // Appcast.channel.
 //
 // It returns both: the supported provider-specific appcast implementing the
-// Appcaster interface and an error.
-func (a *Appcast) Unmarshal() (appcaster.Appcaster, error) {
+// Appcaster interface and an errors slice.
+func (a *Appcast) Unmarshal() (appcaster.Appcaster, []error) {
 	return unmarshal(a)
 }
 

@@ -24,11 +24,12 @@ type unmarshalFeedEntry struct {
 
 // unmarshal unmarshals the Appcast.source.content from the provided Appcast
 // pointer into its Appcast.releases and Appcast.channel fields.
-func unmarshal(a *Appcast) (appcaster.Appcaster, error) {
+func unmarshal(a *Appcast) (appcaster.Appcaster, []error) {
 	var feed unmarshalFeed
+	var errors []error
 
 	if a.Source() == nil || len(a.Source().Content()) == 0 {
-		return nil, fmt.Errorf("no source")
+		return nil, append(errors, fmt.Errorf("no source"))
 	}
 
 	if a.Source().Appcast() == nil {
@@ -37,22 +38,21 @@ func unmarshal(a *Appcast) (appcaster.Appcaster, error) {
 
 	err := xml.Unmarshal(a.Source().Content(), &feed)
 	if err != nil {
-		return nil, err
+		return nil, append(errors, err)
 	}
 
-	r, err := createReleases(feed)
-	if err != nil {
-		return nil, err
-	}
+	r, errors := createReleases(feed)
 
 	a.SetReleases(r)
 
-	return a, nil
+	return a, errors
 }
 
 // createReleases creates a release.Releaseser slice from the unmarshalled feed.
-func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
-	items := make([]release.Releaser, len(feed.Entries))
+func createReleases(feed unmarshalFeed) (release.Releaseser, []error) {
+	var items []release.Releaser
+	var errors []error
+
 	for i, entry := range feed.Entries {
 		version := ""
 
@@ -70,7 +70,8 @@ func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
 		// new release
 		r, err := release.New(version, "")
 		if err != nil {
-			return nil, err
+			errors = append(errors, fmt.Errorf("release #%d (%s)", i+1, err.Error()))
+			continue
 		}
 
 		r.SetTitle(entry.Title)
@@ -87,8 +88,10 @@ func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
 		}
 
 		// add release
-		items[i] = r
+		if r != nil {
+			items = append(items, r)
+		}
 	}
 
-	return release.NewReleases(items), nil
+	return release.NewReleases(items), errors
 }

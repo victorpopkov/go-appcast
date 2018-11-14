@@ -50,11 +50,12 @@ type unmarshalFeedEnclosure struct {
 
 // unmarshal unmarshals the Appcast.source.content from the provided Appcast
 // pointer into its Appcast.releases and Appcast.channel fields.
-func unmarshal(a *Appcast) (appcaster.Appcaster, error) {
+func unmarshal(a *Appcast) (appcaster.Appcaster, []error) {
 	var feed unmarshalFeed
+	var errors []error
 
 	if a.Source() == nil || len(a.Source().Content()) == 0 {
-		return nil, fmt.Errorf("no source")
+		return nil, append(errors, fmt.Errorf("no source"))
 	}
 
 	if a.Source().Appcast() == nil {
@@ -63,13 +64,10 @@ func unmarshal(a *Appcast) (appcaster.Appcaster, error) {
 
 	err := xml.Unmarshal(a.Source().Content(), &feed)
 	if err != nil {
-		return nil, err
+		return nil, append(errors, err)
 	}
 
-	r, err := createReleases(feed)
-	if err != nil {
-		return nil, err
-	}
+	r, errors := createReleases(feed)
 
 	a.SetReleases(r)
 
@@ -80,14 +78,15 @@ func unmarshal(a *Appcast) (appcaster.Appcaster, error) {
 		Language:    feed.Channel.Language,
 	}
 
-	return a, nil
+	return a, errors
 }
 
 // createReleases creates a release.Releaseser slice from the unmarshalled feed.
-func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
+func createReleases(feed unmarshalFeed) (release.Releaseser, []error) {
 	var version, build string
+	var items []release.Releaser
+	var errors []error
 
-	items := make([]release.Releaser, len(feed.Channel.Items))
 	for i, item := range feed.Channel.Items {
 		if item.Enclosure.ShortVersionString == "" && item.ShortVersionString != "" {
 			version = item.ShortVersionString
@@ -102,7 +101,8 @@ func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
 		}
 
 		if version == "" && build == "" {
-			return nil, fmt.Errorf("no version in the #%d release", i+1)
+			errors = append(errors, fmt.Errorf("release #%d (no version)", i+1))
+			continue
 		} else if version == "" && build != "" {
 			version = build
 		}
@@ -110,7 +110,8 @@ func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
 		// new release
 		r, err := release.New(version, build)
 		if err != nil {
-			return nil, err
+			errors = append(errors, fmt.Errorf("release #%d (%s)", i+1, err.Error()))
+			continue
 		}
 
 		r.SetTitle(item.Title)
@@ -134,8 +135,11 @@ func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
 
 		r.AddDownload(*d)
 
-		items[i] = r
+		// add release
+		if r != nil {
+			items = append(items, r)
+		}
 	}
 
-	return release.NewReleases(items), nil
+	return release.NewReleases(items), errors
 }

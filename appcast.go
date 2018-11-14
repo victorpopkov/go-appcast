@@ -22,8 +22,8 @@ import (
 // Appcaster is the interface that wraps the Appcast methods.
 type Appcaster interface {
 	appcaster.Appcaster
-	LoadFromRemoteSource(i interface{}) (appcaster.Appcaster, error)
-	LoadFromLocalSource(path string) (appcaster.Appcaster, error)
+	LoadFromRemoteSource(i interface{}) (appcaster.Appcaster, []error)
+	LoadFromLocalSource(path string) (appcaster.Appcaster, []error)
 }
 
 // Appcast represents the appcast itself.
@@ -48,50 +48,44 @@ func New(src ...interface{}) *Appcast {
 // from the remote location by using the RemoteSource.Load method.
 //
 // It returns both: the supported provider-specific appcast implementing the
-// Appcaster interface and an error.
-func (a *Appcast) LoadFromRemoteSource(i interface{}) (appcaster.Appcaster, error) {
+// Appcaster interface and an errors slice.
+func (a *Appcast) LoadFromRemoteSource(i interface{}) (appcaster.Appcaster, []error) {
+	var errors []error
+
 	src, err := source.NewRemote(i)
 	if err != nil {
-		return nil, err
+		return nil, append(errors, err)
 	}
 
 	err = src.Load()
 	if err != nil {
-		return nil, err
+		return nil, append(errors, err)
 	}
 
 	a.SetSource(src)
 	a.GuessSourceProvider()
 
-	appcast, err := a.Unmarshal()
-	if err != nil {
-		return nil, err
-	}
-
-	return appcast, nil
+	return a.Unmarshal()
 }
 
 // LoadFromLocalSource creates a new LocalSource instance and loads the data
 // from the local file by using the LocalSource.Load method.
 //
 // It returns both: the supported provider-specific appcast implementing the
-// Appcaster interface and an error.
-func (a *Appcast) LoadFromLocalSource(path string) (appcaster.Appcaster, error) {
+// Appcaster interface and an errors slice.
+func (a *Appcast) LoadFromLocalSource(path string) (appcaster.Appcaster, []error) {
+	var errors []error
+
 	src := source.NewLocal(path)
 	err := src.Load()
 	if err != nil {
-		return nil, err
+		return nil, append(errors, err)
 	}
 
 	a.SetSource(src)
 	a.GuessSourceProvider()
 
-	appcast, err := a.Unmarshal()
-	if err != nil {
-		return nil, err
-	}
-
-	return appcast, nil
+	return a.Unmarshal()
 }
 
 // LoadSource sets the Appcast.source.content field value depending on the
@@ -129,9 +123,10 @@ func (a *Appcast) GuessSourceProvider() {
 // providers.
 //
 // It returns both: the supported provider-specific appcast implementing the
-// Appcaster interface and an error.
-func (a *Appcast) Unmarshal() (appcaster.Appcaster, error) {
+// Appcaster interface and an errors slice.
+func (a *Appcast) Unmarshal() (appcaster.Appcaster, []error) {
 	var appcast appcaster.Appcaster
+	var errors []error
 
 	p := a.Source().Provider()
 
@@ -151,18 +146,17 @@ func (a *Appcast) Unmarshal() (appcaster.Appcaster, error) {
 			name = "Unknown"
 		}
 
-		return nil, fmt.Errorf("releases for the \"%s\" provider can't be unmarshaled", name)
+		errors = append(errors, fmt.Errorf("releases for the \"%s\" provider can't be unmarshaled", name))
+
+		return nil, errors
 	}
 
-	appcast, err := appcast.Unmarshal()
-	if err != nil {
-		return nil, err
-	}
+	appcast, errors = appcast.Unmarshal()
 
 	a.Source().SetAppcast(appcast)
 	a.SetReleases(appcast.Releases())
 
-	return appcast, nil
+	return appcast, errors
 }
 
 // Uncomment uncomments the commented out lines by calling the appropriate

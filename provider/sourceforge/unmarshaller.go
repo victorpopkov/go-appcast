@@ -43,11 +43,12 @@ type unmarshalFeedItemContent struct {
 
 // unmarshal unmarshals the Appcast.source.content from the provided Appcast
 // pointer into its Appcast.releases and Appcast.channel fields.
-func unmarshal(a *Appcast) (appcaster.Appcaster, error) {
+func unmarshal(a *Appcast) (appcaster.Appcaster, []error) {
 	var feed unmarshalFeed
+	var errors []error
 
 	if a.Source() == nil || len(a.Source().Content()) == 0 {
-		return nil, fmt.Errorf("no source")
+		return nil, append(errors, fmt.Errorf("no source"))
 	}
 
 	if a.Source().Appcast() == nil {
@@ -56,27 +57,27 @@ func unmarshal(a *Appcast) (appcaster.Appcaster, error) {
 
 	err := xml.Unmarshal(a.Source().Content(), &feed)
 	if err != nil {
-		return nil, err
+		return nil, append(errors, err)
 	}
 
-	r, err := createReleases(feed)
-	if err != nil {
-		return nil, err
-	}
+	r, errors := createReleases(feed)
 
 	a.SetReleases(r)
 
-	return a, nil
+	return a, errors
 }
 
 // createReleases creates a release.Releaseser slice from the unmarshalled feed.
-func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
-	items := make([]release.Releaser, len(feed.Items))
+func createReleases(feed unmarshalFeed) (release.Releaseser, []error) {
+	var items []release.Releaser
+	var errors []error
+
 	for i, item := range feed.Items {
 		// extract version
 		versions, err := appcaster.ExtractSemanticVersions(item.Title.Chardata)
 		if err != nil {
-			return nil, fmt.Errorf("no version in the #%d release", i+1)
+			errors = append(errors, fmt.Errorf("release #%d (no version)", i+1))
+			continue
 		}
 
 		// new release
@@ -100,8 +101,10 @@ func createReleases(feed unmarshalFeed) (release.Releaseser, error) {
 		r.AddDownload(*d)
 
 		// add release
-		items[i] = r
+		if r != nil {
+			items = append(items, r)
+		}
 	}
 
-	return release.NewReleases(items), nil
+	return release.NewReleases(items), errors
 }

@@ -105,9 +105,13 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		},
 	}
 
-	errorTestCases := map[string]string{
-		"invalid_tag.xml":     "XML syntax error on line 18: element <thumbnail> closed by </entry>",
-		"invalid_version.xml": "malformed version: invalid",
+	errorTestCases := map[string][]string{
+		"invalid_tag.xml": {
+			"XML syntax error on line 18: element <thumbnail> closed by </entry>",
+		},
+		"invalid_version.xml": {
+			"release #2 (malformed version: invalid)",
+		},
 	}
 
 	// test (successful)
@@ -127,16 +131,16 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		assert.IsType(t, &Appcast{}, a.Source().Appcast())
 
 		assert.Len(t, releases, a.Releases().Len())
-		for _, release := range a.Releases().Filtered() {
-			v := release.Version().String()
-			assert.Equal(t, fmt.Sprintf("%s", v), release.Title())
-			assert.NotEmpty(t, release.Description())
-			assert.Equal(t, releases[v][0], release.PublishedDateTime().String())
+		for _, r := range a.Releases().Filtered() {
+			v := r.Version().String()
+			assert.Equal(t, fmt.Sprintf("%s", v), r.Title())
+			assert.NotEmpty(t, r.Description())
+			assert.Equal(t, releases[v][0], r.PublishedDateTime().String())
 		}
 	}
 
 	// test (error) [unmarshalling failure]
-	for path, errorMsg := range errorTestCases {
+	for path, errorMsgs := range errorTestCases {
 		// preparations
 		a := newTestAppcast(testdata("unmarshal", path))
 
@@ -144,18 +148,25 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		assert.IsType(t, &Appcast{}, a)
 		assert.Nil(t, a.Source().Appcast())
 
-		p, err := a.Unmarshal()
+		_, errors := a.Unmarshal()
 
-		assert.Error(t, err)
-		assert.EqualError(t, err, errorMsg)
-		assert.Nil(t, p)
-		assert.IsType(t, &Appcast{}, a.Source().Appcast())
+		assert.Len(t, errors, len(errorMsgs))
+		for i, errorMsg := range errorMsgs {
+			err := errors[i]
+			assert.Error(t, err)
+			assert.EqualError(t, err, errorMsg)
+			assert.IsType(t, &Appcast{}, a.Source().Appcast())
+		}
 	}
 
 	// test (error) [no source]
 	a := new(Appcast)
 
-	p, err := a.Unmarshal()
+	p, errors := a.Unmarshal()
+
+	assert.Len(t, errors, 1)
+	err := errors[0]
+
 	assert.Error(t, err)
 	assert.EqualError(t, err, "no source")
 	assert.Nil(t, p)
