@@ -2,9 +2,6 @@ package appcaster
 
 import (
 	"fmt"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 	"testing"
 	"time"
 
@@ -27,37 +24,6 @@ func (s *TestSource) Load() error {
 
 func (s *TestSourceError) Load() error {
 	return fmt.Errorf("error")
-}
-
-// workingDir returns a current working directory path. If it's not available
-// prints an error to os.Stdout and exits with error status 1.
-func workingDir() string {
-	pwd, err := os.Getwd()
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
-	return pwd
-}
-
-// testdata returns a file content as a byte slice from the provided testdata
-// paths. If the file is not found, prints an error to os.Stdout and exits with
-// exit status 1.
-func testdata(paths ...string) []byte {
-	path := testdataPath(paths...)
-	content, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Println(fmt.Errorf(err.Error()))
-		os.Exit(1)
-	}
-
-	return content
-}
-
-// testdataPath returns a full path for the provided testdata paths.
-func testdataPath(paths ...string) string {
-	return filepath.Join(workingDir(), "./testdata/", filepath.Join(paths...))
 }
 
 // newTestAppcast creates a new Appcast instance for testing purposes and

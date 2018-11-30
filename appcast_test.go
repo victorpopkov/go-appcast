@@ -80,11 +80,6 @@ func getLine(lineNum int, content []byte) (line string, err error) {
 	return readLine(bytes.NewReader(content), lineNum)
 }
 
-// getLineFromString returns a specified line from the passed string content.
-func getLineFromString(lineNum int, content string) (line string, err error) {
-	return getLine(lineNum, []byte(content))
-}
-
 // newTestAppcast creates a new Appcast instance for testing purposes and
 // returns its pointer. By default the content is []byte("content"). However,
 // own content can be provided as an argument.
