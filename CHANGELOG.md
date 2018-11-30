@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][]
 
+### Added
+
+- Method `Appcast.GuessSourceProvider` instead of the `Source.GuessProvider`
+- Package `appcaster` to provide the base for creating an appcast type(s)
+- Package `github` to support the GitHub releases Atom feed
+- Package `output` to hold the supported outputs
+- Package `provider` to hold the supported providers
+- Package `source` to hold the supported sources
+- Package `sourceforge` to support the SourceForge releases RSS feed
+- Package `sparkle` to support the Sparkle Framework releases RSS feed
+
+### Changed
+
+- Method `Appcast.LoadFromLocalSource` to finish unmarshalling with errors
+- Method `Appcast.LoadFromRemoteSource` to finish unmarshalling with errors
+- Method `Appcast.Unmarshal` to finish unmarshalling with errors
+- Package `appcast` to use the new packages
+- Variable `DefaultClient` to be inside the `source` package
+- Variable `localSourceReadFile` to become the exported `LocalReadFile` inside
+the `source` package
+
+### Removed
+
+- Method `Source.GuessProvider` in favour of `Appcast.GuessSourceProvider`
+method
+
 ## [0.5.0][] - 2018-11-07
 
 ### Added
@@ -18,9 +44,9 @@ the `release` package
 
 ### Changed
 
-- Field `Appcast.releases` to become a `*Releaseser` type
-- Field `Output.provider` to become a `Providerer` type
-- Field `Source.provider` to become a `Providerer` type
+- Field `Appcast.releases` to become the `*Releaseser` type
+- Field `Output.provider` to become the `Providerer` type
+- Field `Source.provider` to become the `Providerer` type
 - Method `Output.GenerateChecksum` to return the `Checksum` pointer
 - Method `Source.GenerateChecksum` to return the `Checksum` pointer
 - Provider `GitHubAtomFeed` to become the `GitHub`
@@ -72,7 +98,7 @@ function
 - Client-specific stuff to be in the separate `client` package
 - Field `Download.Type` in favour of `Download.filetype`
 - Field `Download.URL` in favour of `Download.url`
-- Field `PublishedDateTime.time` to become a `*time.Time` type
+- Field `PublishedDateTime.time` to become the `*time.Time` type
 - Function `NewClient` to become the `New` in the `client` package
 - Method `GitHubAtomFeedAppcast.UnmarshalReleases` to return an error when no
 source or unmarshalling failure
