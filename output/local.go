@@ -26,11 +26,10 @@ type Local struct {
 	permissions os.FileMode
 }
 
-// NewLocal returns a new Local instance pointer with the Local.Output.provider,
-// Local.filepath and Local.permissions set.
-func NewLocal(provider appcaster.Providerer, path string, perm os.FileMode) *Local {
+// NewLocal returns a new Local instance pointer with the Local.filepath and
+// the Local.permissions set.
+func NewLocal(path string, perm os.FileMode) *Local {
 	o := new(appcaster.Output)
-	o.SetProvider(provider)
 
 	return &Local{
 		Output:      o,
