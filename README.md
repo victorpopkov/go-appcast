@@ -12,9 +12,9 @@ appcast (unmarshal) or generate an appcast from the provided data (marshal).
 - [What "appcast" means?](#what-appcast-means)
 - [What this library does?](#what-this-library-does)
 - [Providers](#providers)
-  - [Sparkle RSS Feed](#sparkle-rss-feed)
-  - [SourceForge RSS Feed](#sourceforge-rss-feed)
   - [GitHub Atom Feed](#github-atom-feed)
+  - [SourceForge RSS Feed](#sourceforge-rss-feed)
+  - [Sparkle RSS Feed](#sparkle-rss-feed)
 - [Sources](#sources)
 - [Outputs](#outputs)
 
@@ -75,14 +75,24 @@ the appropriate methods.
 Each project that uses [GitHub][] releases to distribute applications has its
 own Atom Feed available that can be considered as an appcast.
 
-Example URL: <https://github.com/atom/atom/releases.atom>
+A good example url is an [Atom](https://atom.io/) releases:
+<https://www.adium.im/sparkle/appcast-release.xml>. You can find the
+corresponding [GoDoc][] examples below:
+
+- [`import "github.com/victorpopkov/go-appcast"`](https://godoc.org/github.com/victorpopkov/go-appcast)
+- [`import "github.com/victorpopkov/go-appcast/provider/github"`](https://godoc.org/github.com/victorpopkov/go-appcast/provider/github)
 
 ### SourceForge RSS Feed
 
 Each project hosted on [SourceForge][] has its own releases RSS feed available
 that can be considered to be an appcast.
 
-Example URL: <https://sourceforge.net/projects/filezilla/rss>
+As an example you can take a look at the [FileZilla](https://filezilla-project.org/)
+SourceForge releases page here: <https://sourceforge.net/projects/filezilla/rss>.
+You can find the corresponding [GoDoc][] examples below:
+
+- [`import "github.com/victorpopkov/go-appcast"`](https://godoc.org/github.com/victorpopkov/go-appcast)
+- [`import "github.com/victorpopkov/go-appcast/provider/sourceforge"`](https://godoc.org/github.com/victorpopkov/go-appcast/provider/sourceforge)
 
 ### Sparkle RSS Feed
 
@@ -91,9 +101,9 @@ to distribute software updates for macOS applications. However, for Windows,
 there is a [WinSparkle](https://winsparkle.org/) framework which uses the same
 [RSS enclosure][] technique to distribute updates and release notes.
 
-A good example of a Sparkle appcast is how [Adium](https://adium.im/)
-distributes software updates: <https://www.adium.im/sparkle/appcast-release.xml>.
-You can find a [GoDoc][] examples here:
+A good example is how the [Adium](https://adium.im/) distributes software
+updates: <https://www.adium.im/sparkle/appcast-release.xml>. You can find the
+corresponding [GoDoc][] examples below:
 
 - [`import "github.com/victorpopkov/go-appcast"`](https://godoc.org/github.com/victorpopkov/go-appcast)
 - [`import "github.com/victorpopkov/go-appcast/provider/sparkle"`](https://godoc.org/github.com/victorpopkov/go-appcast/provider/sparkle)
