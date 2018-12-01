@@ -171,8 +171,14 @@ func (a *Appcast) Uncomment() error {
 	switch p {
 	case provider.Sparkle:
 		appcast := sparkle.Appcast{Appcast: a.Appcast}
-		appcast.Uncomment()
+
+		err := appcast.Uncomment()
+		if err != nil {
+			return err
+		}
+
 		a.Source().SetContent(appcast.Appcast.Source().Content())
+
 		return nil
 	}
 
