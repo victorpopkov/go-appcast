@@ -60,7 +60,8 @@ func TestRelease_VersionOrBuildString(t *testing.T) {
 	assert.Equal(t, b, r.VersionOrBuildString())
 
 	// test (both build and version are set)
-	r.SetVersionString(v)
+	err := r.SetVersionString(v)
+	assert.Nil(t, err)
 	assert.Equal(t, v, r.VersionOrBuildString())
 }
 

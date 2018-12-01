@@ -50,7 +50,11 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	d1 := d
 	r1 := *r
 	r1.SetDownloads([]release.Download{*d1})
-	r1.SetVersionString("2.0.0-beta")
+
+	err := r1.SetVersionString("2.0.0-beta")
+	if err != nil {
+		panic(err)
+	}
 
 	t, _ := time.Parse(time.RFC1123Z, "Fri, 13 May 2016 12:00:00 +0200")
 	r1.SetPublishedDateTime(release.NewPublishedDateTime(&t))
@@ -66,8 +70,12 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	r2.SetReleaseNotesLink("https://example.com/changelogs/1.1.0.html")
 	r2.SetMinimumSystemVersion("10.9")
 	r2.SetDownloads([]release.Download{*d2})
-	r2.SetVersionString("1.1.0")
 	r2.SetIsPreRelease(false)
+
+	err = r2.SetVersionString("1.1.0")
+	if err != nil {
+		panic(err)
+	}
 
 	t, _ = time.Parse(time.RFC1123Z, "Thu, 12 May 2016 12:00:00 +0200")
 	r2.SetPublishedDateTime(release.NewPublishedDateTime(&t))
@@ -83,8 +91,12 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	r3.SetReleaseNotesLink("https://example.com/changelogs/1.0.1.html")
 	r3.SetMinimumSystemVersion("10.9")
 	r3.SetDownloads([]release.Download{*d3})
-	r3.SetVersionString("1.0.1")
 	r3.SetIsPreRelease(false)
+
+	err = r3.SetVersionString("1.0.1")
+	if err != nil {
+		panic(err)
+	}
 
 	t, _ = time.Parse(time.RFC1123Z, "Wed, 11 May 2016 12:00:00 +0200")
 	r3.SetPublishedDateTime(release.NewPublishedDateTime(&t))
@@ -100,8 +112,12 @@ func newTestAppcast(content ...interface{}) *Appcast {
 	r4.SetReleaseNotesLink("https://example.com/changelogs/1.0.0.html")
 	r4.SetMinimumSystemVersion("10.9")
 	r4.SetDownloads([]release.Download{*d3})
-	r4.SetVersionString("1.0.0")
 	r4.SetIsPreRelease(false)
+
+	err = r4.SetVersionString("1.0.0")
+	if err != nil {
+		panic(err)
+	}
 
 	t, _ = time.Parse(time.RFC1123Z, "Tue, 10 May 2016 12:00:00 +0200")
 	r4.SetPublishedDateTime(release.NewPublishedDateTime(&t))

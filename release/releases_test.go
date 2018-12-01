@@ -30,7 +30,11 @@ func newTestReleases() *Releases {
 	d1 := d
 	r1 := r
 	r1.downloads = []Download{d1}
-	r1.SetVersionString("2.0.0-beta")
+
+	err := r1.SetVersionString("2.0.0-beta")
+	if err != nil {
+		panic(err)
+	}
 
 	t, _ := time.Parse(time.RFC1123Z, "Fri, 13 May 2016 12:00:00 +0200")
 	r1.publishedDateTime = NewPublishedDateTime(&t)
@@ -46,8 +50,12 @@ func newTestReleases() *Releases {
 	r2.releaseNotesLink = "https://example.com/changelogs/1.1.0.html"
 	r2.minimumSystemVersion = "10.9"
 	r2.downloads = []Download{d2}
-	r2.SetVersionString("1.1.0")
 	r2.isPreRelease = false
+
+	err = r2.SetVersionString("1.1.0")
+	if err != nil {
+		panic(err)
+	}
 
 	t, _ = time.Parse(time.RFC1123Z, "Thu, 12 May 2016 12:00:00 +0200")
 	r2.publishedDateTime = NewPublishedDateTime(&t)
@@ -64,7 +72,11 @@ func newTestReleases() *Releases {
 	r3.minimumSystemVersion = "10.9"
 	r3.downloads = []Download{d3}
 	r3.isPreRelease = false
-	r3.SetVersionString("1.0.1")
+
+	err = r3.SetVersionString("1.0.1")
+	if err != nil {
+		panic(err)
+	}
 
 	t, _ = time.Parse(time.RFC1123Z, "Wed, 11 May 2016 12:00:00 +0200")
 	r3.publishedDateTime = NewPublishedDateTime(&t)
@@ -81,7 +93,11 @@ func newTestReleases() *Releases {
 	r4.minimumSystemVersion = "10.9"
 	r4.downloads = []Download{d4}
 	r4.isPreRelease = false
-	r4.SetVersionString("1.0.0")
+
+	err = r4.SetVersionString("1.0.0")
+	if err != nil {
+		panic(err)
+	}
 
 	t, _ = time.Parse(time.RFC1123Z, "Tue, 10 May 2016 12:00:00 +0200")
 	r4.publishedDateTime = NewPublishedDateTime(&t)
