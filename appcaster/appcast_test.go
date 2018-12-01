@@ -220,7 +220,7 @@ func TestAppcast_Unmarshal(t *testing.T) {
 func TestAppcast_Uncomment(t *testing.T) {
 	a := newTestAppcast()
 	assert.Panics(t, func() {
-		a.Uncomment()
+		_ = a.Uncomment()
 	})
 }
 

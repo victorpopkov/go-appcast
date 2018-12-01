@@ -27,7 +27,7 @@ func newTestSource() *Source {
 func TestSource_Load(t *testing.T) {
 	src := newTestSource()
 	assert.Panics(t, func() {
-		src.Load()
+		_ = src.Load()
 	})
 }
 

@@ -27,7 +27,7 @@ func newTestOutput() *Output {
 func TestOutput_Save(t *testing.T) {
 	o := newTestOutput()
 	assert.Panics(t, func() {
-		o.Save()
+		_ = o.Save()
 	})
 }
 

@@ -9,6 +9,6 @@ import (
 func TestProvider_String(t *testing.T) {
 	p := Provider(0)
 	assert.Panics(t, func() {
-		p.String()
+		_ = p.String()
 	})
 }
