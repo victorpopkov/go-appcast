@@ -33,6 +33,10 @@ the `source` package
 - Method `Source.GuessProvider` in favour of `Appcast.GuessSourceProvider`
 method
 
+### Fixed
+
+- Method `Appcast.Uncomment` error handling
+
 ## [0.5.0][] - 2018-11-07
 
 ### Added
