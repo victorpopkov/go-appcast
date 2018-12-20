@@ -62,8 +62,8 @@ type Release struct {
 	// current app release.
 	minimumSystemVersion string
 
-	// downloads specifies a slice of Download structs which represents a list
-	// of all current release downloads.
+	// downloads specify a slice of Download structs which represents a list of
+	// all current release downloads.
 	downloads []Download
 
 	// isPreRelease specifies whether a release is not stable.

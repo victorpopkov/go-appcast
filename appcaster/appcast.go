@@ -51,7 +51,7 @@ type Appcast struct {
 	// appcast to the local file).
 	output Outputer
 
-	// releases specifies an appcast releases.
+	// releases specify an appcast releases.
 	releases release.Releaseser
 }
 
