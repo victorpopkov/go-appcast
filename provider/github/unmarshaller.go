@@ -79,7 +79,12 @@ func createReleases(feed unmarshalFeed) (release.Releaseser, []error) {
 
 		// publishedDateTime
 		p := release.NewPublishedDateTime()
-		p.Parse(entry.Updated)
+
+		err = p.Parse(entry.Updated)
+		if err != nil {
+			errors = append(errors, fmt.Errorf("release #%d (%s)", i+1, err.Error()))
+		}
+
 		r.SetPublishedDateTime(p)
 
 		// prerelease

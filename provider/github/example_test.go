@@ -55,7 +55,10 @@ func Example() {
 		panic(err)
 	}
 
-	a.Unmarshal()
+	appcast, errors := a.Unmarshal()
+	if appcast != nil && len(errors) > 0 {
+		panic(errors[0])
+	}
 
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
