@@ -55,9 +55,14 @@ func Example() {
 		panic(err)
 	}
 
-	a.Unmarshal()
+	_, errors := a.Unmarshal()
 
-	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
+	fmt.Print("Errors:\n\n")
+	for _, err := range errors {
+		fmt.Println(err)
+	}
+
+	fmt.Printf("%-10s %s\n", "\nType:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
 
@@ -88,6 +93,14 @@ func Example() {
 	}
 
 	// Output:
+	// Errors:
+	//
+	// release #51 (no version)
+	// release #71 (no version)
+	// release #72 (no version)
+	// release #73 (no version)
+	// release #92 (no version)
+	//
 	// Type:     *sourceforge.Appcast
 	// Checksum: 880cf7f2f6aa0aa0d859f1fc06e4fbcbba3d4de15fa9736bf73c07accb93ce36
 	// Releases: 95 total

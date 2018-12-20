@@ -44,19 +44,19 @@ func testdataPath(paths ...string) string {
 }
 
 // newTestAppcast creates a new Appcast instance for testing purposes and
-// returns its pointer. By default the content is []byte("test"). However, own
-// content can be provided as an argument.
-func newTestAppcast(content ...interface{}) *Appcast {
-	var resultContent []byte
+// returns its pointer. By default the source is LocalSource and points to the
+//// "SourceForge RSS Feed" default.xml testdata.
+func newTestAppcast(paths ...string) *Appcast {
+	var content []byte
 
-	if len(content) > 0 {
-		resultContent = content[0].([]byte)
+	if len(paths) > 0 {
+		content = testdata(paths...)
 	} else {
-		resultContent = []byte("test")
+		content = testdata("unmarshal", "default.xml")
 	}
 
 	s := new(appcaster.Source)
-	s.SetContent(resultContent)
+	s.SetContent(content)
 	s.GenerateChecksum(appcaster.SHA256)
 	s.SetProvider(appcaster.Provider(0))
 
@@ -83,84 +83,111 @@ func TestNew(t *testing.T) {
 }
 
 func TestAppcast_Unmarshal(t *testing.T) {
-	testCases := map[string]map[string][]string{
-		"default.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
-			"1.1.0": {"Thu, 12 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
+	type testCase struct {
+		path     string
+		appcast  appcaster.Appcaster
+		releases map[string][]string
+		errors   []string
+	}
+
+	testCases := []testCase{
+		{
+			path:    "default.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
+				"1.1.0": {"Thu, 12 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
+			},
 		},
-		"empty.xml": {},
-		"invalid_pubdate.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
-			"1.1.0": {"", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
+		{
+			path:    "empty.xml",
+			appcast: &Appcast{},
 		},
-		"prerelease.xml": {
-			"2.0.0-beta": {"Fri, 13 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0-beta/app_2.0.0-beta.dmg/download"},
-			"1.1.0":      {"Thu, 12 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
-			"1.0.1":      {"Wed, 11 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
-			"1.0.0":      {"Tue, 10 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
+		{
+			path:    "invalid_pubdate.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0/app_2.0.0.dmg/download"},
+				"1.1.0": {"", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
+			},
+			errors: []string{
+				"release #2 (parsing of the published datetime failed)",
+			},
+		},
+		{
+			path: "invalid_tag.xml",
+			errors: []string{
+				"XML syntax error on line 21: element <content> closed by </item>",
+			},
+		},
+		{
+			path:    "invalid_version.xml",
+			appcast: &Appcast{},
+			errors: []string{
+				"release #2 (no version)",
+			},
+		},
+		{
+			path:    "prerelease.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0-beta": {"Fri, 13 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/2.0.0-beta/app_2.0.0-beta.dmg/download"},
+				"1.1.0":      {"Thu, 12 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.1.0/app_1.1.0.dmg/download"},
+				"1.0.1":      {"Wed, 11 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.1/app_1.0.1.dmg/download"},
+				"1.0.0":      {"Tue, 10 May 2016 12:00:00 UTC", "https://sourceforge.net/projects/example/files/app/1.0.0/app_1.0.0.dmg/download"},
+			},
 		},
 	}
 
-	errorTestCases := map[string][]string{
-		"invalid_tag.xml": {
-			"XML syntax error on line 21: element <content> closed by </item>",
-		},
-		"invalid_version.xml": {
-			"release #2 (no version)",
-		},
-	}
-
-	// test (successful)
-	for path, releases := range testCases {
+	// test
+	for _, testCase := range testCases {
 		// preparations
-		a := newTestAppcast(testdata("unmarshal", path))
+		a := newTestAppcast("unmarshal", testCase.path)
 
 		// test
 		assert.IsType(t, &Appcast{}, a)
 		assert.Nil(t, a.Source().Appcast())
 		assert.Empty(t, a.Releases())
 
-		p, err := a.Unmarshal()
+		appcast, errors := a.Unmarshal()
 
-		assert.Nil(t, err)
-		assert.IsType(t, &Appcast{}, p)
-		assert.IsType(t, &Appcast{}, a.Source().Appcast())
-
-		assert.Len(t, releases, a.Releases().Len())
-		for _, r := range a.Releases().Filtered() {
-			v := r.Version().String()
-			assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), r.Title())
-			assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), r.Description())
-			assert.Equal(t, releases[v][0], r.PublishedDateTime().String())
-
-			// downloads
-			assert.Equal(t, releases[v][1], r.Downloads()[0].Url())
-			assert.Equal(t, "application/octet-stream", r.Downloads()[0].Filetype())
-			assert.Equal(t, 100000, r.Downloads()[0].Length())
+		if testCase.appcast != nil {
+			assert.IsType(t, testCase.appcast, appcast, fmt.Sprintf("%s: appcast type mismatch", testCase.path))
+			assert.IsType(t, testCase.appcast, a.Source().Appcast())
+		} else {
+			assert.Equal(t, testCase.appcast, appcast, fmt.Sprintf("%s: appcast type mismatch", testCase.path))
 		}
-	}
 
-	// test (error) [unmarshalling failure]
-	for path, errorMsgs := range errorTestCases {
-		// preparations
-		a := newTestAppcast(testdata("unmarshal", path))
+		if len(testCase.errors) == 0 {
+			// successful
+			assert.Nil(t, errors, fmt.Sprintf("%s: errors not nil", testCase.path))
 
-		// test
-		assert.IsType(t, &Appcast{}, a)
-		assert.Nil(t, a.Source().Appcast())
+			releases := testCase.releases
+			assert.Len(t, releases, a.Releases().Len())
 
-		_, errors := a.Unmarshal()
+			for _, r := range a.Releases().Filtered() {
+				v := r.Version().String()
+				assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), r.Title())
+				assert.Equal(t, fmt.Sprintf("/app/%s/app_%s.dmg", v, v), r.Description())
+				assert.Equal(t, releases[v][0], r.PublishedDateTime().String())
 
-		assert.Len(t, errors, len(errorMsgs))
-		for i, errorMsg := range errorMsgs {
-			err := errors[i]
-			assert.Error(t, err)
-			assert.EqualError(t, err, errorMsg)
-			assert.IsType(t, &Appcast{}, a.Source().Appcast())
+				// downloads
+				assert.Equal(t, releases[v][1], r.Downloads()[0].Url())
+				assert.Equal(t, "application/octet-stream", r.Downloads()[0].Filetype())
+				assert.Equal(t, 100000, r.Downloads()[0].Length())
+			}
+		} else {
+			// error (unmarshalling failure)
+			assert.Len(t, errors, len(testCase.errors), fmt.Sprintf("%s: errors length mismatch", testCase.path))
+
+			for i, errorMsg := range testCase.errors {
+				err := errors[i]
+				assert.EqualError(t, err, errorMsg)
+			}
 		}
 	}
 
