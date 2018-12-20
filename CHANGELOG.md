@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Method `Appcast.GuessSourceProvider` instead of the `Source.GuessProvider`
+- Method `Appcast.Unmarshal` published datetime parse error handling
 - Package `appcaster` to provide the base for creating an appcast type(s)
 - Package `github` to support the GitHub releases Atom feed
 - Package `output` to hold the supported outputs
