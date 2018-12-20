@@ -108,79 +108,139 @@ func TestNew(t *testing.T) {
 }
 
 func TestAppcast_Unmarshal(t *testing.T) {
-	testCases := map[string]map[string][]string{
-		"attributes_as_elements.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
-			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+	type testCase struct {
+		path     string
+		appcast  appcaster.Appcaster
+		releases map[string][]string
+		errors   []string
+	}
+
+	testCases := []testCase{
+		{
+			path:    "attributes_as_elements.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+				"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			},
 		},
-		"default.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
-			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		{
+			path:    "default.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+				"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			},
 		},
-		"default_asc.xml": {
-			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+		{
+			path:    "default_asc.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+			},
 		},
-		"incorrect_namespace.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
-			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		{
+			path:    "incorrect_namespace.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+				"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			},
 		},
-		"invalid_pubdate.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
-			"1.1.0": {"", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		{
+			path:    "invalid_pubdate.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+				"1.1.0": {"", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			},
+			errors: []string{
+				"release #2 (parsing of the published datetime failed)",
+			},
 		},
-		// "multiple_enclosure.xml": {},
-		"no_releases.xml": {},
-		"only_version.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "2.0.0", "https://example.com/app_2.0.0.dmg", "10.10"},
-			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "1.1.0", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "1.0.1", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "1.0.0", "https://example.com/app_1.0.0.dmg", "10.9"},
+		{
+			path:    "no_releases.xml",
+			appcast: &Appcast{},
 		},
-		"prerelease.xml": {
-			"2.0.0-beta": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0_beta.dmg", "10.10"},
-			"1.1.0":      {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1":      {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0":      {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		{
+			path: "invalid_tag.xml",
+			errors: []string{
+				"XML syntax error on line 14: element <enclosure> closed by </item>",
+			},
 		},
-		"single.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+		{
+			path:    "invalid_version.xml",
+			appcast: &Appcast{},
+			errors: []string{
+				"release #2 (malformed version: invalid)",
+			},
 		},
-		"without_namespaces.xml": {
-			"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
-			"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
-			"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
-			"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+		//{
+		//	path:    "multiple_enclosure.xml",
+		//	appcast: &Appcast{},
+		//},
+		{
+			path:    "only_version.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "2.0.0", "https://example.com/app_2.0.0.dmg", "10.10"},
+				"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "1.1.0", "https://example.com/app_1.1.0.dmg", "10.9"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "1.0.1", "https://example.com/app_1.0.1.dmg", "10.9"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "1.0.0", "https://example.com/app_1.0.0.dmg", "10.9"},
+			},
+		},
+		{
+			path:    "prerelease.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0-beta": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0_beta.dmg", "10.10"},
+				"1.1.0":      {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+				"1.0.1":      {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+				"1.0.0":      {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			},
+		},
+		{
+			path:    "single.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+			},
+		},
+		{
+			path:    "without_namespaces.xml",
+			appcast: &Appcast{},
+			releases: map[string][]string{
+				"2.0.0": {"Fri, 13 May 2016 12:00:00 +0200", "200", "https://example.com/app_2.0.0.dmg", "10.10"},
+				"1.1.0": {"Thu, 12 May 2016 12:00:00 +0200", "110", "https://example.com/app_1.1.0.dmg", "10.9"},
+				"1.0.1": {"Wed, 11 May 2016 12:00:00 +0200", "101", "https://example.com/app_1.0.1.dmg", "10.9"},
+				"1.0.0": {"Tue, 10 May 2016 12:00:00 +0200", "100", "https://example.com/app_1.0.0.dmg", "10.9"},
+			},
+		},
+		{
+			path:    "with_comments.xml",
+			appcast: &Appcast{},
+			errors: []string{
+				"release #1 (no version)",
+				"release #2 (no version)",
+			},
 		},
 	}
 
-	errorTestCases := map[string][]string{
-		"invalid_tag.xml": {
-			"XML syntax error on line 14: element <enclosure> closed by </item>",
-		},
-		"invalid_version.xml": {
-			"release #2 (malformed version: invalid)",
-		},
-		"with_comments.xml": {
-			"release #1 (no version)",
-			"release #2 (no version)",
-		},
-	}
-
-	// test (successful)
-	for path, releases := range testCases {
+	// test
+	for _, testCase := range testCases {
 		// preparations
-		a := newTestAppcast("unmarshal", path)
+		a := newTestAppcast("unmarshal", testCase.path)
 
 		// test
 		assert.IsType(t, &Appcast{}, a)
@@ -188,52 +248,49 @@ func TestAppcast_Unmarshal(t *testing.T) {
 		assert.Nil(t, a.channel)
 		assert.Empty(t, a.Releases())
 
-		p, err := a.Unmarshal()
+		appcast, errors := a.Unmarshal()
 
-		assert.Nil(t, err)
-		assert.IsType(t, &Appcast{}, p)
-		assert.IsType(t, &Appcast{}, a.Source().Appcast())
-
-		assert.IsType(t, &Channel{}, a.channel)
-		assert.Equal(t, "App", a.channel.Title)
-		assert.Equal(t, "https://example.com/app/", a.channel.Link)
-		assert.Equal(t, "App Description", a.channel.Description)
-		assert.Equal(t, "en", a.channel.Language)
-
-		assert.Len(t, releases, a.Releases().Len())
-		for _, r := range a.Releases().Filtered() {
-			v := r.Version().String()
-			assert.Equal(t, fmt.Sprintf("Release %s", v), r.Title())
-			assert.Equal(t, fmt.Sprintf("Release %s Description", v), r.Description())
-			assert.Equal(t, releases[v][0], r.PublishedDateTime().String())
-			assert.Equal(t, releases[v][1], r.Build())
-			assert.Equal(t, releases[v][3], r.MinimumSystemVersion())
-
-			// downloads
-			assert.Equal(t, releases[v][2], r.Downloads()[0].Url())
-			assert.Equal(t, "application/octet-stream", r.Downloads()[0].Filetype())
-			assert.Equal(t, 100000, r.Downloads()[0].Length())
+		if testCase.appcast != nil {
+			assert.IsType(t, testCase.appcast, appcast, fmt.Sprintf("%s: appcast type mismatch", testCase.path))
+			assert.IsType(t, testCase.appcast, a.Source().Appcast())
+		} else {
+			assert.Equal(t, testCase.appcast, appcast, fmt.Sprintf("%s: appcast type mismatch", testCase.path))
 		}
-	}
 
-	// test (error) [unmarshalling failure]
-	for path, errorMsgs := range errorTestCases {
-		// preparations
-		a := newTestAppcast("unmarshal", path)
+		if len(testCase.errors) == 0 {
+			// successful
+			assert.Nil(t, errors, fmt.Sprintf("%s: errors not nil", testCase.path))
 
-		// test
-		assert.IsType(t, &Appcast{}, a)
-		assert.Nil(t, a.Source().Appcast())
-		assert.Nil(t, a.channel)
+			assert.IsType(t, &Channel{}, a.channel)
+			assert.Equal(t, "App", a.channel.Title)
+			assert.Equal(t, "https://example.com/app/", a.channel.Link)
+			assert.Equal(t, "App Description", a.channel.Description)
+			assert.Equal(t, "en", a.channel.Language)
 
-		_, errors := a.Unmarshal()
+			releases := testCase.releases
+			assert.Len(t, releases, a.Releases().Len())
 
-		assert.Len(t, errors, len(errorMsgs))
-		for i, errorMsg := range errorMsgs {
-			err := errors[i]
-			assert.Error(t, err)
-			assert.EqualError(t, err, errorMsg)
-			assert.IsType(t, &Appcast{}, a.Source().Appcast())
+			for _, r := range a.Releases().Filtered() {
+				v := r.Version().String()
+				assert.Equal(t, fmt.Sprintf("Release %s", v), r.Title())
+				assert.Equal(t, fmt.Sprintf("Release %s Description", v), r.Description())
+				assert.Equal(t, releases[v][0], r.PublishedDateTime().String())
+				assert.Equal(t, releases[v][1], r.Build())
+				assert.Equal(t, releases[v][3], r.MinimumSystemVersion())
+
+				// downloads
+				assert.Equal(t, releases[v][2], r.Downloads()[0].Url())
+				assert.Equal(t, "application/octet-stream", r.Downloads()[0].Filetype())
+				assert.Equal(t, 100000, r.Downloads()[0].Length())
+			}
+		} else {
+			// error (unmarshalling failure)
+			assert.Len(t, errors, len(testCase.errors), fmt.Sprintf("%s: errors length mismatch", testCase.path))
+
+			for i, errorMsg := range testCase.errors {
+				err := errors[i]
+				assert.EqualError(t, err, errorMsg)
+			}
 		}
 	}
 
