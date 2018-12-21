@@ -46,8 +46,13 @@ func Example_gitHub() {
 
 	// example
 	a := appcast.New()
-	a.LoadFromRemoteSource("https://github.com/atom/atom/releases.atom")
 
+	p, errors := a.LoadFromRemoteSource("https://github.com/atom/atom/releases.atom")
+	if p != nil && len(errors) > 0 {
+		panic(errors[0])
+	}
+
+	fmt.Printf("%-9s %d error(s)\n", "Result:", len(errors))
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
@@ -63,6 +68,7 @@ func Example_gitHub() {
 	fmt.Printf("%12s %d total\n", "Downloads:", len(r.Downloads()))
 
 	// Output:
+	// Result:   0 error(s)
 	// Type:     *github.Appcast
 	// Checksum: 03b6d9b8199ea377036caafa5358512295afa3c740edf9031dc6739b89e3ba05
 	// Provider: GitHub Atom Feed
@@ -88,9 +94,18 @@ func Example_sourceForge() {
 
 	// example
 	a := appcast.New()
-	a.LoadFromRemoteSource("https://sourceforge.net/projects/wesnoth/rss")
 
-	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
+	p, errors := a.LoadFromRemoteSource("https://sourceforge.net/projects/wesnoth/rss")
+	if p == nil && len(errors) > 0 {
+		panic(errors[0])
+	}
+
+	fmt.Print("Errors:\n\n")
+	for _, err := range errors {
+		fmt.Println(err)
+	}
+
+	fmt.Printf("%-10s %s\n", "\nType:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
 	fmt.Printf("%-9s %d total\n\n", "Releases:", a.Releases().Len())
@@ -122,6 +137,14 @@ func Example_sourceForge() {
 	}
 
 	// Output:
+	// Errors:
+	//
+	// release #51 (no version)
+	// release #71 (no version)
+	// release #72 (no version)
+	// release #73 (no version)
+	// release #92 (no version)
+	//
 	// Type:     *sourceforge.Appcast
 	// Checksum: 880cf7f2f6aa0aa0d859f1fc06e4fbcbba3d4de15fa9736bf73c07accb93ce36
 	// Provider: SourceForge RSS Feed
@@ -156,9 +179,15 @@ func Example_sparkle() {
 
 	// example
 	a := appcast.New()
-	a.LoadFromRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
+
+	p, errors := a.LoadFromRemoteSource("https://www.adium.im/sparkle/appcast-release.xml")
+	if p != nil && len(errors) > 0 {
+		panic(errors[0])
+	}
+
 	a.Releases().SortByVersions(release.DESC)
 
+	fmt.Printf("%-9s %d error(s)\n", "Result:", len(errors))
 	fmt.Printf("%-9s %s\n", "Type:", reflect.TypeOf(a.Source().Appcast()))
 	fmt.Printf("%-9s %s\n", "Checksum:", a.Source().Checksum())
 	fmt.Printf("%-9s %s\n", "Provider:", a.Source().Provider())
@@ -182,6 +211,7 @@ func Example_sparkle() {
 	fmt.Printf("%23s %s\n", "DSA Signature:", d.DsaSignature())
 
 	// Output:
+	// Result:   0 error(s)
 	// Type:     *sparkle.Appcast
 	// Checksum: 6ec7c5abcaa78457cc4bf3c2196584446cca1461c65505cbaf0382a2f62128db
 	// Provider: Sparkle RSS Feed

@@ -55,7 +55,10 @@ func Example() {
 		panic(err)
 	}
 
-	_, errors := a.Unmarshal()
+	p, errors := a.Unmarshal()
+	if p == nil && len(errors) > 0 {
+		panic(errors[0])
+	}
 
 	fmt.Print("Errors:\n\n")
 	for _, err := range errors {

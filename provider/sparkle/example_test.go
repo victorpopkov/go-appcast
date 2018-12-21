@@ -55,8 +55,8 @@ func Example() {
 		panic(err)
 	}
 
-	appcast, errors := a.Unmarshal()
-	if appcast != nil && len(errors) > 0 {
+	p, errors := a.Unmarshal()
+	if p == nil && len(errors) > 0 {
 		panic(errors[0])
 	}
 
